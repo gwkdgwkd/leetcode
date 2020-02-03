@@ -1,0 +1,26 @@
+第1131题
+
+1.描述
+给你两个长度相等的整数数组，返回下面表达式的最大值：
+|arr1[i] - arr1[j]| + |arr2[i] - arr2[j]| + |i - j|
+其中下标 i，j 满足 0 <= i, j < arr1.length。
+示例 1：
+输入：arr1 = [1,2,3,4], arr2 = [-1,4,5,6]
+输出：13
+示例 2：
+输入：arr1 = [1,-2,-5,0,10], arr2 = [0,-2,-1,-7,-4]
+输出：20
+提示：
+    2 <= arr1.length == arr2.length <= 40000
+    -10^6 <= arr1[i], arr2[i] <= 10^6
+
+2.思路
+看一眼时间复杂度，用暴力肯定超时，仔细想想可以把这个题抽象为求三维曼哈顿距离的最大值
+dist=∣xi−xj∣+∣yi−yj∣+∣zi−zj∣dist = |x_i - x_j| + |y_i - y_j| + |z_i - z_j| dist=∣xi−xj∣+∣yi−yj∣+∣zi−zj∣
+分析：
+    dist这个表达式去绝对值后，xi，yi，zix_i，y_i，z_ixi，yi，zi只可能有八种情况
+    1：xi+yi+zi，2：xi+yi−zi,...，8：−xi−yi−zi1：x_i + y_i + z_i，2：x_i + y_i - z_i, ...，8：-x_i - y_i - z_i1：xi+yi+zi，2：xi+yi−zi,...，8：−xi−yi−zi
+    可以发现每一种情况对应的xj,yj,zjx_j, y_j, z_jxj,yj,zj, 一定也能被确定下来（对应符号相反），比如：xi+yi−zix_i + y_i - z_ixi+yi−zi这种情况，一定是dist=(xi+yi−zi)+(−xj−yj+zj)dist = (x_i + y_i - z_i)+(-x_j - y_j + z_j)dist=(xi+yi−zi)+(−xj−yj+zj)
+    所以我们只需要先用O(n)O(n)O(n)的复杂度求出点iii的八种情况分别对应的最大值maxv[k],k=0,..8maxv[k], k=0,..8maxv[k],k=0,..8，然后再用O(n)O(n)O(n)的复杂度枚举每一种去绝对值的组合，取八种组合中的最大值即为最终结果
+    进一步可以求d维的曼哈顿距离，情况有2d2^d2d种，时间复杂度为O(2dn)O(2^d n)O(2dn)
+
