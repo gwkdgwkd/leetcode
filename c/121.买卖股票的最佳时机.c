@@ -68,4 +68,32 @@ int maxProfit(int* prices, int pricesSize) {
   return dp[pricesSize - 1][0];
 }
 
+/*
+// 动态规划公式
+int maxProfit(int* prices, int pricesSize) {
+  if (pricesSize <= 0) {
+    return 0;
+  }
+
+  int k = 1;
+  int dp[pricesSize][k][2];
+  for (int i = 0; i < k; ++i) {
+    dp[0][i][0] = 0;
+    dp[0][i][1] = -prices[0];
+  }
+  for (int i = 1; i < pricesSize; ++i) {
+    for (int j = 0; j < k; ++j) {
+      dp[i][j][0] = fmax(dp[i - 1][j][0], dp[i - 1][j][1] + prices[i]);
+      if (0 == j) {
+        dp[i][j][1] = fmax(dp[i - 1][j][1], -prices[i]);
+      } else {
+        dp[i][j][1] = fmax(dp[i - 1][j][1], dp[i - 1][j - 1][0] - prices[i]);
+      }
+    }
+  }
+
+  return dp[pricesSize - 1][k - 1][0];
+}
+*/
+
 // @lc code=end
