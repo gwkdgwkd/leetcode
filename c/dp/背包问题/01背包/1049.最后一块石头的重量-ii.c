@@ -38,21 +38,31 @@ int lastStoneWeightII(int* stones, int stonesSize) {
 }
 */
 
-// 动态规划，一维dp
+// 动态规划，使用01背包的方式计算
 int lastStoneWeightII(int* stones, int stonesSize) {
+  if (stonesSize == 0) {
+    return 0;
+  }
+  if (stonesSize == 1) {
+    return stones[0];
+  }
+
   int sum = 0;
   for (int i = 0; i < stonesSize; ++i) {
     sum += stones[i];
   }
   int target = sum / 2;
-  int dp[target + 1];
+
+  int dp[target + 1];  // dp[i]背包容量为i时能选取的最大石头的大小和
   memset(dp, 0, sizeof(dp));
-  for (int i = 1; i <= stonesSize; ++i) {
-    for (int j = target; j >= stones[i - 1]; --j) {
-      dp[j] = fmax(dp[j], dp[j - stones[i - 1]] + stones[i - 1]);
+  for (int i = 0; i < stonesSize; ++i) {
+    for (int j = target; j >= stones[i]; --j) {
+      dp[j] = fmax(dp[j], dp[j - stones[i]] + stones[i]);
     }
   }
 
+  // 可以把这堆石头分成大小差不多的两堆石头，分别为sum1和sum2，答案是abs(sum1-sum2)。知道sum1，就知道了sum2=sum-sum1。
+  // abs((sum-sum1)-sum1)就是最后答案，也就是sum-2*dp[target]
   return sum - 2 * dp[target];
 }
 
