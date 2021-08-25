@@ -6,18 +6,18 @@
 
 // @lc code=start
 
-// 动态规划
+// 动态规划，完全背包
 bool wordBreak(char* s, char** wordDict, int size) {
   int n = strlen(s);
   int dp[n + 1];
   memset(dp, 0, sizeof(dp));
-
   dp[0] = 1;
-  for (int j = 1; j <= n; ++j) {
-    for (int i = 0; i < size; ++i) {
-      int len = strlen(wordDict[i]);
-      if (j >= len && strncmp(wordDict[i], &s[j - len], len) == 0) {
-        dp[j] |= dp[j - len];
+
+  for (int i = 1; i <= n; ++i) {
+    for (int j = 0; j < size; ++j) {
+      int len = strlen(wordDict[j]);
+      if (i >= len && strncmp(wordDict[j], &s[i - len], len) == 0) {
+        dp[i] |= dp[i - len];
       }
     }
   }

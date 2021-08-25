@@ -84,35 +84,33 @@ int helper(int *coins, int coinsSize, int amount, int *backup) {
 // 时间复杂度：O(kn)。 
 */
 
-#include <stdlib.h>
-
-// dp数组的迭代解法
+// 完全背包
 int coinChange(int *coins, int coinsSize, int amount) {
-  if (amount < 0) {
-    return -1;
-  }
-  if (amount == 0) {
-    return 0;
-  }
-
-  int *dp = (int *)malloc((amount + 1) * sizeof(int));
-  for (int i = 0; i < amount + 1; ++i) {
-    dp[i] = amount + 1;  // 最多只能用amount个一元的硬币，amount+1相当于正无穷
-  }
-
+  int dp[amount + 1];  // dp[i]:凑足总额为i所需钱币的最少个数为dp[i]
   dp[0] = 0;
-  for (int i = 1; i < amount + 1; ++i) {
-    for (int j = 0; j < coinsSize; ++j) {
-      if (i - coins[j] < 0) {
-        continue;
-      }
-      if (dp[i] > dp[i - coins[j]] + 1) {
-        dp[i] = dp[i - coins[j]] + 1;
+  for (int i = 1; i <= amount; ++i) {
+    dp[i] = INT_MAX;  // 求最少的个数，初始化为最大值
+  }
+
+  // 那么钱币有顺序和没有顺序都可以，都不影响钱币的最⼩个数。所以本题并不强调集合是组合还是排列。
+  for (int i = 0; i < coinsSize; ++i) {
+    for (int j = coins[i]; j <= amount; ++j) {
+      if (dp[j - coins[i]] != INT_MAX) {
+        // 凑⾜总额为j-coins[i]的最少个数为dp[j-coins[i]]，那么只需要加上⼀个钱币coins[i]即dp[j-coins[i]]+1就是dp[j]
+        dp[j] = fmin(dp[j], dp[j - coins[i]] + 1);
       }
     }
   }
 
-  return (dp[amount] == amount + 1) ? -1 : dp[amount];
+  // for (int i = 1; i <= amount; ++i) {
+  //   for (int j = 0; j < coinsSize; ++j) {
+  //     if (i >= coins[j] && dp[i - coins[j]] != INT_MAX) {
+  //       dp[i] = fmin(dp[i], dp[i - coins[j]] + 1);
+  //     }
+  //   }
+  // }
+
+  return dp[amount] == INT_MAX ? -1 : dp[amount];
 }
 
 // 计算机解决问题其实没有任何奇技淫巧，它唯一的解决办法就是穷举，穷举所有可能性。

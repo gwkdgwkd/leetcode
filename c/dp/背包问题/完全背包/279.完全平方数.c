@@ -22,4 +22,21 @@ int numSquares(int n) {
 
   return dp[n];
 }
+
+// 完全背包
+int numSquares(int n) {
+  int dp[n + 1];
+  dp[0] = 0;
+  for (int i = 1; i <= n; ++i) {
+    dp[i] = INT_MAX;
+  }
+
+  for (int i = 0; i <= n; ++i) {
+    for (int j = 1; j * j <= i; ++j) {
+      dp[i] = fmin(dp[i], dp[i - j * j] + 1);
+    }
+  }
+
+  return dp[n];
+}
 // @lc code=end

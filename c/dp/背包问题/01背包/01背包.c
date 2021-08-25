@@ -46,7 +46,7 @@ int test1(int *weight, int *value, int size, int bagweight) {
       }
     }
   } 
-*/
+  */
 
   // 5.举例推导dp数组
   // for (int i = 0; i < size; ++i) {
