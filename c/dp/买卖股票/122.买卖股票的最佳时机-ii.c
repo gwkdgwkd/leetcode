@@ -32,7 +32,7 @@ int maxProfit(int* prices, int pricesSize) {
 }
 
 /* 
-// 动态规划，没天的状态只与前一天有关，不用dp
+// 动态规划，每天的状态只与前一天有关，不用dp
 int maxProfit(int* prices, int pricesSize) {
   int pre0 = 0;
   int pre1 = -prices[0];

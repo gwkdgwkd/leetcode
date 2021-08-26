@@ -31,6 +31,9 @@ struct SubtreeStatus dfs(struct TreeNode *node) {
   return (struct SubtreeStatus){selected, notSelected};
 }
 int rob(struct TreeNode *root) {
+  // 时间复杂度：O(n)每个节点只遍历了⼀次
+  // 空间复杂度：O(logn)算上递推系统栈的空间
+
   struct SubtreeStatus rootStatus = dfs(root);
   return fmax(rootStatus.selected, rootStatus.notSelected);
 }

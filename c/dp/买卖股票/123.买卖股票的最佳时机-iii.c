@@ -67,4 +67,33 @@ int maxProfit(int* prices, int pricesSize) {
   return dp[pricesSize - 1][k - 1][0];
 }
 
+int maxProfit(int* prices, int pricesSize) {
+  // 1. 确定dp数组以及下标的含义，⼀天⼀共就有五个状态，
+  //    0. 没有操作
+  //    1. 第⼀次买⼊
+  //    2. 第⼀次卖出
+  //    3. 第⼆次买⼊
+  //    4. 第⼆次卖出
+  // dp[i][j]中i表示第i天，j为[0-4]五个状态，dp[i][j]表示第i天状态j所剩最⼤现⾦。
+  // dp[i][1]，表示的是第i天，买⼊股票的状态，并不是说⼀定要第i天买⼊股票，这是容易陷⼊的误区。
+  int dp[pricesSize][5];
+  // 3. dp数组如何初始化
+  memset(dp, 0, sizeof(dp));
+  dp[0][1] = -prices[0];
+  dp[0][3] = -prices[0];
+
+  // 4. 确定遍历顺序，⼀定是从前向后遍历，因为dp[i]，依靠dp[i-1]的数值。
+  for (int i = 1; i < pricesSize; ++i) {
+    // 2. 确定递推公式
+    dp[i][0] = dp[i - 1][0];
+    dp[i][1] = fmax(dp[i - 1][1], dp[i - 1][0] - prices[i]);
+    dp[i][2] = fmax(dp[i - 1][2], dp[i - 1][1] + prices[i]);
+    dp[i][3] = fmax(dp[i - 1][3], dp[i - 1][2] - prices[i]);
+    dp[i][4] = fmax(dp[i - 1][4], dp[i - 1][3] + prices[i]);
+  }
+
+  // 5. 举例推导dp数组
+
+  return dp[pricesSize - 1][4];
+}
 // @lc code=end

@@ -68,4 +68,38 @@ int maxProfit(int k, int* prices, int pricesSize) {
 }
 */
 
+int maxProfit(int k, int* prices, int pricesSize) {
+  if (pricesSize == 0 || k == 0) {
+    return 0;
+  }
+
+  // 使⽤⼆维数组 dp[i][j] ：第i天的状态为j，所剩下的最⼤现⾦是dp[i][j]。j的状态表示为：
+  // 0 表示不操作
+  // 1 第⼀次买⼊
+  // 2 第⼀次卖出
+  // 3 第⼆次买⼊
+  // 4 第⼆次卖出
+  // .....
+  // 除了0以外，偶数就是卖出，奇数就是买⼊。
+  // ⾄多有K笔交易，那么j的范围就定义为2*k+1就可以了。
+  int dp[pricesSize][2 * k + 1];
+  memset(dp, 0, sizeof(dp));
+  // for (int i = 0; i < 2 * k + 1; ++i) {
+  //   dp[0][i] = i % 2 ? -prices[0] : 0;
+  // }
+  for (int j = 1; j < 2 * k; j += 2) {
+    dp[0][j] = -prices[0];
+  }
+
+  for (int i = 1; i < pricesSize; ++i) {
+    // dp[i][0] = dp[i - 1][0];  // 这个一直是0，初始化为0就可以了
+    for (int j = 1; j < 2 * k + 1; ++j) {
+      dp[i][j] =
+          fmax(dp[i - 1][j], dp[i - 1][j - 1] + (j % 2 ? -1 : 1) * prices[i]);
+    }
+  }
+
+  return dp[pricesSize - 1][2 * k];
+}
+
 // @lc code=end
