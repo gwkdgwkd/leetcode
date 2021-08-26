@@ -7,33 +7,36 @@
 // @lc code=start
 
 // 动态规划
-int findLength(int* A, int ASize, int* B, int BSize) {
-  // dp[i][j]表示A[i-1  ---  n-1]和B[j-1  ---  n-1]的最长公共前缀
-  int dp[ASize + 1][BSize + 1];
+int findLength(int* nums1, int nums1Size, int* nums2, int nums2Size) {
+  // dp[i][j]：以下标i-1为结尾的A，和以下标j-1为结尾的B，最⻓重复⼦数组⻓度为dp[i][j]
+  int dp[nums1Size + 1][nums2Size + 1];
   memset(dp, 0, sizeof(dp));
-  int ans = 0;
-  // 从下到上，从右到左遍历
-  for (int i = ASize - 1; i >= 0; i--) {
-    for (int j = BSize - 1; j >= 0; j--) {
-      dp[i][j] = A[i] == B[j] ? dp[i + 1][j + 1] + 1 : 0;
-      ans = fmax(ans, dp[i][j]);
+
+  int max = 0;
+  for (int i = 1; i <= nums1Size; ++i) {
+    for (int j = 1; j <= nums2Size; ++j) {
+      if (nums1[i - 1] == nums2[j - 1]) {
+        dp[i][j] = dp[i - 1][j - 1] + 1;
+        max = fmax(max, dp[i][j]);
+      }
     }
   }
 
-  // for (int i = 0; i <= ASize; ++i) {
-  //   for (int j = 0; j <= BSize; ++j) {
+  // for (int i = 0; i <= nums1Size; ++i) {
+  //   for (int j = 0; j <= nums2Size; ++j) {
   //     printf("%3d ", dp[i][j]);
   //   }
   //   printf("\n");
   // }
   // [1,2,3,2,1],[3,2,1,4,7]
+  //   0   0   0   0   0   0
+  //   0   0   0   1   0   0
   //   0   0   1   0   0   0
   //   0   1   0   0   0   0
-  //   3   0   0   0   0   0
-  //   0   2   0   0   0   0
-  //   0   0   1   0   0   0
-  //   0   0   0   0   0   0
+  //   0   0   2   0   0   0
+  //   0   0   0   3   0   0
 
-  return ans;
+  return max;
 }
+
 // @lc code=end

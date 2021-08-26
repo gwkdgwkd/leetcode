@@ -6,23 +6,21 @@
 
 // @lc code=start
 
-#define MAX(a, b) ((a) > (b) ? (a) : (b))
 int maxSubArray(int* nums, int numsSize) {
-  // dp[i]表示以nums[i]结尾的最长子序列之和
+  // dp[i]：包括下标i之前的最⼤连续⼦序列和为dp[i]
   int dp[numsSize];
-  dp[0] = nums[0];
+  memset(dp, 0, sizeof(dp));
+  int max = dp[0] = nums[0];
+
   for (int i = 1; i < numsSize; ++i) {
-    // nums[i]大，表示dp[i-1]为负数，重新开始一个序列，为nums[i]
-    // nums[i]+dp[i-1]大，表示dp[i-1]为正数，最大子序列要加上nums[i]
-    dp[i] = MAX(nums[i], nums[i] + dp[i - 1]);
+    // dp[i]只有两个⽅向可以推出来：
+    //  dp[i-1]+nums[i]，即：nums[i]加⼊当前连续⼦序列和
+    //  nums[i]，即：从头开始计算当前连续⼦序列和
+    dp[i] = fmax(dp[i - 1] + nums[i], nums[i]);
+    max = fmax(max, dp[i]);
   }
 
-  int ret = dp[0];
-  for (int i = 1; i < numsSize; ++i) {
-    ret = MAX(dp[i], ret);
-  }
-
-  return ret;
+  return max;
 }
 
 // 时间复杂度：O(N)
