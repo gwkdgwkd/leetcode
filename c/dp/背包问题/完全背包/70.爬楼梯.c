@@ -6,7 +6,7 @@
 
 // @lc code=start
 
-// 动态规划
+// 动态规划，和斐波那契一样
 int climbStairs(int n) {
   if (n < 2) {
     return n;

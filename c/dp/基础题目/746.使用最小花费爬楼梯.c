@@ -38,4 +38,15 @@ int minCostClimbingStairs(int* cost, int costSize) {
   return curr;
 }
 
+int minCostClimbingStairs(int* cost, int costSize) {
+  int dp0 = cost[0];
+  int dp1 = cost[1];
+  for (int i = 2; i < costSize; i++) {
+    int dpi = fmin(dp0, dp1) + cost[i];
+    dp0 = dp1;
+    dp1 = dpi;
+  }
+  return fmin(dp0, dp1);
+}
+
 // @lc code=end

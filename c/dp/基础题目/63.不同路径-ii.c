@@ -44,6 +44,23 @@ int uniquePathsWithObstacles(int** obstacleGrid, int obstacleGridSize,
 }
 */
 
+int uniquePathsWithObstacles(int** obstacleGrid, int obstacleGridSize,
+                             int* obstacleGridColSize) {
+  int m = obstacleGridSize;
+  int n = obstacleGridColSize[0];
+  int dp[m][n];
+  memset(dp, 0, sizeof(dp));
+  for (int i = 0; i < m && obstacleGrid[i][0] == 0; i++) dp[i][0] = 1;
+  for (int j = 0; j < n && obstacleGrid[0][j] == 0; j++) dp[0][j] = 1;
+  for (int i = 1; i < m; i++) {
+    for (int j = 1; j < n; j++) {
+      if (obstacleGrid[i][j] == 1) continue;
+      dp[i][j] = dp[i - 1][j] + dp[i][j - 1];
+    }
+  }
+  return dp[m - 1][n - 1];
+}
+
 // 官方题解
 int uniquePathsWithObstacles(int** obstacleGrid, int obstacleGridSize,
                              int* obstacleGridColSize) {
