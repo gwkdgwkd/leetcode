@@ -6,7 +6,10 @@
 
 // @lc code=start
 
-#define MAX_NUM 20001
+// 2 <= A.length <= 2000
+// 0 <= A[i] <= 10000
+
+#define MAX_NUM 20001  // 最大值乘２
 int max(int a, int b) { return a > b ? a : b; }
 int longestArithSeqLength(int* A, int ASize) {
   int res = 1;
@@ -20,7 +23,7 @@ int longestArithSeqLength(int* A, int ASize) {
   for (int i = 0; i < ASize; i++) {
     for (int j = 0; j < i; j++) {
       int diff = A[i] - A[j];
-      diff += 10000;
+      diff += 10000;  // 不考虑负数
       dp[i][diff] = max(dp[i][diff], dp[j][diff] + 1);
       res = max(res, dp[i][diff]);
     }

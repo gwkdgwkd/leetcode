@@ -6,7 +6,7 @@
 
 // @lc code=start
 
-// 动态规划
+// 动态规划，与300相似
 int findNumberOfLIS(int* nums, int numsSize) {
   if (numsSize == 1) {
     return numsSize;
