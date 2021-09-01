@@ -31,6 +31,28 @@ int wiggleMaxLength(int* nums, int numsSize) {
 */
 
 int wiggleMaxLength(int* nums, int numsSize) {
+  // dp[i][0]表示前i个数中最大摆动长度，nums[i−1]>nums[i]；
+  // dp[i][1]表示前i个数中最大摆动长度，nums[i−1]<nums[i]。
+  int dp[numsSize][2];
+  for (int i = 0; i < numsSize; ++i) {
+    dp[i][0] = dp[i][1] = 1;
+  }
+
+  for (int i = 1; i < numsSize; ++i) {
+    if (nums[i - 1] > nums[i]) {
+      dp[i][0] = fmax(dp[i - 1][0], dp[i - 1][1] + 1);
+    } else if (nums[i - 1] < nums[i]) {
+      dp[i][1] = fmax(dp[i - 1][1], dp[i - 1][0] + 1);
+    } else {
+      dp[i][0] = dp[i - 1][0];
+      dp[i][1] = dp[i - 1][1];
+    }
+  }
+
+  return fmax(dp[numsSize - 1][0], dp[numsSize - 1][1]);
+}
+
+int wiggleMaxLength(int* nums, int numsSize) {
   if (numsSize < 2) {
     return numsSize;
   }
