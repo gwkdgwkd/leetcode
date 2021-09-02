@@ -6,10 +6,24 @@
 
 // @lc code=start
 
-// dp[][0]：没删除过元素
-// dp[][1]：删除过元素
-// dp[i][0] = max(arr[i], dp[i-1][0] + arr[i])
-// dp[i][1] = max(dp[i-1][0], dp[i-1][1] + arr[i])
+int maximumSum(int* arr, int arrSize) {
+  // dp[][0]：没删除过元素
+  // dp[][1]：删除过元素
+  int dp[arrSize][2];
+  memset(dp, 0, sizeof(dp));
+  dp[0][0] = arr[0];
+  // dp[0][1] = 0;
+  int max = dp[0][0];
+
+  for (int i = 1; i < arrSize; ++i) {
+    dp[i][0] = fmax(arr[i], dp[i - 1][0] + arr[i]);
+    dp[i][1] = fmax(dp[i - 1][1] + arr[i], dp[i - 1][0]);
+    max = fmax(max, fmax(dp[i][0], dp[i][1]));
+  }
+
+  return max;
+}
+
 int max(int a, int b) { return a > b ? a : b; }
 int maximumSum(int* arr, int arrSize) {
   int a, b, res;
