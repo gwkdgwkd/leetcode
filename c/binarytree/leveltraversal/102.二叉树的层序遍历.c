@@ -73,4 +73,34 @@ int** levelOrder(struct TreeNode* root, int* returnSize,
 
   return result;
 }
+
+// 递归
+#define MAXSIZE 1000
+int** result;
+int resultSize;
+void bfs(struct TreeNode* node, int level, int** returnColumnSizes) {
+  if (node == NULL) {
+    return;
+  }
+
+  result[level][(*returnColumnSizes)[level]++] = node->val;
+  if (level + 1 > resultSize) {
+    resultSize = level + 1;
+  }
+  bfs(node->left, level + 1, returnColumnSizes);
+  bfs(node->right, level + 1, returnColumnSizes);
+}
+int** levelOrder(struct TreeNode* root, int* returnSize,
+                 int** returnColumnSizes) {
+  result = (int**)malloc(sizeof(int*) * MAXSIZE);
+  for (int i = 0; i < MAXSIZE; ++i) {
+    result[i] = (int*)malloc(sizeof(int) * MAXSIZE);
+  }
+  resultSize = 0;
+  *returnColumnSizes = (int*)calloc(sizeof(int), MAXSIZE);
+  bfs(root, 0, returnColumnSizes);
+  *returnSize = resultSize;
+
+  return result;
+}
 // @lc code=end
