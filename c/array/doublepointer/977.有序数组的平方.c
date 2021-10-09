@@ -10,7 +10,7 @@
  * Note: The returned array must be malloced, assume caller calls free().
  */
 
-// 双指针
+// 双指针，时间复杂度为O(n)
 int* sortedSquares(int* nums, int numsSize, int* returnSize) {
   int* ans = malloc(sizeof(int) * numsSize);
   *returnSize = numsSize;
