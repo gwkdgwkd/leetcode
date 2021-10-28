@@ -22,7 +22,6 @@ int maxSubArray(int* nums, int numsSize) {
 
   return max;
 }
-
 // 时间复杂度：O(N)
 // 空间复杂度：O(N)
 
@@ -40,5 +39,43 @@ int maxSubArray(int* nums, int numsSize) {
 // 时间复杂度：O(N)
 // 空间复杂度：O(1)
 */
+
+// 贪心算法
+// 时间复杂度：O(n)
+// 空间复杂度：O(1)
+int maxSubArray(int* nums, int numsSize) {
+  int max = INT_MIN;
+  int count = 0;
+
+  for (int i = 0; i < numsSize; ++i) {
+    count += nums[i];
+    if (count > max) {
+      max = count;
+    }
+    if (count < 0) {
+      count = 0;
+    }
+  }
+  return max;
+}
+
+// 暴力解法，超时
+// 时间复杂度：O(n^2)
+// 空间复杂度：O(1)
+int maxSubArray(int* nums, int numsSize) {
+  int max = INT_MIN;
+  int count = 0;
+
+  for (int i = 0; i < numsSize; ++i) {
+    count = 0;
+    for (int j = i; j < numsSize; ++j) {
+      count += nums[j];
+      if (count > max) {
+        max = count;
+      }
+    }
+  }
+  return max;
+}
 
 // @lc code=end

@@ -47,4 +47,17 @@ int maxProfit(int* prices, int pricesSize) {
 }
 */
 
+// 贪心算法
+int maxProfit(int* prices, int pricesSize) {
+  int ret = 0;
+  // 局部最优：收集每天的正利润，全局最优：求得最大利润
+  for (int i = 1; i < pricesSize; ++i) {
+    if (prices[i] - prices[i - 1] > 0) {
+      ret += prices[i] - prices[i - 1];
+    }
+  }
+
+  return ret;
+}
+
 // @lc code=end

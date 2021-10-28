@@ -67,4 +67,27 @@ int wiggleMaxLength(int* nums, int numsSize) {
   return fmax(up, down);
 }
 
+// 贪心算法
+// 局部最优：删除单调坡度上的节点（不包括单调坡度两端的节点），那么这个坡度就可以有两个局部峰值。
+// 整体最优：整个序列有最多的局部峰值，从而达到最长摆动序列。
+// 实际操作上，其实连删除的操作都不用做，因为要求的是最长摆动子序列的长度，所以只需要统计数组的峰值数量就可以了。
+// 相当于是删除单一坡度上的节点，然后统计长度。
+// 时间复杂度O(n)，空间复杂度O(1)
+int wiggleMaxLength(int* nums, int numsSize) {
+  if (numsSize < 2) return numsSize;
+
+  int prediff = 0;
+  int curdiff = 0;
+  int result = 1;  // 默认最右面有一个峰值
+  for (int i = 1; i < numsSize; ++i) {
+    curdiff = nums[i] - nums[i - 1];
+    if ((curdiff > 0 && prediff <= 0) || (curdiff < 0 && prediff >= 0)) {
+      prediff = curdiff;
+      ++result;
+    }
+  }
+
+  return result;
+}
+
 // @lc code=end
