@@ -39,4 +39,13 @@ struct ListNode* reverse(struct ListNode* pre, struct ListNode* cur) {
 struct ListNode* reverseList(struct ListNode* head) {
   return reverse(NULL, head);
 }
+
+// 递归
+struct ListNode* reverseList(struct ListNode* head) {
+  if (head == NULL || head->next == NULL) return head;
+  struct ListNode* last = reverseList(head->next);
+  head->next->next = head;
+  head->next = NULL;
+  return last;
+}
 // @lc code=end

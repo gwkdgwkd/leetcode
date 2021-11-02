@@ -1,10 +1,17 @@
-/**
- * Definition for singly-linked list.
- * struct ListNode {
- *     int val;
- *     struct ListNode *next;
- * };
- */
+struct ListNode *getIntersectionNode(struct ListNode *headA,
+                                     struct ListNode *headB) {
+  if (!headA || !headB) return NULL;
+  struct ListNode *p = headA;
+  struct ListNode *q = headB;
+
+  while (p != q) {
+    p = p ? p->next : headB;  // p走一步，如果走到A链表末尾，转到B链表
+    q = q ? q->next : headA;  // q走一步，如果走到B链表末尾，转到A链表
+  }
+
+  return p;
+}
+
 struct ListNode *getIntersectionNode(struct ListNode *headA,
                                      struct ListNode *headB) {
   struct ListNode *curA = headA;

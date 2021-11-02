@@ -24,8 +24,8 @@ struct ListNode* removeNthFromEnd(struct ListNode* head, int n) {
   while (n-- && fast) {
     fast = fast->next;
   }
-  fast =
-      fast->next;  // fast再提前走一步，因为需要让slow指向删除节点的上一个节点
+  // fast再提前走一步，因为需要让slow指向删除节点的上一个节点
+  fast = fast->next;
   while (fast) {
     fast = fast->next;
     slow = slow->next;
