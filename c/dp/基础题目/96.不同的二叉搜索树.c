@@ -6,6 +6,35 @@
 
 // @lc code=start
 
+int **memo;
+int count(int lo, int hi) {
+  if (lo > hi) return 1;
+  // 查备忘录
+  if (memo[lo][hi] != 0) {
+    return memo[lo][hi];
+  }
+
+  int res = 0;
+  for (int mid = lo; mid <= hi; mid++) {
+    int left = count(lo, mid - 1);
+    int right = count(mid + 1, hi);
+    res += left * right;
+  }
+  // 将结果存入备忘录
+  memo[lo][hi] = res;
+  return res;
+}
+int numTrees(int n) {
+  // 备忘录的值初始化为0
+  memo = (int **)malloc(sizeof(int *) * (n + 1));
+  for (int i = 0; i < n + 1; ++i) {
+    memo[i] = (int *)malloc(sizeof(int) * (n + 1));
+    memset(memo[i], 0, sizeof(int) * (n + 1));
+  }
+
+  return count(1, n);
+}
+
 // 动态规划
 int numTrees(int n) {
   // dp[i]：1到i为节点组成的⼆叉搜索树的个数为dp[i]。

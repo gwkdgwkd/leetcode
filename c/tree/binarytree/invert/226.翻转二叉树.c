@@ -18,7 +18,7 @@
 // 使⽤前序遍历和后序遍历都可以，唯独中序遍历不⾏，因为中序遍历会把某些节点的左右孩⼦翻转了两次！
 // 那么层序遍历可以不可以呢？依然可以的！只要把每⼀个节点的左右孩⼦翻转⼀下的遍历⽅式都是可以的！
 
-// 递归
+// 递归，前序遍历
 struct TreeNode* invertTree(struct TreeNode* root) {
   if (root == NULL) {
     return NULL;
@@ -30,6 +30,20 @@ struct TreeNode* invertTree(struct TreeNode* root) {
 
   invertTree(root->left);
   invertTree(root->right);
+
+  return root;
+}
+
+// 递归，后续遍历
+struct TreeNode* invertTree(struct TreeNode* root) {
+  if (!root) return root;
+
+  invertTree(root->left);
+  invertTree(root->right);
+
+  struct TreeNode* tmp = root->right;
+  root->right = root->left;
+  root->left = tmp;
 
   return root;
 }

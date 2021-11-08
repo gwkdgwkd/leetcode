@@ -64,4 +64,21 @@ struct Node* connect(struct Node* root) {
 
   return root;
 }
+
+// 递归
+void connectTwoNode(struct Node* l, struct Node* r) {
+  if (!l || !r) return;
+
+  l->next = r;
+  connectTwoNode(l->left, l->right);
+  connectTwoNode(l->right, r->left);
+  connectTwoNode(r->left, r->right);
+  return;
+}
+struct Node* connect(struct Node* root) {
+  if (!root) return root;
+
+  connectTwoNode(root->left, root->right);
+  return root;
+}
 // @lc code=end

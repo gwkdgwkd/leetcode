@@ -74,5 +74,27 @@ struct TreeNode* deleteNode(struct TreeNode* root, int key) {
   return root;
 }
 
-// 删除节点的迭代法还是复杂⼀些
+// 递归，BST框架
+struct TreeNode* getMin(struct TreeNode* node) {
+  while (node->left != NULL) node = node->left;
+  return node;
+}
+struct TreeNode* deleteNode(struct TreeNode* root, int key) {
+  if (root == NULL) return root;
+  if (root->val == key) {
+    if (root->left == NULL) return root->right;
+    if (root->right == NULL) return root->left;
+    struct TreeNode* minNode = getMin(root->right);
+    root->val = minNode->val;
+    root->right = deleteNode(root->right, minNode->val);
+  } else if (root->val > key) {
+    root->left = deleteNode(root->left, key);
+  } else if (root->val < key) {
+    root->right = deleteNode(root->right, key);
+  }
+  return root;
+}
+
+// 删除节点的迭代法比较复杂
+
 // @lc code=end

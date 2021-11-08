@@ -52,4 +52,15 @@ bool isValidBST(struct TreeNode* root) {
 
   return left && right;
 }
+
+// 递归
+bool isValid(struct TreeNode* root, struct TreeNode* min,
+             struct TreeNode* max) {
+  if (root == NULL) return true;
+  if (min && root->val <= min->val) return false;
+  if (max && root->val >= max->val) return false;
+
+  return isValid(root->left, min, root) && isValid(root->right, root, max);
+}
+bool isValidBST(struct TreeNode* root) { return isValid(root, NULL, NULL); }
 // @lc code=end

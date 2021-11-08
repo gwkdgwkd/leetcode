@@ -18,9 +18,9 @@ int sum;
 void traversal(struct TreeNode* root) {
   if (!root) return;
   // 从树中可以看出累加的顺序是右中左，所以需要反中序遍历这个⼆叉树，然后顺序累加就可以了。
-  traversal(root->right);
-  root->val += sum;
-  sum = root->val;
+  traversal(root->right);  // 中序遍历是升序，中序遍历调换左右子树是降序
+  sum += root->val;
+  root->val = sum;
   traversal(root->left);
 }
 struct TreeNode* convertBST(struct TreeNode* root) {

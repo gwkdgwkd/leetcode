@@ -27,4 +27,26 @@ struct TreeNode* lowestCommonAncestor(struct TreeNode* root, struct TreeNode* p,
   if (left) return left;  // (left && !right)
   return right;           // (!left && right)
 }
+
+// 递归
+// 前序遍历可以理解为是从上往下，而后序遍历是从下往上，就好比从p和q出发往上走，第一次相交的节点就是最近公共祖先
+struct TreeNode* lowestCommonAncestor(struct TreeNode* root, struct TreeNode* p,
+                                      struct TreeNode* q) {
+  // base case
+  if (root == NULL) return NULL;
+  if (root == p || root == q) return root;
+
+  struct TreeNode* left = lowestCommonAncestor(root->left, p, q);
+  struct TreeNode* right = lowestCommonAncestor(root->right, p, q);
+  // 情况1，如果p和q都在以root为根的树中，那么left和right一定分别是p和q（从base case看出来的）。
+  if (left != NULL && right != NULL) {
+    return root;
+  }
+  // 情况2，如果p和q都不在以root为根的树中，直接返回null。
+  if (left == NULL && right == NULL) {
+    return NULL;
+  }
+  // 情况3，如果p和q只有一个存在于root为根的树中，函数返回该节点。
+  return left == NULL ? right : left;
+}
 // @lc code=end

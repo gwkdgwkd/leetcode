@@ -38,10 +38,33 @@ struct TreeNode* traversal(int* nums, int start, int end) {
 
   return root;
 }
-
 struct TreeNode* constructMaximumBinaryTree(int* nums, int numsSize) {
   if (numsSize == 0) return NULL;
 
   return traversal(nums, 0, numsSize);
+}
+
+struct TreeNode* build(int* nums, int lo, int hi) {
+  if (lo > hi) {
+    return NULL;
+  }
+
+  int index = -1, maxVal = INT_MIN;
+  for (int i = lo; i <= hi; ++i) {
+    if (maxVal < nums[i]) {
+      maxVal = nums[i];
+      index = i;
+    }
+  }
+
+  struct TreeNode* root = (struct TreeNode*)malloc(sizeof(struct TreeNode));
+  root->val = maxVal;
+  root->left = build(nums, lo, index - 1);
+  root->right = build(nums, index + 1, hi);
+
+  return root;
+}
+struct TreeNode* constructMaximumBinaryTree(int* nums, int numsSize) {
+  return build(nums, 0, numsSize - 1);
 }
 // @lc code=end

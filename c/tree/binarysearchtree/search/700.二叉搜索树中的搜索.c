@@ -26,6 +26,17 @@ struct TreeNode* searchBST(struct TreeNode* root, int val) {
   return root;
 }
 
+// 递归
+struct TreeNode* searchBST(struct TreeNode* root, int val) {
+  if (!root) return root;
+
+  if (root->val == val) return root;
+  if (root->left && root->val > val) return searchBST(root->left, val);
+  if (root->right && root->val < val) return searchBST(root->right, val);
+
+  return NULL;
+}
+
 // 迭代
 struct TreeNode* searchBST(struct TreeNode* root, int val) {
   while (root) {
