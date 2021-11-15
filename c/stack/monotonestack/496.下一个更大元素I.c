@@ -62,3 +62,37 @@ int* nextGreaterElement(int* nums1, int nums1Size, int* nums2, int nums2Size,
   *returnSize = nums1Size;
   return res;
 }
+
+// 单调栈模板[496,503,739]
+int* nextGreaterElement(int* nums1, int nums1Size, int* nums2, int nums2Size,
+                        int* returnSize) {
+  if (nums1Size <= 0 || nums2Size <= 0) {
+    return NULL;
+  }
+
+  int* result = (int*)malloc(nums1Size * sizeof(int));
+  int res[nums2Size];
+  int stack[nums2Size];
+  int top = 0;
+
+  // 倒着往栈里放
+  for (int i = nums2Size - 1; i >= 0; i--) {
+    while (top > 0 && nums2[i] >= stack[top - 1]) {
+      top--;  // 出栈
+    }
+
+    res[i] = top > 0 ? stack[top - 1] : -1;
+    stack[top++] = nums2[i];  // 入栈
+  }
+
+  for (int i = 0; i < nums1Size; ++i) {
+    for (int j = 0; j < nums2Size; ++j) {
+      if (nums1[i] == nums2[j]) {
+        result[i] = res[j];
+      }
+    }
+  }
+
+  *returnSize = nums1Size;
+  return result;
+}

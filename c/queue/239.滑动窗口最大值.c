@@ -19,7 +19,7 @@ int* maxSlidingWindow(int* nums, int numsSize, int k, int* returnSize) {
   *returnSize = 0;
   int* ans = malloc(sizeof(int) * numsSize);
   for (int i = 0; i < numsSize; i++) {
-    // 窗口扫过去了，队头就得出列了
+    // 窗口扫过去了，队头就得出列了,
     while (head < tail && q[head] <= i - k) {
       head++;
     }
@@ -46,6 +46,39 @@ int* maxSlidingWindow(int* nums, int numsSize, int k, int* returnSize) {
   // 7: 1 2 [ 11(7) ],nums[q[1]]: 11
 
   return ans;
+}
+
+// 单调队列
+int* maxSlidingWindow(int* nums, int numsSize, int k, int* returnSize) {
+  if (nums == NULL || returnSize == NULL) {
+    return NULL;
+  }
+  int outLen = numsSize - k + 1;
+  int* result = (int*)malloc(sizeof(int) * outLen);
+  int* deque = (int*)malloc(sizeof(int) * numsSize);
+  int start = 0;
+  int end = 0;
+  int i = 0, j = 0;
+  while (i < numsSize) {
+    // 若右边成员的值小于即将入队的值，就从右边依次出队
+    while (start != end && nums[i] > nums[deque[end - 1]]) {
+      end--;
+    }
+    // 从右边入队
+    deque[end++] = i;
+    // 已入队了K次，需要开始记录当前窗口最大值
+    if (i >= k - 1) {
+      result[i - k + 1] = nums[deque[start]];
+      if (start != end && deque[start] <= i - k + 1) {
+        // 最大值已出窗口，左边出队
+        start++;
+      }
+    }
+    i++;
+  }
+  free(deque);
+  *returnSize = outLen;
+  return result;
 }
 
 // 暴力法，超时

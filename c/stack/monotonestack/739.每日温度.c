@@ -105,3 +105,30 @@ int* dailyTemperatures(int* temperatures, int temperaturesSize,
 
   return res;
 }
+
+// 单调栈模板[496,503,739]
+int* dailyTemperatures(int* temperatures, int temperaturesSize,
+                       int* returnSize) {
+  if (temperaturesSize <= 0) {
+    return NULL;
+  }
+
+  // 保存索引
+  int* res = (int*)malloc(temperaturesSize * sizeof(int));
+
+  int stack[temperaturesSize];
+  int top = 0;
+
+  // 倒着往栈里放
+  for (int i = temperaturesSize - 1; i >= 0; i--) {
+    while (top > 0 && temperatures[i] >= temperatures[stack[top - 1]]) {
+      top--;  // 出栈
+    }
+
+    res[i] = top > 0 ? stack[top - 1] - i : 0;
+    stack[top++] = i;  // 把i入栈
+  }
+
+  *returnSize = temperaturesSize;
+  return res;
+}
