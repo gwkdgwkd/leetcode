@@ -72,3 +72,37 @@ int *findAnagrams(char *s, char *p, int *returnSize) {
   }
   return res;
 }
+
+// 滑动窗口
+int *findAnagrams(char *s, char *p, int *returnSize) {
+  int ls = strlen(s);
+  int lp = strlen(p);
+  int lenp = lp;
+  int hash[26] = {0};
+  int left = 0;
+  int right = 0;
+  for (int i = 0; i < lp; ++i) {
+    hash[p[i] - 'a']++;
+  }
+
+  int *res = (int *)malloc(sizeof(int) * ls);
+  *returnSize = 0;
+  while (right < ls) {
+    if (hash[s[right] - 'a']-- > 0) {
+      lp--;
+    }
+    right++;
+    while (0 == lp) {
+      if (right - left == lenp) {
+        res[(*returnSize)++] = left;
+      }
+      hash[s[left] - 'a']++;
+      if (hash[s[left] - 'a'] > 0) {
+        lp++;
+      }
+      left++;
+    }
+  }
+
+  return res;
+}

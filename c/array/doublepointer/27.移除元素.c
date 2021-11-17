@@ -32,4 +32,19 @@ int removeElement(int* nums, int numsSize, int val) {
 
   return slow;
 }
+
+// 双指针
+int removeElement(int* nums, int numsSize, int val) {
+  if (numsSize == 0) return 0;
+  int slow = 0;
+  int fast = 0;
+  while (fast < numsSize) {
+    if (nums[fast] != val) {
+      nums[slow++] = nums[fast];
+    }
+    fast++;
+  }
+
+  return slow;
+}
 // @lc code=end

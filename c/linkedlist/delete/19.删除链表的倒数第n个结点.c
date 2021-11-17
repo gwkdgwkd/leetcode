@@ -64,4 +64,26 @@ struct ListNode* removeNthFromEnd(struct ListNode* head, int n) {
 
   return head;
 }
+
+struct ListNode* removeNthFromEnd(struct ListNode* head, int n) {
+  struct ListNode *fast, *slow;
+  fast = slow = head;
+  // 快指针先前进n步
+  while (n-- > 0) {
+    fast = fast->next;
+  }
+  if (fast == NULL) {
+    // 如果此时快指针走到头了，
+    // 说明倒数第n个节点就是第一个节点
+    return head->next;
+  }
+  // 让慢指针和快指针同步向前
+  while (fast != NULL && fast->next != NULL) {
+    fast = fast->next;
+    slow = slow->next;
+  }
+  // slow.next就是倒数第n个节点，删除它
+  slow->next = slow->next->next;
+  return head;
+}
 // @lc code=end

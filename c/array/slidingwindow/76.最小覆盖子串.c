@@ -99,7 +99,7 @@ char* minWindow(char* s, char* t) {
     if (hash[s[end]]-- > 0) { /* 串s中当前元素在串t中出现过 */
       tlen--;                 /* tlen-- */
     }
-    //hash[s[end]]--; /* 串s中当前元素的哈希值减1 */
+    // hash[s[end]]--; /* 串s中当前元素的哈希值减1 */
     end++; /* 右指针向右移动 */
 
     while (tlen == 0) {           /* 出现匹配的子串 */
