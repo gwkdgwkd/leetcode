@@ -1,4 +1,7 @@
 // 哈希表
+// 时间复杂度：O(N)
+// 空间复杂度：O(N)
+// 一般情况下，我们会首先把数组排序再考虑双指针技巧。TwoSum启发我们，HashMap或者HashSet也可以帮助我们处理无序数组相关的简单问题。
 struct hashTable {
   int key;
   int val;
@@ -37,6 +40,8 @@ int* twoSum(int* nums, int numsSize, int target, int* returnSize) {
 }
 
 // 暴力法
+// 时间复杂度：O(N^2)
+// 空间复杂度：O(1)
 int* twoSum(int* nums, int numsSize, int target, int* returnSize) {
   int i, j;
 
