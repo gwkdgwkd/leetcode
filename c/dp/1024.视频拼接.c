@@ -49,4 +49,39 @@ int videoStitching(int** clips, int clipsSize, int* clipsColSize, int time) {
   return ret;
 }
 
+// 贪心算法
+// int cmp(const void* a, const void* b) {
+//   if (((*(int**)a))[0] == ((*(int**)b))[0]) {
+//     return ((*(int**)b))[1] - ((*(int**)a))[1];
+//   }
+//   return ((*(int**)a))[0] - ((*(int**)b))[0];
+// }
+int cmp(const void* a, const void* b) {
+  if ((*((int**)a))[0] == (*((int**)b))[0]) {
+    return (*((int**)b))[1] - (*((int**)a))[1];
+  }
+  return (*((int**)a))[0] - (*((int**)b))[0];
+}
+int videoStitching(int** clips, int clipsSize, int* clipsColSize, int time) {
+  if (clipsSize == 0 || time == 0) return 0;
+
+  qsort(clips, clipsSize, sizeof(int*), cmp);
+
+  int res = 0;
+  int curEnd = 0, nextEnd = 0;
+  int i = 0;
+  while (i < clipsSize && clips[i][0] <= curEnd) {
+    while (i < clipsSize && clips[i][0] <= curEnd) {
+      nextEnd = fmax(nextEnd, clips[i][1]);
+      i++;
+    }
+    res++;
+    curEnd = nextEnd;
+    if (curEnd >= time) {
+      return res;
+    }
+  }
+  return -1;
+}
+
 // @lc code=end

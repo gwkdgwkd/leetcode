@@ -1,5 +1,7 @@
+// 区间问题肯定按照区间的起点或者终点进行排序
+
 // 贪心算法
-// 时间复杂度：O(nlogn) ，有一个快排
+// 时间复杂度：O(nlogn)，有一个快排
 // 空间复杂度：O(1)
 int cmp(const void* a, const void* b) {
   return ((*(int**)a))[1] - ((*(int**)b))[1];
@@ -21,6 +23,8 @@ int eraseOverlapIntervals(int** intervals, int intervalsSize,
       ++count;
     }
   }
+
+  // 如果是求今天最多能参加几个活动，那么直接返回count
 
   return intervalsSize - count;
 }
