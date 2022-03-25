@@ -1,11 +1,20 @@
 /*
- * @lc app=leetcode.cn id=367 lang=c
- *
- * [367] 有效的完全平方数
- */
+给定一个正整数num，编写一个函数，如果num是一个完全平方数，则返回true ，否则返回false 。
+进阶：不要使用任何内置的库函数，如sqrt 。
 
-// @lc code=start
+示例1：
+输入：num = 16
+输出：true
 
+示例2：
+输入：num = 14
+输出：false
+
+提示：
+1 <= num <= 2^31 - 1
+*/
+
+// 二分查找法
 bool isPerfectSquare(int num) {
   int left = 0;
   int right = num;
@@ -21,5 +30,3 @@ bool isPerfectSquare(int num) {
   }
   return false;
 }
-
-// @lc code=end

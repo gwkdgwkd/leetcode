@@ -1,3 +1,13 @@
+/*
+请实现一个函数，把字符串s中的每个空格替换成"%20"。
+
+示例1：
+输入：s = "We are happy."
+输出："We%20are%20happy."
+
+限制：0 <= s的长度<= 10000
+*/
+
 char* replaceSpace(char* s) {
   int count = 0;
   int len = strlen(s);

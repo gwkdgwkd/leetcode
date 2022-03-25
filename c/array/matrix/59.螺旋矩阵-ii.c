@@ -1,16 +1,18 @@
 /*
- * @lc app=leetcode.cn id=59 lang=c
- *
- * [59] 螺旋矩阵 II
- */
+给你一个正整数n，生成一个包含1到n^2所有元素，且元素按顺时针顺序螺旋排列的nxn正方形矩阵matrix 。
 
-// @lc code=start
+示例1：
+输入：n = 3
+输出：[[1,2,3],[8,9,4],[7,6,5]]
 
-/**
- * Return an array of arrays of size *returnSize.
- * The sizes of the arrays are returned as *returnColumnSizes array.
- * Note: Both returned array and *columnSizes array must be malloced, assume caller calls free().
- */
+示例2：
+输入：n = 1
+输出：[[1]]
+
+提示：
+1 <= n <= 20
+*/
+
 // 这个循环可以转懵很多人
 int **generateMatrix(int n, int *returnSize, int **returnColumnSizes) {
   *returnSize = n;
@@ -52,7 +54,7 @@ int **generateMatrix(int n, int *returnSize, int **returnColumnSizes) {
       res[i][j] = count++;
     }
 
-    // 第二圈开始的时候，起始位置要各自加1， 例如：第一圈起始位置是(0,0)，第二圈起始位置是(1,1)
+    // 第二圈开始的时候，起始位置要各自加1，例如：第一圈起始位置是(0,0)，第二圈起始位置是(1,1)
     startx++;
     starty++;
 
@@ -63,6 +65,6 @@ int **generateMatrix(int n, int *returnSize, int **returnColumnSizes) {
   if (n % 2) {
     res[mid][mid] = count;
   }
+
   return res;
 }
-// @lc code=end
