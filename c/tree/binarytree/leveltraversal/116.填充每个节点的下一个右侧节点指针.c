@@ -1,19 +1,34 @@
 /*
- * @lc app=leetcode.cn id=116 lang=c
- *
- * [116] 填充每个节点的下一个右侧节点指针
- */
+给定一个完美二叉树，其所有叶子节点都在同一层，每个父节点都有两个子节点。
+填充它的每个next指针，让这个指针指向其下一个右侧节点。如果找不到下一个右侧节点，则将next指针设置为NULL。
+初始状态下，所有next指针都被设置为NULL。
 
-// @lc code=start
-/**
- * Definition for a Node.
- * struct Node {
- *     int val;
- *     struct Node *left;
- *     struct Node *right;
- *     struct Node *next;
- * };
- */
+示例1：
+输入：root = [1,2,3,4,5,6,7]
+输出：[1,#,2,3,#,4,5,6,7,#]
+解释：给定二叉树如图A所示，你的函数应该填充它的每个next指针，以指向其下一个右侧节点，
+如图B所示。序列化的输出按层序遍历排列，同一层节点由next指针连接，'#'标志着每一层的结束。
+
+示例2:
+输入：root = []
+输出：[]
+
+提示：
+树中节点的数量在[0, 212 - 1]范围内
+-1000 <= node.val <= 1000
+
+进阶：
+你只能使用常量级额外空间。
+使用递归解题也符合要求，本题中递归程序占用的栈空间不算做额外的空间复杂度。
+*/
+
+struct Node {
+  int val;
+  struct Node* left;
+  struct Node* right;
+  struct Node* next;
+};
+
 // 迭代
 #define MAXQUEUE 5000
 struct Node* queue[MAXQUEUE];
@@ -81,4 +96,3 @@ struct Node* connect(struct Node* root) {
   connectTwoNode(root->left, root->right);
   return root;
 }
-// @lc code=end

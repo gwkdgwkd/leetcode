@@ -1,18 +1,25 @@
 /*
- * @lc app=leetcode.cn id=513 lang=c
- *
- * [513] 找树左下角的值
- */
+给定一个二叉树的根节点root，请找出该二叉树的最底层最左边节点的值。
+假设二叉树中至少有一个节点。
 
-// @lc code=start
-/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     struct TreeNode *left;
- *     struct TreeNode *right;
- * };
- */
+示例1:
+输入: root = [2,1,3]
+输出: 1
+
+示例2:
+输入: [1,2,3,4,null,5,6,null,null,7]
+输出: 7
+
+提示:
+二叉树的节点个数的范围是[1,104]
+-231 <= Node.val <= 231 - 1 
+*/
+
+struct TreeNode {
+  int val;
+  struct TreeNode* left;
+  struct TreeNode* right;
+};
 
 // 使⽤层序遍历再合适不过了，⽐递归要好理解的多！只需要记录最后⼀⾏第⼀个节点的数值就可以了。
 

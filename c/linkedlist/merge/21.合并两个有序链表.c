@@ -1,3 +1,29 @@
+/*
+将两个升序链表合并为一个新的升序链表并返回。新链表是通过拼接给定的两个链表的所有节点组成的。 
+
+示例1：
+输入：l1 = [1,2,4], l2 = [1,3,4]
+输出：[1,1,2,3,4,4]
+
+示例2：
+输入：l1 = [], l2 = []
+输出：[]
+
+示例3：
+输入：l1 = [], l2 = [0]
+输出：[0]
+
+提示：
+两个链表的节点数目范围是[0, 50]
+-100 <= Node.val <= 100
+l1和l2均按非递减顺序排列
+*/
+
+struct ListNode {
+  int val;
+  struct ListNode* next;
+};
+
 // 使用局部变量作为虚拟表头
 struct ListNode* mergeTwoLists(struct ListNode* l1, struct ListNode* l2) {
   struct ListNode head;

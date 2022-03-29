@@ -1,34 +1,26 @@
 /*
- * @lc app=leetcode.cn id=257 lang=c
- *
- * [257] 二叉树的所有路径
- */
+给你一个二叉树的根节点root，按任意顺序，返回所有从根节点到叶子节点的路径。
+叶子节点是指没有子节点的节点。
 
-// @lc code=start
-/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     struct TreeNode *left;
- *     struct TreeNode *right;
- * };
- */
+示例1：
+输入：root = [1,2,3,null,5]
+输出：["1->2->5","1->3"]
 
-/**
- * Note: The returned array must be malloced, assume caller calls free().
- */
-/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     struct TreeNode *left;
- *     struct TreeNode *right;
- * };
- */
+示例2：
+输入：root = [1]
+输出：["1"]
 
-/**
- * Note: The returned array must be malloced, assume caller calls free().
- */
+提示：
+树中节点的数目在范围[1, 100]内
+-100 <= Node.val <= 100
+*/
+
+struct TreeNode {
+  int val;
+  struct TreeNode* left;
+  struct TreeNode* right;
+};
+
 // 递归
 char** result;
 int resultSize;
@@ -76,4 +68,3 @@ char** binaryTreePaths(struct TreeNode* root, int* returnSize) {
 
   return result;
 }
-// @lc code=end

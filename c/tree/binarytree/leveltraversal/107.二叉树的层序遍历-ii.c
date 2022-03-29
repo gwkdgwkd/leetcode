@@ -1,24 +1,30 @@
 /*
- * @lc app=leetcode.cn id=107 lang=c
- *
- * [107] 二叉树的层序遍历 II
- */
+给你二叉树的根节点root ，返回其节点值自底向上的层序遍历。
+即按从叶子节点所在层到根节点所在的层，逐层从左向右遍历。
 
-// @lc code=start
-/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     struct TreeNode *left;
- *     struct TreeNode *right;
- * };
- */
+示例1：
+输入：root = [3,9,20,null,null,15,7]
+输出：[[15,7],[9,20],[3]]
 
-/**
- * Return an array of arrays of size *returnSize.
- * The sizes of the arrays are returned as *returnColumnSizes array.
- * Note: Both returned array and *columnSizes array must be malloced, assume caller calls free().
- */
+示例2：
+输入：root = [1]
+输出：[[1]]
+
+示例3：
+输入：root = []
+输出：[]
+
+提示：
+树中节点数目在范围[0, 2000]内
+-1000 <= Node.val <= 1000
+*/
+
+struct TreeNode {
+  int val;
+  struct TreeNode* left;
+  struct TreeNode* right;
+};
+
 // 迭代
 #define MAXQUEUE 200
 struct TreeNode* queue[MAXQUEUE];
@@ -84,4 +90,3 @@ int** levelOrderBottom(struct TreeNode* root, int* returnSize,
 
   return result;
 }
-// @lc code=end

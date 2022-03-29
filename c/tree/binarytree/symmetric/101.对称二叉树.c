@@ -1,18 +1,27 @@
 /*
- * @lc app=leetcode.cn id=101 lang=c
- *
- * [101] 对称二叉树
- */
+给你一个二叉树的根节点root，检查它是否轴对称。
 
-// @lc code=start
-/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     struct TreeNode *left;
- *     struct TreeNode *right;
- * };
- */
+示例1：
+输入：root = [1,2,2,3,4,4,3]
+输出：true
+
+示例2：
+输入：root = [1,2,2,null,3,null,3]
+输出：false
+
+提示：
+树中节点数目在范围[1, 1000]内
+-100 <= Node.val <= 100
+
+进阶：你可以运用递归和迭代两种方法解决这个问题吗？
+*/
+
+struct TreeNode {
+  int val;
+  struct TreeNode* left;
+  struct TreeNode* right;
+};
+
 // 递归
 bool compare(struct TreeNode* left, struct TreeNode* right) {
   if (left == NULL && right != NULL) return false;
@@ -33,9 +42,11 @@ bool isSymmetric(struct TreeNode* root) {
 }
 
 // 迭代
-这个迭代法，其实是把左右两个⼦树要⽐较的元素顺序放进⼀个容器，然后成对成对的取出来进⾏⽐较，那么其实使⽤栈也是可以的。只要把队列原封不动的改成栈就可以了
+// 这个迭代法，其实是把左右两个⼦树要⽐较的元素顺序放进⼀个容器，
+// 然后成对成对的取出来进⾏⽐较，那么其实使⽤栈也是可以的。
+// 只要把队列原封不动的改成栈就可以了
 #define MAXQUEUE 30
-    struct TreeNode* queue[MAXQUEUE];
+struct TreeNode* queue[MAXQUEUE];
 int front, tail, size;
 int enQueue(struct TreeNode* data) {
   if ((tail + 1) % MAXQUEUE == front) {
@@ -81,4 +92,3 @@ bool isSymmetric(struct TreeNode* root) {
 
   return true;
 }
-// @lc code=end

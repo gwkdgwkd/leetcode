@@ -47,6 +47,11 @@ listB中节点数目为n
 如果listA和listB有交点，intersectVal == listA[skipA] == listB[skipB]
 */
 
+struct ListNode {
+  int val;
+  struct ListNode *next;
+};
+
 struct ListNode *getIntersectionNode(struct ListNode *headA,
                                      struct ListNode *headB) {
   if (!headA || !headB) return NULL;

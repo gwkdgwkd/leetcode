@@ -1,22 +1,31 @@
 /*
- * @lc app=leetcode.cn id=94 lang=c
- *
- * [94] 二叉树的中序遍历
- */
+给定一个二叉树的根节点root，返回它的中序遍历。
 
-// @lc code=start
-/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     struct TreeNode *left;
- *     struct TreeNode *right;
- * };
- */
+示例1：
+输入：root = [1,null,2,3]
+输出：[1,3,2]
 
-/**
- * Note: The returned array must be malloced, assume caller calls free().
- */
+示例2：
+输入：root = []
+输出：[]
+
+示例3：
+输入：root = [1]
+输出：[1]
+
+提示：
+树中节点数目在范围[0, 100]内
+-100 <= Node.val <= 100
+
+进阶: 递归算法很简单，你可以通过迭代算法完成吗？
+*/
+
+struct TreeNode {
+  int val;
+  struct TreeNode* left;
+  struct TreeNode* right;
+};
+
 // 递归
 void traversal(struct TreeNode* root, int* returnSize, int* result) {
   if (root == NULL) {
@@ -37,7 +46,7 @@ int* inorderTraversal(struct TreeNode* root, int* returnSize) {
 }
 
 // 迭代
-int idx;
+int idx = 0;
 struct TreeNode* stack[100];
 void push(struct TreeNode* node) { stack[idx++] = node; }
 struct TreeNode* top() {
@@ -46,14 +55,13 @@ struct TreeNode* top() {
 void pop() { --idx; }
 int empty() { return idx == 0 ? 1 : 0; }
 int* inorderTraversal(struct TreeNode* root, int* returnSize) {
-  memset(stack, 0, sizeof(stack));
-  idx = 0;
-  int* result = (int*)malloc(sizeof(int) * 100);
   *returnSize = 0;
 
   if (root == NULL) {
-    return result;
+    return root;
   }
+  memset(stack, 0, sizeof(stack));
+  int* result = (int*)malloc(sizeof(int) * 100);
 
   struct TreeNode* cur = root;
   while (cur || !empty()) {
@@ -93,7 +101,7 @@ int* inorderTraversal(struct TreeNode* root, int* returnSize) {
   while (!empty()) {
     struct TreeNode* node = top();
     if (node) {
-      pop();              // 将该节点弹出，避免重复操作，下⾯再将右中左节点添加到栈中
+      pop();  // 将该节点弹出，避免重复操作，下⾯再将右中左节点添加到栈中
       if (node->right) {  // 添加右节点（空节点不⼊栈）
         push(node->right);
       }
@@ -112,4 +120,3 @@ int* inorderTraversal(struct TreeNode* root, int* returnSize) {
 
   return result;
 }
-// @lc code=end

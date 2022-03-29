@@ -1,22 +1,25 @@
 /*
- * @lc app=leetcode.cn id=515 lang=c
- *
- * [515] 在每个树行中找最大值
- */
+给定一棵二叉树的根节点root，请找出该二叉树中每一层的最大值。
 
-// @lc code=start
-/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     struct TreeNode *left;
- *     struct TreeNode *right;
- * };
- */
+示例1：
+输入: root = [1,3,2,5,3,null,9]
+输出: [1,3,9]
 
-/**
- * Note: The returned array must be malloced, assume caller calls free().
- */
+示例2：
+输入: root = [1,2,3]
+输出: [1,3]
+
+提示：
+二叉树的节点个数的范围是 [0,104]
+-231 <= Node.val <= 231 - 1
+*/
+
+struct TreeNode {
+  int val;
+  struct TreeNode* left;
+  struct TreeNode* right;
+};
+
 // 迭代
 #define MAXQUEUE 1000
 struct TreeNode* queue[MAXQUEUE];
@@ -68,4 +71,3 @@ int* largestValues(struct TreeNode* root, int* returnSize) {
 
   return result;
 }
-// @lc code=end

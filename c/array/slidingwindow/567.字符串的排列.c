@@ -1,3 +1,21 @@
+/*
+给你两个字符串s1和s2 ，写一个函数来判断s2是否包含s1的排列。如果是，返回true；否则，返回false。
+换句话说，s1的排列之一是s2的子串。
+
+示例1：
+输入：s1 = "ab" s2 = "eidbaooo"
+输出：true
+解释：s2 包含 s1 的排列之一 ("ba").
+
+示例2：
+输入：s1= "ab" s2 = "eidboaoo"
+输出：false
+
+提示：
+1 <= s1.length, s2.length <= 104
+s1和s2仅包含小写字母
+*/
+
 // 滑动窗口
 bool checkInclusion(char* s1, char* s2) {
   int len1 = strlen(s1);
@@ -18,8 +36,7 @@ bool checkInclusion(char* s1, char* s2) {
       if (right - left == strlen(s1)) {
         return true;
       }
-      hash[s2[left] - 'a']++;
-      if (hash[s2[left] - 'a'] > 0) {
+      if (++hash[s2[left] - 'a'] > 0) {
         len1++;
       }
       left++;

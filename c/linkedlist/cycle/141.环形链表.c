@@ -28,6 +28,11 @@ pos为-1或者链表中的一个 有效索引 。
 进阶：你能用O(1)（即，常量）内存解决此问题吗？
 */
 
+struct ListNode {
+  int val;
+  struct ListNode *next;
+};
+
 // 快慢指针
 bool hasCycle(struct ListNode *head) {
   struct ListNode *fast = head;

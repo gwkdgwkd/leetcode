@@ -1,22 +1,29 @@
 /*
- * @lc app=leetcode.cn id=199 lang=c
- *
- * [199] 二叉树的右视图
- */
+给定一个二叉树的根节点root，想象自己站在它的右侧，按照从顶部到底部的顺序，返回从右侧所能看到的节点值。
 
-// @lc code=start
-/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     struct TreeNode *left;
- *     struct TreeNode *right;
- * };
- */
+示例1:
+输入: [1,2,3,null,5,null,4]
+输出: [1,3,4]
 
-/**
- * Note: The returned array must be malloced, assume caller calls free().
- */
+示例2:
+输入: [1,null,3]
+输出: [1,3]
+
+示例3:
+输入: []
+输出: []
+
+提示:
+二叉树的节点个数的范围是[0,100]
+-100 <= Node.val <= 100 
+*/
+
+struct TreeNode {
+  int val;
+  struct TreeNode* left;
+  struct TreeNode* right;
+};
+
 // 迭代
 #define MAXQUEUE 100
 struct TreeNode* queue[MAXQUEUE];
@@ -68,4 +75,3 @@ int* rightSideView(struct TreeNode* root, int* returnSize) {
 
   return result;
 }
-// @lc code=end

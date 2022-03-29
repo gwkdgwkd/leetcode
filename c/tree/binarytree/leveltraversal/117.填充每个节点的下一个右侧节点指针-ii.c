@@ -1,19 +1,29 @@
 /*
- * @lc app=leetcode.cn id=117 lang=c
- *
- * [117] 填充每个节点的下一个右侧节点指针 II
- */
+填充它的每个next指针，让这个指针指向其下一个右侧节点。如果找不到下一个右侧节点，则将next指针设置为NULL。
+初始状态下，所有next指针都被设置为NULL。
 
-// @lc code=start
-/**
- * Definition for a Node.
- * struct Node {
- *     int val;
- *     struct Node *left;
- *     struct Node *right;
- *     struct Node *next;
- * };
- */
+进阶：
+你只能使用常量级额外空间。
+使用递归解题也符合要求，本题中递归程序占用的栈空间不算做额外的空间复杂度。
+
+示例：
+输入：root = [1,2,3,4,5,null,7]
+输出：[1,#,2,3,#,4,5,7,#]
+解释：给定二叉树如图A所示，你的函数应该填充它的每个next指针，以指向其下一个右侧节点，
+如图B所示。序列化输出按层序遍历顺序（由next指针连接），'#'表示每层的末尾。
+
+提示：
+树中的节点数小于6000
+-100 <= node.val <= 100
+*/
+
+struct Node {
+  int val;
+  struct Node* left;
+  struct Node* right;
+  struct Node* next;
+};
+
 // 迭代，和116写法一样
 #define MAXQUEUE 5000
 struct Node* queue[MAXQUEUE];

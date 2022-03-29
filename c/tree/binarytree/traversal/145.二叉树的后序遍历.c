@@ -1,22 +1,31 @@
 /*
- * @lc app=leetcode.cn id=145 lang=c
- *
- * [145] 二叉树的后序遍历
- */
+给你一棵二叉树的根节点root，返回其节点值的后序遍历 。
 
-// @lc code=start
-/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     struct TreeNode *left;
- *     struct TreeNode *right;
- * };
- */
+示例1：
+输入：root = [1,null,2,3]
+输出：[3,2,1]
 
-/**
- * Note: The returned array must be malloced, assume caller calls free().
- */
+示例2：
+输入：root = []
+输出：[]
+
+示例3：
+输入：root = [1]
+输出：[1]
+
+提示：
+树中节点的数目在范围[0, 100]内
+-100 <= Node.val <= 100
+
+进阶：递归算法很简单，你可以通过迭代算法完成吗？
+*/
+
+struct TreeNode {
+  int val;
+  struct TreeNode* left;
+  struct TreeNode* right;
+};
+
 // 递归
 void traversal(struct TreeNode* root, int* returnSize, int* result) {
   if (root == NULL) {
@@ -100,7 +109,7 @@ int* postorderTraversal(struct TreeNode* root, int* returnSize) {
   while (!empty()) {
     struct TreeNode* node = top();
     if (node) {
-      pop();       // 将该节点弹出，避免重复操作，下⾯再将右中左节点添加到栈中
+      pop();  // 将该节点弹出，避免重复操作，下⾯再将右中左节点添加到栈中
       push(node);  // 添加中节点
       push(NULL);  // 中节点访问过，但是还没有处理，加⼊空节点做为标记。
       if (node->right) {  // 添加右节点（空节点不⼊栈）

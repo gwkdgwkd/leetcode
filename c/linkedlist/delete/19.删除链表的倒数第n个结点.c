@@ -1,41 +1,58 @@
 /*
- * @lc app=leetcode.cn id=19 lang=c
- *
- * [19] 删除链表的倒数第 N 个结点
- */
+给你一个链表，删除链表的倒数第n个结点，并且返回链表的头结点。
 
-// @lc code=start
-/**
- * Definition for singly-linked list.
- * struct ListNode {
- *     int val;
- *     struct ListNode *next;
- * };
- */
+示例1：
+输入：head = [1,2,3,4,5], n = 2
+输出：[1,2,3,5]
 
-// 双指针的经典应用，如果要删除倒数第n个节点，让fast移动n步，然后让fast和slow同时移动，直到fast指向链表末尾。删掉slow所指向的节点就可以了。
+示例2：
+输入：head = [1], n = 1
+输出：[]
+
+示例3：
+输入：head = [1,2], n = 1
+输出：[1]
+
+提示：
+链表中结点的数目为sz
+1 <= sz <= 30
+0 <= Node.val <= 100
+1 <= n <= sz
+
+进阶：你能尝试使用一趟扫描实现吗？
+*/
+
+struct ListNode {
+  int val;
+  struct ListNode* next;
+};
+
+// 双指针的经典应用，如果要删除倒数第n个节点，让fast移动n步，
+// 然后让fast和slow同时移动，直到fast指向链表末尾。
+// 删掉slow所指向的节点就可以了。
 struct ListNode* removeNthFromEnd(struct ListNode* head, int n) {
-  // 使用虚拟头结点
-  struct ListNode* dummyHead =
-      (struct ListNode*)malloc(sizeof(struct ListNode));
-  dummyHead->next = head;
-  struct ListNode* fast = dummyHead;
-  struct ListNode* slow = dummyHead;
-  while (n-- && fast) {
-    fast = fast->next;
-  }
-  // fast再提前走一步，因为需要让slow指向删除节点的上一个节点
-  fast = fast->next;
+  struct ListNode dummy;  // 使用虚拟头节点，统一逻辑
+  dummy.next = head;
+  struct ListNode* fast = &dummy;
+  struct ListNode* slow = &dummy;
+
+  int i = 0;
   while (fast) {
+    // 让fast先走n+1步
+    if (n-- >= 0) {  // 等于0，让fast多走一步，最终slow停在删除节点之前
+      fast = fast->next;
+      continue;
+    }
     fast = fast->next;
     slow = slow->next;
   }
-  struct ListNode* tmp = slow->next;
-  slow->next = slow->next->next;
-  free(tmp);
-  tmp = NULL;
 
-  return dummyHead->next;  // head不行，只有一个节点时，head不为NULL
+  struct ListNode* del = slow->next;  // 防止内存泄露
+  slow->next = slow->next->next;
+  free(del);
+  del = NULL;
+
+  return dummy.next;  // 不能返回head，只有一个节点时，head为NULL
 }
 
 struct ListNode* removeNthFromEnd(struct ListNode* head, int n) {
@@ -68,22 +85,23 @@ struct ListNode* removeNthFromEnd(struct ListNode* head, int n) {
 struct ListNode* removeNthFromEnd(struct ListNode* head, int n) {
   struct ListNode *fast, *slow;
   fast = slow = head;
-  // 快指针先前进n步
-  while (n-- > 0) {
+
+  while (n-- > 0) {  // 快指针先前进n步
     fast = fast->next;
   }
+
   if (fast == NULL) {
-    // 如果此时快指针走到头了，
-    // 说明倒数第n个节点就是第一个节点
+    // 如果此时快指针走到头了，说明倒数第n个节点就是第一个节点
     return head->next;
   }
+
   // 让慢指针和快指针同步向前
   while (fast != NULL && fast->next != NULL) {
     fast = fast->next;
     slow = slow->next;
   }
-  // slow.next就是倒数第n个节点，删除它
+
+  // slow.next就是倒数第n个节点的前一个节点，删除它
   slow->next = slow->next->next;
   return head;
 }
-// @lc code=end
