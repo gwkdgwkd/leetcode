@@ -1,18 +1,31 @@
 /*
- * @lc app=leetcode.cn id=105 lang=c
- *
- * [105] 从前序与中序遍历序列构造二叉树
- */
+给定两个整数数组preorder和inorder，其中preorder是二叉树的先序遍历，
+inorder是同一棵树的中序遍历，请构造二叉树并返回其根节点。
 
-// @lc code=start
-/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     struct TreeNode *left;
- *     struct TreeNode *right;
- * };
- */
+示例1:
+输入: preorder = [3,9,20,15,7], inorder = [9,3,15,20,7]
+输出: [3,9,20,null,null,15,7]
+
+示例2:
+输入: preorder = [-1], inorder = [-1]
+输出: [-1]
+
+提示:
+1 <= preorder.length <= 3000
+inorder.length == preorder.length
+-3000 <= preorder[i], inorder[i] <= 3000
+preorder和inorder均无重复元素
+inorder均出现在preorder
+preorder保证为二叉树的前序遍历序列
+inorder保证为二叉树的中序遍历序列
+*/
+
+struct TreeNode {
+  int val;
+  struct TreeNode* left;
+  struct TreeNode* right;
+};
+
 // 递归
 struct TreeNode* traversal(int* preorder, int preorderStart, int preorderSize,
                            int* inorder, int inorderStart, int inorderSize) {
@@ -34,16 +47,16 @@ struct TreeNode* traversal(int* preorder, int preorderStart, int preorderSize,
     }
   }
   //   printf("preorder:{root:%d[%d]|left:%d[%d]...%d[%d]|right:%d[%d]...%d[%d]}\n",
-  //          preorder[preorderStart], preorderStart, preorder[preorderStart + 1],
-  //          preorderStart + 1, preorder[preorderStart + delimiter - inorderStart],
-  //          preorderStart + delimiter - inorderStart,
+  //          preorder[preorderStart], preorderStart, preorder[preorderStart +
+  //          1], preorderStart + 1, preorder[preorderStart + delimiter -
+  //          inorderStart], preorderStart + delimiter - inorderStart,
   //          preorder[preorderStart + 1 + delimiter - inorderStart],
   //          preorderStart + 1 + delimiter - inorderStart,
   //          preorder[preorderSize - 1], preorderSize - 1);
   //   printf("inorder:{left:%d[%d]...%d[%d]|root:%d[%d]|right:%d[%d]...%d[%d]}\n",
   //          inorder[inorderStart], inorderStart, inorder[delimiter - 1],
-  //          delimiter - 1, inorder[delimiter], delimiter, inorder[delimiter + 1],
-  //          delimiter + 1, inorder[preorderSize - 1], preorderSize - 1);
+  //          delimiter - 1, inorder[delimiter], delimiter, inorder[delimiter +
+  //          1], delimiter + 1, inorder[preorderSize - 1], preorderSize - 1);
   root->left = traversal(preorder, preorderStart + 1,
                          preorderStart + delimiter - inorderStart + 1, inorder,
                          inorderStart, delimiter);
@@ -92,4 +105,3 @@ struct TreeNode* buildTree(int* preorder, int preorderSize, int* inorder,
                            int inorderSize) {
   return build(preorder, 0, preorderSize - 1, inorder, 0, inorderSize - 1);
 }
-// @lc code=end

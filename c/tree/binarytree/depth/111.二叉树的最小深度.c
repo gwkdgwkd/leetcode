@@ -1,18 +1,26 @@
 /*
- * @lc app=leetcode.cn id=111 lang=c
- *
- * [111] 二叉树的最小深度
- */
+给定一个二叉树，找出其最小深度。
+最小深度是从根节点到最近叶子节点的最短路径上的节点数量。
+说明：叶子节点是指没有子节点的节点。
 
-// @lc code=start
-/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     struct TreeNode *left;
- *     struct TreeNode *right;
- * };
- */
+示例1：
+输入：root = [3,9,20,null,null,15,7]
+输出：2
+
+示例2：
+输入：root = [2,null,3,null,4,null,5,null,6]
+输出：5
+
+提示：
+树中节点数的范围在[0, 105]内
+-1000 <= Node.val <= 1000
+*/
+
+struct TreeNode {
+  int val;
+  struct TreeNode* left;
+  struct TreeNode* right;
+};
 
 // BFS找到的路径一定是最短的，但代价就是空间复杂度比DFS大很多。
 // DFS不能找最短路径吗？其实也是可以的，但是时间复杂度相对高很多。要把所有路径找到，然后再找出最小的。
@@ -35,6 +43,19 @@ int minDepth(struct TreeNode* root) {
   }
 
   return 1 + fmin(leftDepth, rightDepth);
+}
+
+int minDepth(struct TreeNode* root) {
+  if (root == NULL) return 0;
+  if (root->left == NULL && root->right == NULL) return 1;
+
+  int l = minDepth(root->left);
+  int r = minDepth(root->right);
+
+  if (root->left == NULL) return r + 1;
+  if (root->right == NULL) return l + 1;
+
+  return fmin(l, r) + 1;
 }
 
 // 迭代，BFS
@@ -82,4 +103,3 @@ int minDepth(struct TreeNode* root) {
   }
   return min;
 }
-// @lc code=end

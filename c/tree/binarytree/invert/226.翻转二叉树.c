@@ -1,18 +1,28 @@
 /*
- * @lc app=leetcode.cn id=226 lang=c
- *
- * [226] 翻转二叉树
- */
+给你一棵二叉树的根节点root，翻转这棵二叉树，并返回其根节点。
 
-// @lc code=start
-/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     struct TreeNode *left;
- *     struct TreeNode *right;
- * };
- */
+示例1：
+输入：root = [4,2,7,1,3,6,9]
+输出：[4,7,2,9,6,3,1]
+
+示例2：
+输入：root = [2,1,3]
+输出：[2,3,1]
+
+示例3：
+输入：root = []
+输出：[]
+
+提示：
+树中节点数目范围在[0, 100]内
+-100 <= Node.val <= 100
+*/
+
+struct TreeNode {
+  int val;
+  struct TreeNode* left;
+  struct TreeNode* right;
+};
 
 // 只要把每⼀个节点的左右孩⼦翻转⼀下，就可以达到整体翻转的效果
 // 使⽤前序遍历和后序遍历都可以，唯独中序遍历不⾏，因为中序遍历会把某些节点的左右孩⼦翻转了两次！
@@ -128,4 +138,3 @@ struct TreeNode* invertTree(struct TreeNode* root) {
 
   return root;
 }
-// @lc code=end

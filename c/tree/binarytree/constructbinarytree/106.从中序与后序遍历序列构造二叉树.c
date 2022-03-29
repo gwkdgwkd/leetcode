@@ -1,18 +1,33 @@
 /*
- * @lc app=leetcode.cn id=106 lang=c
- *
- * [106] 从中序与后序遍历序列构造二叉树
- */
+给定两个整数数组inorder和postorder，其中inorder是二叉树的中序遍历，
+postorder是同一棵树的后序遍历，请你构造并返回这颗二叉树。
 
-// @lc code=start
-/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     struct TreeNode *left;
- *     struct TreeNode *right;
- * };
- */
+示例1:
+输入：inorder = [9,3,15,20,7], postorder = [9,15,7,20,3]
+输出：[3,9,20,null,null,15,7]
+
+示例2:
+输入：inorder = [-1], postorder = [-1]
+输出：[-1]
+
+
+
+提示:
+1 <= inorder.length <= 3000
+postorder.length == inorder.length
+-3000 <= inorder[i], postorder[i] <= 3000
+inorder和postorder都由不同的值组成
+postorder中每一个值都在inorder中
+inorder保证是树的中序遍历
+postorder保证是树的后序遍历
+*/
+
+struct TreeNode {
+  int val;
+  struct TreeNode* left;
+  struct TreeNode* right;
+};
+
 // 递归
 struct TreeNode* traversal(int* inorder, int inorderStart, int inorderSize,
                            int* postorder, int postorderStart,
@@ -84,5 +99,3 @@ struct TreeNode* buildTree(int* inorder, int inorderSize, int* postorder,
                            int postorderSize) {
   return build(inorder, 0, inorderSize - 1, postorder, 0, postorderSize - 1);
 }
-
-// @lc code=end

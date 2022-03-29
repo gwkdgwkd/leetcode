@@ -1,18 +1,32 @@
 /*
- * @lc app=leetcode.cn id=222 lang=c
- *
- * [222] 完全二叉树的节点个数
- */
+给你一棵 完全二叉树的根节点root，求出该树的节点个数。
 
-// @lc code=start
-/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     struct TreeNode *left;
- *     struct TreeNode *right;
- * };
- */
+完全二叉树的定义如下：在完全二叉树中，除了最底层节点可能没填满外，其余每层节点数都达到最大值，
+并且最下面一层的节点都集中在该层最左边的若干位置。若最底层为第h层，则该层包含1~2h个节点。
+
+示例1：
+输入：root = [1,2,3,4,5,6]
+输出：6
+
+示例2：
+输入：root = []
+输出：0
+
+示例3：
+输入：root = [1]
+输出：1
+
+提示：
+树中节点的数目范围是[0, 5 * 104]
+0 <= Node.val <= 5 * 104
+题目数据保证输入的树是完全二叉树
+*/
+
+struct TreeNode {
+  int val;
+  struct TreeNode* left;
+  struct TreeNode* right;
+};
 
 // 递归
 // 如果是一个普通二叉树，显然只要向下面这样遍历一边即可，时间复杂度O(N)：
@@ -20,6 +34,7 @@ int countNodes(struct TreeNode* root) {
   if (root == NULL) return 0;
   return countNodes(root->left) + countNodes(root->right) + 1;
 }
+
 // 如果是一棵满二叉树，节点总数就和树的高度呈指数关系，时间复杂度O(logN)：
 int countNodes(struct TreeNode* root) {
   int h = 0;
@@ -31,6 +46,7 @@ int countNodes(struct TreeNode* root) {
   // 节点总数就是2^h - 1
   return (int)pow(2, h) - 1;
 }
+
 // 完全二叉树比普通二叉树特殊，但又没有满二叉树那么特殊，计算它的节点总数，可以说是普通二叉树和完全二叉树的结合版
 // 时间复杂度是:O(logN*logN)
 int countNodes(struct TreeNode* root) {
@@ -94,5 +110,3 @@ int countNodes(struct TreeNode* root) {
   }
   return count;
 }
-
-// @lc code=end
