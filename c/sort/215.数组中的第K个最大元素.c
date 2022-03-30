@@ -1,3 +1,20 @@
+/*
+给定整数数组nums和整数k，请返回数组中第k个最大的元素。
+请注意，你需要找的是数组排序后的第k个最大的元素，而不是第k个不同的元素。
+
+示例1:
+输入: [3,2,1,5,6,4] 和 k = 2
+输出: 5
+
+示例2:
+输入: [3,2,3,1,2,4,5,5,6] 和 k = 4
+输出: 4
+
+提示：
+1 <= k <= nums.length <= 104
+-104 <= nums[i] <= 104
+*/
+
 // 思路：
 // 给nums数组排个序，然后取第k个元素，也就是nums[k-1]，不就行了吗？
 // 当然可以，但是排序时间复杂度是O(NlogN)，其中N表示数组nums的长度。
@@ -15,8 +32,9 @@ int findKthLargest(int *nums, int numsSize, int k) {
 // 想要第k大的元素，却给整个数组排序，有点杀鸡用牛刀的感觉
 // 使用些技巧，可以把时间复杂度降低到O(NlogK)甚至是O(N)。
 // 基于堆排序的选择方法
-// 时间复杂度：O(nlog⁡n)，建堆的时间代价是 O(n)，删除的总代价是O(klog⁡n)，因为 k<n，故渐进时间复杂为O(n+klog⁡n)=O(nlog⁡n)。
-// 空间复杂度：O(log⁡n)O，即递归使用栈空间的空间代价。
+// 时间复杂度：O(nlog⁡n)，建堆的时间代价是O(n)，删除的总代价是O(klog⁡n)，
+//          因为k<n，故渐进时间复杂为O(n+klog⁡n)=O(nlog⁡n)。
+// 空间复杂度：O(log⁡n)，即递归使用栈空间的空间代价。
 void maxHeapify(int *a, int i, int heapSize) {
   int l = i * 2 + 1, r = i * 2 + 2, largest = i;
   if (l < heapSize && a[l] > a[largest]) {

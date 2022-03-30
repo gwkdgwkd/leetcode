@@ -1,18 +1,41 @@
 /*
- * @lc app=leetcode.cn id=450 lang=c
- *
- * [450] 删除二叉搜索树中的节点
- */
+给定一个二叉搜索树的根节点root和一个值key，删除二叉搜索树中的key对应的节点，并保证二叉搜索树的性质不变。
+返回二叉搜索树（有可能被更新）的根节点的引用。
+一般来说，删除节点可分为两个步骤：
+首先找到需要删除的节点；
+如果找到了，删除它。
 
-// @lc code=start
-/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     struct TreeNode *left;
- *     struct TreeNode *right;
- * };
- */
+示例1:
+输入：root = [5,3,6,2,4,null,7], key = 3
+输出：[5,4,6,2,null,null,7]
+解释：给定需要删除的节点值是3，所以我们首先找到3这个节点，然后删除它。
+一个正确的答案是[5,4,6,2,null,null,7],如下图所示。
+另一个正确答案是[5,2,6,null,4,null,7]。
+
+示例2:
+输入: root = [5,3,6,2,4,null,7], key = 0
+输出: [5,3,6,2,4,null,7]
+解释: 二叉树不包含值为0的节点
+
+示例3:
+输入: root = [], key = 0
+输出: []
+
+提示:
+节点数的范围[0, 104].
+-105 <= Node.val <= 105
+节点值唯一
+root是合法的二叉搜索树
+-105 <= key <= 105
+
+进阶： 要求算法时间复杂度为 O(h)，h 为树的高度。
+*/
+
+struct TreeNode {
+  int val;
+  struct TreeNode* left;
+  struct TreeNode* right;
+};
 
 // 递归
 struct TreeNode* deleteNode(struct TreeNode* root, int key) {
@@ -32,7 +55,8 @@ struct TreeNode* deleteNode(struct TreeNode* root, int key) {
       // 第四种情况：其右孩⼦为空，左孩⼦不为空，删除节点，左孩⼦补位，返回左孩⼦为根节点
       return root->left;
     } else {
-      // 第五种情况：左右孩⼦节点都不为空，则将删除节点的左⼦树放到删除节点的右⼦树的最左⾯节点的左孩⼦的位置并返回删除节点右孩⼦为新的根节点。
+      // 第五种情况：左右孩⼦节点都不为空，则将删除节点的左⼦树放到删除节点的右⼦树的最左⾯
+      //           节点的左孩⼦的位置并返回删除节点右孩⼦为新的根节点。
       struct TreeNode* cur = root->right;  // 找右⼦树最左⾯的节点
       while (cur->left) {
         cur = cur->left;
@@ -96,5 +120,3 @@ struct TreeNode* deleteNode(struct TreeNode* root, int key) {
 }
 
 // 删除节点的迭代法比较复杂
-
-// @lc code=end
