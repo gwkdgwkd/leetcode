@@ -83,9 +83,110 @@ void QuickSort(int* nums, int left, int right) {
   }
 }
 
+// 冒泡排序
+void BubbleSort(int* nums, int numsSize) {
+  for (int i = 0; i < numsSize - 1; ++i) {
+    for (int j = 0; j < numsSize - 1 - i; ++j) {
+      if (nums[j] > nums[j + 1]) {
+        int tmp = nums[j];
+        nums[j] = nums[j + 1];
+        nums[j + 1] = tmp;
+      }
+    }
+  }
+}
+
+// 简单选择排序
+void SelectionSort(int* nums, int numsSize) {
+  for (int i = 0; i < numsSize - 1; ++i) {
+    for (int j = i + 1; j < numsSize; ++j) {
+      if (nums[i] > nums[j]) {
+        int tmp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = tmp;
+      }
+    }
+  }
+}
+
+// 直接插入排序
+void InsertSort(int* nums, int size) {
+  for (int i = 1; i < size; i++) {
+    if (nums[i] < nums[i - 1]) {
+      int temp = nums[i];
+      int j = i - 1;
+      while (j >= 0 && temp < nums[j]) {
+        nums[j + 1] = nums[j];
+        --j;
+      }
+      nums[j + 1] = temp;
+    }
+  }
+}
+
+// 希尔排序
+void ShellSort(int* nums, int size) {
+  int interval = 1;
+  while (interval < size / 3) {
+    interval = interval * 3 + 1;
+  }
+
+  while (interval) {
+    for (int i = interval; i < size; ++i) {
+      if (nums[i] < nums[i - interval]) {
+        int temp = nums[i];
+        int j = i - interval;
+        while (j >= interval - 1 && temp < nums[j]) {  // j>=0也行
+          nums[j + interval] = nums[j];
+          j = j - interval;
+        }
+        nums[j + interval] = temp;
+      }
+    }
+    interval = (interval - 1) / 3;
+  }
+}
+
+// 归并排序
+void Merge(int* nums, int start, int mid, int end) {
+  int llen = mid - start + 1;
+  int rlen = end - mid;
+  int left[llen], right[rlen];
+  memcpy(left, nums + start, sizeof(int) * llen);
+  memcpy(right, nums + mid + 1, sizeof(int) * rlen);
+
+  int li = 0, ri = 0, k = start;
+  while (li < llen && ri < rlen) {
+    nums[k++] = left[li] < right[ri] ? left[li++] : right[ri++];
+  }
+  while (li < llen) {
+    nums[k++] = left[li++];
+  }
+}
+void MergeSort(int* nums, int start, int end) {
+  if (start < end) {
+    int mid = start + (end - start) / 2;
+    MergeSort(nums, start, mid);
+    MergeSort(nums, mid + 1, end);
+    Merge(nums, start, mid, end);
+  }
+}
+
 int* sortArray(int* nums, int numsSize, int* returnSize) {
+  srand(time(0));
   QuickSort(nums, 0, numsSize - 1);
+
   HeapSort(nums, numsSize);
+
+  BubbleSort(nums, numsSize);
+
+  SelectionSort(nums, numsSize);
+
+  InsertSort(nums, numsSize);
+
+  ShellSort(nums, numsSize);
+
+  MergeSort(nums, 0, numsSize - 1);
 
   *returnSize = numsSize;
   return nums;

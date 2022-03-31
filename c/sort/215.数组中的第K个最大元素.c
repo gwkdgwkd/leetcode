@@ -106,34 +106,42 @@ int findKthLargest(int *nums, int numsSize, int k) {
 }
 
 // 快速选择算法是一个非常经典的算法，和快速排序算法是亲兄弟。
-int partition(int *a, int l, int r) {
-  int x = a[r], i = l - 1;
-  for (int j = l; j < r; ++j) {
-    if (a[j] <= x) {
-      int t = a[++i];
-      a[i] = a[j], a[j] = t;
+// 快速排序算法很重要的一种变形就是快速选择算法, 通常用来在未排序的数组中寻找第k小/第k大的元素。
+// 快速选择及其变种是实际应用中最常使用的高效选择算法。
+// 快速选择的总体思路与快速排序一致，选择一个元素作为基准来对元素进行分区，
+// 将小于和大于基准的元素分在基准左边和右边的两个区域。
+// 不同的是，快速选择并不递归访问双边，而是只递归进入一边的元素中继续寻找。
+// 这降低了平均时间复杂度，从O(nlogn)至O(n)，不过最坏情况仍然是O(n^2)。
+int Partition(int *nums, int left, int right) {  // 与快速排序一样，但是降序
+  int ran = rand() % (right - left + 1);
+  int pivotkey = nums[left + ran];
+  nums[left + ran] = nums[left];
+  nums[left] = pivotkey;
+
+  while (left < right) {
+    while (left < right && nums[right] <= pivotkey) {  // <=降序，>=升序
+      --right;
     }
+    nums[left] = nums[right];
+    while (left < right && nums[left] >= pivotkey) {  // >=降序，<=升序
+      ++left;
+    }
+    nums[right] = nums[left];
   }
-  int t = a[i + 1];
-  a[i + 1] = a[r], a[r] = t;
-  return i + 1;
+  nums[left] = pivotkey;
+  return left;
 }
-int randomPartition(int *a, int l, int r) {
-  int i = rand() % (r - l + 1) + l;
-  int t = a[i];
-  a[i] = a[r], a[r] = t;
-  return partition(a, l, r);
-}
-int quickSelect(int *a, int l, int r, int index) {
-  int q = randomPartition(a, l, r);
-  if (q == index) {
-    return a[q];
-  } else {
-    return q < index ? quickSelect(a, q + 1, r, index)
-                     : quickSelect(a, l, q - 1, index);
+int QuickSelect(int *nums, int left, int right, int k) {  // 与快速排序不同
+  int p = Partition(nums, left, right);
+  if (p > k) {  // [left  p  k  right]
+    return QuickSelect(nums, left, p - 1, k);
+  } else if (p < k) {  // [left  k  p  right]
+    return QuickSelect(nums, p + 1, right, k);
+  } else {  // p == k，表示k位置的元素就是第k大的元素
+    return nums[k];
   }
 }
 int findKthLargest(int *nums, int numsSize, int k) {
   srand(time(0));
-  return quickSelect(nums, 0, numsSize - 1, numsSize - k);
+  return QuickSelect(nums, 0, numsSize - 1, k - 1);
 }
