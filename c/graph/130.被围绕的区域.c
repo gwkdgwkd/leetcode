@@ -1,7 +1,27 @@
+/*
+给你一个m x n的矩阵board，由若干字符'X'和'O'，找到所有被'X'围绕的区域，并将这些区域里所有的'O'用'X'填充。
+
+示例1：
+输入：board = [["X","X","X","X"],["X","O","O","X"],["X","X","O","X"],["X","O","X","X"]]
+输出：[["X","X","X","X"],["X","X","X","X"],["X","X","X","X"],["X","O","X","X"]]
+解释：被围绕的区间不会存在于边界上，换句话说，任何边界上的'O'都不会被填充为'X'。
+任何不在边界上，或不与边界上的'O'相连的'O'最终都会被填充为'X'。如果两个元素在水平或垂直方向相邻，则称它们是“相连”的。
+
+示例2：
+输入：board = [["X"]]
+输出：[["X"]]
+
+提示：
+m == board.length
+n == board[i].length
+1 <= m, n <= 200
+board[i][j]为'X'或'O'
+*/
+
 // 深度优先遍历
 void dfs(char** board, int x, int y, int row, int col) {
-  if (x < 0 || x >= row || y < 0 || y >= col ||
-      board[x][y] != 'O') {  // 从边界的'O'出发遍历与之直接或间接相邻的'O'
+  // 从边界的'O'出发遍历与之直接或间接相邻的'O'
+  if (x < 0 || x >= row || y < 0 || y >= col || board[x][y] != 'O') {
     return;
   }
 
@@ -54,8 +74,8 @@ void solve(char** board, int boardSize, int* boardColSize) {
   }
 
   for (i = 0; i < row; i++) {
-    for (j = 0; j < col;
-         j++) {  // 之前将不被'X'围绕的'O'转换为'Z'，现在恢复为'O'
+    // 之前将不被'X'围绕的'O'转换为'Z'，现在恢复为'O'
+    for (j = 0; j < col; j++) {
       if (board[i][j] == 'Z') {
         board[i][j] = 'O';
       }
@@ -137,8 +157,10 @@ void solve(char** board, int boardSize, int* boardColSize) {
           int y = j + d[k][1];
           if (board[x][y] == 'O') Union(x * n + y, i * n + j);
         }
-  // 所有不和dummy连通的O，都要被替换
-  for (int i = 1; i < m - 1; i++)
-    for (int j = 1; j < n - 1; j++)
+  // 所有不和dummy连通的O(没有和边上的O相连的)，都要被替换
+  for (int i = 1; i < m - 1; i++) {
+    for (int j = 1; j < n - 1; j++) {
       if (!Connected(dummy, i * n + j)) board[i][j] = 'X';
+    }
+  }
 }
