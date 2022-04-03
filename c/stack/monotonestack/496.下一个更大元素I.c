@@ -1,3 +1,32 @@
+/*
+nums1中数字x的下一个更大元素是指x在nums2中对应位置右侧的第一个比x大的元素。
+给你两个没有重复元素的数组nums1和nums2，下标从0开始计数，其中nums1是nums2的子集。
+对于每个0<=i<nums1.length，找出满足nums1[i]==nums2[j]的下标j，并且在nums2确定nums2[j]的下一个更大元素。
+如果不存在下一个更大元素，那么本次查询的答案是-1 。
+返回一个长度为nums1.length的数组ans作为答案，满足ans[i]是如上所述的下一个更大元素。
+
+示例1：
+输入：nums1 = [4,1,2], nums2 = [1,3,4,2].
+输出：[-1,3,-1]
+解释：nums1 中每个值的下一个更大元素如下所述：
+4，用加粗斜体标识，nums2 = [1,3,4,2]。不存在下一个更大元素，所以答案是-1 。
+1，用加粗斜体标识，nums2 = [1,3,4,2]。下一个更大元素是3 。
+2，用加粗斜体标识，nums2 = [1,3,4,2]。不存在下一个更大元素，所以答案是-1 。
+
+示例2：
+输入：nums1 = [2,4], nums2 = [1,2,3,4].
+输出：[3,-1]
+解释：nums1中每个值的下一个更大元素如下所述：
+2，用加粗斜体标识，nums2 = [1,2,3,4]。下一个更大元素是3 。
+4，用加粗斜体标识，nums2 = [1,2,3,4]。不存在下一个更大元素，所以答案是-1 。
+
+提示：
+1 <= nums1.length <= nums2.length <= 1000
+0 <= nums1[i], nums2[i] <= 104
+nums1和nums2中所有整数 互不相同
+nums1中的所有整数同样出现在nums2中
+*/
+
 // 暴力法
 // 时间复杂度：O(n1*n2)
 int* nextGreaterElement(int* nums1, int nums1Size, int* nums2, int nums2Size,
@@ -75,17 +104,37 @@ int* nextGreaterElement(int* nums1, int nums1Size, int* nums2, int nums2Size,
   int stack[nums2Size];
   int top = 0;
 
-  // 倒着往栈里放
+  // nums1:[4,1,2]
+  // nums2:[1,3,4,2]
+
+  // 倒着往栈里放，单调递增栈
   for (int i = nums2Size - 1; i >= 0; i--) {
-    while (top > 0 && nums2[i] >= stack[top - 1]) {
-      top--;  // 出栈
+    while (top > 0 && nums2[i] >= stack[top - 1]) {  // 当前元素大于等于栈顶
+      top--;                                         // 出栈
     }
 
     res[i] = top > 0 ? stack[top - 1] : -1;
     stack[top++] = nums2[i];  // 入栈
+
+    // for (int i = top - 1; i >= 0; --i) {
+    //   printf("%d ", stack[i]);
+    // }
+    // printf("\n");
+
+    // 2
+    // 4
+    // 3 4
+    // 1 3 4
   }
 
+  // for(int i = 0; i < nums2Size; ++i) {
+  //   printf("%d ", res[i]);
+  // }
+  // printf("\n");
+  // 3 4 -1 -1
+
   for (int i = 0; i < nums1Size; ++i) {
+    // 这里可以用hash，节省循环
     for (int j = 0; j < nums2Size; ++j) {
       if (nums1[i] == nums2[j]) {
         result[i] = res[j];
@@ -95,4 +144,5 @@ int* nextGreaterElement(int* nums1, int nums1Size, int* nums2, int nums2Size,
 
   *returnSize = nums1Size;
   return result;
+  // -1,3,-1
 }

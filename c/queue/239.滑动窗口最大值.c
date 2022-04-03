@@ -29,7 +29,8 @@
 // 把从队首到队尾单调递减或递增的队列称之为单调队列。
 // 1.用一个数组和一前一后两个指针（head，tail）来模拟双端队列，
 //   而这个双端队列是用来存原来数组中符合条件的下标。
-// 2.因为窗口的大小是k，因此，在遍历原数组时，满足q[head]<= i-k时，q的head就得出列，就是head++。
+// 2.因为窗口的大小是k，因此，在遍历原数组时，满足q[head]<=
+// i-k时，q的head就得出列，就是head++。
 // 3.首先排除原队列中没用的尾巴tail，满足nums[q[tail-1]]<nums[i]时，原尾巴出列，就是tail--。
 //   然后就是q[tail++] = i，入队。
 // 时间复杂度：进队一次，出队一次，2N，就是O(N)
@@ -41,25 +42,27 @@ void print_q(int* q, int head, int tail, int index, int* nums) {
   }
   printf("],nums[q[%d]]: %d\n", head, nums[q[head]]);
 }
+
 int* maxSlidingWindow(int* nums, int numsSize, int k, int* returnSize) {
-  int q[numsSize];
-  // 数组模拟双端队列，存下标（代表时间）
-  int head = 0, tail = 0;  // 数组q的一头一尾
   *returnSize = 0;
-  int* ans = malloc(sizeof(int) * numsSize);
-  for (int i = 0; i < numsSize; i++) {
-    // 窗口扫过去了，队头就得出列了,
-    while (head < tail && q[head] <= i - k) {
-      head++;
+  int* result = (int*)malloc(sizeof(int) * (numsSize - k + 1));
+
+  // 数组模拟双端队列，尾入队，头尾出队，保存数组中的下标
+  int queue[numsSize];
+  int head = 0, tail = 0;  // 头和尾指针
+  for (int i = 0; i < numsSize; ++i) {
+    // 窗口已经越过队列头指向的元素，从队列头出队
+    while (head < tail && queue[head] <= i - k) {
+      ++head;
     }
-    // 维护队列单调性 + 插入新的选项
-    while (head < tail && nums[q[tail - 1]] <= nums[i]) {
-      tail--;  // 不满足单调性，原来的尾部不要
+    // 新元素比队列尾的元素要大，为了维持单调递减，从队列尾把小于新元素的都出队
+    while (head < tail && nums[queue[tail - 1]] <= nums[i]) {
+      --tail;
     }
-    q[tail++] = i;  // 插入新的选项
+    queue[tail++] = i;  // 从队尾插入新元素
     // print_q(q, head, tail, i, nums);
-    if (i >= k - 1) {
-      ans[(*returnSize)++] = nums[q[head]];
+    if (i >= k - 1) {  // 满足窗口大小时，队列头元素就是当前窗口最大的元素
+      result[(*returnSize)++] = nums[queue[head]];
     }
   }
 
@@ -74,7 +77,7 @@ int* maxSlidingWindow(int* nums, int numsSize, int k, int* returnSize) {
   // 6: 1 2 [ 8(6) ],nums[q[1]]: 8
   // 7: 1 2 [ 11(7) ],nums[q[1]]: 11
 
-  return ans;
+  return result;
 }
 
 // 单调队列

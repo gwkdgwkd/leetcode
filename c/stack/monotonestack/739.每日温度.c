@@ -1,3 +1,25 @@
+/*
+给定一个整数数组temperatures，表示每天的温度，返回一个数组answer，
+其中answer[i]是指在第i天之后，才会有更高的温度。
+如果气温在这之后都不会升高，请在该位置用0来代替。
+
+示例1:
+输入: temperatures = [73,74,75,71,69,72,76,73]
+输出: [1,1,4,2,1,1,0,0]
+
+示例2:
+输入: temperatures = [30,40,50,60]
+输出: [1,1,1,0]
+
+示例3:
+输入: temperatures = [30,60,90]
+输出: [1,1,0]
+
+提示：
+1 <= temperatures.length <= 105
+30 <= temperatures[i] <= 100
+*/
+
 // 暴力法，超时
 int* dailyTemperatures(int* temperatures, int temperaturesSize,
                        int* returnSize) {
@@ -19,6 +41,27 @@ int* dailyTemperatures(int* temperatures, int temperaturesSize,
   res[(*returnSize)++] = 0;
 
   return res;
+}
+
+// 单调栈
+int* dailyTemperatures(int* temperatures, int temperaturesSize,
+                       int* returnSize) {
+  *returnSize = temperaturesSize;
+  int* result = (int*)malloc(sizeof(int) * temperaturesSize);
+  memset(result, 0, sizeof(int) * temperaturesSize);
+
+  int stack[temperaturesSize];
+  int top = 0;
+
+  for (int i = 0; i < temperaturesSize; ++i) {
+    while (top > 0 && temperatures[stack[top - 1]] < temperatures[i]) {
+      result[stack[top - 1]] = i - stack[top - 1];
+      --top;
+    }
+    stack[top++] = i;
+  }
+
+  return result;
 }
 
 // 单调栈？就是栈里的元素保持升序或者降序。
@@ -46,17 +89,20 @@ int* dailyTemperatures(int* temperatures, int temperaturesSize,
     // printf("temperatures[%d]:%d, ", i, temperatures[i]);
     if (temperatures[i] < temperatures[top()]) {
       // 情况一，当前遍历的元素temperatures[i]小于栈顶元素temperatures[st.top()]的情况
-      // printf("%d < %d(%d), push(%d)\n", temperatures[i], temperatures[top()], top(), i);
+      // printf("%d < %d(%d), push(%d)\n", temperatures[i], temperatures[top()],
+      // top(), i);
       push(i);
 
     } else if (temperatures[i] == temperatures[top()]) {
       // 情况二，当前遍历的元素temperatures[i]等于栈顶元素temperatures[st.top()]的情况
-      // printf("%d == %d(%d), push(%d)\n", temperatures[i], temperatures[top()], top(), i);
+      // printf("%d == %d(%d), push(%d)\n", temperatures[i],
+      // temperatures[top()], top(), i);
       push(i);
 
     } else {
       // 情况三，当前遍历的元素temperatures[i]大于栈顶元素temperatures[st.top()]的情况
-      // printf("%d > %d(%d), push(%d)\n", temperatures[i], temperatures[top()], top(), i);
+      // printf("%d > %d(%d), push(%d)\n", temperatures[i], temperatures[top()],
+      // top(), i);
       while (!empty() && temperatures[i] > temperatures[top()]) {
         res[top()] = i - top();
         // printf("    res[%d] : %d(%d-%d)\n", top(), i - top(), i, top());

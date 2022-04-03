@@ -1,3 +1,21 @@
+/*
+给定n个非负整数，用来表示柱状图中各个柱子的高度。每个柱子彼此相邻，且宽度为1。
+求在该柱状图中，能够勾勒出来的矩形的最大面积。
+
+示例1:
+输入：heights = [2,1,5,6,2,3]
+输出：10
+解释：最大的矩形为图中红色区域，面积为10
+
+示例2：
+输入： heights = [2,4]
+输出：4
+
+提示：
+1 <= heights.length <=105
+0 <= heights[i] <= 104
+*/
+
 // 双指针，超时
 int largestRectangleArea(int* heights, int heightsSize) {
   int sum = 0;
@@ -17,7 +35,7 @@ int largestRectangleArea(int* heights, int heightsSize) {
 
 // 动态规划，是吗？
 int largestRectangleArea(int* heights, int heightsSize) {
-  int l[heightsSize];  // 记录每个柱子 左边第一个小于该柱子的下标
+  int l[heightsSize];  // 记录每个柱子左边第一个小于该柱子的下标
   l[0] = -1;           // 注意这里初始化，防止下面while死循环
   for (int i = 1; i < heightsSize; ++i) {
     int t = i - 1;

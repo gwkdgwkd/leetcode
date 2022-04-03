@@ -1,3 +1,20 @@
+/*
+给你一个字符串s，请你去除字符串中重复的字母，使得每个字母只出现一次。
+需保证返回结果的字典序最小（要求不能打乱其他字符的相对位置）。
+
+示例1：
+输入：s = "bcabc"
+输出："abc"
+
+示例2：
+输入：s = "cbacdcbc"
+输出："acdb"
+
+提示：
+1 <= s.length <= 104
+s由小写英文字母组成
+*/
+
 // 单调栈
 char *removeDuplicateLetters(char *s) {
   if (s == NULL || strlen(s) == 0) {
@@ -29,13 +46,11 @@ char *removeDuplicateLetters(char *s) {
       recode[s[i] - 'a']--;
     } else {
       while (top > -1 && stack[top] > s[i] && recode[stack[top] - 'a'] > 1) {
-        //如果栈顶字符比当前大，并且后边还会出现
+        // 如果栈顶字符比当前大，并且后边还会出现
         recode[stack[top] - 'a']--;
-        //出栈
-        top--;
+        top--;  // 出栈
       }
-      //入栈
-      stack[++top] = s[i];
+      stack[++top] = s[i];  // 入栈
     }
   }
   stack[++top] = '\0';

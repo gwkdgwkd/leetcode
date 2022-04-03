@@ -1,4 +1,20 @@
-// 单调栈，与316相同
+/*
+返回s字典序最小的子序列，该子序列包含 s的所有不同字符，且只包含一次。
+注意：该题与316相同
+
+示例1：
+输入：s = "bcabc"
+输出："abc"
+
+示例2：
+输入：s = "cbacdcbc"
+输出："acdb"
+
+提示：
+1 <= s.length <= 1000
+s由小写英文字母组成
+*/
+
 char *smallestSubsequence(char *s) {
   if (s == NULL || strlen(s) == 0) {
     return "";
