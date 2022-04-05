@@ -1,3 +1,25 @@
+/*
+中位数是有序列表中间的数。如果列表长度是偶数，中位数则是中间两个数的平均值。
+例如，
+[2,3,4]的中位数是3
+[2,3]的中位数是(2 + 3) / 2 = 2.5
+
+设计一个支持以下两种操作的数据结构：
+void addNum(int num) - 从数据流中添加一个整数到数据结构中。
+double findMedian() - 返回目前所有元素的中位数。
+
+示例：
+addNum(1)
+addNum(2)
+findMedian() -> 1.5
+addNum(3)
+findMedian() -> 2
+
+进阶:
+如果数据流中所有整数都在0到100范围内，你将如何优化你的算法？
+如果数据流中99%的整数都在0到100范围内，你将如何优化你的算法？
+*/
+
 // 两个堆
 #define MAX 100000
 typedef struct {
@@ -27,9 +49,8 @@ void UpdataHeap(int* heap, int size, int flag) {
 
   while (fatherIdx >= 0) {
     childIdx = ((fatherIdx + 1) >> 1) - 1;
-    if (childIdx < 0 ||
-        originVal * flag <
-            heap[childIdx] * flag) {  // 需要判断是否存在子节点。。
+    // 需要判断是否存在子节点
+    if (childIdx < 0 || originVal * flag < heap[childIdx] * flag) {
       break;
     }
     heap[fatherIdx] = heap[childIdx];
@@ -53,27 +74,26 @@ void SmallHeap(int num) {
 
   return;
 }
-/*flag：1 大根堆 -1 小根堆*/
+// flag：1 大根堆 -1 小根堆
 void AdjastHead(int index, int heapSize, int* heap, int flag) {
   int childIdx;
   int middle;
   int max;
-  int originVal = heap
-      [index];  //保存节点原始值，这里不要用index，heap中的内容后续会改变！！！
+  // 保存节点原始值，这里不要用index，heap中的内容后续会改变
+  int originVal = heap[index];
 
   middle = heapSize >> 1;
 
   while (index < middle) {
-    childIdx = 2 * index + 1;  //左子节点
+    childIdx = 2 * index + 1;  // 左子节点
     max = heap[childIdx];
-    if ((childIdx + 1 < heapSize) &&
-        (flag * max <
-         flag * heap[childIdx + 1])) {  //需要判断是否存在右子节点。。
+    // 需要判断是否存在右子节点
+    if ((childIdx + 1 < heapSize) && (flag * max < flag * heap[childIdx + 1])) {
       childIdx = childIdx + 1;
-      max = heap[childIdx];  //选择左、右子节点大（小）值
+      max = heap[childIdx];  // 选择左、右子节点大（小）值
     }
 
-    if (flag * originVal > flag * max) {  //满足大（小）根堆条件
+    if (flag * originVal > flag * max) {  // 满足大（小）根堆条件
       break;
     }
 
@@ -85,13 +105,13 @@ void AdjastHead(int index, int heapSize, int* heap, int flag) {
   return;
 }
 void DeleteBigHeapHead() {
-  bigHeap[0] = bigHeap[--bigSize];  //移除head后，将末元素移到head
+  bigHeap[0] = bigHeap[--bigSize];  // 移除head后，将末元素移到head
   AdjastHead(0, bigSize, bigHeap, 1);
 
   return;
 }
 void DeleteSmallHeapHead() {
-  smallHeap[0] = smallHeap[--smallSize];  //移除head后，将末元素移到head
+  smallHeap[0] = smallHeap[--smallSize];  // 移除head后，将末元素移到head
   AdjastHead(0, smallSize, smallHeap, -1);
 
   return;
@@ -99,7 +119,8 @@ void DeleteSmallHeapHead() {
 void medianFinderAddNum(MedianFinder* obj, int num) {
   int i;
 
-  /*1、每次增加元素如果大于小根堆最小元素，则加入小根堆；2、如果小根堆个数比大根堆个数多余1个，则将小根堆顶点移到大根堆*/
+  // 1.每次增加元素如果大于小根堆最小元素，则加入小根堆；
+  // 2.如果小根堆个数比大根堆个数多余1个，则将小根堆顶点移到大根堆
   if (smallSize == 0 || num > smallHeap[0]) {
     SmallHeap(num);
     if (smallSize > bigSize + 1) {

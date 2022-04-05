@@ -1,3 +1,25 @@
+/*
+给你一个字符串数组，请你将字母异位词组合在一起。可以按任意顺序返回结果列表。
+字母异位词是由重新排列源单词的字母得到的一个新单词，所有源单词中的字母通常恰好只用一次。
+
+示例1:
+输入: strs = ["eat", "tea", "tan", "ate", "nat", "bat"]
+输出: [["bat"],["nat","tan"],["ate","eat","tea"]]
+
+示例2:
+输入: strs = [""]
+输出: [[""]]
+
+示例3:
+输入: strs = ["a"]
+输出: [["a"]]
+
+提示：
+1 <= strs.length <= 104
+0 <= strs[i].length <= 100
+strs[i]仅包含小写字母
+*/
+
 #define STR_SIZE 100
 typedef struct Node {
   char str[STR_SIZE];  // key为字符串
@@ -8,7 +30,8 @@ typedef struct Node {
 int hash(char *str, int size) {
   long h = 0;
   for (int i = 0; i < strlen(str); i++) {
-    // 字符串的hashcode, 权为26是因为小写字母，不限制时为128，这样能够让结点尽可能分布均匀，减少地址冲突取模是为了防止int型溢出
+    // 字符串的hashcode,权为26是因为小写字母，不限制时为128，
+    // 这样能够让结点尽可能分布均匀，减少地址冲突取模是为了防止int型溢出
     h = (h * 26 % size + str[i] - 'a') % size;
   }
   return h % size;
