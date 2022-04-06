@@ -1,26 +1,39 @@
-// 贪心+快排
-struct side {
+/*
+给定两个大小相等的数组A和B，A相对于B的优势可以用满足A[i] > B[i]的索引i的数目来描述。
+返回A的任意排列，使其相对于B的优势最大化。
+
+示例1：
+输入：A = [2,7,11,15], B = [1,10,4,11]
+输出：[2,11,7,15]
+
+示例2：
+输入：A = [12,24,8,32], B = [13,25,32,11]
+输出：[24,32,8,12]
+
+提示：
+1 <= A.length = B.length <= 10000
+0 <= A[i] <= 10^9
+0 <= B[i] <= 10^9
+*/
+
+// 贪心 + 快排
+struct side {  // 这个结构体的目的是用来存B数组的值和索引
   int val;
   int tige;
-};  // 这个结构体的目的是用来存B数组的值和索引
-int cmp(const void *a, const void *b)  // 这个是结构体的比较器
-{
+};
+int cmp(const void *a, const void *b) {  // 这个是结构体的比较器
   struct side *c, *d;
   c = (struct side *)a;
   d = (struct side *)b;
   return c->val - d->val;
 }
-int cmp1(const void *a, const void *b)  // A数组的比较器
-{
-  return *(int *)a - *(int *)b;
-}
+// A数组的比较器
+int cmp1(const void *a, const void *b) { return *(int *)a - *(int *)b; }
 int *advantageCount(int *A, int ASize, int *B, int BSize, int *returnSize) {
   int i, l = 0, r = BSize - 1;  // r作用是记录排好序B数组最大的值的位置
-  struct side *head;
-  int *list;  // 是用来还回的数组
-  // 创数组
-  list = (int *)malloc(sizeof(int) * (ASize + 2));
-  head = (struct side *)malloc(sizeof(struct side) * (BSize + 2));
+  // 是用来返回的数组
+  int *list = (int *)malloc(sizeof(int) * (ASize + 2));
+  struct side *head = (struct side *)malloc(sizeof(struct side) * (BSize + 2));
 
   for (i = 0; i < BSize; i++) {
     // 把B数组的值赋给结构体
