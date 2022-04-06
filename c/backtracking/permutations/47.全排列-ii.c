@@ -1,16 +1,22 @@
 /*
- * @lc app=leetcode.cn id=47 lang=c
- *
- * [47] 全排列 II
- */
+给定一个可包含重复数字的序列nums，按任意顺序返回所有不重复的全排列。
 
-// @lc code=start
+示例1：
+输入：nums = [1,1,2]
+输出：
+[[1,1,2],
+ [1,2,1],
+ [2,1,1]]
 
-/**
- * Return an array of arrays of size *returnSize.
- * The sizes of the arrays are returned as *returnColumnSizes array.
- * Note: Both returned array and *columnSizes array must be malloced, assume caller calls free().
- */
+示例2：
+输入：nums = [1,2,3]
+输出：[[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]
+
+提示：
+1 <= nums.length <= 8
+-10 <= nums[i] <= 10
+*/
+
 int** result;
 int resultSize;
 int* path;
@@ -27,10 +33,15 @@ void backtracking(int* nums, int numsSize, int* used) {
     // used[i-1] == 1，说明同⼀树⽀nums[i-1]使⽤过
     // used[i-1] == 0，说明同⼀树层nums[i-1]使⽤过
     // 如果同⼀树层nums[i-1]使⽤过则直接跳过
-    // 如果要对树层中前⼀位去重，就⽤ used[i-1] == false ，如果要对树枝前⼀位去重⽤used[i-1] == true 。
-    // 对于排列问题，树层上去重和树枝上去重，都是可以的，但是树层上去重效率更⾼！树枝上对前⼀位去重虽然最后可以得到答案，但是做了很多⽆⽤搜索。
-    // if (used[i] || (i > 0 && nums[i] == nums[i - 1] && used[i - 1] == 1)) {  // 也正确
-    if (used[i] || (i > 0 && nums[i] == nums[i - 1] && used[i - 1] == 0)) {
+    // 如果要对树层中前⼀位去重，就⽤used[i-1] == false，
+    // 如果要对树枝前⼀位去重⽤used[i-1] == true 。
+    // 对于排列问题，树层上去重和树枝上去重，都是可以的，但是树层上去重效率更⾼！
+    // 树枝上对前⼀位去重虽然最后可以得到答案，但是做了很多⽆⽤搜索：
+
+    // 树层去重
+    // if (used[i] || (i > 0 && nums[i] == nums[i - 1] && used[i - 1] == 0)) {
+    // 树枝去重，从结果看，效率高些
+    if (used[i] || (i > 0 && nums[i] == nums[i - 1] && used[i - 1] == 1)) {
       continue;
     }
     path[pathSize++] = nums[i];
@@ -63,5 +74,3 @@ int** permuteUnique(int* nums, int numsSize, int* returnSize,
 
   return result;
 }
-
-// @lc code=end

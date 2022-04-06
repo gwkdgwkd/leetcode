@@ -1,21 +1,30 @@
 /*
- * @lc app=leetcode.cn id=46 lang=c
- *
- * [46] 全排列
- */
+给定一个不含重复数字的数组nums，返回其所有可能的全排列。你可以按任意顺序返回答案。
 
-// @lc code=start
+示例1：
+输入：nums = [1,2,3]
+输出：[[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]
 
-/**
- * Return an array of arrays of size *returnSize.
- * The sizes of the arrays are returned as *returnColumnSizes array.
- * Note: Both returned array and *columnSizes array must be malloced, assume caller calls free().
- */
+示例2：
+输入：nums = [0,1]
+输出：[[0,1],[1,0]]
+
+示例3：
+
+输入：nums = [1]
+输出：[[1]]
+
+提示：
+1 <= nums.length <= 6
+-10 <= nums[i] <= 10
+nums中的所有整数互不相同
+*/
+
 int** result;
 int resultSize;
 int* path;
 int pathSize;
-// 处理排列问题就不⽤使⽤startIndex了
+// 处理排列问题就不⽤使⽤startIndex了，需要重头遍历，如果已被用过，则跳过
 void backtracking(int* nums, int numsSize, int* used) {
   if (pathSize == numsSize) {
     result[resultSize] = (int*)malloc(sizeof(int) * pathSize);
@@ -24,7 +33,7 @@ void backtracking(int* nums, int numsSize, int* used) {
   }
 
   for (int i = 0; i < numsSize; ++i) {
-    // used数组，其实就是记录此时path⾥都有哪些元素使⽤了，⼀个排列⾥⼀个元素只能使⽤⼀次。
+    // used数组，其实就是记录此时path⾥都有哪些元素使⽤了，⼀个排列⾥⼀个元素只能使⽤⼀次
     if (used[i]) {  // path⾥已经收录的元素，直接跳过
       continue;
     }
@@ -56,4 +65,3 @@ int** permute(int* nums, int numsSize, int* returnSize,
 
   return result;
 }
-// @lc code=end

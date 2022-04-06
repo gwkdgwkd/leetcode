@@ -1,16 +1,21 @@
 /*
- * @lc app=leetcode.cn id=78 lang=c
- *
- * [78] 子集
- */
+给你一个整数数组nums，数组中的元素互不相同。返回该数组所有可能的子集（幂集）。
+解集不能包含重复的子集。你可以按任意顺序返回解集。
 
-// @lc code=start
+示例1：
+输入：nums = [1,2,3]
+输出：[[],[1],[2],[1,2],[3],[1,3],[2,3],[1,2,3]]
 
-/**
- * Return an array of arrays of size *returnSize.
- * The sizes of the arrays are returned as *returnColumnSizes array.
- * Note: Both returned array and *columnSizes array must be malloced, assume caller calls free().
- */
+示例2：
+输入：nums = [0]
+输出：[[],[0]]
+
+提示：
+1 <= nums.length <= 10
+-10 <= nums[i] <= 10
+nums中的所有元素互不相同
+*/
+
 // 回溯算法
 // 组合问题和分割问题都是收集树的叶⼦节点，⽽⼦集问题是找树的所有节点！
 int** result;
@@ -21,9 +26,7 @@ void backtracking(int* nums, int numsSize, int startIndex,
                   int** returnColumnSizes) {
   // 收集⼦集，要放在终⽌添加的上⾯，否则会漏掉⾃⼰
   result[resultSize] = (int*)malloc(sizeof(int) * pathSize);
-  for (int i = 0; i < pathSize; ++i) {
-    result[resultSize][i] = path[i];
-  }
+  memcpy(result[resultSize], path, sizeof(int) * pathSize);
   (*returnColumnSizes)[resultSize] = pathSize;
   resultSize++;
   // 其实可以不需要加终⽌条件，因为startIndex >= numsSize，本层for循环本来也结束了。
@@ -53,4 +56,3 @@ int** subsets(int* nums, int numsSize, int* returnSize,
 
   return result;
 }
-// @lc code=end

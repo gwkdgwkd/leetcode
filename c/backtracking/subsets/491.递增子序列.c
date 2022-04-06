@@ -1,19 +1,25 @@
 /*
- * @lc app=leetcode.cn id=491 lang=c
- *
- * [491] 递增子序列
- */
+给你一个整数数组nums，找出并返回所有该数组中不同的递增子序列，递增子序列中至少有两个元素。
+你可以按任意顺序返回答案。
+数组中可能含有重复元素，如出现两个整数相等，也可以视作递增序列的一种特殊情况。
 
-// @lc code=start
+示例1：
+输入：nums = [4,6,7,7]
+输出：[[4,6],[4,6,7],[4,6,7,7],[4,7],[4,7,7],[6,7],[6,7,7],[7,7]]
 
-/**
- * Return an array of arrays of size *returnSize.
- * The sizes of the arrays are returned as *returnColumnSizes array.
- * Note: Both returned array and *columnSizes array must be malloced, assume caller calls free().
- */
+示例2：
+输入：nums = [4,4,3,2,1]
+输出：[[4,4]]
+
+提示：
+1 <= nums.length <= 15
+-100 <= nums[i] <= 100
+*/
+
 // 回溯算法
 // 递增⼦序列⽐较像是取有序的⼦集。⽽且也要求不能有相同的递增⼦序列。
-// ⼜是⼦集，⼜是去重，是不是不由⾃主的想起了90，子集-ii，但求⾃增⼦序列，是不能对原数组经⾏排序的，排完序的数组都是⾃增⼦序列了。
+// ⼜是⼦集，⼜是去重，是不是不由⾃主的想起了90，子集-ii，
+// 但求⾃增⼦序列，是不能对原数组经⾏排序的，排完序的数组都是⾃增⼦序列了。
 // 所以不能使⽤之前的去重逻辑！
 int** result;
 int resultSize;
@@ -60,4 +66,3 @@ int** findSubsequences(int* nums, int numsSize, int* returnSize,
 
   return result;
 }
-// @lc code=end

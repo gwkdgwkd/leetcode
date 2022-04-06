@@ -1,16 +1,20 @@
 /*
- * @lc app=leetcode.cn id=131 lang=c
- *
- * [131] 分割回文串
- */
+给你一个字符串s，请你将s分割成一些子串，使每个子串都是回文串。返回s所有可能的分割方案。
+回文串是正着读和反着读都一样的字符串。
 
-// @lc code=start
+示例1：
+输入：s = "aab"
+输出：[["a","a","b"],["aa","b"]]
 
-/**
- * Return an array of arrays of size *returnSize.
- * The sizes of the arrays are returned as *returnColumnSizes array.
- * Note: Both returned array and *columnSizes array must be malloced, assume caller calls free().
- */
+示例2：
+输入：s = "a"
+输出：[["a"]]
+
+提示：
+1 <= s.length <= 16
+s 仅由小写英文字母组成
+*/
+
 // 回溯算法
 char ***result;
 int resultSize;
@@ -90,4 +94,3 @@ char ***partition(char *s, int *returnSize, int **returnColumnSizes) {
   *returnSize = resultSize;
   return result;
 }
-// @lc code=end
