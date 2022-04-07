@@ -1,12 +1,28 @@
 /*
- * @lc app=leetcode.cn id=63 lang=c
- *
- * [63] 不同路径 II
- */
+一个机器人位于一个m x n网格的左上角。
+机器人每次只能向下或者向右移动一步。机器人试图达到网格的右下角。
+现在考虑网格中有障碍物。那么从左上角到右下角将会有多少条不同的路径？
+网格中的障碍物和空位置分别用1和0来表示。
 
-// @lc code=start
+示例1：
+输入：obstacleGrid = [[0,0,0],[0,1,0],[0,0,0]]
+输出：2
+解释：3x3网格的正中间有一个障碍物。
+从左上角到右下角一共有2条不同的路径：
+1.向右 -> 向右 -> 向下 -> 向下
+2.向下 -> 向下 -> 向右 -> 向右
 
-/*
+示例2：
+输入：obstacleGrid = [[0,1],[0,0]]
+输出：1
+
+提示：
+m == obstacleGrid.length
+n == obstacleGrid[i].length
+1 <= m, n <= 100
+obstacleGrid[i][j]为0或1
+*/
+
 // 动态规划
 int uniquePathsWithObstacles(int** obstacleGrid, int obstacleGridSize,
                              int* obstacleGridColSize) {
@@ -42,7 +58,6 @@ int uniquePathsWithObstacles(int** obstacleGrid, int obstacleGridSize,
 
   return dp[m - 1][n - 1];
 }
-*/
 
 int uniquePathsWithObstacles(int** obstacleGrid, int obstacleGridSize,
                              int* obstacleGridColSize) {

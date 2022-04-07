@@ -67,7 +67,7 @@ int lastStoneWeightII(int* stones, int stonesSize) {
   for (int i = 0; i < stonesSize; ++i) {
     sum += stones[i];
   }
-  int target = sum / 2;
+  int target = sum / 2;  // target向下取整，所以是下面的sum2
 
   int dp[target + 1];  // dp[i]背包容量为i时能选取的最大石头的大小和
   memset(dp, 0, sizeof(dp));
@@ -80,5 +80,58 @@ int lastStoneWeightII(int* stones, int stonesSize) {
   // 可以把这堆石头分成大小差不多的两堆石头，分别为sum1和sum2，答案是abs(sum1-sum2)。
   // 知道sum1，就知道了sum2=sum-sum1。
   // abs((sum-sum1)-sum1)就是最后答案，也就是sum-2*dp[target]
+  return sum - 2 * dp[target];
+}
+
+// 动态规划
+int lastStoneWeightII(int* stones, int stonesSize) {
+  int sum = 0;
+  for (int i = 0; i < stonesSize; ++i) {
+    sum += stones[i];
+  }
+
+  int target = sum / 2;
+
+  int dp[stonesSize][target + 1];
+  memset(dp, 0, sizeof(dp));
+  for (int j = stones[0]; j <= target; ++j) {
+    dp[0][j] = stones[0];
+  }
+
+  for (int i = 1; i < stonesSize; ++i) {
+    for (int j = 0; j <= target; ++j) {
+      if (stones[i] > j) {
+        dp[i][j] = dp[i - 1][j];
+      } else {
+        dp[i][j] = fmax(dp[i - 1][j], dp[i - 1][j - stones[i]] + stones[i]);
+      }
+    }
+  }
+
+  return sum - 2 * dp[stonesSize - 1][target];
+}
+
+int lastStoneWeightII(int* stones, int stonesSize) {
+  int sum = 0;
+  for (int i = 0; i < stonesSize; ++i) {
+    sum += stones[i];
+  }
+
+  int target = sum / 2;
+
+  int dp[target + 1];
+  memset(dp, 0, sizeof(dp));
+  // 初始化第一行
+  for (int j = stones[0]; j <= target; ++j) {
+    dp[j] = stones[0];
+  }
+
+  // 第一行已经初始化，从第一行开始遍历
+  for (int i = 1; i < stonesSize; ++i) {
+    for (int j = target; j >= stones[i]; --j) {
+      dp[j] = fmax(dp[j], dp[j - stones[i]] + stones[i]);
+    }
+  }
+
   return sum - 2 * dp[target];
 }
