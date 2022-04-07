@@ -1,21 +1,45 @@
 /*
- * @lc app=leetcode.cn id=518 lang=c
- *
- * [518] 零钱兑换 II
- */
+给你一个整数数组coins表示不同面额的硬币，另给一个整数amount表示总金额。
+请你计算并返回可以凑成总金额的硬币组合数。如果任何硬币组合都无法凑出总金额，返回0。
+假设每一种面额的硬币有无限个。 
+题目数据保证结果符合32位带符号整数。
 
-// @lc code=start
+示例1：
+输入：amount = 5, coins = [1, 2, 5]
+输出：4
+解释：有四种方式可以凑成总金额：
+5=5
+5=2+2+1
+5=2+1+1+1
+5=1+1+1+1+1
+
+示例2：
+输入：amount = 3, coins = [2]
+输出：0
+解释：只用面额2的硬币不能凑成总金额3。
+
+示例3：
+输入：amount = 10, coins = [10] 
+输出：1
+
+提示：
+1 <= coins.length <= 300
+1 <= coins[i] <= 5000
+coins中的所有值互不相同
+0 <= amount <= 5000
+*/
 
 #include <stdio.h>
 #include <string.h>
 
 // 组合不强调元素之间的顺序，排列强调元素之间的顺序。
 // 在求装满背包有⼏种⽅案的时候，认清遍历顺序是⾮常关键的：
-//  如果求组合数就是外层for循环遍历物品，内层for遍历背包。
-//  如果求排列数就是外层for遍历背包，内层for循环遍历物品。
+// 1.如果求组合数就是外层for循环遍历物品，内层for遍历背包；
+// 2.如果求排列数就是外层for遍历背包，内层for循环遍历物品。
 
 // 动态规划、完全背包、装满背包有几种方法
 int change1(int amount, int* coins, int coinsSize) {
+  // 不使用coinsSize+1，会有很多异常情况
   int dp[coinsSize + 1][amount + 1];
   memset(dp, 0, sizeof(dp));
   for (int i = 0; i <= coinsSize; ++i) {
@@ -52,10 +76,9 @@ int change1(int amount, int* coins, int coinsSize) {
   return dp[coinsSize][amount];
 }
 
+// 时间复杂度：O(amount*n)
+// 空间复杂度：O(amount)
 int change2(int amount, int* coins, int coinsSize) {
-  // 时间复杂度：O(amount*n)
-  // 空间复杂度：O(amount)
-
   int dp[amount + 1];
   memset(dp, 0, sizeof(dp));
   dp[0] = 1;
@@ -78,10 +101,9 @@ int change2(int amount, int* coins, int coinsSize) {
   return dp[amount];
 }
 
+// 时间复杂度：O(amount*n)
+// 空间复杂度：O(amount)
 int change3(int amount, int* coins, int coinsSize) {
-  // 时间复杂度：O(amount*n)
-  // 空间复杂度：O(amount)
-
   int dp[amount + 1];
   memset(dp, 0, sizeof(dp));
   dp[0] = 1;
@@ -128,5 +150,3 @@ int main() {
 
   return 0;
 }
-
-// @lc code=end
