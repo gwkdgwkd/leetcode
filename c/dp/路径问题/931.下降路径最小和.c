@@ -1,10 +1,22 @@
 /*
- * @lc app=leetcode.cn id=931 lang=c
- *
- * [931] 下降路径最小和
- */
+给你一个nxn的方形整数数组matrix，请你找出并返回通过matrix的下降路径的最小和。
+下降路径可以从第一行中的任何元素开始，并从每一行中选择一个元素。
+在下一行选择的元素和当前行所选元素最多相隔一列（即位于正下方或者沿对角线向左或者向右的第一个元素）。
+具体来说，位置(row,col)的下一个元素应当是(row+1,col-1)、(row+1,col)或者(row+1,col+1)。
 
-// @lc code=start
+示例1：
+输入：matrix = [[2,1,3],[6,5,4],[7,8,9]]
+输出：13
+
+示例2：
+输入：matrix = [[-19,57],[-40,-5]]
+输出：-59
+
+提示：
+n == matrix.length == matrix[i].length
+1 <= n <= 100
+-100 <= matrix[i][j] <= 100
+*/
 
 #define MIN(a, b) ((a) < (b) ? (a) : (b))
 int minFallingPathSum(int** matrix, int matrixSize, int* matrixColSize) {
@@ -34,7 +46,6 @@ int minFallingPathSum(int** matrix, int matrixSize, int* matrixColSize) {
   return ret;
 }
 
-/*
 // 压缩dp，但效果不明显，可以压缩成一维数组么？
 #define MIN(a, b) ((a) < (b) ? (a) : (b))
 int minFallingPathSum(int** matrix, int matrixSize, int* matrixColSize) {
@@ -68,6 +79,3 @@ int minFallingPathSum(int** matrix, int matrixSize, int* matrixColSize) {
 
   return ret;
 }
-*/
-
-// @lc code=end

@@ -1,16 +1,33 @@
 /*
- * @lc app=leetcode.cn id=338 lang=c
- *
- * [338] 比特位计数
- */
+给你一个整数n，对于0 <= i <= n中的每个i，
+计算其二进制表示中1的个数，返回一个长度为n+1的数组ans作为答案。
 
-// @lc code=start
+示例1：
+输入：n = 2
+输出：[0,1,1]
+解释：
+0 --> 0
+1 --> 1
+2 --> 10
 
-/**
- * Note: The returned array must be malloced, assume caller calls free().
- */
+示例2：
+输入：n = 5
+输出：[0,1,1,2,1,2]
+解释：
+0 --> 0
+1 --> 1
+2 --> 10
+3 --> 11
+4 --> 100
+5 --> 101
 
-/*
+提示：0 <= n <= 105
+
+进阶：
+很容易就能实现时间复杂度为O(nlogn)的解决方案，你可以在线性时间复杂度O(n)内用一趟扫描解决此问题吗？
+你能不使用任何内置函数解决此问题吗？
+*/
+
 // Brian Kernighan算法
 int countOnes(int x) {
   int ones = 0;
@@ -24,13 +41,12 @@ int* countBits(int n, int* returnSize) {
   int* bits = malloc(sizeof(int) * (n + 1));
   *returnSize = n + 1;
   for (int i = 0; i <= n; i++) {
+    // 需要对每个整数使用O(log⁡n)的时间计算比特数
     bits[i] = countOnes(i);
   }
   return bits;
 }
-*/
 
-/*
 // 动态规划——最高有效位
 int* countBits(int n, int* returnSize) {
   int* ret = (int*)malloc(sizeof(int) * (n + 1));
@@ -48,9 +64,7 @@ int* countBits(int n, int* returnSize) {
 
   return ret;
 }
-*/
 
-/*
 // 动态规划——最低有效位
 int* countBits(int n, int* returnSize) {
   int* bits = malloc(sizeof(int) * (n + 1));
@@ -61,7 +75,6 @@ int* countBits(int n, int* returnSize) {
   }
   return bits;
 }
-*/
 
 // 动态规划——最低设置位
 // 定义正整数x的「最低设置位」为x的二进制表示中的最低的1所在位。
@@ -74,5 +87,3 @@ int* countBits(int n, int* returnSize) {
   }
   return bits;
 }
-
-// @lc code=end

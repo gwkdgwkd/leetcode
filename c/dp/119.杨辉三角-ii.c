@@ -1,14 +1,22 @@
 /*
- * @lc app=leetcode.cn id=119 lang=c
- *
- * [119] 杨辉三角 II
- */
+给定一个非负索引rowIndex，返回「杨辉三角」的第rowIndex行。
+在「杨辉三角」中，每个数是它左上方和右上方的数的和。
 
-// @lc code=start
+示例1:
+输入: rowIndex = 3
+输出: [1,3,3,1]
 
-/**
- * Note: The returned array must be malloced, assume caller calls free().
- */
+示例2:
+输入: rowIndex = 0
+输出: [1]
+
+示例3:
+输入: rowIndex = 1
+输出: [1,1]
+
+提示: 0 <= rowIndex <= 33
+*/
+
 int* getRow(int rowIndex, int* returnSize) {
   *returnSize = rowIndex + 1;
   int* ret = (int*)malloc(*returnSize * sizeof(int));
@@ -23,4 +31,3 @@ int* getRow(int rowIndex, int* returnSize) {
 
   return ret;
 }
-// @lc code=end
