@@ -1,23 +1,28 @@
 /*
- * @lc app=leetcode.cn id=51 lang=c
- *
- * [51] N 皇后
- */
+n皇后问题研究的是如何将n个皇后放置在n×n的棋盘上，并且使皇后彼此之间不能相互攻击。
+给你一个整数n，返回所有不同的n皇后问题的解决方案。
+每一种解法包含一个不同的n皇后问题的棋子放置方案，该方案中'Q'和'.'分别代表了皇后和空位。
 
-// @lc code=start
+示例1：
+输入：n = 4
+输出：[[".Q..","...Q","Q...","..Q."],["..Q.","Q...","...Q",".Q.."]]
+解释：4皇后问题存在两个不同的解法。
 
-/**
- * Return an array of arrays of size *returnSize.
- * The sizes of the arrays are returned as *returnColumnSizes array.
- * Note: Both returned array and *columnSizes array must be malloced, assume caller calls free().
- */
+示例2：
+输入：n = 1
+输出：[["Q"]]
+
+提示：1 <= n <= 9
+*/
+
 // n皇后问题是回溯算法解决的经典问题
 char ***result;
 int resultSize;
 char **path;
 int pathSize;
 int isValid(int n, int row, int col) {
-  // 为什么没有在同⾏进⾏检查呢？因为在单层搜索的过程中，每⼀层递归，只会选for循环（也就是同⼀⾏）⾥的⼀个元素，所以不⽤去重了。
+  // 为什么没有在同⾏进⾏检查呢？
+  // 因为在单层搜索的过程中，每⼀层递归，只会选for循环（也就是同⼀⾏）⾥的⼀个元素，所以不⽤去重了。
 
   // 检查列
   for (int i = 0; i < row; i++) {  // 这是⼀个剪枝
@@ -85,4 +90,3 @@ char ***solveNQueens(int n, int *returnSize, int **returnColumnSizes) {
 
   return result;
 }
-// @lc code=end

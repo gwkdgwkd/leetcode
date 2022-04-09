@@ -1,40 +1,56 @@
 /*
- * @lc app=leetcode.cn id=712 lang=c
- *
- * [712] 两个字符串的最小ASCII删除和
- */
+给定两个字符串s1和s2，返回使两个字符串相等所需删除字符的ASCII值的最小和。
 
-// @lc code=start
+示例1:
+输入: s1 = "sea", s2 = "eat"
+输出: 231
+解释: 在"sea"中删除"s"并将"s"的值(115)加入总和。
+在"eat"中删除"t"并将116加入总和。
+结束时，两个字符串相等，115 + 116 = 231就是符合条件的最小和。
+
+示例2:
+输入: s1 = "delete", s2 = "leet"
+输出: 403
+解释: 在"delete"中删除"dee"字符串变成"let"，
+将100[d]+101[e]+101[e]加入总和。
+在"leet"中删除"e"将101[e]加入总和。
+结束时，两个字符串都等于"let"，结果即为100+101+101+101 = 403 。
+如果改为将两个字符串转换为"lee"或"eet"，我们会得到433或417 的结果，比答案更大。
+
+提示:
+0 <= s1.length, s2.length <= 1000
+s1和s2由小写英文字母组成
+*/
 
 int minimumDeleteSum(char *s1, char *s2) {
-  int len1 = strlen(s1);
-  int len2 = strlen(s2);
+  int m = strlen(s1);
+  int n = strlen(s2);
   int ret = 0;
-  if (len1 == 0) {
-    for (int i = 0; i < len2; ++i) {
-      ret += s2[i];
+  if (m == 0) {
+    for (int j = 0; j < n; ++j) {
+      ret += s2[j];
     }
     return ret;
   }
-  if (len2 == 0) {
-    for (int i = 0; i < len1; ++i) {
+  if (n == 0) {
+    for (int i = 0; i < m; ++i) {
       ret += s1[i];
     }
     return ret;
   }
 
-  int dp[len1 + 1][len2 + 1];
+  int dp[m + 1][n + 1];
   dp[0][0] = 0;
-  for (int i = 1; i <= len1; ++i) {
+  for (int i = 1; i <= m; ++i) {
     dp[i][0] = dp[i - 1][0] + s1[i - 1];
   }
 
-  for (int i = 1; i <= len2; ++i) {
-    dp[0][i] = dp[0][i - 1] + s2[i - 1];
+  for (int j = 1; j <= n; ++j) {
+    dp[0][j] = dp[0][j - 1] + s2[j - 1];
   }
 
-  for (int i = 1; i <= len1; ++i) {
-    for (int j = 1; j <= len2; ++j) {
+  for (int i = 1; i <= m; ++i) {
+    for (int j = 1; j <= n; ++j) {
       if (s1[i - 1] == s2[j - 1]) {
         dp[i][j] = dp[i - 1][j - 1];
       } else {
@@ -43,13 +59,12 @@ int minimumDeleteSum(char *s1, char *s2) {
     }
   }
 
-  // for (int i = 0; i <= len1; ++i) {
-  //   for (int j = 0; j <= len2; ++j) {
+  // for (int i = 0; i <= m; ++i) {
+  //   for (int j = 0; j <= n; ++j) {
   //     printf("%d ", dp[i][j]);
   //   }
   //   printf("\n");
   // }
 
-  return dp[len1][len2];
+  return dp[m][n];
 }
-// @lc code=end

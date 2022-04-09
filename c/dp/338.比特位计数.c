@@ -62,6 +62,17 @@ int* countBits(int n, int* returnSize) {
     ret[i] = ret[i - high] + 1;
   }
 
+  // 8
+  // [0,1,1,2,1,2,2,3,1]
+  // high:1,ret[1] = ret[0] + 1, 1
+  // high:2,ret[2] = ret[0] + 1, 1
+  // high:2,ret[3] = ret[1] + 1, 2
+  // high:4,ret[4] = ret[0] + 1, 1
+  // high:4,ret[5] = ret[1] + 1, 2
+  // high:4,ret[6] = ret[2] + 1, 2
+  // high:4,ret[7] = ret[3] + 1, 3
+  // high:8,ret[8] = ret[0] + 1, 1
+
   return ret;
 }
 

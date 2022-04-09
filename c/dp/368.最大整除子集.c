@@ -1,18 +1,24 @@
 /*
- * @lc app=leetcode.cn id=368 lang=c
- *
- * [368] 最大整除子集
- */
+给你一个由无重复正整数组成的集合nums，请你找出并返回其中最大的整除子集answer，
+子集中每一元素对(answer[i], answer[j])都应当满足：
+answer[i] % answer[j] == 0，或answer[j] % answer[i] == 0
+如果存在多个有效解子集，返回其中任何一个均可。
 
-// @lc code=start
+示例1：
+输入：nums = [1,2,3]
+输出：[1,2]
+解释：[1,3]也会被视为正确答案。
 
-/**
- * Note: The returned array must be malloced, assume caller calls free().
- */
+示例2：
+输入：nums = [1,2,4,8]
+输出：[1,2,4,8]
 
-/**
- * Note: The returned array must be malloced, assume caller calls free().
- */
+提示：
+1 <= nums.length <= 1000
+1 <= nums[i] <= 2 * 109
+nums中的所有整数互不相同
+*/
+
 // 动态规划
 int cmp(int* a, int* b) { return *a - *b; }
 int* largestDivisibleSubset(int* nums, int numsSize, int* returnSize) {
@@ -57,5 +63,3 @@ int* largestDivisibleSubset(int* nums, int numsSize, int* returnSize) {
   }
   return res;
 }
-
-// @lc code=end
