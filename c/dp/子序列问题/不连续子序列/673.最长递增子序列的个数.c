@@ -1,10 +1,21 @@
 /*
- * @lc app=leetcode.cn id=673 lang=c
- *
- * [673] 最长递增子序列的个数
- */
+给定一个未排序的整数数组nums，返回最长递增子序列的个数。
+注意这个数列必须是严格递增的。
 
-// @lc code=start
+示例1:
+输入: [1,3,5,4,7]
+输出: 2
+解释: 有两个最长递增子序列，分别是[1, 3, 4, 7]和[1, 3, 5, 7]。
+
+示例2:
+输入: [2,2,2,2,2]
+输出: 5
+解释: 最长递增子序列的长度是1，并且存在5个子序列的长度为1，因此输出5。
+
+提示:
+1 <= nums.length <= 2000
+-106 <= nums[i] <= 106
+*/
 
 // 动态规划，与300相似
 int findNumberOfLIS(int* nums, int numsSize) {
@@ -29,7 +40,7 @@ int findNumberOfLIS(int* nums, int numsSize) {
         }
         dp[i] = fmax(dp[i], dp[j] + 1);
       }
-      max = fmax(max, dp[i]);
+      max = fmax(max, dp[i]);  // 放到if里面也行
     }
   }
 
@@ -42,5 +53,3 @@ int findNumberOfLIS(int* nums, int numsSize) {
 
   return ret;
 }
-
-// @lc code=end

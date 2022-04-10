@@ -1,10 +1,19 @@
 /*
- * @lc app=leetcode.cn id=718 lang=c
- *
- * [718] 最长重复子数组
- */
+给两个整数数组nums1和nums2，返回两个数组中公共的 、长度最长的子数组的长度。
 
-// @lc code=start
+示例1：
+输入：nums1 = [1,2,3,2,1], nums2 = [3,2,1,4,7]
+输出：3
+解释：长度最长的公共子数组是[3,2,1] 。
+
+示例2：
+输入：nums1 = [0,0,0,0,0], nums2 = [0,0,0,0,0]
+输出：5
+
+提示：
+1 <= nums1.length, nums2.length <= 1000
+0 <= nums1[i], nums2[i] <= 100
+*/
 
 // 动态规划
 int findLength(int* nums1, int nums1Size, int* nums2, int nums2Size) {
@@ -38,5 +47,3 @@ int findLength(int* nums1, int nums1Size, int* nums2, int nums2Size) {
 
   return max;
 }
-
-// @lc code=end
