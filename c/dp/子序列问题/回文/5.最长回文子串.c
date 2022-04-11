@@ -1,67 +1,48 @@
 /*
- * @lc app=leetcode.cn id=5 lang=c
- *
- * [5] 最长回文子串
- */
+给你一个字符串s，找到s中最长的回文子串。
 
-// @lc code=start
+示例1：
+输入：s = "babad"
+输出："bab"
+解释："aba"同样是符合题意的答案。
+
+示例2：
+输入：s = "cbbd"
+输出："bb"
+
+提示：
+1 <= s.length <= 1000
+s仅由数字和英文字母组成
+*/
 
 char* longestPalindrome(char* s) {
-  int n = strlen(s);
-  if (n == 1) {
-    return s;
-  }
-
-  bool dp[n][n];
+  int len = strlen(s);
+  bool dp[len][len];  // dp[i][j]表示s[i]到s[j]是否为回文子串
   memset(dp, 0, sizeof(dp));
-  for (int i = 0; i < n; ++i) {
-    dp[i][i] = true;
+  for (int i = 0; i < len; ++i) {
+    dp[i][i] = true;  // 只有一个元素，那么是回文
   }
 
   int maxlen = 1;
   int start = 0;
-  for (int i = n - 2; i >= 0; --i) {
-    for (int j = i + 1; j < n; ++j) {
-      if (s[i] == s[j]) {  // s[i] != s[j],dp[i][j] = false
-        if (j - i <= 2) {
+  for (int i = len - 2; i >= 0; --i) {   // 从底向上遍历
+    for (int j = i + 1; j < len; ++j) {  // 从左向右遍历
+      // [i...j]范围内第一个和最后一个元素相等，才可能是回文
+      if (s[i] == s[j]) {
+        // [i...j]是回文的条件：
+        // 1.只有i和j两个元素，并且i和j相等，那么是回文
+        // 2.[i+1...j-1]是回文，并且i和j相等，那么[i...j]是回文
+        if (j == i + 1 || dp[i + 1][j - 1] == true) {
           dp[i][j] = true;
-        } else {
-          dp[i][j] = dp[i + 1][j - 1];
+          if (j - i + 1 > maxlen) {  // 有新的最长回文，更新开始位置和长度
+            maxlen = j - i + 1;
+            start = i;
+          }
         }
-      }
-      if (dp[i][j] && (j - i + 1 > maxlen)) {
-        maxlen = j - i + 1;
-        start = i;
       }
     }
   }
   s[start + maxlen] = 0;
-
-  return s + start;
-}
-
-char* longestPalindrome(char* s) {
-  int len = strlen(s);
-  // dp[i][j]表示s[i]到s[j]是否为回文子串
-  int dp[len][len];
-  memset(dp, 0, sizeof(dp));
-  for (int i = 0; i < len; ++i) {
-    dp[i][i] = 1;
-  }
-
-  int max = 1;
-  int start = 0;
-  for (int i = len - 2; i >= 0; --i) {
-    for (int j = i + 1; j < len; ++j) {
-      if (s[i] == s[j]) {
-        dp[i][j] = j - i > 1 ? dp[i + 1][j - 1] : 1;
-        if (dp[i][j] && j - i + 1 > max) {
-          max = j - i + 1;
-          start = i;
-        }
-      }
-    }
-  }
 
   // for(int i = 0; i < len; ++i) {
   //   for(int j = 0; j < len; ++j) {
@@ -75,8 +56,6 @@ char* longestPalindrome(char* s) {
   // 0 0 1 0 0
   // 0 0 0 1 0
   // 0 0 0 0 1
-
-  s[start + max] = 0;
 
   return s + start;
 }
@@ -130,7 +109,7 @@ char* longestPalindrome(char* s) {
     }
   }
   char* ans = (char*)calloc(len + 1, sizeof(char));
-  //printf("len:%d pLeft:%d pRight:%d\r\n", len, pLeft, pRight);
+  // printf("len:%d pLeft:%d pRight:%d\r\n", len, pLeft, pRight);
   int z = 0;
   for (int j = pLeft; j < pRight + 1; j++) {
     ans[z++] = s[j];
@@ -139,5 +118,3 @@ char* longestPalindrome(char* s) {
 }
 
 // Manacher算法
-
-// @lc code=end
