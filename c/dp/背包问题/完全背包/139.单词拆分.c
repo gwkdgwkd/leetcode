@@ -26,8 +26,6 @@ s和wordDict[i]仅有小写英文字母组成
 wordDict中的所有字符串互不相同
 */
 
-// @lc code=start
-
 // 动态规划，完全背包
 bool wordBreak(char* s, char** wordDict, int size) {
   int n = strlen(s);
