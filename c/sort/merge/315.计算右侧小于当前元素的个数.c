@@ -4,7 +4,7 @@
 
 示例1：
 输入：nums = [5,2,6,1]
-输出：[2,1,1,0] 
+输出：[2,1,1,0]
 解释：
 5的右侧有2个更小的元素(2和1)
 2的右侧仅有1个更小的元素(1)
@@ -42,7 +42,6 @@ void print(Data* data, int len) {
   }
   printf("\n");
 }
-
 void Merge(Data* numbers, int left, int mid, int right) {
   // tmpArr保存left-right区间内排序后的结果，然后回填给numbers
   Data tmpArr[right - left + 1];
@@ -66,11 +65,10 @@ void Merge(Data* numbers, int left, int mid, int right) {
   for (int i = 0; i < k; i++) {
     numbers[left++] = tmpArr[i];
   }
-  print(tmpArr, right - left + 1);
+  // print(tmpArr, sizeof(tmpArr) / sizeof(Data));
 
   return;
 }
-
 void MergeSorting(Data* numbers, int left, int right) {
   if (left == right) {
     return;
@@ -82,7 +80,6 @@ void MergeSorting(Data* numbers, int left, int right) {
   Merge(numbers, left, mid, right);
   return;
 }
-
 int* countSmaller(int* nums, int numsSize, int* returnSize) {
   // 通过归并排序求解，排序过程中index会变化，需要保存原始index值
   Data* numbers = (Data*)malloc(sizeof(Data) * numsSize);
@@ -91,6 +88,7 @@ int* countSmaller(int* nums, int numsSize, int* returnSize) {
     numbers[i].value = nums[i];
     numbers[i].cnt = 0;
   }
+  // print(numbers, numsSize);
 
   MergeSorting(numbers, 0, numsSize - 1);
   int* counts = (int*)malloc(sizeof(int) * numsSize);
@@ -108,10 +106,16 @@ int main() {
   int size;
   int* result = countSmaller(nums, sizeof(nums) / sizeof(int), &size);
 
-  for (int i = 0; i < size; ++i) {
-    printf("%d ", result[i]);
-  }
-  printf("\n");
+  // for (int i = 0; i < size; ++i) {
+  //   printf("%d ", result[i]);
+  // }
+  // printf("\n");
+
+  // 5(0,0) 2(1,0) 6(2,0) 1(3,0)
+  // 5(0,1) 2(1,0)
+  // 6(2,1) 1(3,0)
+  // 6(2,1) 5(0,2) 2(1,1) 1(3,0)
+  // 2 1 1 0
 
   return 0;
 }
