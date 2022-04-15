@@ -70,10 +70,10 @@ int minAddToMakeValid(char* s) {
         count++;
       else
         top--;
-    }  // )if
+    }
 
     i++;
-  }  // while
+  }
 
   count += top;
 
