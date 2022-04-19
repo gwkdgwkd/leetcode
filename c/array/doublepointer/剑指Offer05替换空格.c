@@ -5,7 +5,7 @@
 输入：s = "We are happy."
 输出："We%20are%20happy."
 
-限制：0 <= s的长度<= 10000
+限制：0 <= s的长度 <= 10000
 */
 
 char* replaceSpace(char* s) {
@@ -34,6 +34,16 @@ char* replaceSpace(char* s) {
       res[fast--] = s[slow--];
     }
   }
+
+  // int index = 0;
+  // for (int i = 0; i < len; ++i) {
+  //   if (s[i] == ' ') {
+  //     memcpy(res + index, "%20", sizeof(char) * 3);
+  //     index += 3;
+  //   } else {
+  //     res[index++] = s[i];
+  //   }
+  // }
 
   return res;
 }
