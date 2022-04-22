@@ -206,6 +206,7 @@ n= n & 0xffffff00; 或 n &= 0xffffff00; 如果n是short类型的，则n &= 0xff0
 # 算法常用操作
 n&(n-1)这个操作是算法中常见的，作用是消除数字n的二进制表示中的最后一个1。
 
+x & -x == x & (~x + 1) 保留二进制下最后出现的1的位置，其余位置置0。
 
 # 位运算的黑科技
 http://graphics.stanford.edu/~seander/bithacks.html#ReverseParallel

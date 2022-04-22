@@ -19,6 +19,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+// 按每位数字的大小排序，不是按数字大小排序
 long cmp(int *x, int *y) {
   long sx = 10, sy = 10;
   while (sx <= *x) {
@@ -31,7 +32,7 @@ long cmp(int *x, int *y) {
   // printf("sx:%ld,sy:%ld\n", sx, sy);
   // printf("(%d*%ld+%d)-(%d*%ld+%d)=%ld\n", sx, *y, *x, sy, *x, *y,
   //        sx * (*y) + (*x) - sy * (*x) - (*y));
-  return sx * (*y) + (*x) - sy * (*x) - (*y);
+  return sx * (*y) + (*x) - sy * (*x) - (*y);  // 降序
 }
 char *largestNumber(int *nums, int numsSize) {
   qsort(nums, numsSize, sizeof(int), cmp);

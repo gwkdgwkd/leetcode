@@ -29,8 +29,7 @@
 // 把从队首到队尾单调递减或递增的队列称之为单调队列。
 // 1.用一个数组和一前一后两个指针（head，tail）来模拟双端队列，
 //   而这个双端队列是用来存原来数组中符合条件的下标。
-// 2.因为窗口的大小是k，因此，在遍历原数组时，满足q[head]<=
-// i-k时，q的head就得出列，就是head++。
+// 2.因为窗口的大小是k，因此，在遍历原数组时，满足q[head]<=i-k时，q的head就得出列，就是head++。
 // 3.首先排除原队列中没用的尾巴tail，满足nums[q[tail-1]]<nums[i]时，原尾巴出列，就是tail--。
 //   然后就是q[tail++] = i，入队。
 // 时间复杂度：进队一次，出队一次，2N，就是O(N)
@@ -48,7 +47,7 @@ int* maxSlidingWindow(int* nums, int numsSize, int k, int* returnSize) {
   int* result = (int*)malloc(sizeof(int) * (numsSize - k + 1));
 
   // 数组模拟双端队列，尾入队，头尾出队，保存数组中的下标
-  int queue[numsSize];
+  int queue[numsSize];     // 单调递减
   int head = 0, tail = 0;  // 头和尾指针
   for (int i = 0; i < numsSize; ++i) {
     // 窗口已经越过队列头指向的元素，从队列头出队
