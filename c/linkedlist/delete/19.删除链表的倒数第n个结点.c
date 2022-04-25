@@ -36,15 +36,16 @@ struct ListNode* removeNthFromEnd(struct ListNode* head, int n) {
   struct ListNode* fast = &dummy;
   struct ListNode* slow = &dummy;
 
-  int i = 0;
   while (fast) {
     // 让fast先走n+1步
     if (n-- >= 0) {  // 等于0，让fast多走一步，最终slow停在删除节点之前
       fast = fast->next;
       continue;
     }
-    fast = fast->next;
-    slow = slow->next;
+    if (fast) {
+      fast = fast->next;
+      slow = slow->next;
+    }
   }
 
   struct ListNode* del = slow->next;  // 防止内存泄露

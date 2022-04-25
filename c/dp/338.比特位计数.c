@@ -47,6 +47,21 @@ int* countBits(int n, int* returnSize) {
   return bits;
 }
 
+int* countBits(int num, int* returnSize) {
+  int* ret = (int*)malloc((num + 1) * sizeof(int));
+  *returnSize = num + 1;
+  ret[0] = 0;
+  for (int i = 1; i <= num; ++i) {
+    if (i % 2 == 0) {
+      ret[i] = ret[i / 2];
+    } else {
+      ret[i] = ret[i / 2] + 1;
+    }
+  }
+
+  return ret;
+}
+
 // 动态规划——最高有效位
 int* countBits(int n, int* returnSize) {
   int* ret = (int*)malloc(sizeof(int) * (n + 1));
