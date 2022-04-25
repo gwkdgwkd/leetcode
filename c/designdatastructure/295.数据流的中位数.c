@@ -27,7 +27,6 @@ typedef struct {
   int* p;
 } MedianFinder;
 MedianFinder* strObj;
-/** initialize your data structure here. */
 int bigHeap[MAX] = {0};
 int smallHeap[MAX] = {0};
 int bigSize;
@@ -41,7 +40,7 @@ MedianFinder* medianFinderCreate() {
 
   return strObj;
 }
-/*flag：1 大根堆 -1 小根堆*/
+// flag：1 大根堆, -1 小根堆
 void UpdataHeap(int* heap, int size, int flag) {
   int fatherIdx = size - 1;
   int childIdx;
@@ -74,7 +73,7 @@ void SmallHeap(int num) {
 
   return;
 }
-// flag：1 大根堆 -1 小根堆
+// flag：1 大根堆, -1 小根堆
 void AdjastHead(int index, int heapSize, int* heap, int flag) {
   int childIdx;
   int middle;
