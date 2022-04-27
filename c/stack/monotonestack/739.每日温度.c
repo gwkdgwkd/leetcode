@@ -20,6 +20,8 @@
 30 <= temperatures[i] <= 100
 */
 
+// 剑指OfferII038每日温度
+
 // 暴力法，超时
 int* dailyTemperatures(int* temperatures, int temperaturesSize,
                        int* returnSize) {

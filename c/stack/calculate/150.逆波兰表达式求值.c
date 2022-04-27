@@ -35,9 +35,13 @@ tokens[i]是一个算符（"+"、"-"、"*" 或 "/"），或是在范围[-200, 20
 该算式的逆波兰表达式写法为((1 2 +)(3 4 +)*)
 */
 
+// 剑指OfferII036后缀表达式
+
 // 逆波兰表达式主要有以下两个优点：
-// 1.去掉括号后表达式无歧义，上式即便写成1 2+3 4+*也可以依据次序计算出正确结果。
-// 2.适合用栈操作运算：遇到数字则入栈；遇到算符则取出栈顶两个数字进行计算，并将结果压入栈中
+// 1.去掉括号后表达式无歧义。
+// 2.适合用栈操作运算：
+//   遇到数字则入栈；
+//   遇到算符则取出栈顶两个数字进行计算，并将结果压入栈中。
 
 // 栈
 #define STACKSIZE 5000
@@ -81,4 +85,31 @@ int evalRPN(char** tokens, int tokensSize) {
   pop();
 
   return ret;
+}
+
+// 栈
+int evalRPN(char** tokens, int tokensSize) {
+  int stack[10000];
+  int top = 0;
+
+  for (int i = 0; i < tokensSize; ++i) {
+    if (strlen(tokens[i]) == 1 &&
+        (tokens[i][0] == '+' || tokens[i][0] == '-' || tokens[i][0] == '*' ||
+         tokens[i][0] == '/')) {
+      int b = stack[--top];
+      int a = stack[--top];
+      if (tokens[i][0] == '+') {
+        stack[top++] = a + b;
+      } else if (tokens[i][0] == '-') {
+        stack[top++] = a - b;
+      } else if (tokens[i][0] == '*') {
+        stack[top++] = a * b;
+      } else if (tokens[i][0] == '/') {
+        stack[top++] = a / b;
+      }
+    } else {
+      stack[top++] = atoi(tokens[i]);
+    }
+  }
+  return stack[top - 1];
 }
