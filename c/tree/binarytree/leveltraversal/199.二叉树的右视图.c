@@ -15,7 +15,7 @@
 
 提示:
 二叉树的节点个数的范围是[0,100]
--100 <= Node.val <= 100 
+-100 <= Node.val <= 100
 */
 
 struct TreeNode {
@@ -74,4 +74,35 @@ int* rightSideView(struct TreeNode* root, int* returnSize) {
   }
 
   return result;
+}
+
+// 剑指OfferII046二叉树的右侧视图
+
+#define MAX 100
+int* rightSideView(struct TreeNode* root, int* returnSize) {
+  *returnSize = 0;
+  if (root == NULL) {
+    return NULL;
+  }
+
+  int* res = (int*)malloc(sizeof(int) * MAX);
+
+  struct TreeNode* queue[MAX] = {0};
+  int front = 0;
+  int tail = 0;
+
+  queue[tail++] = root;
+  while (front < tail) {
+    int n = tail - front;
+    for (int i = 0; i < n; ++i) {
+      struct TreeNode* node = queue[front++];
+      if (i == n - 1) {
+        res[(*returnSize)++] = node->val;
+      }
+      if (node->left) queue[tail++] = node->left;
+      if (node->right) queue[tail++] = node->right;
+    }
+  }
+
+  return res;
 }

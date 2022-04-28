@@ -14,13 +14,15 @@
 -231 <= Node.val <= 231 - 1
 */
 
+// 剑指OfferII044二叉树每层的最大值
+
 struct TreeNode {
   int val;
   struct TreeNode* left;
   struct TreeNode* right;
 };
 
-// 迭代
+// 迭代，BFS
 #define MAXQUEUE 1000
 struct TreeNode* queue[MAXQUEUE];
 int front, tail, size;
@@ -70,4 +72,34 @@ int* largestValues(struct TreeNode* root, int* returnSize) {
   }
 
   return result;
+}
+
+// DFS
+int* res;
+int getDepth(struct TreeNode* root) {
+  if (root == NULL) return 0;
+  return fmax(getDepth(root->left), getDepth(root->right)) + 1;
+}
+void dfs(struct TreeNode* root, int depth) {
+  if (root == NULL) {
+    return;
+  }
+  res[depth] = fmax(res[depth], root->val);
+  dfs(root->left, depth + 1);
+  dfs(root->right, depth + 1);
+}
+int* largestValues(struct TreeNode* root, int* returnSize) {
+  if (!root) {
+    *returnSize = 0;
+    return NULL;
+  }
+  int depth = getDepth(root);
+  res = (int*)malloc(sizeof(int) * depth);
+  for (int i = 0; i < depth; ++i) {
+    res[i] = INT_MIN;
+  }
+  dfs(root, 0);
+  *returnSize = depth;
+
+  return res;
 }

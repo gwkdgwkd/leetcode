@@ -11,9 +11,11 @@
 输出: 7
 
 提示:
-二叉树的节点个数的范围是[1,104]
--231 <= Node.val <= 231 - 1 
+二叉树的节点个数的范围是[1,10^4]
+-2^31 <= Node.val <= 2^31 - 1
 */
+
+// 剑指OfferII045二叉树最底层最左边的值
 
 struct TreeNode {
   int val;
@@ -99,4 +101,3 @@ int findBottomLeftValue(struct TreeNode* root) {
   traversal(root, 0);
   return leftValue;
 }
-// @lc code=end

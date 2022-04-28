@@ -15,9 +15,11 @@
 
 提示:
 二叉树的节点个数的范围是[0,1000]
--109 <= Node.val <= 109 
--1000 <= targetSum <= 1000 
+-10^9 <= Node.val <= 10^9
+-1000 <= targetSum <= 1000
 */
+
+// 剑指OfferII050向下的路径节点之和
 
 struct TreeNode {
   int val;
