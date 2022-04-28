@@ -16,6 +16,8 @@
 0 <= heights[i] <= 104
 */
 
+// 剑指OfferII039直方图最大矩形面积
+
 // 双指针，超时
 int largestRectangleArea(int* heights, int heightsSize) {
   int sum = 0;
@@ -44,7 +46,7 @@ int largestRectangleArea(int* heights, int heightsSize) {
     l[i] = t;
   }
 
-  int r[heightsSize];  // 记录每个柱子 右边第一个小于该柱子的下标
+  int r[heightsSize];  // 记录每个柱子右边第一个小于该柱子的下标
   r[heightsSize - 1] = heightsSize;  // 注意这里初始化，防止下面while死循环
   for (int i = heightsSize - 2; i >= 0; i--) {
     int t = i + 1;
@@ -71,9 +73,10 @@ int largestRectangleArea(int* heights, int heightsSize) {
   int data[heightsSize + 2];  // 哨兵，简化代码
   data[0] = data[heightsSize + 1] = 0;
   for (int i = 1; i <= heightsSize; ++i) {
-    data[i] = heights[i - 1];
+    data[i] = heights[i - 1];  // 前后都多加个0
   }
 
+  // top：1对应heights[0],对应data[1]
   stack[top] = 0;
   int ret = 0;
   for (int i = 1; i < heightsSize + 2; ++i) {
