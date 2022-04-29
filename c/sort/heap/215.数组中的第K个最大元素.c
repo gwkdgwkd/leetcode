@@ -84,7 +84,6 @@ void HeapAdjust(int *heap, int top, int size) {
   }
   heap[top] = temp;  // 此时top表示，父亲节点值（temp）应该存放的位置
 }
-
 int findKthLargest(int *nums, int numsSize, int k) {
   // 根据无序数组创建大顶堆
   for (int i = numsSize / 2 - 1; i >= 0; --i) {
