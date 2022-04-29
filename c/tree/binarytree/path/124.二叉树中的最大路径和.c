@@ -19,6 +19,8 @@
 -1000 <= Node.val <= 1000
 */
 
+// 剑指OfferII051节点之和最大的路径
+
 struct TreeNode {
   int val;
   struct TreeNode* left;
