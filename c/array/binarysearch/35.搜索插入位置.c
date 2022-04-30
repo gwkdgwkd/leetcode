@@ -16,11 +16,13 @@
 输出: 4
 
 提示:
-1 <= nums.length <= 104
--104 <= nums[i] <= 104
+1 <= nums.length <= 10^4
+-10^4 <= nums[i] <= 10^4
 nums为无重复元素的升序排列数组
--104 <= target <= 104
+-10^4 <= target <= 10^4
 */
+
+// 剑指OfferII068查找插入位置
 
 int searchInsert(int* nums, int numsSize, int target) {
   int left = 0;
