@@ -15,6 +15,8 @@
 -104 <= nums[i] <= 104
 */
 
+// 剑指OfferII076数组中的第k大的数字
+
 // 思路：
 // 给nums数组排个序，然后取第k个元素，也就是nums[k-1]，不就行了吗？
 // 当然可以，但是排序时间复杂度是O(NlogN)，其中N表示数组nums的长度。
@@ -138,7 +140,7 @@ int QuickSelect(int *nums, int left, int right, int k) {  // 与快速排序不�
   } else if (p < k) {  // [left  k  p  right]
     return QuickSelect(nums, p + 1, right, k);
   } else {  // p == k，表示k位置的元素就是第k大的元素
-    return nums[k];
+    return nums[p];
   }
 }
 int findKthLargest(int *nums, int numsSize, int k) {

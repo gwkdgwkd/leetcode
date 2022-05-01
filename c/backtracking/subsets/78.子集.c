@@ -16,6 +16,8 @@
 nums中的所有元素互不相同
 */
 
+// 剑指OfferII079所有子集
+
 // 回溯算法
 // 组合问题和分割问题都是收集树的叶⼦节点，⽽⼦集问题是找树的所有节点！
 int** result;
@@ -29,8 +31,8 @@ void backtracking(int* nums, int numsSize, int startIndex,
   memcpy(result[resultSize], path, sizeof(int) * pathSize);
   (*returnColumnSizes)[resultSize] = pathSize;
   resultSize++;
-  // 其实可以不需要加终⽌条件，因为startIndex >= numsSize，本层for循环本来也结束了。
-  // if (startIndex >= numsSize) {
+  // 其实可以不需要加终⽌条件，因为startIndex >=
+  // numsSize，本层for循环本来也结束了。 if (startIndex >= numsSize) {
   //   return;
   // }
 

@@ -16,6 +16,8 @@
 0 <= x <= 231 - 1
 */
 
+// 剑指OfferII072求平方根
+
 // 袖珍计算器算法是一种用指数函数exp和对数函数ln代替平方根函数的方法。
 // 通过有限的可以使用的数学函数，得到我们想要计算的结果。
 int mySqrt(int x) {
@@ -43,5 +45,3 @@ int mySqrt(int x) {
   }
   return ans;
 }
-
-// @lc code=end

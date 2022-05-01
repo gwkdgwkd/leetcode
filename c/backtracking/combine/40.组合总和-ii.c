@@ -1,7 +1,7 @@
 /*
 给定一个候选人编号的集合candidates和一个目标数target，找出candidates中所有可以使数字和为target的组合。
 candidates中的每个数字在每个组合中只能使用一次。
-注意：解集不能包含重复的组合。 
+注意：解集不能包含重复的组合。
 
 示例1:
 输入: candidates = [10,1,2,7,6,1,5], target = 8,
@@ -21,12 +21,13 @@ candidates中的每个数字在每个组合中只能使用一次。
 [5]
 ]
 
-
 提示:
 1 <= candidates.length <= 100
 1 <= candidates[i] <= 50
 1 <= target <= 30
 */
+
+// 剑指OfferII082含有重复元素集合的组合
 
 // 和39.组合总和如下区别：
 // 1.candidates中的每个数字在每个组合中只能使⽤⼀次。

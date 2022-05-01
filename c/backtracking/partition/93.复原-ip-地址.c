@@ -22,6 +22,8 @@
 s 仅由数字组成
 */
 
+// 剑指OfferII087复原IP
+
 char **result;
 int resultSize;
 char *path;

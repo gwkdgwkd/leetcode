@@ -13,10 +13,12 @@
 解释：区间[1,4]和[4,5]可被视为重叠区间。
 
 提示：
-1 <= intervals.length <= 104
+1 <= intervals.length <= 10^4
 intervals[i].length == 2
-0 <= starti <= endi <= 104
+0 <= starti <= endi <= 10^4
 */
+
+// 剑指OfferII074合并区间
 
 // 时间复杂度：O(nlogn) ，有一个快排
 // 空间复杂度：O(1)，不算result数组（返回值所需容器占的空间）

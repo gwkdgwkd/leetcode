@@ -15,6 +15,8 @@
 s 仅由小写英文字母组成
 */
 
+// 剑指OfferII086分割回文子字符串
+
 // 回溯算法
 char ***result;
 int resultSize;

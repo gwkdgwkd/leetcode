@@ -30,6 +30,9 @@ k == lists.length
 lists[i]按升序排列
 lists[i].length的总和不超过10^4
 */
+
+// 剑指OfferII078合并排序链表
+
 struct ListNode {
   int val;
   struct ListNode* next;
