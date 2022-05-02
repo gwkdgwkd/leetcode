@@ -25,8 +25,10 @@ t = t1 + t2 + ... + tm
 0 <= s3.length <= 200
 s1、s2和s3都由小写英文字母组成
 
-进阶：您能否仅使用 O(s2.length) 额外的内存空间来解决它?
+进阶：您能否仅使用O(s2.length)额外的内存空间来解决它?
 */
+
+// 剑指OfferII096字符串交织
 
 // 动态规划
 bool isInterleave(char* s1, char* s2, char* s3) {

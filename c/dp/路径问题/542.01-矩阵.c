@@ -17,8 +17,10 @@ n == mat[i].length
 1 <= m, n <= 104
 1 <= m * n <= 104
 mat[i][j] is either 0 or 1.
-mat中至少有一个0 
+mat中至少有一个0
 */
+
+// 剑指OfferII107矩阵中的距离
 
 // 动态规划
 int** updateMatrix(int** mat, int matSize, int* matColSize, int* returnSize,

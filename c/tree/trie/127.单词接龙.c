@@ -7,7 +7,7 @@
 3.sk == endWord
 给你两个单词beginWord和endWord和一个字典wordList，
 返回从beginWord到endWord的最短转换序列中的单词数目。
-如果不存在这样的转换序列，返回0 。
+如果不存在这样的转换序列，返回0。
 
 示例1：
 输入：beginWord = "hit", endWord = "cog", wordList =
@@ -30,6 +30,8 @@ beginWord、endWord和wordList[i]由小写英文字母组成
 beginWord != endWord
 wordList中的所有字符串互不相同
 */
+
+// 剑指OfferII108单词演变
 
 // 广度优先搜索 + 优化建图
 struct Trie {

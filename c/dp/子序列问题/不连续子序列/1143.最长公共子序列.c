@@ -26,6 +26,8 @@
 text1和text2仅由小写英文字符组成。
 */
 
+// 剑指OfferII095最长公共子序列
+
 int longestCommonSubsequence(char* text1, char* text2) {
   int len1 = strlen(text1);
   int len2 = strlen(text2);

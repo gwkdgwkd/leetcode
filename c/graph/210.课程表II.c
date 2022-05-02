@@ -1,6 +1,6 @@
 /*
 现在你总共有numCourses门课需要选，记为0到numCourses - 1。
-给你一个数组prerequisites，其中prerequisites[i] = [ai, bi]，表示在选修课程ai前必须先选修bi。
+给你一个数组prerequisites，其中prerequisites[i]=[ai,bi]，表示在选修课程ai前必须先选修bi。
 例如，想要学习课程0，你需要先完成课程1，我们用一个匹配来表示：[0,1] 。
 返回你为了学完所有课程所安排的学习顺序。可能会有多个正确的顺序，
 你只要返回任意一种就可以了。如果不可能完成所有课程，返回一个空数组。
@@ -29,18 +29,17 @@ ai != bi
 所有[ai, bi]互不相同
 */
 
-#define QUE_MAX 100000
+// 剑指OfferII113课程顺序
 
+#define QUE_MAX 100000
 typedef struct Node {
   int val;
   struct Node *next;
 } * GraghNode;  // 节点
-
 typedef struct gNode {
   int size;
   GraghNode *Lists;  // 保存每个节点的邻接节点数组
 } * Gragh;           // 邻接表
-
 int *findOrder(int numCourses, int **prerequisites, int prerequisitesSize,
                int *prerequisitesColSize, int *returnSize) {
   // 构建邻接表

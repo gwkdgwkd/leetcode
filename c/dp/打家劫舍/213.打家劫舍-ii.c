@@ -14,7 +14,7 @@
 输入：nums = [1,2,3,1]
 输出：4
 解释：你可以先偷窃1号房屋（金额 = 1），然后偷窃3号房屋（金额 = 3）。
-偷窃到的最高金额 = 1 + 3 = 4 。
+偷窃到的最高金额 = 1 + 3 = 4。
 
 示例3：
 输入：nums = [1,2,3]
@@ -25,6 +25,8 @@
 0 <= nums[i] <= 1000
 */
 
+// 剑指OfferII090环形房屋偷盗
+
 // 这道题⽬和198.打家劫舍是差不多的，唯⼀区别就是成环了。
 // 对于⼀个数组，成环的话主要有如下三种情况：
 // 1.情况⼀：考虑不包含⾸尾元素
@@ -33,6 +35,37 @@
 // ⽽情况⼆和情况三都包含了情况⼀了，所以只考虑情况⼆和情况三就可以了。
 
 // 动态规划
+int rob(int* nums, int numsSize) {
+  if (numsSize == 0) {
+    return numsSize;
+  }
+  if (numsSize == 1) {
+    return nums[0];
+  }
+  if (numsSize == 2) {
+    return fmax(nums[0], nums[1]);
+  }
+
+  int dp1[numsSize];  // 首偷尾不偷，0 ～ n-2
+  dp1[0] = nums[0];
+  dp1[1] = fmax(nums[0], nums[1]);
+  int dp2[numsSize];  // 首不偷尾偷，1 ～ n-1
+  dp2[1] = nums[1];
+  dp2[2] = fmax(nums[1], nums[2]);
+
+  for (int i = 2; i < numsSize; ++i) {
+    if (i < numsSize - 1) {
+      dp1[i] = fmax(dp1[i - 2] + nums[i], dp1[i - 1]);
+    }
+    if (i > 2) {
+      dp2[i] = fmax(dp2[i - 2] + nums[i], dp2[i - 1]);
+    }
+  }
+
+  return fmax(dp1[numsSize - 2], dp2[numsSize - 1]);
+}
+
+// 压缩dp
 int rob(int* nums, int numsSize) {
   if (numsSize == 0) {
     return numsSize;

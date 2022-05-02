@@ -27,6 +27,8 @@ triangle[i].length == triangle[i - 1].length + 1
 进阶：你可以只使用O(n)的额外空间（n为三角形的总行数）来解决这个问题吗？
 */
 
+// 剑指OfferII100三角形中最小路径之和
+
 // 动态规划
 int minimumTotal(int** triangle, int triangleSize, int* triangleColSize) {
   int m = triangleSize;

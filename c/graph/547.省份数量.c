@@ -23,6 +23,8 @@ isConnected[i][i] == 1
 isConnected[i][j] == isConnected[j][i]
 */
 
+// 剑指OfferII116省份数量
+
 // Union-Find算法
 int count;
 int* parent;

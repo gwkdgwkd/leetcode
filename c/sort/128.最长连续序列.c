@@ -16,6 +16,8 @@
 -10^9 <= nums[i] <= 10^9
 */
 
+// 剑指OfferII119最长连续序列
+
 // 排序，比O(n)复杂度高
 int cmp(const void *a, const void *b) { return *(int *)a - *(int *)b; }
 int longestConsecutive(int *nums, int numsSize) {

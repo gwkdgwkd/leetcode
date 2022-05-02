@@ -20,6 +20,8 @@ graph[i]中的所有元素互不相同
 保证输入为有向无环图（DAG）
 */
 
+// 剑指OfferII110所有路径
+
 #define MAXSIZE 7000
 int** res;
 int* path;
