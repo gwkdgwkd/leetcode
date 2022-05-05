@@ -21,6 +21,8 @@
 注意：本题与285题相同
 */
 
+// 面试题0406后继者
+
 struct TreeNode {
   int val;
   struct TreeNode* left;

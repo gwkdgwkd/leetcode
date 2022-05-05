@@ -35,6 +35,8 @@ myQueue.empty(); // return false
 换句话说，执行n个操作的总时间复杂度为O(n)，即使其中一个操作可能花费较长时间。
 */
 
+// 面试题0304化栈为队
+
 // 两个栈实现队列
 typedef struct {
   int* stk;

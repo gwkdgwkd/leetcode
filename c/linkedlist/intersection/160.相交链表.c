@@ -47,6 +47,10 @@ listB中节点数目为n
 如果listA和listB有交点，intersectVal == listA[skipA] == listB[skipB]
 */
 
+// 剑指OfferII023两个链表的第一个重合节点
+// 剑指Offer52两个链表的第一个公共节点
+// 面试题0207链表相交
+
 struct ListNode {
   int val;
   struct ListNode *next;

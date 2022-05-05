@@ -23,6 +23,8 @@
 题目数据保证列表表示的数字不含前导零
 */
 
+// 面试题0205链表求和
+
 struct ListNode {
   int val;
   struct ListNode* next;

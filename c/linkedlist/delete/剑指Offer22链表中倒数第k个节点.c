@@ -29,3 +29,20 @@ struct ListNode* getKthFromEnd(struct ListNode* head, int k) {
 
   return slow;
 }
+
+// 面试题0202返回倒数第k个节点
+int kthToLast(struct ListNode* head, int k) {
+  struct ListNode* fast = head;
+  struct ListNode* slow = head;
+
+  while (k-- && fast) {
+    fast = fast->next;
+  }
+
+  while (fast) {
+    fast = fast->next;
+    slow = slow->next;
+  }
+
+  return slow->val;
+}

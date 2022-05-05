@@ -13,20 +13,18 @@
 解释：[1,null,3]和[3,1]都是高度平衡二叉搜索树。
 
 提示：
-1 <= nums.length <= 104
--104 <= nums[i] <= 104
+1 <= nums.length <= 10^4
+-10^4 <= nums[i] <= 10^4
 nums按严格递增顺序排列
 */
 
-// @lc code=start
-/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     struct TreeNode *left;
- *     struct TreeNode *right;
- * };
- */
+// 面试题0402最小高度树
+
+struct TreeNode {
+  int val;
+  struct TreeNode* left;
+  struct TreeNode* right;
+};
 
 // 递归
 struct TreeNode* convert(int* nums, int left, int right) {
@@ -45,4 +43,3 @@ struct TreeNode* sortedArrayToBST(int* nums, int numsSize) {
 }
 
 // 迭代法可以通过三个队列来模拟，⼀个队列放遍历的节点，⼀个队列放左区间下表，⼀个队列放右区间下表。
-// @lc code=end

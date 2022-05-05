@@ -16,6 +16,8 @@ n == matrix.length == matrix[i].length
 -1000 <= matrix[i][j] <= 1000
 */
 
+// 面试题0107旋转矩阵
+
 void print(int** matrix, int matrixSize) {
   for (int i = 0; i < matrixSize; ++i) {
     for (int j = 0; j < matrixSize; ++j) {
@@ -24,9 +26,10 @@ void print(int** matrix, int matrixSize) {
     printf("\n");
   }
 }
+
 // 将二维矩阵原地逆时针旋转90度
 void rotate2(int** matrix, int matrixSize, int* matrixColSize) {
-  // 沿左下到右上的对角线镜像对称二维矩阵
+  // 1.沿左下到右上的对角线镜像对称二维矩阵
   for (int i = 0; i < matrixSize; i++) {
     for (int j = 0; j < matrixSize - i; j++) {
       // swap(matrix[i][j], matrix[n-j-1][n-i-1])
@@ -35,7 +38,7 @@ void rotate2(int** matrix, int matrixSize, int* matrixColSize) {
       matrix[matrixSize - j - 1][matrixSize - i - 1] = temp;
     }
   }
-  // 然后反转二维矩阵的每一行
+  // 2.然后反转二维矩阵的每一行
   for (int i = 0; i < matrixSize; ++i) {
     int l = 0;
     int r = matrixSize - 1;
@@ -48,9 +51,10 @@ void rotate2(int** matrix, int matrixSize, int* matrixColSize) {
     }
   }
 }
+
 void rotate(int** matrix, int matrixSize, int* matrixColSize) {
   // print(matrix, matrixSize);
-  // 先沿对角线镜像对称二维矩阵
+  // 1.先沿左上到右下的对角线镜像对称二维矩阵
   for (int i = 0; i < matrixSize; ++i) {
     for (int j = i; j < matrixSize; ++j) {
       int tmp = matrix[i][j];
@@ -59,7 +63,7 @@ void rotate(int** matrix, int matrixSize, int* matrixColSize) {
     }
   }
   // print(matrix, matrixSize);
-  // 然后反转二维矩阵的每一行
+  // 2.然后反转二维矩阵的每一行
   for (int i = 0; i < matrixSize; ++i) {
     int l = 0;
     int r = matrixSize - 1;

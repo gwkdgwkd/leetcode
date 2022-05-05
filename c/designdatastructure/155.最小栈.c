@@ -24,10 +24,12 @@ minStack.top();      -->返回0
 minStack.getMin();   -->返回-2
 
 提示：
--231 <= val <= 231 - 1
+-2^31 <= val <= 2^31 - 1
 pop、top和getMin操作总是在非空栈上调用
 push, pop, top, and getMin最多被调用3*10^4次
 */
+
+// 面试题0302栈的最小值
 
 #define MAX 30000
 typedef struct {
