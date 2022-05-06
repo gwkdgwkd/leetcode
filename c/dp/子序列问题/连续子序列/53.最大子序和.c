@@ -16,11 +16,13 @@
 输出：23
 
 提示：
-1 <= nums.length <= 105
--104 <= nums[i] <= 104
+1 <= nums.length <= 10^5
+-10^4 <= nums[i] <= 10^4
 
 进阶：如果你已经实现复杂度为O(n)的解法，尝试使用更为精妙的分治法求解。
 */
+
+// 面试题1617连续数列
 
 // 时间复杂度：O(N)
 // 空间复杂度：O(N)
@@ -89,4 +91,28 @@ int maxSubArray(int* nums, int numsSize) {
     }
   }
   return max;
+}
+
+// 分治
+struct Status {
+  int lSum, rSum, mSum, iSum;
+};
+struct Status pushUp(struct Status l, struct Status r) {
+  int iSum = l.iSum + r.iSum;
+  int lSum = fmax(l.lSum, l.iSum + r.lSum);
+  int rSum = fmax(r.rSum, r.iSum + l.rSum);
+  int mSum = fmax(fmax(l.mSum, r.mSum), l.rSum + r.lSum);
+  return (struct Status){lSum, rSum, mSum, iSum};
+};
+struct Status get(int* a, int l, int r) {
+  if (l == r) {
+    return (struct Status){a[l], a[l], a[l], a[l]};
+  }
+  int m = (l + r) >> 1;
+  struct Status lSub = get(a, l, m);
+  struct Status rSub = get(a, m + 1, r);
+  return pushUp(lSub, rSub);
+}
+int maxSubArray(int* nums, int numsSize) {
+  return get(nums, 0, numsSize - 1).mSum;
 }

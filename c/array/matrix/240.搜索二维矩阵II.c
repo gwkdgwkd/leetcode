@@ -48,3 +48,20 @@ bool searchMatrix(int** matrix, int matrixSize, int* matrixColSize,
   }
   return false;
 }
+
+// 面试题1009排序矩阵查找
+bool searchMatrix(int** matrix, int matrixSize, int matrixColSize, int target) {
+  int m = matrixSize;
+  int n = matrixColSize;
+  int x = 0, y = n - 1;
+  while (x < m && y >= 0) {
+    if (matrix[x][y] > target) {
+      --y;
+    } else if (matrix[x][y] < target) {
+      ++x;
+    } else {
+      return true;
+    }
+  }
+  return false;
+}

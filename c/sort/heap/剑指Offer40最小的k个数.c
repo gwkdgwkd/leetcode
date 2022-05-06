@@ -15,6 +15,8 @@
 0 <= arr[i] <= 10000
 */
 
+// 面试题1714最小K个数
+
 // 小顶堆
 void adjustHeap(int* arr, int top, int size) {
   int tmp = arr[top];

@@ -17,8 +17,10 @@ f(x)是x!末尾是0的数量。回想一下x! = 1 * 2 * 3 * ... * x，且0! = 1 
 输入: k = 3
 输出: 5
 
-提示:0 <= k <= 109
+提示:0 <= k <= 10^9
 */
+
+// 面试题1605阶乘尾数
 
 long trailingZeroes(long n) {
   long res = 0;
@@ -27,6 +29,7 @@ long trailingZeroes(long n) {
   }
   return res;
 }
+
 long left_bound(int target) {
   long lo = 0, hi = LONG_MAX;
   while (lo < hi) {
