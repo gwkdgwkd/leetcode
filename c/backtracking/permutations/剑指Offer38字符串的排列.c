@@ -6,8 +6,11 @@
 输入：s = "abc"
 输出：["abc","acb","bac","bca","cab","cba"]
 
-限制：1 <= s 的长度 <= 8
+限制：1 <= s的长度<= 8
 */
+
+// 面试题0807无重复字符串的排列组合
+// 面试题0808有重复字符串的排列组合
 
 void backtrack(char** rec, int* recSize, int* vis, char* s, int i, int n,
                char* perm) {

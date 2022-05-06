@@ -50,7 +50,7 @@ int change1(int amount, int* coins, int coinsSize) {
   // }
 
   for (int i = 1; i <= coinsSize; ++i) {
-    for (int j = 0; j <= amount; ++j) {
+    for (int j = 1; j <= amount; ++j) {
       if (j < coins[i - 1]) {
         // 如果目标值j比当前面值小，那么当前面值不能放入，所以选择不包括当前值的所有方法
         dp[i][j] = dp[i - 1][j];
