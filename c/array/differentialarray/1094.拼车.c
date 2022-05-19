@@ -1,7 +1,7 @@
 /*
 车上最初有capacity个空座位。车只能向一个方向行驶（也就是说，不允许掉头或改变方向）
 给定整数capacity和一个数组trips,trip[i]=[numPassengersi,fromi,toi]表示第i次旅行有numPassengersi乘客，
-接他们和放他们的位置分别是fromi和toi 。这些位置是从汽车的初始位置向东的公里数。
+接他们和放他们的位置分别是fromi和toi。这些位置是从汽车的初始位置向东的公里数。
 当且仅当你可以在所有给定的行程中接送所有乘客时，返回true，否则请返回false。
 
 示例1：
@@ -17,7 +17,7 @@
 trips[i].length == 3
 1 <= numPassengersi <= 100
 0 <= fromi < toi <= 1000
-1 <= capacity <= 105
+1 <= capacity <= 10^5
 */
 
 // 差分数组

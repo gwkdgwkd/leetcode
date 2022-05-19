@@ -26,11 +26,11 @@
 因此，answer = [10,25]
 
 提示：
-1 <= n <= 2 * 104
-1 <= bookings.length <= 2 * 104
+1 <= n <= 2 * 10^4
+1 <= bookings.length <= 2 * 10^4
 bookings[i].length == 3
 1 <= firsti <= lasti <= n
-1 <= seatsi <= 104
+1 <= seatsi <= 10^4
 */
 
 // 差分数组

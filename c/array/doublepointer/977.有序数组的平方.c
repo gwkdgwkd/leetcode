@@ -12,28 +12,33 @@
 输出：[4,9,9,49,121]
 
 提示：
-1 <= nums.length <= 104
--104 <= nums[i] <= 104
+1 <= nums.length <= 10^4
+-10^4 <= nums[i] <= 10^4
 nums已按非递减顺序排序
-
- 
 
 进阶：请你设计时间复杂度为O(n)的算法解决本问题
 */
 
 // 双指针，时间复杂度为O(n)
 int* sortedSquares(int* nums, int numsSize, int* returnSize) {
-  int* ans = malloc(sizeof(int) * numsSize);
+  int left = 0;
+  int right = numsSize - 1;
+
   *returnSize = numsSize;
-  for (int i = 0, j = numsSize - 1, pos = numsSize - 1; i <= j;) {
-    if (nums[i] * nums[i] > nums[j] * nums[j]) {
-      ans[pos] = nums[i] * nums[i];
-      ++i;
+  int* ans = (int*)malloc(sizeof(int) * numsSize);
+  int i = numsSize - 1;
+
+  while (left <= right) {
+    int t1 = nums[left] * nums[left];
+    int t2 = nums[right] * nums[right];
+    if (t1 > t2) {
+      ans[i--] = t1;
+      ++left;
     } else {
-      ans[pos] = nums[j] * nums[j];
-      --j;
+      ans[i--] = t2;
+      --right;
     }
-    --pos;
   }
+
   return ans;
 }
