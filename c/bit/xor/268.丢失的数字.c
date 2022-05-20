@@ -36,7 +36,8 @@ nums中的所有数字都独一无二
 
 // 面试题1704消失的数字
 
-// 排序解法的时间复杂度是O(NlogN)，HashSet的解法时间复杂度是O(N)，但是还需要O(N)的空间复杂度存储HashSet。
+// 排序解法的时间复杂度是O(NlogN)，
+// HashSet的解法时间复杂度是O(N)，但是还需要O(N)的空间复杂度存储HashSet。
 
 // 位运算
 // 时间复杂度：O(N)
@@ -67,4 +68,19 @@ int missingNumber(int* nums, int numsSize) {
   res += n - 0;
   for (int i = 0; i < n; i++) res += i - nums[i];
   return res;
+}
+
+// 剑指Offer53-II.0～n-1中缺失的数字
+// 一个长度为n-1的递增排序数组中的所有数字都是唯一的，并且每个数字都在范围0～n-1之内。
+// 在范围0～n-1内的n个数字中有且只有一个数字不在该数组中，请找出这个数字。
+
+// 数组无序，就不能用这种方法，但上面的三种方法都可以
+int missingNumber(int* nums, int numsSize) {
+  for (int i = 0; i < numsSize; ++i) {
+    if (nums[i] != i) {
+      return i;
+    }
+  }
+
+  return numsSize;
 }

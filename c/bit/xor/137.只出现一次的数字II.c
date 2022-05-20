@@ -18,6 +18,9 @@ nums中，除某个元素仅出现一次外，其余每个元素都恰出现三�
 进阶：你的算法应该具有线性时间复杂度。你可以不使用额外空间来实现吗？
 */
 
+// 剑指OfferII004只出现一次的数字
+// 剑指Offer56-II数组中数字出现的次数II
+
 // 依次确定每一个二进制位
 // 答案的第i个二进制位就是数组中所有元素的第i个二进制位之和除以3的余数。
 int singleNumber(int* nums, int numsSize) {
@@ -51,8 +54,8 @@ int singleNumber(int* nums, int numsSize) {
   //   two |= one & nums[i];
   //   // 二进制某位出现2次时ones = 0，出现1, 3次时ones = 1；
   //   one ^= nums[i];
-  //   // 二进制某位出现3次时（即twos = ones = 1时）three = 1，其余即出现1, 2次时three = 0；
-  //   three = one & two;
+  //   // 二进制某位出现3次时（即twos = ones = 1时）three = 1，其余即出现1,
+  //   2次时three = 0； three = one & two;
   //   // 将二进制下出现3次的位置零，实现`三进制下不考虑进位的加法`；
   //   one &= ~three;
   //   two &= ~three;

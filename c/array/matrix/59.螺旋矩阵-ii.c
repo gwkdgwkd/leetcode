@@ -1,5 +1,6 @@
 /*
-给你一个正整数n，生成一个包含1到n^2所有元素，且元素按顺时针顺序螺旋排列的nxn正方形矩阵matrix 。
+给你一个正整数n，生成一个包含1到n^2所有元素，且元素按顺时针顺序螺旋排列的nxn正方形矩阵matrix
+。
 
 示例1：
 输入：n = 3
@@ -25,7 +26,8 @@ int **generateMatrix(int n, int *returnSize, int **returnColumnSizes) {
 
   // 定义每循环一个圈的起始位置
   int startx = 0, starty = 0;
-  // 每个圈循环几次，例如n为奇数3，那么loop=1 只是循环一圈，矩阵中间的值需要单独处理
+  // 每个圈循环几次，例如n为奇数3，那么loop=1
+  // 只是循环一圈，矩阵中间的值需要单独处理
   int loop = n / 2;
   // 矩阵中间的位置，例如：n为3，中间的位置就是(1，1)，n为5，中间位置为(2,2)
   int mid = n / 2;
@@ -64,6 +66,40 @@ int **generateMatrix(int n, int *returnSize, int **returnColumnSizes) {
   // 如果n为奇数的话，需要单独给矩阵最中间的位置赋值
   if (n % 2) {
     res[mid][mid] = count;
+  }
+
+  return res;
+}
+
+// 参考[54.螺旋矩阵]
+int **generateMatrix(int n, int *returnSize, int **returnColumnSizes) {
+  *returnSize = n;
+  int **res = (int **)malloc(sizeof(int *) * n);
+  *returnColumnSizes = (int *)malloc(sizeof(int) * n);
+  for (int k = 0; k < n; ++k) {
+    res[k] = (int *)malloc(sizeof(int) * n);
+    (*returnColumnSizes)[k] = n;
+  }
+
+  int count = 1;
+  int left = 0, right = n - 1, top = 0, bottom = n - 1;
+  while (left <= right && top <= bottom) {
+    for (int col = left; col <= right; ++col) {
+      res[top][col] = count++;
+    }
+    for (int row = top + 1; row <= bottom; ++row) {
+      res[row][right] = count++;
+    }
+    for (int col = right - 1; col > left; col--) {
+      res[bottom][col] = count++;
+    }
+    for (int row = bottom; row > top; row--) {
+      res[row][left] = count++;
+    }
+    left++;
+    right--;
+    top++;
+    bottom--;
   }
 
   return res;

@@ -5,7 +5,7 @@
 实现NumArray类：
 NumArray(int[] nums) 使用数组nums初始化对象
 int sumRange(int i, int j)返回数组nums中索引left和right之间的元素的总和，
-包含left和right两点（也就是nums[left]+nums[left + 1]+...+nums[right] )
+包含left和right两点（也就是nums[left]+nums[left + 1]+...+nums[right])
 
 示例1：
 输入：
@@ -16,14 +16,14 @@ int sumRange(int i, int j)返回数组nums中索引left和right之间的元素�
 解释：
 NumArray numArray = new NumArray([-2, 0, 3, -5, 2, -1]);
 numArray.sumRange(0, 2); // return 1 ((-2) + 0 + 3)
-numArray.sumRange(2, 5); // return -1 (3 + (-5) + 2 + (-1)) 
+numArray.sumRange(2, 5); // return -1 (3 + (-5) + 2 + (-1))
 numArray.sumRange(0, 5); // return -3 ((-2) + 0 + 3 + (-5) + 2 + (-1))
 
 提示：
-1 <= nums.length <= 104
--105 <= nums[i] <= 105
+1 <= nums.length <= 10^4
+-10^5 <= nums[i] <= 10^5
 0 <= i <= j < nums.length
-最多调用104次sumRange方法
+最多调用10^4次sumRange方法
 */
 
 #include <stdio.h>

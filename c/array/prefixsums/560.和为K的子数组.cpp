@@ -1,23 +1,24 @@
 /*
-给定一个整数数组和一个整数k，请找到该数组中和为k的连续子数组的个数。
+给你一个整数数组nums和一个整数k，请你统计并返回该数组中和为k的子数组的个数。
 
 示例1：
-输入:nums = [1,1,1], k = 2
-输出: 2
-解释: 此题[1,1]与[1,1]为两种不同的情况
+输入：nums = [1,1,1], k = 2
+输出：2
 
 示例2：
-输入:nums = [1,2,3], k = 3
-输出: 2
+输入：nums = [1,2,3], k = 3
+输出：2
 
-提示:
+提示：
 1 <= nums.length <= 2 * 10^4
 -1000 <= nums[i] <= 1000
 -10^7 <= k <= 10^7
-
-注意：本题与560题相同
 */
 
+// 剑指OfferII010和为k的子数组
+
+#include "uthash.h"
+// 前缀和+哈希表
 typedef struct hashNode {
   int prefixSum;
   int cnt;
@@ -59,3 +60,29 @@ int subarraySum(int *nums, int numsSize, int k) {
   }
   return retCnt;
 }
+
+class Solution {
+ public:
+  int subarraySum(vector<int> &nums, int k) {
+    unordered_map<int, int> hash;
+    hash[0] = 1;
+    int presum = 0;
+    int res = 0;
+    for (auto &num : nums) {
+      presum += num;
+      int diff = presum - k;
+      auto it = hash.find(diff);
+      if (it != hash.end()) {
+        res += it->second;
+      }
+      it = hash.find(presum);
+      if (it != hash.end()) {
+        it->second++;
+      } else {
+        hash[presum] = 1;
+      }
+    }
+
+    return res;
+  }
+};

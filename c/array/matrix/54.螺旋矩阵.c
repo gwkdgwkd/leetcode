@@ -18,12 +18,20 @@ n == matrix[i].length
 -100 <= matrix[i][j] <= 100
 */
 
+// 剑指Offer29顺时针打印矩阵
+// 0 <= matrix.length <= 100
+// 0 <= matrix[i].length <= 100
+
 int* spiralOrder(int** matrix, int matrixSize, int* matrixColSize,
                  int* returnSize) {
+  *returnSize = 0;
+  if (matrixSize == 0) {  // for 剑指Offer29
+    return NULL;
+  }
+
   int m = matrixSize;
   int n = *matrixColSize;
   int* res = (int*)malloc(sizeof(int) * m * n);
-  *returnSize = 0;
 
   int left = 0, right = n - 1, top = 0, bottom = m - 1;
   while (left <= right && top <= bottom) {

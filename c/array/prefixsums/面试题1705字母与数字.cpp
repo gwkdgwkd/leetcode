@@ -40,3 +40,36 @@ char** findLongestSubarray(char** array, int arraySize, int* returnSize) {
   *returnSize = maxLength;
   return &(array[endPos - maxLength + 1]);
 }
+
+// 与[525.连续数组]类似
+class Solution {
+ public:
+  vector<string> findLongestSubarray(vector<string>& array) {
+    int maxLength = 0;
+    int start = 0;
+    unordered_map<int, int> mp;
+    int counter = 0;
+    mp[counter] = -1;
+    int n = array.size();
+    for (int i = 0; i < n; i++) {
+      if (isdigit(array[i][0])) {
+        counter++;
+      } else {
+        counter--;
+      }
+      if (mp.count(counter)) {
+        int prevIndex = mp[counter];
+        if (maxLength < i - prevIndex) {
+          maxLength = i - prevIndex;
+          start = prevIndex;
+        }
+      } else {
+        mp[counter] = i;
+      }
+    }
+
+    vector<string> res(array.begin() + start + 1,
+                       array.begin() + start + 1 + maxLength);
+    return res;
+  }
+};

@@ -24,6 +24,8 @@
 除两个只出现一次的整数外，nums中的其他数字都出现两次
 */
 
+// 剑指Offer56-I数组中数字出现的次数
+
 int* singleNumber(int* nums, int numsSize, int* returnSize) {
   // 1.把所有的元素进行异或操作，最终得到一个异或值
   //   因为是不同的两个数字，所以这个值必定不为0

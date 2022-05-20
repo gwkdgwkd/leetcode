@@ -26,11 +26,13 @@ target = 20 输出：false
 m == matrix.length
 n == matrix[i].length
 1 <= n, m <= 300
--109 <= matrix[i][j] <= 109
+-10^9 <= matrix[i][j] <= 10^9
 每行的所有元素从左到右升序排列
 每列的所有元素从上到下升序排列
--109 <= target <= 109
+-10^9 <= target <= 10^9
 */
+
+// 剑指Offer04二维数组中的查找
 
 // Z型查找
 bool searchMatrix(int** matrix, int matrixSize, int* matrixColSize,

@@ -21,6 +21,8 @@
 本题中，如果除法结果溢出，则返回2^31 − 1。
 */
 
+// 剑指OfferII001整数除法
+
 #define INT_MAX 0X7FFFFFFF
 #define INT_MIN 0X80000000
 int divide(int dividend, int divisor) {

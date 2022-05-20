@@ -20,8 +20,17 @@
 出于对空间复杂度分析的目的，输出数组不被视为额外空间。
 */
 
+// 剑指Offer66构建乘积数组
+// a.length <= 100000
+
 // 前缀和
 int* productExceptSelf(int* nums, int numsSize, int* returnSize) {
+  // for 剑指Offer66
+  // *returnSize = aSize;
+  // if (aSize == 0) {
+  //   return NULL;
+  // }
+
   int left[numsSize];   // left[i]表示nums[0...i-1]元素的乘积
   int right[numsSize];  // right[i]表示nums[i+1...numsSize-1]元素的乘积
   left[0] = right[numsSize - 1] = 1;
