@@ -96,7 +96,7 @@ int *pondSizes(int **land, int landSize, int *landColSize, int *returnSize) {
 
   int index = 0;
   for (int i = 0; i < m * n; ++i) {
-    // 父节点并且size大于0，表示一个池塘，size就是池塘大小
+    // 是父节点并且size大于0，表示一个池塘，size就是池塘大小
     if (parent[i] == i && size[i] > 0) {
       res[index++] = size[i];
     }
