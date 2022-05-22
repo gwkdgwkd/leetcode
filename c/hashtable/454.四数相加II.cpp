@@ -21,7 +21,7 @@ n == nums2.length
 n == nums3.length
 n == nums4.length
 1 <= n <= 200
--228 <= nums1[i], nums2[i], nums3[i], nums4[i] <= 228
+-2^28 <= nums1[i], nums2[i], nums3[i], nums4[i] <= 2^28
 */
 
 // 哈希表
@@ -122,3 +122,34 @@ int fourSumCount(int *A, int ASize, int *B, int BSize, int *C, int CSize,
   }
   return count;
 }
+
+class Solution {
+ public:
+  int fourSumCount(vector<int> &nums1, vector<int> &nums2, vector<int> &nums3,
+                   vector<int> &nums4) {
+    unordered_map<int, int> hash;
+    for (int i = 0; i < nums1.size(); ++i) {
+      for (int j = 0; j < nums2.size(); ++j) {
+        int key = nums1[i] + nums2[j];
+        auto it = hash.find(key);
+        if (it != hash.end()) {
+          hash[key]++;
+        } else {
+          hash[key] = 1;
+        }
+      }
+    }
+
+    int count = 0;
+    for (int i = 0; i < nums3.size(); ++i) {
+      for (int j = 0; j < nums4.size(); ++j) {
+        int key = (nums3[i] + nums4[j]) * -1;
+        auto it = hash.find(key);
+        if (it != hash.end()) {
+          count += hash[key];
+        }
+      }
+    }
+    return count;
+  }
+};

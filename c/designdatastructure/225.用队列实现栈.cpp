@@ -1,6 +1,6 @@
 /*
 请你仅使用两个队列实现一个后入先出（LIFO）的栈，并支持普通栈的全部四种操作（push、top、pop和empty）。
-实现MyStack 类：
+实现MyStack类：
 void push(int x)将元素x压入栈顶。
 int pop()移除并返回栈顶元素。
 int top()返回栈顶元素。
@@ -28,7 +28,7 @@ myStack.empty(); // 返回False
 
 提示：
 1 <= x <= 9
-最多调用100 次 push、pop、top 和 empty
+最多调用100次push、pop、top和empty
 每次调用pop和top都保证栈不为空
 
 进阶：你能否仅用一个队列来实现栈。
@@ -157,3 +157,54 @@ void myStackFree(MyStack *obj) {
   }
   free(obj);
 }
+
+class MyStack {
+ public:
+  queue<int> q1;
+  queue<int> q2;
+  MyStack() {}
+
+  void push(int x) {
+    q2.push(x);
+    while (!q1.empty()) {
+      q2.push(q1.front());
+      q1.pop();
+    }
+    swap(q1, q2);
+  }
+
+  int pop() {
+    int t = q1.front();
+    q1.pop();
+    return t;
+  }
+
+  int top() { return q1.front(); }
+
+  bool empty() { return q1.empty(); }
+};
+
+class MyStack {
+ public:
+  queue<int> q;
+  MyStack() {}
+
+  void push(int x) {
+    int n = q.size();
+    q.push(x);
+    for (int i = 0; i < n; ++i) {
+      q.push(q.front());
+      q.pop();
+    }
+  }
+
+  int pop() {
+    int t = q.front();
+    q.pop();
+    return t;
+  }
+
+  int top() { return q.front(); }
+
+  bool empty() { return q.empty(); }
+};

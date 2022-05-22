@@ -20,6 +20,7 @@ findMedian() -> 2
 如果数据流中99%的整数都在0到100范围内，你将如何优化你的算法？
 */
 
+// 剑指Offer41数据流中的中位数
 // 面试题1720连续中值
 
 // 两个堆
@@ -235,3 +236,34 @@ double medianFinderFindMedian(MedianFinder* obj) {
   return (double)(obj->maxHeap[1] + obj->minHeap[1]) / 2;
 }
 void medianFinderFree(MedianFinder* obj) { free(obj); }
+
+class MedianFinder {
+ public:
+  priority_queue<int, vector<int>, less<int>> queMin;
+  priority_queue<int, vector<int>, greater<int>> queMax;
+
+  MedianFinder() {}
+
+  void addNum(int num) {
+    if (queMin.empty() || num <= queMin.top()) {
+      queMin.push(num);
+      if (queMax.size() + 1 < queMin.size()) {
+        queMax.push(queMin.top());
+        queMin.pop();
+      }
+    } else {
+      queMax.push(num);
+      if (queMax.size() > queMin.size()) {
+        queMin.push(queMax.top());
+        queMax.pop();
+      }
+    }
+  }
+
+  double findMedian() {
+    if (queMin.size() > queMax.size()) {
+      return queMin.top();
+    }
+    return (queMin.top() + queMax.top()) / 2.0;
+  }
+};

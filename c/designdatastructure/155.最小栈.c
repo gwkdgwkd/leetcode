@@ -29,6 +29,7 @@ pop、top和getMin操作总是在非空栈上调用
 push, pop, top, and getMin最多被调用3*10^4次
 */
 
+// 剑指Offer30包含min函数的栈
 // 面试题0302栈的最小值
 
 #define MAX 30000

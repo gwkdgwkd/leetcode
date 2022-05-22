@@ -6,7 +6,7 @@
 请创建适用于这个系统的数据结构，实现各种操作方法，比如enqueue、dequeueAny、dequeueDog和dequeueCat。
 允许使用Java内置的LinkedList数据结构。
 enqueue方法有一个animal参数，animal[0]代表动物编号，animal[1]代表动物种类，其中0代表猫，1代表狗。
-dequeue*方法返回一个列表[动物编号, 动物种类]，若没有可以收养的动物，则返回[-1,-1]。
+dequeue*方法返回一个列表[动物编号,动物种类]，若没有可以收养的动物，则返回[-1,-1]。
 
 示例1:
 输入：
@@ -17,7 +17,8 @@ dequeue*方法返回一个列表[动物编号, 动物种类]，若没有可以�
 
 示例2:
 输入：
-["AnimalShelf", "enqueue", "enqueue", "enqueue", "dequeueDog", "dequeueCat", "dequeueAny"]
+["AnimalShelf", "enqueue", "enqueue", "enqueue",
+ "dequeueDog", "dequeueCat", "dequeueAny"]
 [[], [[0, 0]], [[1, 0]], [[2, 1]], [], [], []]
 输出：
 [null,null,null,null,[2,1],[0,0],[1,0]]
@@ -53,7 +54,7 @@ int* animalShelfDequeueAny(AnimalShelf* obj, int* retSize) {
   int* ret = (int*)malloc(sizeof(int) * (*retSize));
   ret[0] = -1;
   ret[1] = -1;
-  if (g_right - g_left == 0) {  //动物收容所没有动物时，g_left不能执行自加
+  if (g_right - g_left == 0) {  // 动物收容所没有动物时，g_left不能执行自加
     return ret;
   }
   ret[0] = g_queue[g_left].order;

@@ -26,10 +26,12 @@ randomizedSet.insert(2); // 2已在集合中，所以返回false。
 randomizedSet.getRandom(); // 由于2是集合中唯一的数字，getRandom总是返回2。
 
 提示：
--231 <= val <= 231 - 1
-最多调用insert、remove和getRandom函数2 * 105次
+-2^31 <= val <= 2^31 - 1
+最多调用insert、remove和getRandom函数2 * 10^5次
 在调用getRandom方法时，数据结构中至少存在一个元素。
 */
+
+// 剑指OfferII030插入、删除和随机访问都是O(1)的容器
 
 typedef struct {
   int val;
@@ -87,3 +89,40 @@ void randomizedSetFree(RandomizedSet* obj) {
   }
   return;
 }
+
+class RandomizedSet {
+ public:
+  RandomizedSet() { srand((unsigned)time(NULL)); }
+
+  bool insert(int val) {
+    if (indices.count(val)) {
+      return false;
+    }
+    int index = nums.size();
+    nums.emplace_back(val);
+    indices[val] = index;
+    return true;
+  }
+
+  bool remove(int val) {
+    if (!indices.count(val)) {
+      return false;
+    }
+    int index = indices[val];
+    int last = nums.back();
+    nums[index] = last;
+    indices[last] = index;
+    nums.pop_back();
+    indices.erase(val);
+    return true;
+  }
+
+  int getRandom() {
+    int randomIndex = rand() % nums.size();
+    return nums[randomIndex];
+  }
+
+ private:
+  vector<int> nums;
+  unordered_map<int, int> indices;
+};

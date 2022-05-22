@@ -90,3 +90,22 @@ int* intersection(int* nums1, int nums1Size, int* nums2, int nums2Size,
   }
   return intersection;
 }
+
+class Solution {
+ public:
+  vector<int> intersection(vector<int>& nums1, vector<int>& nums2) {
+    unordered_set<int> hash;
+    for (auto& i : nums1) {
+      hash.insert(i);
+    }
+
+    vector<int> res;
+    for (auto& i : nums2) {
+      if (hash.count(i)) {
+        hash.erase(i);
+        res.emplace_back(i);
+      }
+    }
+    return res;
+  }
+};

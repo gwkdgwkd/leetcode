@@ -16,7 +16,7 @@ magazine中的每个字符只能在ransomNote中使用一次。
 输出：true
 
 提示：
-1 <= ransomNote.length, magazine.length <= 105
+1 <= ransomNote.length, magazine.length <= 10^5
 ransomNote和magazine由小写英文字母组成
 */
 

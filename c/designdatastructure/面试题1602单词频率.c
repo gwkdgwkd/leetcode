@@ -53,8 +53,8 @@ WordsFrequency* wordsFrequencyCreate(char** book, int bookSize) {
 int wordsFrequencyGet(WordsFrequency* obj, char* word) {
   for (int i = 0; word[i] != '\0'; i++) {
     int ch = word[i] - 'a';
-    if (obj->chlidren[ch] ==
-        NULL) {  // 如果该字母在树中没有出现，那么表示这个单词肯定没有出现，单词的出现次数为0；
+    // 如果该字母在树中没有出现，那么表示这个单词肯定没有出现，单词的出现次数为0；
+    if (obj->chlidren[ch] == NULL) {
       return 0;
     }
     obj = obj->chlidren[ch];

@@ -15,10 +15,12 @@
 输出: [["a"]]
 
 提示：
-1 <= strs.length <= 104
+1 <= strs.length <= 10^4
 0 <= strs[i].length <= 100
 strs[i]仅包含小写字母
 */
+
+// 剑指OfferII033变位词组
 
 #define STR_SIZE 100
 typedef struct Node {
@@ -107,3 +109,20 @@ char ***groupAnagrams(char **strs, int strsSize, int *retSize,
   }
   return ans;
 }
+
+class Solution {
+ public:
+  vector<vector<string>> groupAnagrams(vector<string> &strs) {
+    unordered_map<string, vector<string>> hash;
+    for (auto &str : strs) {
+      string key = str;
+      sort(key.begin(), key.end());  // 排序
+      hash[key].emplace_back(str);   // 排序后的string当作key
+    }
+    vector<vector<string>> ans;
+    for (auto it = hash.begin(); it != hash.end(); ++it) {
+      ans.emplace_back(it->second);
+    }
+    return ans;
+  }
+};

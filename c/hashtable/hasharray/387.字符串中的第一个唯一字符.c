@@ -14,7 +14,7 @@
 输出: -1
 
 提示:
-1 <= s.length <= 105
+1 <= s.length <= 10^5
 s只包含小写字母
 */
 
@@ -34,4 +34,25 @@ int firstUniqChar(char* s) {
   }
 
   return -1;
+}
+
+// 剑指Offer50第一个只出现一次的字符
+// 在字符串s中找出第一个只出现一次的字符。
+// 如果没有，返回一个单空格。
+char firstUniqChar(char* s) {
+  int hash[26];
+  memset(hash, 0, sizeof(hash));
+
+  int len = strlen(s);
+  for (int i = 0; i < len; ++i) {
+    hash[s[i] - 'a']++;
+  }
+
+  for (int i = 0; i < len; ++i) {
+    if (hash[s[i] - 'a'] == 1) {
+      return s[i];
+    }
+  }
+
+  return ' ';
 }

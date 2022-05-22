@@ -24,11 +24,9 @@ freqStack.pop();//返回7，因为5和7出现频率最高，但7最接近顶部�
 freqStack.pop(); // 返回5，因为5出现频率最高。堆栈变成[5,7,4]。
 freqStack.pop();//返回4，因为4,5和7出现频率最高，但4是最接近顶部的。堆栈变成[5,7]。
 
-
-
 提示：
-0 <= val <= 109
-push和pop的操作数不大于2 * 104。
+0 <= val <= 10^9
+push和pop的操作数不大于2 * 10^4。
 输入保证在调用pop之前堆栈中至少有一个元素。
 */
 
@@ -172,3 +170,21 @@ int freqStackPop(FreqStack *obj) {
   return ans;
 }
 void freqStackFree(FreqStack *obj) { HASH_CLEAR(hh, obj); }
+
+class FreqStack {
+ public:
+  priority_queue<tuple<int, int, int>> pq;  // frequency, timestamp, value
+  unordered_map<int, int> val2freq;
+  int ts;
+  FreqStack() : ts(0) {}
+  void push(int val) {
+    int freq = ++val2freq[val];
+    pq.emplace(freq, ts++, val);
+  }
+  int pop() {
+    int val = get<2>(pq.top());
+    pq.pop();
+    --val2freq[val];
+    return val;
+  }
+};

@@ -23,7 +23,7 @@ cBTInserter.get_root(); // 返回 [1, 2, 3, 4]
 提示：
 树中节点数量范围为 [1, 1000]
 0 <= Node.val <= 5000
-root 是完全二叉树
+root是完全二叉树
 0 <= val <= 5000
 每个测试用例最多调用insert和get_root操作10^4次
 */

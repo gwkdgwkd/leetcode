@@ -83,3 +83,32 @@ int* intersect(int* nums1, int nums1Size, int* nums2, int nums2Size,
   }
   return intersection;
 }
+
+class Solution {
+ public:
+  vector<int> intersect(vector<int>& nums1, vector<int>& nums2) {
+    unordered_map<int, int> hash;
+    for (auto& i : nums1) {
+      auto it = hash.find(i);
+      if (it != hash.end()) {
+        hash[i]++;
+      } else {
+        hash[i] = 1;
+      }
+    }
+
+    vector<int> res;
+    for (auto& i : nums2) {
+      auto it = hash.find(i);
+      if (it != hash.end()) {
+        if (hash[i] > 1) {
+          hash[i]--;
+        } else if (hash[i] == 1) {
+          hash.erase(i);
+        }
+        res.emplace_back(i);
+      }
+    }
+    return res;
+  }
+};

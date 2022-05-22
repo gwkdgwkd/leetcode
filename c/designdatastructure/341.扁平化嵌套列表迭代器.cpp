@@ -26,7 +26,7 @@ return res
 
 提示：
 1 <= nestedList.length <= 500
-嵌套列表中的整数值在范围[-106, 106]内
+嵌套列表中的整数值在范围[-10^6, 10^6]内
 */
 
 struct NestedIterator {
@@ -64,3 +64,29 @@ void nestedIterFree(struct NestedIterator *iter) {
   free(iter->vals);
   free(iter);
 }
+
+class NestedIterator {
+ private:
+  vector<int> vals;
+  vector<int>::iterator cur;
+
+  void dfs(const vector<NestedInteger> &nestedList) {
+    for (auto &nest : nestedList) {
+      if (nest.isInteger()) {
+        vals.push_back(nest.getInteger());
+      } else {
+        dfs(nest.getList());
+      }
+    }
+  }
+
+ public:
+  NestedIterator(vector<NestedInteger> &nestedList) {
+    dfs(nestedList);
+    cur = vals.begin();
+  }
+
+  int next() { return *cur++; }
+
+  bool hasNext() { return cur != vals.end(); }
+};

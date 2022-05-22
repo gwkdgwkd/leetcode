@@ -27,11 +27,11 @@ solution.pick(); // 返回 0
 solution.pick(); // 返回 4
 
 提示:
-1 <= n <= 109
-0 <= blacklist.length <- min(105, n - 1)
+1 <= n <= 10^9
+0 <= blacklist.length <- min(10^5, n - 1)
 0 <= blacklist[i] < n
 blacklist中所有值都不同
-pick最多被调用2 * 104次
+pick最多被调用2 * 10^4次
 */
 
 typedef struct {
@@ -102,3 +102,31 @@ void solutionFree(Solution *obj) {
   }
   free(obj);
 }
+
+// 二分查找
+class Solution {
+  int n;
+  vector<int> b;
+
+ public:
+  Solution(int N, vector<int> blacklist) {
+    n = N;
+    sort(blacklist.begin(), blacklist.end());
+    b = blacklist;
+  }
+
+  int pick() {
+    int k = rand() % (n - b.size());
+    int lo = 0;
+    int hi = b.size() - 1;
+
+    while (lo < hi) {
+      int i = (lo + hi + 1) / 2;
+      if (b[i] - i > k)
+        hi = i - 1;
+      else
+        lo = i;
+    }
+    return lo == hi && b[lo] - lo <= k ? k + lo + 1 : k;
+  }
+};

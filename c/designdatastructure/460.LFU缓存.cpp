@@ -1,6 +1,6 @@
 /*
 请你为最不经常使用（LFU）缓存算法设计并实现数据结构。
-实现LFUCache 类：
+实现LFUCache类：
 LFUCache(int capacity) - 用数据结构的容量capacity初始化对象
 int get(int key) - 如果键key存在于缓存中，则获取键的值，否则返回-1。
 void put(int key, int value) - 如果键key已存在，则变更其值；
@@ -43,10 +43,10 @@ lfu.get(4);      // 返回4
                  // cache=[3,4], cnt(4)=2, cnt(3)=3
 
 提示：
-0 <= capacity <= 104
-0 <= key <= 105
-0 <= value <= 109
-最多调用2 * 105次get和put方法
+0 <= capacity <= 10^4
+0 <= key <= 10^5
+0 <= value <= 10^9
+最多调用2 * 10^5次get和put方法
 */
 
 struct LFUNode {
@@ -194,3 +194,85 @@ void lFUCacheFree(LFUCache *obj) {
   }
   HASH_ITER(hh, obj->freMap, fcurr, ftmp) { FreeFreDlist(fcurr); }
 }
+
+// 哈希表 + 平衡二叉树
+struct Node {
+  int cnt, time, key, value;
+
+  Node(int _cnt, int _time, int _key, int _value)
+      : cnt(_cnt), time(_time), key(_key), value(_value) {}
+
+  bool operator<(const Node &rhs) const {
+    return cnt == rhs.cnt ? time < rhs.time : cnt < rhs.cnt;
+  }
+};
+// 其中cnt表示缓存使用的频率，time表示缓存的使用时间，key和value表示缓存的键值。
+// 比较直观的想法就是我们用哈希表key_table以键key为索引存储缓存，
+// 建立一个平衡二叉树S来保持缓存根据(cnt，time)双关键字由于。
+// 在C++中，我们可以使用STL提供的std::set类，set背后的实现是红黑树：
+// 对于get(key)操作，我们只要查看一下哈希表key_table是否有key这个键即可，
+// 有的话需要同时更新哈希表和集合中该缓存的使用频率以及使用时间，否则返回-1。
+// 对于put(key, value)操作，首先需要查看key_table中是否已有对应的键值。
+// 如果有的话操作基本等同于get(key)，不同的是需要更新缓存的value值。
+// 如果没有的话相当于是新插入一个缓存，这时候需要先查看是否达到缓存容量capacity，
+// 如果达到了的话，需要删除最近最少使用的缓存，即平衡二叉树中最左边的结点，同时删除key_table中对应的索引，
+// 最后向key_table和S插入新的缓存信息即可。
+class LFUCache {
+  // 缓存容量，时间戳
+  int capacity, time;
+  unordered_map<int, Node> key_table;
+  set<Node> S;
+
+ public:
+  LFUCache(int _capacity) {
+    capacity = _capacity;
+    time = 0;
+    key_table.clear();
+    S.clear();
+  }
+
+  int get(int key) {
+    if (capacity == 0) return -1;
+    auto it = key_table.find(key);
+    // 如果哈希表中没有键key，返回-1
+    if (it == key_table.end()) return -1;
+    // 从哈希表中得到旧的缓存
+    Node cache = it->second;
+    // 从平衡二叉树中删除旧的缓存
+    S.erase(cache);
+    // 将旧缓存更新
+    cache.cnt += 1;
+    cache.time = ++time;
+    // 将新缓存重新放入哈希表和平衡二叉树中
+    S.insert(cache);
+    it->second = cache;
+    return cache.value;
+  }
+
+  void put(int key, int value) {
+    if (capacity == 0) return;
+    auto it = key_table.find(key);
+    if (it == key_table.end()) {
+      // 如果到达缓存容量上限
+      if (key_table.size() == capacity) {
+        // 从哈希表和平衡二叉树中删除最近最少使用的缓存
+        key_table.erase(S.begin()->key);
+        S.erase(S.begin());
+      }
+      // 创建新的缓存
+      Node cache = Node(1, ++time, key, value);
+      // 将新缓存放入哈希表和平衡二叉树中
+      key_table.insert(make_pair(key, cache));
+      S.insert(cache);
+    } else {
+      // 这里和get()函数类似
+      Node cache = it->second;
+      S.erase(cache);
+      cache.cnt += 1;
+      cache.time = ++time;
+      cache.value = value;
+      S.insert(cache);
+      it->second = cache;
+    }
+  }
+};
