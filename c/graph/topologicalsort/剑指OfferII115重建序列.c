@@ -1,6 +1,6 @@
 /*
 请判断原始的序列org是否可以从序列集seqs中唯一地重建。
-序列org是1到n整数的排列，其中 1 ≤ n ≤ 10^4。
+序列org是1到n整数的排列，其中1 ≤ n ≤ 10^4。
 重建是指在序列集seqs中构建最短的公共超序列，即seqs中的任意序列都是该最短序列的子序列。
 
 示例1：
@@ -36,7 +36,7 @@ seqs[i][j]是32位有符号整数
 // map[i][1]记录seq中某个值及其前值在org中的最小间隔, 举例如下：
 // org = [1,2,3], seqs = [[1,2],[1,3]]
 // 则map[1][1] = 0, map[2][1] = map[2][0] - map[1][0] = 1, map[3][0] = map[3][0]
-// map[1][0] = 2 若有 map[i][1] != 1 && i != org[0] , 则不满足条件
+// map[1][0] = 2若有map[i][1] != 1 && i != org[0], 则不满足条件
 // 若有seq中某个值大于orgSize, 也不满足条件
 #define MIN(a, b) (a < b ? a : b)
 bool sequenceReconstruction(int *org, int orgSize, int **seqs, int seqsSize,
@@ -148,6 +148,6 @@ bool sequenceReconstruction(int *org, int orgSize, int **seqs, int seqsSize,
     head++;
   }
 
-  // 若所有节点最终都能入队并出队，则说明有向图无环，能够修完所有课程
+  // 若所有节点最终都能入队并出队，则说明有向图无环，能够重建序列
   return count == orgSize;
 }

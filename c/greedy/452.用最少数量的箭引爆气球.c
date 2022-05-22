@@ -1,6 +1,6 @@
 /*
 有一些球形气球贴在一堵用XY平面表示的墙面上。
-墙面上的气球记录在整数数组points，其中points[i] = [xstart, xend]表示水平直径在xstart和xend之间的气球。
+墙面上的气球记录在整数数组points，其中points[i]=[xstart,xend]表示水平直径在xstart和xend之间的气球。
 你不知道气球的确切y坐标。
 一支弓箭可以沿着x轴从不同点完全垂直地射出。
 在坐标x处射出一支箭，若有一个气球的直径的开始和结束坐标为xstart，xend，
@@ -28,9 +28,9 @@
 在x = 4处射出箭，击破气球[3,4]和[4,5]。
 
 提示:
-1 <= points.length <= 105
+1 <= points.length <= 10^5
 points[i].length == 2
--231 <= xstart < xend <= 231 - 1
+-2^31 <= xstart < xend <= 2^31 - 1
 */
 
 // 贪心算法

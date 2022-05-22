@@ -46,7 +46,8 @@ int dfs(int** grid, int gridSize, int* gridColSize, int row, int col) {
 }
 
 int maxAreaOfIsland(int** grid, int gridSize, int* gridColSize) {
-  int area, max = 0;
+  int area = 0;
+  int max = 0;
   // 遍历二维数组
   for (int i = 0; i < gridSize; i++) {
     for (int j = 0; j < gridColSize[0]; j++) {

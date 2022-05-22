@@ -93,3 +93,27 @@ int** allPathsSourceTarget(int** graph, int graphSize, int* graphColSize,
   dfs(0, graphSize - 1, graph, graphColSize, returnSize, returnColumnSizes);
   return ans;
 }
+
+class Solution {
+ public:
+  vector<vector<int>> ans;
+  vector<int> tmp;
+  void dfs(vector<vector<int>>& graph, int x, int n) {
+    if (x == n - 1) {
+      ans.emplace_back(tmp);
+      return;
+    }
+    for (auto& y : graph[x]) {
+      tmp.emplace_back(y);
+      dfs(graph, y, n);
+      tmp.pop_back();
+    }
+  }
+
+  vector<vector<int>> allPathsSourceTarget(vector<vector<int>>& graph) {
+    tmp.emplace_back(0);
+    dfs(graph, 0, graph.size());
+
+    return ans;
+  }
+};
