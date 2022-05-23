@@ -19,10 +19,10 @@ deleteAtIndex(index)：如果索引index有效，则删除链表中的第index�
 MyLinkedList linkedList = new MyLinkedList();
 linkedList.addAtHead(1);
 linkedList.addAtTail(3);
-linkedList.addAtIndex(1,2);   //链表变为1-> 2-> 3
-linkedList.get(1);            //返回2
-linkedList.deleteAtIndex(1);  //现在链表是1-> 3
-linkedList.get(1);            //返回3
+linkedList.addAtIndex(1,2);   // 链表变为1-> 2-> 3
+linkedList.get(1);            // 返回2
+linkedList.deleteAtIndex(1);  // 现在链表是1-> 3
+linkedList.get(1);            // 返回3
 
 提示：
 所有val值都在[1, 1000]之内。
@@ -135,7 +135,7 @@ void myLinkedListDeleteAtIndex(MyLinkedList* obj, int index) {
     }
   }
 
-  printLinkedList("myLinkedListDeleteAtIndex: ", obj);
+  // printLinkedList("myLinkedListDeleteAtIndex: ", obj);
 }
 
 void myLinkedListFree(MyLinkedList* obj) {
@@ -161,35 +161,3 @@ void printLinkedList(const char* str, MyLinkedList* obj) {
   }
   printf("]\n");
 }
-
-/**
- * Your MyLinkedList struct will be instantiated and called as such:
- * MyLinkedList* obj = myLinkedListCreate();
- * int param_1 = myLinkedListGet(obj, index);
- 
- * myLinkedListAddAtHead(obj, val);
- 
- * myLinkedListAddAtTail(obj, val);
- 
- * myLinkedListAddAtIndex(obj, index, val);
- 
- * myLinkedListDeleteAtIndex(obj, index);
- 
- * myLinkedListFree(obj);
-*/
-/**
- * Your MyLinkedList struct will be instantiated and called as such:
- * MyLinkedList* obj = myLinkedListCreate();
- * int param_1 = myLinkedListGet(obj, index);
- 
- * myLinkedListAddAtHead(obj, val);
- 
- * myLinkedListAddAtTail(obj, val);
- 
- * myLinkedListAddAtIndex(obj, index, val);
- 
- * myLinkedListDeleteAtIndex(obj, index);
- 
- * myLinkedListFree(obj);
-*/
-// @lc code=end

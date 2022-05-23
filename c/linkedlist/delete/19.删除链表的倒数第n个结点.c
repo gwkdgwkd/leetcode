@@ -22,6 +22,8 @@
 进阶：你能尝试使用一趟扫描实现吗？
 */
 
+// 剑指OfferII021删除链表的倒数第n个结点
+
 struct ListNode {
   int val;
   struct ListNode* next;
@@ -105,4 +107,38 @@ struct ListNode* removeNthFromEnd(struct ListNode* head, int n) {
   // slow.next就是倒数第n个节点的前一个节点，删除它
   slow->next = slow->next->next;
   return head;
+}
+
+// 剑指Offer22链表中倒数第k个节点，输出该链表中倒数第k个节点
+struct ListNode* getKthFromEnd(struct ListNode* head, int k) {
+  struct ListNode* fast = head;
+  struct ListNode* slow = head;
+
+  while (k-- && fast) {
+    fast = fast->next;
+  }
+
+  while (fast) {
+    fast = fast->next;
+    slow = slow->next;
+  }
+
+  return slow;
+}
+
+// 面试题0202返回倒数第k个节点，输出节点的值
+int kthToLast(struct ListNode* head, int k) {
+  struct ListNode* fast = head;
+  struct ListNode* slow = head;
+
+  while (k-- && fast) {
+    fast = fast->next;
+  }
+
+  while (fast) {
+    fast = fast->next;
+    slow = slow->next;
+  }
+
+  return slow->val;
 }

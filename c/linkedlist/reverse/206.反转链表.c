@@ -14,11 +14,14 @@
 输出：[]
 
 提示：
-链表中节点的数目范围是 [0, 5000]
+链表中节点的数目范围是[0, 5000]
 -5000 <= Node.val <= 5000
 
 进阶：链表可以选用迭代或递归方式完成反转。你能否用两种方法解决这道题？
 */
+
+// 剑指Offer24反转链表
+// 剑指OfferII024反转链表
 
 struct ListNode {
   int val;
@@ -29,18 +32,18 @@ struct ListNode {
 // 该算法的实现思想非常直接，就是从当前链表的首元节点开始，一直遍历至链表的最后一个节点，
 // 这期间会逐个改变所遍历到的节点的指针域，另其指向前一个节点
 struct ListNode* reverseList(struct ListNode* head) {
-  struct ListNode* cur = head;
-  struct ListNode* pre = NULL;
-  struct ListNode* temp;  // 保存cur的下一个节点
+  struct ListNode* left = NULL;
+  struct ListNode* mid = head;
+  struct ListNode* right;  // 保存mid的下一个节点
 
-  while (cur) {
-    temp = cur->next;  // 保存一下cur的下一个节点，因为接下来要改变cur->next
-    cur->next = pre;  // 翻转操作
-    pre = cur;        // 更新pre
-    cur = temp;       // 更新cur
+  while (mid) {
+    right = mid->next;  // 保存mid的下一个节点，因为接下来要改变mid->next
+    mid->next = left;  // 翻转操作
+    left = mid;        // 更新left
+    mid = right;       // 更新right
   }
 
-  return pre;
+  return left;
 }
 
 // 头插法反转链表

@@ -1,3 +1,29 @@
+/*
+给你单链表的头指针head和两个整数left和right，其中left <= right。
+请你反转从位置left到位置right的链表节点，返回反转后的链表。
+
+示例1：
+输入：head = [1,2,3,4,5], left = 2, right = 4
+输出：[1,4,3,2,5]
+
+示例2：
+输入：head = [5], left = 1, right = 1
+输出：[5]
+
+提示：
+链表中节点数目为n
+1 <= n <= 500
+-500 <= Node.val <= 500
+1 <= left <= right <= n
+
+进阶：你可以使用一趟扫描完成反转吗？
+*/
+
+struct ListNode {
+  int val;
+  struct ListNode* next;
+};
+
 // 递归
 struct ListNode* successor = NULL;  // 后驱节点
 // 反转以head为起点的n个节点，返回新的头结点
@@ -55,7 +81,7 @@ struct ListNode* reverseBetween(struct ListNode* head, int left, int right) {
 
 // 迭代
 struct ListNode* reverseBetween(struct ListNode* head, int left, int right) {
-  //  left, right相等或链表只有一个结点可以直接返回结果
+  // left, right相等或链表只有一个结点可以直接返回结果
   if (head->next == NULL || left == right) return head;
 
   // 设置头结点可以将left为1的情况一般化

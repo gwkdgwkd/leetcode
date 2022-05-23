@@ -18,6 +18,8 @@ L0 → Ln → L1 → Ln - 1 → L2 → Ln - 2 → …
 1 <= node.val <= 1000
 */
 
+// 剑指OfferII026重排链表
+
 struct ListNode {
   int val;
   struct ListNode* next;
