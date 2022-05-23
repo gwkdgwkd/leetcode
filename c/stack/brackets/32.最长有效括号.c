@@ -16,7 +16,7 @@
 输出：0
 
 提示：
-0 <= s.length <= 3 * 104
+0 <= s.length <= 3 * 10^4
 s[i]为'('或')'
 */
 
@@ -46,29 +46,32 @@ int longestValidParentheses(char* s) {
 // 时间复杂度：O(n)
 // 空间复杂度：O(n)
 int longestValidParentheses(char* s) {
-  int maxans = 0, n = strlen(s);
-  int stk[n + 1], top = -1;
-  // 如果一开始栈为空，第一个字符为左括号的时候我们会将其放入栈中，
-  // 这样就不满足提及的「最后一个没有被匹配的右括号的下标」，
-  // 为了保持统一，在一开始的时候往栈中放入一个值为−1的元素
-  stk[++top] = -1;
-  for (int i = 0; i < n; i++) {
+  int len = strlen(s);
+  int stack[len + 1];
+  int top = 0;
+  int ans = 0;
+
+  // 栈顶是最后一个没有被匹配的右括号的下标
+  // 栈为空时，放一个-1，保证i-stack[top-1]和其他情况的结果都正确
+  stack[top++] = -1;
+  for (int i = 0; i < len; ++i) {
     if (s[i] == '(') {
-      stk[++top] = i;  // 对于遇到的每个(，将它的下标放入栈中
+      stack[top++] = i;  // 对于遇到的每个(，将它的下标放入栈中
     } else {
       // 对于遇到的每个)，先弹出栈顶元素表示匹配了当前右括号：
       // 1.如果栈为空，说明当前的右括号为没有被匹配的右括号，
-      //   将其下标放入栈中来更新我们之前提到的「最后一个没有被匹配的右括号的下标」
-      // 2.如果栈不为空，当前右括号的下标减去栈顶元素即为「以该右括号为结尾的最长有效括号的长度」
+      //   将其下标放入栈中来更新最后一个没有被匹配的右括号的下标；
+      // 2.如果栈不为空，当前右括号的下标减去栈顶元素即为以该右括号为结尾的最长有效括号的长度。
       --top;
-      if (top == -1) {
-        stk[++top] = i;
+      if (top == 0) {
+        stack[top++] = i;
       } else {
-        maxans = fmax(maxans, i - stk[top]);
+        ans = fmax(ans, i - stack[top - 1]);
       }
     }
   }
-  return maxans;
+
+  return ans;
 }
 
 // 时间复杂度：O(n)

@@ -16,7 +16,7 @@
 输出: [1,1,0]
 
 提示：
-1 <= temperatures.length <= 105
+1 <= temperatures.length <= 10^5
 30 <= temperatures[i] <= 100
 */
 
@@ -79,6 +79,19 @@ void push(int c) { stack[stackIndex++] = c; }
 bool empty() { return stackIndex == 0; }
 int* dailyTemperatures(int* temperatures, int temperaturesSize,
                        int* returnSize) {
+  // 维护一个存储下标的单调栈，从栈底到栈顶的下标对应的温度列表中的温度依次递减。
+  // 如果一个下标在单调栈里，则表示尚未找到下一次温度更高的下标。
+  // 正向遍历温度列表。对于温度列表中的每个元素temperatures[i]，如果栈为空，则直接将i进栈，
+  // 如果栈不为空，则比较栈顶元素prevIndex对应的温度temperatures[prevIndex]和当前温度temperatures[i]，
+  // 如果temperatures[i] > temperatures[prevIndex]，则将prevIndex移除，
+  // 并将prevIndex对应的等待天数赋为i - prevIndex，
+  // 重复上述操作直到栈为空或者栈顶元素对应的温度小于等于当前温度，然后将i进栈。
+  // 为什么可以在弹栈的时候更新ans[prevIndex]呢？
+  // 因为在这种情况下，即将进栈的i对应的temperatures[i]一定是temperatures[prevIndex]右边第一个比它大的元素，
+  // 试想如果prevIndex和i有比它大的元素，假设下标为j，那么prevIndex一定会在下标j的那一轮被弹掉。
+  // 由于单调栈满足从栈底到栈顶元素对应的温度递减，因此每次有元素进栈时，会将温度更低的元素全部移除，
+  // 并更新出栈元素对应的等待天数，这样可以确保等待天数一定是最小的。
+
   int* res = (int*)malloc(sizeof(int) * temperaturesSize);
   memset(res, 0, sizeof(int) * temperaturesSize);
   *returnSize = temperaturesSize;
@@ -86,37 +99,25 @@ int* dailyTemperatures(int* temperatures, int temperaturesSize,
   stackIndex = 0;
   memset(stack, 0, sizeof(stack));
   push(0);
-  // printf("temperatures[0]:%d, 0\n", temperatures[0]);
+
   for (int i = 1; i < temperaturesSize; ++i) {
-    // printf("temperatures[%d]:%d, ", i, temperatures[i]);
     if (temperatures[i] < temperatures[top()]) {
       // 情况一，当前遍历的元素temperatures[i]小于栈顶元素temperatures[st.top()]的情况
-      // printf("%d < %d(%d), push(%d)\n", temperatures[i], temperatures[top()],
-      // top(), i);
       push(i);
 
     } else if (temperatures[i] == temperatures[top()]) {
       // 情况二，当前遍历的元素temperatures[i]等于栈顶元素temperatures[st.top()]的情况
-      // printf("%d == %d(%d), push(%d)\n", temperatures[i],
-      // temperatures[top()], top(), i);
       push(i);
 
     } else {
       // 情况三，当前遍历的元素temperatures[i]大于栈顶元素temperatures[st.top()]的情况
-      // printf("%d > %d(%d), push(%d)\n", temperatures[i], temperatures[top()],
-      // top(), i);
       while (!empty() && temperatures[i] > temperatures[top()]) {
+        // 找到一个比栈顶大的元素，那么该元素是栈顶右边第一个比栈顶大的元素
         res[top()] = i - top();
-        // printf("    res[%d] : %d(%d-%d)\n", top(), i - top(), i, top());
         pop();
       }
       push(i);
     }
-    // printf("[ ");
-    // for (int j = 0; j < stackIndex; ++j) {
-    //   printf("%d(%d) ", stack[j], temperatures[stack[j]]);
-    // }
-    // printf("]\n");
 
     // 循环可以简写为下面格式（三种情况统一起来）：
     // for (int i = 1; i < temperaturesSize; ++i) {
@@ -127,29 +128,6 @@ int* dailyTemperatures(int* temperatures, int temperaturesSize,
     //   push(i);
     // }
   }
-
-  // [73,74,75,71,69,72,76,73]
-  // temperatures[0]:73, 0
-  // temperatures[1]:74, 74 > 73(0), push(1)
-  //     res[0] : 1(1-0)
-  // [ 1(74) ]
-  // temperatures[2]:75, 75 > 74(1), push(2)
-  //     res[1] : 1(2-1)
-  // [ 2(75) ]
-  // temperatures[3]:71, 71 < 75(2), push(3)
-  // [ 2(75) 3(71) ]
-  // temperatures[4]:69, 69 < 71(3), push(4)
-  // [ 2(75) 3(71) 4(69) ]
-  // temperatures[5]:72, 72 > 69(4), push(5)
-  //     res[4] : 1(5-4)
-  //     res[3] : 2(5-3)
-  // [ 2(75) 5(72) ]
-  // temperatures[6]:76, 76 > 72(5), push(6)
-  //     res[5] : 1(6-5)
-  //     res[2] : 4(6-2)
-  // [ 6(76) ]
-  // temperatures[7]:73, 73 < 76(6), push(7)
-  // [ 6(76) 7(73) ]
 
   return res;
 }

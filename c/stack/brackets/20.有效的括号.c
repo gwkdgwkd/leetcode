@@ -26,34 +26,34 @@
 输出：true
 
 提示：
-1 <= s.length <= 104
+1 <= s.length <= 10^4
 s仅由括号'()[]{}'组成
 */
 
-#define STACKSIZE 4000
 int stackIndex;
-char stack[STACKSIZE];
+char *stack;
 char top() { return stack[stackIndex - 1]; }
 void pop() { stackIndex--; }
 void push(char c) { stack[stackIndex++] = c; }
 bool empty() { return stackIndex == 0; }
-bool isValid(char* s) {
-  memset(stack, 0, sizeof(stack));
+bool isValid(char *s) {
+  int len = strlen(s);
+  stack = (char *)malloc(sizeof(char) * len);
+  memset(stack, 0, sizeof(char) * len);
   stackIndex = 0;
 
-  int len = strlen(s);
   for (int i = 0; i < len; ++i) {
     if (empty()) {
       push(s[i]);
+      continue;
+    }
+    if ((top() == '(' && s[i] == ')') || (top() == '[' && s[i] == ']') ||
+        (top() == '{' && s[i] == '}')) {
+      pop();
     } else {
-      if ((top() == '(' && s[i] == ')') || (top() == '[' && s[i] == ']') ||
-          (top() == '{' && s[i] == '}')) {
-        pop();
-      } else {
-        push(s[i]);
-      }
+      push(s[i]);
     }
   }
-
+  free(stack);
   return empty();
 }

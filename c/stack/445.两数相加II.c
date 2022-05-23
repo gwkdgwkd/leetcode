@@ -25,6 +25,8 @@
 进阶：如果输入链表不能翻转该如何解决？
 */
 
+// 剑指OfferII025链表中的两数相加
+
 struct ListNode {
   int val;
   struct ListNode* next;

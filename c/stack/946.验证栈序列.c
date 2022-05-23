@@ -41,3 +41,26 @@ bool validateStackSequences(int* pushed, int pushedSize, int* popped,
   }
   return top == 0;  // 如果栈不为空，证明出栈顺序不对
 }
+
+// 剑指Offer31栈的压入、弹出序列
+// 0 <= pushed.length == popped.length <= 1000
+// 0 <= pushed[i], popped[i] < 1000
+bool validateStackSequences(int* pushed, int pushedSize, int* popped,
+                            int poppedSize) {
+  if (pushedSize == 0) return true;
+
+  int stack[pushedSize];
+  int top = 0;
+  int i = 0;
+  int j = 0;
+
+  while (i < pushedSize) {
+    stack[top++] = pushed[i];
+    while (top > 0 && stack[top - 1] == popped[j]) {
+      --top;
+      ++j;
+    }
+    ++i;
+  }
+  return top == 0;
+}

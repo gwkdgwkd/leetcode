@@ -22,19 +22,19 @@ s只包含'('和')'字符。
 // 栈
 int minAddToMakeValid(char* s) {
   int length = strlen(s);
-  char* stack = (char*)malloc(sizeof(char) * 1000);
-  int top = 1;
+  char* stack = (char*)malloc(sizeof(char) * length);
+  int top = 0;
 
   stack[top++] = s[0];
   for (int i = 1; i < length; i++) {
-    if ((stack[top - 1] == '(') && (s[i] == ')')) {
+    if (top > 0 && (stack[top - 1] == '(') && (s[i] == ')')) {
       top--;
     } else {
       stack[top++] = s[i];
     }
   }
 
-  return top - 1;
+  return top;
 }
 
 int minAddToMakeValid(char* s) {
@@ -46,10 +46,10 @@ int minAddToMakeValid(char* s) {
     }
 
     if (s[i] == ')') {
-      need--;  // 对右括号的需求-1
-      if (need == -1) {
-        need = 0;
-        res++;  // 需插入一个左括号
+      if (need == 0) {
+        ++res;
+      } else {
+        --need;
       }
     }
   }

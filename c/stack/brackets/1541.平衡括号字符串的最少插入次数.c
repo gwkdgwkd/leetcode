@@ -48,10 +48,11 @@ int minInsertions(char* s) {
     }
 
     if (s[i] == ')') {
-      need--;
-      if (need == -1) {
+      if (need == 0) {
         res++;
         need = 1;
+      } else {
+        need--;
       }
     }
   }

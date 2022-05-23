@@ -45,12 +45,12 @@ char *smallestSubsequence(char *s) {
       recode[s[i] - 'a']--;
     } else {
       while (top > -1 && stack[top] > s[i] && recode[stack[top] - 'a'] > 1) {
-        //如果栈顶字符比当前大，并且后边还会出现
+        // 如果栈顶字符比当前大，并且后边还会出现
         recode[stack[top] - 'a']--;
-        //出栈
+        // 出栈
         top--;
       }
-      //入栈
+      // 入栈
       stack[++top] = s[i];
     }
   }

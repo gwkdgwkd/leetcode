@@ -12,8 +12,10 @@
 
 提示：
 n == height.length
-1 <= n <= 2 * 104
+1 <= n <= 2 * 10^4
 */
+
+// 面试题1721直方图的水量
 
 // 双指针，超时
 // 时间复杂度：O(n^2)
@@ -67,28 +69,28 @@ int trap(int* height, int heightSize) {
 
 // 单调栈
 int trap(int* height, int heightSize) {
-  int st[heightSize];
-  int top = 0;
-  st[top++] = 0;
-  int sum = 0;
-
-  for (int i = 1; i < heightSize; i++) {
-    while (top > 0 && height[i] > height[st[top - 1]]) {
-      int mid = st[top - 1];
-      top--;
-      if (top > 0) {
-        // 栈顶和栈顶的下一个元素以及要入栈的三个元素来接水！
-        // 雨水高度是min(凹槽左边高度, 凹槽右边高度) - 凹槽底部高度，代码为：
-        int h = fmin(height[st[top - 1]], height[i]) - height[mid];
-        // 雨水的宽度是 凹槽右边的下标 - 凹槽左边的下标 -
-        // 1（因为只求中间宽度），代码为：
-        int w = i - st[top - 1] - 1;
-        // 当前凹槽雨水的体积就是：
-        sum += h * w;
-      }
-    }
-    st[top++] = i;
+  int n = heightSize;
+  if (n == 0) {
+    return 0;
   }
-
-  return sum;
+  int ans = 0;
+  int stk[n], top = 0;
+  for (int i = 0; i < n; ++i) {
+    while (top && height[i] > height[stk[top - 1]]) {
+      int stk_top = stk[--top];
+      if (!top) {
+        break;
+      }
+      // 栈顶和栈顶的下一个元素以及要入栈的三个元素来接水！
+      int left = stk[top - 1];
+      // 雨水的宽度是：凹槽右边的下标-凹槽左边的下标-1（因为只求中间宽度），代码为：
+      int currWidth = i - left - 1;
+      // 雨水高度是：min(凹槽左边高度,凹槽右边高度)-凹槽底部高度，代码为：
+      int currHeight = fmin(height[left], height[i]) - height[stk_top];
+      // 当前凹槽雨水的体积就是：
+      ans += currWidth * currHeight;
+    }
+    stk[top++] = i;
+  }
+  return ans;
 }

@@ -12,8 +12,8 @@
 输出：4
 
 提示：
-1 <= heights.length <=105
-0 <= heights[i] <= 104
+1 <= heights.length <=10^5
+0 <= heights[i] <= 10^4
 */
 
 // 剑指OfferII039直方图最大矩形面积
@@ -76,15 +76,15 @@ int largestRectangleArea(int* heights, int heightsSize) {
     data[i] = heights[i - 1];  // 前后都多加个0
   }
 
-  // top：1对应heights[0],对应data[1]
-  stack[top] = 0;
+  stack[top++] = data[0];
   int ret = 0;
   for (int i = 1; i < heightsSize + 2; ++i) {
-    while (top > 0 && data[i] <= data[stack[top]]) {
-      ret = fmax(ret, data[stack[top]] * (i - stack[top - 1] - 1));
-      top--;
+    while (top > 1 && data[i] <= data[stack[top - 1]]) {
+      int height = data[stack[--top]];
+      int width = i - stack[top - 1] - 1;
+      ret = fmax(ret, height * width);
     }
-    stack[++top] = i;
+    stack[top++] = i;
   }
 
   return ret;
