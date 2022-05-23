@@ -13,9 +13,11 @@
 解释："raceacar"不是回文串
 
 提示：
-1 <= s.length <= 2 * 105
+1 <= s.length <= 2 * 10^5
 字符串s由ASCII字符组成
 */
+
+// 剑指OfferII018有效的回文
 
 bool valid(char c) {
   return ((c >= '0' && c <= '9') || (c >= 'a' && c <= 'z') ||
@@ -31,6 +33,24 @@ bool isPalindrome(char* s) {
       --right;
     }
     if (left < right && (s[left] | ' ') != (s[right] | ' ')) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+bool isPalindrome(char* s) {
+  int len = strlen(s);
+
+  for (int left = 0, right = len - 1; left < right; ++left, --right) {
+    while (left < right && !isalnum(s[left])) {
+      ++left;
+    }
+    while (left < right && !isalnum(s[right])) {
+      --right;
+    }
+    if (toupper(s[left]) != toupper(s[right])) {
       return false;
     }
   }

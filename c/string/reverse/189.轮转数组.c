@@ -75,3 +75,24 @@ void rotate(int* nums, int numsSize, int k) {
   reverse(nums, 0, k - 1);
   reverse(nums, k, numsSize - 1);
 }
+
+// 剑指Offer58-II左旋转字符串
+// 字符串的左旋转操作是把字符串前面的若干个字符转移到字符串的尾部。
+// 请定义一个函数实现字符串左旋转操作的功能。
+// 比如，输入字符串abcdefg和数字2，该函数将返回左旋转两位得到的结果cdefgab。
+void reverse(char* s, int left, int right) {
+  while (left < right) {
+    char tmp = s[left];
+    s[left] = s[right];
+    s[right] = tmp;
+    ++left;
+    --right;
+  }
+}
+char* reverseLeftWords(char* s, int n) {
+  int len = strlen(s);
+  reverse(s, 0, len - 1);
+  reverse(s, 0, len - n - 1);
+  reverse(s, len - n, len - 1);
+  return s;
+}

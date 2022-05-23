@@ -12,9 +12,9 @@
 输出："bacd"
 
 提示：
-1 <= s.length <= 104
+1 <= s.length <= 10^4
 s 仅由小写英文组成
-1 <= k <= 104
+1 <= k <= 10^4
 */
 
 void reverseString(char* s, int sSize) {

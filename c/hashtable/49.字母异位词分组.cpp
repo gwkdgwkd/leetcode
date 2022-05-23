@@ -21,6 +21,7 @@ strs[i]仅包含小写字母
 */
 
 // 剑指OfferII033变位词组
+// 面试题1002变位词组
 
 #define STR_SIZE 100
 typedef struct Node {
@@ -28,7 +29,6 @@ typedef struct Node {
   int row;             // value为结果所在的行
   struct Node *next;
 } HashNode;
-
 int hash(char *str, int size) {
   long h = 0;
   for (int i = 0; i < strlen(str); i++) {
@@ -38,7 +38,6 @@ int hash(char *str, int size) {
   }
   return h % size;
 }
-
 bool contain(HashNode *hashtable, char *str, int size) {
   HashNode *head = &hashtable[hash(str, size)];
   HashNode *tail = head->next;
@@ -48,7 +47,6 @@ bool contain(HashNode *hashtable, char *str, int size) {
   }
   return false;
 }
-
 void add(HashNode *hashtable, char *str, int size, int row) {
   if (contain(hashtable, str, size)) return;
   HashNode *head = &hashtable[hash(str, size)];
@@ -59,7 +57,6 @@ void add(HashNode *hashtable, char *str, int size, int row) {
   q->next = head->next;
   head->next = q;
 }
-
 int getRows(HashNode *hashtable, char *str, int size) {
   HashNode *head = &hashtable[hash(str, size)];
   HashNode *tail = head->next;
@@ -69,9 +66,7 @@ int getRows(HashNode *hashtable, char *str, int size) {
   }
   return -1;
 }
-
 int cmp(const void *a, const void *b) { return *(char *)a - *(char *)b; }
-
 char ***groupAnagrams(char **strs, int strsSize, int *retSize,
                       int **columnSizes) {
   if (strsSize == 0 || strs == NULL) {
@@ -108,6 +103,61 @@ char ***groupAnagrams(char **strs, int strsSize, int *retSize,
     }
   }
   return ans;
+}
+
+int strcmp0(char *a, char *b) {
+  int len = strlen(a);
+  int i;
+  int c1['z' - 'a' + 1] = {0};
+  int c2['z' - 'a' + 1] = {0};
+
+  for (i = 0; i < len; i++) {
+    c1[a[i] - 'a']++;
+    c2[b[i] - 'a']++;
+  }
+
+  for (i = 0; i < 26; i++) {
+    if (c1[i] != c2[i]) {
+      return c1[i] - c2[i];
+    }
+  }
+  return 0;
+}
+int cmp(const void *a0, const void *b0) {
+  char *a = *(char **)a0;
+  char *b = *(char **)b0;
+
+  if (strlen(a) != strlen(b)) {
+    return strlen(a) - strlen(b);
+  }
+  return strcmp0(a, b);
+}
+char ***groupAnagrams(char **strs, int strsSize, int *returnSize,
+                      int **returnColumnSizes) {
+  int i, j = 0, k, tmp = 1;
+  char *ct[strsSize];
+  char ***res = malloc(strsSize * sizeof(char *));
+
+  *returnColumnSizes = malloc(strsSize * sizeof(int));
+
+  // 排序，确保每个字母个数相同的字符串相邻
+  qsort(strs, strsSize, sizeof(char *), cmp);
+
+  for (i = 0; i < strsSize; i++) {
+    if (i + 1 < strsSize && cmp(&strs[i], &strs[i + 1]) == 0) {
+      tmp++;
+    } else {
+      res[j] = malloc(tmp * sizeof(char *));
+      for (k = 0; k < tmp; k++) {
+        res[j][k] = strs[i - k];
+      }
+      (*returnColumnSizes)[j] = tmp;
+      tmp = 1;
+      j++;
+    }
+  }
+  *returnSize = j;
+  return res;
 }
 
 class Solution {

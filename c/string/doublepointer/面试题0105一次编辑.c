@@ -3,13 +3,13 @@
 给定两个字符串，编写一个函数判定它们是否只需要一次(或者零次)编辑。
 
 示例1:
-输入: 
+输入:
 first = "pale"
 second = "ple"
 输出: True
 
 示例2:
-输入: 
+输入:
 first = "pales"
 second = "pal"
 输出: False

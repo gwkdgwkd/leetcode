@@ -16,6 +16,8 @@
 字符串如果不是"0"，就都不含前导零。
 */
 
+// 剑指OfferII002二进制加法
+
 char *addBinary(char *a, char *b) {
   int len1 = strlen(a);
   int len2 = strlen(b);

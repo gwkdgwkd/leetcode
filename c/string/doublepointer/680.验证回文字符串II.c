@@ -19,6 +19,8 @@
 s 由小写英文字母组成
 */
 
+// 剑指OfferII019最多删除一个字符得到回文
+
 // 双指针 + 贪心
 bool isPalindrome(char* s, int left, int right) {
   for (; left < right; ++left, --right) {
