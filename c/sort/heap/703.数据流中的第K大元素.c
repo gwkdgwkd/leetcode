@@ -19,12 +19,11 @@ kthLargest.add(10);  // return 5
 kthLargest.add(9);   // return 8
 kthLargest.add(4);   // return 8
 
-
 提示：
 1 <= k <= 10^4
 0 <= nums.length <= 10^4
--104 <= nums[i] <= 10^4
--104 <= val <= 10^4
+-10^4 <= nums[i] <= 10^4
+-10^4 <= val <= 10^4
 最多调用add方法10^4次
 题目数据保证，在查找第k大元素时，数组中至少有k个元素
 */

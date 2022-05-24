@@ -26,7 +26,7 @@
 // 排序
 // 时间复杂度：O(nlog⁡n)
 // 空间复杂度：O(n)
-bool is_sorted(int* arr, int arrSize) {
+bool is_sorted(int *arr, int arrSize) {
   for (int i = 1; i < arrSize; i++) {
     if (arr[i - 1] > arr[i]) {
       return false;
@@ -34,8 +34,8 @@ bool is_sorted(int* arr, int arrSize) {
   }
   return true;
 }
-int cmp(int* a, int* b) { return *a - *b; }
-int findUnsortedSubarray(int* nums, int numsSize) {
+int cmp(int *a, int *b) { return *a - *b; }
+int findUnsortedSubarray(int *nums, int numsSize) {
   if (is_sorted(nums, numsSize)) {
     return 0;
   }
@@ -55,7 +55,7 @@ int findUnsortedSubarray(int* nums, int numsSize) {
 
 // 假设把这个数组分成三段，左段和右段是标准的升序数组，中段数组虽是无序的，
 // 但满足最小值大于左段的最大值，最大值小于右段的最小值。
-int findUnsortedSubarray(int* nums, int numsSize) {
+int findUnsortedSubarray(int *nums, int numsSize) {
   int n = numsSize;
   int maxn = INT_MIN, right = -1;
   int minn = INT_MAX, left = -1;
@@ -74,4 +74,30 @@ int findUnsortedSubarray(int* nums, int numsSize) {
     }
   }
   return right == -1 ? 0 : right - left + 1;
+}
+
+// 面试题1616部分排序
+// 先排序再比较
+int cmp(const void *a, const void *b) { return *(int *)a - *(int *)b; }
+int *subSort(int *array, int arraySize, int *returnSize) {
+  int *tmp = (int *)malloc(sizeof(int) * arraySize);
+  memcpy(tmp, array, sizeof(int) * arraySize);
+
+  qsort(tmp, arraySize, sizeof(int), cmp);
+  int *retAns = (int *)malloc(2 * sizeof(int));
+  retAns[0] = -1;
+  retAns[1] = -1;
+  *returnSize = 2;
+
+  for (int i = 0; i < arraySize; i++) {
+    if (array[i] != tmp[i] && retAns[0] == -1) {
+      retAns[0] = i;
+    }
+
+    if (array[i] != tmp[i]) {
+      retAns[1] = i;
+    }
+  }
+
+  return retAns;
 }

@@ -12,7 +12,7 @@
 
 提示：
 1 <= nums.length <= 100
-0 <= nums[i] <= 109
+0 <= nums[i] <= 10^9
 */
 
 #include <stdio.h>
@@ -54,6 +54,30 @@ char *largestNumber(int *nums, int numsSize) {
     p += strlen(p);
   }
   return ret;
+}
+
+// 剑指Offer45把数组排成最小的数
+int cmp(int *x, int *y) {
+  long sx = 10, sy = 10;
+  while (sx <= *x) {
+    sx *= 10;
+  }
+  while (sy <= *y) {
+    sy *= 10;
+  }
+
+  return sy * (*x) + (*y) - sx * (*y) - (*x);  // 升序
+}
+char *minNumber(int *nums, int numsSize) {
+  qsort(nums, numsSize, sizeof(int), cmp);
+  int len = 100 * 14 + 1;
+  char *res = (char *)malloc(sizeof(char) * len);
+  memset(res, 0, sizeof(char) * len);
+  for (int i = 0; i < numsSize; ++i) {
+    sprintf(res + strlen(res), "%d", nums[i]);
+  }
+
+  return res;
 }
 
 int main() {

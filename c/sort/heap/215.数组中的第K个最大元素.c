@@ -11,8 +11,8 @@
 输出: 4
 
 提示：
-1 <= k <= nums.length <= 104
--104 <= nums[i] <= 104
+1 <= k <= nums.length <= 10^4
+-104 <= nums[i] <= 10^4
 */
 
 // 剑指OfferII076数组中的第k大的数字
@@ -37,37 +37,6 @@ int findKthLargest(int *nums, int numsSize, int k) {
 // 时间复杂度：O(nlog⁡n)，建堆的时间代价是O(n)，删除的总代价是O(klog⁡n)，
 //          因为k<n，故渐进时间复杂为O(n+klog⁡n)=O(nlog⁡n)。
 // 空间复杂度：O(log⁡n)，即递归使用栈空间的空间代价。
-void maxHeapify(int *a, int i, int heapSize) {
-  int l = i * 2 + 1, r = i * 2 + 2, largest = i;
-  if (l < heapSize && a[l] > a[largest]) {
-    largest = l;
-  }
-  if (r < heapSize && a[r] > a[largest]) {
-    largest = r;
-  }
-  if (largest != i) {
-    int t = a[i];
-    a[i] = a[largest], a[largest] = t;
-    maxHeapify(a, largest, heapSize);
-  }
-}
-void buildMaxHeap(int *a, int heapSize) {
-  for (int i = heapSize / 2; i >= 0; --i) {
-    maxHeapify(a, i, heapSize);
-  }
-}
-int findKthLargest(int *nums, int numsSize, int k) {
-  int heapSize = numsSize;
-  buildMaxHeap(nums, heapSize);
-  for (int i = numsSize - 1; i >= numsSize - k + 1; --i) {
-    int t = nums[0];
-    nums[0] = nums[i], nums[i] = t;
-    --heapSize;
-    maxHeapify(nums, 0, heapSize);
-  }
-  return nums[0];
-}
-
 void HeapAdjust(int *heap, int top, int size) {
   int temp = heap[top];  // 保存父节点的值
   for (int i = top * 2 + 1; i < size; i = 2 * i + 1) {
@@ -95,10 +64,7 @@ int findKthLargest(int *nums, int numsSize, int k) {
 
   // 从大顶堆到升序排列的数组
   for (int i = numsSize - 1; i >= numsSize - k + 1; --i) {
-    // 数组最后的元素依次与heap[0]交换，每次把heap中最大的元素放到数组后面
-    int temp = nums[i];
-    nums[i] = nums[0];
-    nums[0] = temp;
+    nums[0] = nums[i];  // 更新栈顶，不是结果的都丢弃
 
     // 堆定已经不是最大的元素来，调整堆
     HeapAdjust(nums, 0, i);
@@ -119,6 +85,8 @@ int Partition(int *nums, int left, int right) {  // 与快速排序一样，但�
   int pivotkey = nums[left + ran];
   nums[left + ran] = nums[left];
   nums[left] = pivotkey;
+
+  // int key = nums[left];  // 选取第一个元素当作分割点，也可以，但比随机要慢
 
   while (left < right) {
     while (left < right && nums[right] <= pivotkey) {  // <=降序，>=升序

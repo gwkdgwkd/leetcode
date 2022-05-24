@@ -24,7 +24,7 @@ int longestConsecutive(int *nums, int numsSize) {
   if (!numsSize) {
     return 0;
   }
-  qsort(nums, numsSize, 4, cmp);
+  qsort(nums, numsSize, sizeof(int), cmp);
   int max = 1;
   int temp = 1;
   for (int i = 1; i < numsSize; ++i) {

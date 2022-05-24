@@ -10,8 +10,8 @@
 输出：[0,0,1,1,2,5]
 
 提示：
-1 <= nums.length <= 5 * 104
--5 * 104 <= nums[i] <= 5 * 104
+1 <= nums.length <= 5 * 10^4
+-5 * 10^4 <= nums[i] <= 5 * 10^4
 */
 
 // 堆排序
@@ -34,12 +34,15 @@ void HeapAdjust(int* heap, int parent, int size) {
   }
   heap[parent] = temp;  // 此时top表示，父亲节点值（temp）应该存放的位置
 }
-void HeapSort(int* heap, int size) {
+void BuildHeap(int* heap, int size) {
   // 根据无序数组创建大顶堆
   for (int i = size / 2 - 1; i >= 0; --i) {
     // size/2-1是从下标0开始的数组中（当成二叉树），从上到下，从左到右最后一个非叶子节点
     HeapAdjust(heap, i, size);
   }
+}
+void HeapSort(int* heap, int size) {
+  BuildHeap(heap, size);
 
   // 从大顶堆到升序排列的数组
   for (int i = size - 1; i >= 0; --i) {
@@ -59,7 +62,7 @@ int Partition(int* nums, int left, int right) {
   int rad = rand() % (right - left + 1);
   int pivotkey = nums[left + rad];
   nums[left + rad] = nums[left];
-  nums[left] = pivotkey;
+  nums[left] = pivotkey;  // 这句没有也能得到正确结果
 
   // int pivotkey = nums[left]; // 超时
   while (left < right) {

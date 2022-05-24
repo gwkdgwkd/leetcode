@@ -24,9 +24,9 @@ heighti是第i座建筑物的高度。
 输出：[[0,3],[5,0]]
 
 提示：
-1 <= buildings.length <= 104
-0 <= lefti < righti <= 231 - 1
-1 <= heighti <= 231 - 1
+1 <= buildings.length <= 10^4
+0 <= lefti < righti <= 2^31 - 1
+1 <= heighti <= 2^31 - 1
 buildings按lefti非递减排序
 */
 

@@ -55,14 +55,14 @@ int bestSeqAtIndex(int* height, int heightSize, int* weight, int weightSize) {
   arr[1] = person[0].weight;  // 初始值为最轻的体重
   int index = 1;              // 层数初始一个人，初始值为1
 
-  // 接下来寻找一个最长递增子序列  arr[index]保存的是末尾元素的值
+  // 接下来寻找一个最长递增子序列，arr[index]保存的是末尾元素的值
   for (int i = 1; i < heightSize; i++) {  // 遍历
     if (person[i].weight > arr[index]) {  // 是递增的
       index++;                            // 子序列长度+1
       arr[index] = person[i].weight;      // 末尾数值更新为更大的
     } else {                              // 不递增
-      temp =
-          BinarySearch(person[i].weight, 1, index);  // 二分查找需要插入的位置
+      // 二分查找需要插入的位置
+      temp = BinarySearch(person[i].weight, 1, index);
       arr[temp] = person[i].weight;  // 末尾值更新为目标值
     }
   }
