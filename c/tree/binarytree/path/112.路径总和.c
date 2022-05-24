@@ -13,8 +13,8 @@
 输入：root = [1,2,3], targetSum = 5
 输出：false
 解释：树中存在两条根节点到叶子节点的路径：
-(1 --> 2): 和为 3
-(1 --> 3): 和为 4
+(1 --> 2): 和为3
+(1 --> 3): 和为4
 不存在sum = 5的根节点到叶子节点的路径。
 
 示例3：
@@ -34,9 +34,8 @@ struct TreeNode {
   struct TreeNode* right;
 };
 
-// 递归1
+// 递归
 bool traversal(struct TreeNode* cur, int count) {
-  printf("%d\n", count);
   if (cur == NULL) return false;
   if (cur->left == NULL && cur->right == NULL) {
     if (cur->val == count) {
@@ -53,7 +52,7 @@ bool traversal(struct TreeNode* cur, int count) {
   return left || right;
 }
 
-// 递归2
+// 递归
 bool hasPathSum(struct TreeNode* root, int targetSum) {
   if (root == NULL) return false;
 

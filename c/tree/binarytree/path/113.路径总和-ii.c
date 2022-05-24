@@ -1,5 +1,6 @@
 /*
-给你二叉树的根节点root和一个整数目标和targetSum，找出所有从根节点到叶子节点路径总和等于给定目标和的路径。
+给你二叉树的根节点root和一个整数目标和targetSum，
+找出所有从根节点到叶子节点路径总和等于给定目标和的路径。
 叶子节点是指没有子节点的节点。
 
 示例1：
@@ -19,6 +20,9 @@
 -1000 <= Node.val <= 1000
 -1000 <= targetSum <= 1000
 */
+
+// 剑指Offer34二叉树中和为某一值的路径
+
 struct TreeNode {
   int val;
   struct TreeNode *left;
@@ -32,7 +36,8 @@ int *path;
 int pathSize;
 int *colSize;
 // 如果需要搜索整颗⼆叉树，那么递归函数就不要返回值;
-// 如果要搜索其中⼀条符合条件的路径，递归函数就需要返回值，因为遇到符合条件的路径了就要及时返回。比如112。
+// 如果要搜索其中⼀条符合条件的路径，递归函数就需要返回值，
+// 因为遇到符合条件的路径了就要及时返回，比如112。
 void traversal(struct TreeNode *node, int targetSum) {
   if (!node) return;
   path[pathSize++] = node->val;

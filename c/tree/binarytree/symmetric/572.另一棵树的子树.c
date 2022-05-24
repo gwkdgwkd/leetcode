@@ -1,7 +1,9 @@
 /*
 给你两棵二叉树root和subRoot。
-检验root中是否包含和subRoot具有相同结构和节点值的子树。如果存在，返回true；否则，返回false 。
-二叉树tree的一棵子树包括tree的某个节点和这个节点的所有后代节点。tree也可以看做它自身的一棵子树。
+检验root中是否包含和subRoot具有相同结构和节点值的子树。
+如果存在，返回true；否则，返回false。
+二叉树tree的一棵子树包括tree的某个节点和这个节点的所有后代节点。
+tree也可以看做它自身的一棵子树。
 
 示例1：
 输入：root = [3,4,5,1,2], subRoot = [4,1,2]
@@ -14,8 +16,8 @@
 提示：
 root树上的节点数量范围是[1, 2000]
 subRoot树上的节点数量范围是[1, 1000]
--104 <= root.val <= 104
--104 <= subRoot.val <= 104
+-10^4 <= root.val <= 10^4
+-10^4 <= subRoot.val <= 10^4
 */
 
 struct TreeNode {

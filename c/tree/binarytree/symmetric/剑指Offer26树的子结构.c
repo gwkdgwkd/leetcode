@@ -9,7 +9,7 @@ B是A的子结构，即A中有出现和B相同的结构和节点值。
   / \
  1   2
 给定的树B：
-   4 
+   4
   /
  1
 返回true，因为B与A的一个子树拥有相同的结构和节点值。
@@ -32,7 +32,7 @@ struct TreeNode {
 };
 
 bool compare(struct TreeNode* A, struct TreeNode* B) {
-  if (!B) {
+  if (!B) {  // 从compare调用，才可能有这种情况
     return true;
   }
   if (!A || A->val != B->val) {

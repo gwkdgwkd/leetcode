@@ -52,6 +52,25 @@ int* preorderTraversal(struct TreeNode* root, int* returnSize) {
 }
 
 // 迭代
+int* preorderTraversal(struct TreeNode* root, int* returnSize) {
+  *returnSize = 0;
+  if (root == NULL) return NULL;
+  int* ans = (int*)malloc(sizeof(int) * 100);
+  struct TreeNode* stack[100];
+  int top = 0;
+
+  stack[top++] = root;
+  while (top > 0) {
+    struct TreeNode* cur = stack[--top];
+    ans[(*returnSize)++] = cur->val;
+    if (cur->right) stack[top++] = cur->right;
+    if (cur->left) stack[top++] = cur->left;
+  }
+
+  return ans;
+}
+
+// 迭代
 int idx = 0;
 struct TreeNode* stack[100];
 void push(struct TreeNode* node) { stack[idx++] = node; }

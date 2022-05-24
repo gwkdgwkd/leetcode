@@ -46,6 +46,37 @@ int* postorderTraversal(struct TreeNode* root, int* returnSize) {
 }
 
 // 迭代
+int* postorderTraversal(struct TreeNode* root, int* returnSize) {
+  *returnSize = 0;
+  if (root == NULL) return NULL;
+  int* ans = (int*)malloc(sizeof(int) * 100);
+
+  struct TreeNode* stack[100];
+  int top = 0;
+
+  stack[top++] = root;
+  while (top > 0) {  // 中右左
+    struct TreeNode* cur = stack[--top];
+    ans[(*returnSize)++] = cur->val;
+    if (cur->left) stack[top++] = cur->left;
+    if (cur->right) stack[top++] = cur->right;
+  }
+
+  // 逆序：左右中
+  int left = 0;
+  int right = *returnSize - 1;
+  while (left < right) {
+    int tmp = ans[left];
+    ans[left] = ans[right];
+    ans[right] = tmp;
+    ++left;
+    --right;
+  }
+
+  return ans;
+}
+
+// 迭代
 int idx;
 struct TreeNode* stack[100];
 void push(struct TreeNode* node) { stack[idx++] = node; }

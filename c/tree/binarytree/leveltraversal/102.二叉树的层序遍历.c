@@ -18,11 +18,43 @@
 -1000 <= Node.val <= 1000
 */
 
+// 剑指Offer32-II从上到下打印二叉树II
+
 struct TreeNode {
   int val;
   struct TreeNode* left;
   struct TreeNode* right;
 };
+
+// 迭代
+#define MAXSIZE 1500
+int** levelOrder(struct TreeNode* root, int* returnSize,
+                 int** returnColumnSizes) {
+  int** result = (int**)malloc(sizeof(int*) * MAXSIZE);
+  for (int i = 0; i < MAXSIZE; ++i) {
+    result[i] = (int*)malloc(sizeof(int) * MAXSIZE);
+  }
+  *returnColumnSizes = (int*)calloc(sizeof(int), MAXSIZE);
+  *returnSize = 0;
+
+  struct TreeNode* queue[MAXSIZE];
+  int front = 0;
+  int tail = 0;
+
+  if (root) queue[tail++] = root;
+  while (tail > front) {
+    int n = tail - front;
+    for (int i = 0; i < n; ++i) {
+      struct TreeNode* node = queue[front++];
+      result[*returnSize][(*returnColumnSizes)[*returnSize]++] = node->val;
+      if (node->left) queue[tail++] = node->left;
+      if (node->right) queue[tail++] = node->right;
+    }
+    (*returnSize)++;
+  }
+
+  return result;
+}
 
 // 迭代
 #define MAXQUEUE 200

@@ -46,6 +46,28 @@ int* inorderTraversal(struct TreeNode* root, int* returnSize) {
 }
 
 // 迭代
+int* inorderTraversal(struct TreeNode* root, int* returnSize) {
+  int* ans = (int*)malloc(sizeof(int) * 100);
+  *returnSize = 0;
+  struct TreeNode* stack[100];
+  int top = 0;
+
+  struct TreeNode* cur = root;
+  while (cur || top > 0) {
+    if (cur) {
+      stack[top++] = cur;
+      cur = cur->left;
+    } else {
+      cur = stack[--top];
+      ans[(*returnSize)++] = cur->val;
+      cur = cur->right;
+    }
+  }
+
+  return ans;
+}
+
+// 迭代
 int idx = 0;
 struct TreeNode* stack[100];
 void push(struct TreeNode* node) { stack[idx++] = node; }

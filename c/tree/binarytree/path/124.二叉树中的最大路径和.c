@@ -1,6 +1,7 @@
 /*
 路径被定义为一条从树中任意节点出发，沿父节点-子节点连接，达到任意节点的序列。
-同一个节点在一条路径序列中至多出现一次。该路径至少包含一个节点，且不一定经过根节点。
+同一个节点在一条路径序列中至多出现一次。
+该路径至少包含一个节点，且不一定经过根节点。
 路径和是路径中各节点值的总和。
 给你一个二叉树的根节点root，返回其最大路径和。
 
@@ -35,8 +36,12 @@ int dfs(struct TreeNode* root) {
 
   int left = dfs(root->left);
   int right = dfs(root->right);
+
+  // temp为三者的最大值：只用根节点 | 根节点+左子树  | 根节点+右子树
   int temp = fmax(fmax(left, right) + root->val, root->val);
+  // max为三者的最大值：max | temp | 左子树+根节点+右节点
   max = fmax(max, fmax(temp, left + right + root->val));
+
   return temp;
 }
 int maxPathSum(struct TreeNode* root) {

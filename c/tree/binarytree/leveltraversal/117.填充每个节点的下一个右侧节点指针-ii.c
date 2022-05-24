@@ -1,5 +1,6 @@
 /*
-填充它的每个next指针，让这个指针指向其下一个右侧节点。如果找不到下一个右侧节点，则将next指针设置为NULL。
+填充它的每个next指针，让这个指针指向其下一个右侧节点。
+如果找不到下一个右侧节点，则将next指针设置为NULL。
 初始状态下，所有next指针都被设置为NULL。
 
 进阶：
@@ -74,4 +75,5 @@ struct Node* connect(struct Node* root) {
 
   return root;
 }
-// @lc code=end
+
+// 不是完全二叉树，不能用递归？

@@ -88,7 +88,7 @@ int** zigzagLevelOrder(struct TreeNode* root, int* returnSize,
     (*returnSize)++;
   }
 
-  // 奇数层反转
+  // 奇数层反转，第一层是0，不翻转
   for (int i = 0; i < *returnSize; ++i) {
     if (i % 2) {
       reverse(result[i], 0, (*returnColumnSizes)[i] - 1);
@@ -97,3 +97,7 @@ int** zigzagLevelOrder(struct TreeNode* root, int* returnSize,
 
   return result;
 }
+
+// 剑指Offer32-III从上到下打印二叉树III
+// int** levelOrder(struct TreeNode* root, int* returnSize,
+//                  int** returnColumnSizes)
