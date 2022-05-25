@@ -1,7 +1,7 @@
 /*
 给定一个二叉树, 找到该树中两个指定节点的最近公共祖先。
-百度百科中最近公共祖先的定义为：“对于有根树T的两个节点p、q，最近公共祖先表示为一个节点x，
-满足x是p、q的祖先且x的深度尽可能大（一个节点也可以是它自己的祖先）。”
+百度百科中最近公共祖先的定义为：对于有根树T的两个节点p、q，最近公共祖先表示为一个节点x，
+满足x是p、q的祖先且x的深度尽可能大（一个节点也可以是它自己的祖先）。
 
 示例1：
 输入：root = [3,5,1,6,2,0,8,null,null,7,4], p = 5, q = 1
@@ -51,16 +51,17 @@ struct TreeNode* lowestCommonAncestor(struct TreeNode* root, struct TreeNode* p,
 }
 
 // 递归
-// 前序遍历可以理解为是从上往下，而后序遍历是从下往上，就好比从p和q出发往上走，第一次相交的节点就是最近公共祖先
+// 前序遍历可以理解为是从上往下，而后序遍历是从下往上，
+// 就好比从p和q出发往上走，第一次相交的节点就是最近公共祖先
 struct TreeNode* lowestCommonAncestor(struct TreeNode* root, struct TreeNode* p,
                                       struct TreeNode* q) {
-  // base case
+  // bad case
   if (root == NULL) return NULL;
   if (root == p || root == q) return root;
 
   struct TreeNode* left = lowestCommonAncestor(root->left, p, q);
   struct TreeNode* right = lowestCommonAncestor(root->right, p, q);
-  // 情况1，如果p和q都在以root为根的树中，那么left和right一定分别是p和q（从base case看出来的）。
+  // 情况1，如果p和q都在以root为根的树中，那么left和right一定分别是p和q，从badcase看出来的。
   if (left != NULL && right != NULL) {
     return root;
   }

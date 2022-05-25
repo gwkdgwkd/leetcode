@@ -10,8 +10,6 @@ postorder是同一棵树的后序遍历，请你构造并返回这颗二叉树�
 输入：inorder = [-1], postorder = [-1]
 输出：[-1]
 
-
-
 提示:
 1 <= inorder.length <= 3000
 postorder.length == inorder.length

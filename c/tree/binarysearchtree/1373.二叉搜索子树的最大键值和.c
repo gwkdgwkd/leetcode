@@ -1,6 +1,5 @@
 /*
 给你一棵以root为根的二叉树，请你返回任意二叉搜索子树的最大键值和。
-
 二叉搜索树的定义如下：
 任意节点的左子树中的键值都小于此节点的键值。
 任意节点的右子树中的键值都大于此节点的键值。
@@ -64,9 +63,9 @@ int* traverse(struct TreeNode* root) {
     res[0] = 1;
     // 计算以root为根的这棵BST的最小值
     res[1] = fmin(left[1], root->val);
-    // 计算以root为根的这棵 BST 的最大值
+    // 计算以root为根的这棵BST的最大值
     res[2] = fmax(right[2], root->val);
-    // 计算以root为根的这棵 BST 所有节点之和
+    // 计算以root为根的这棵BST所有节点之和
     res[3] = left[3] + right[3] + root->val;
     // 更新全局变量
     maxSum = fmax(maxSum, res[3]);

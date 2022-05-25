@@ -1,6 +1,6 @@
 /*
 给你一个整数数组nums，其中元素已经按升序排列，请你将其转换为一棵高度平衡二叉搜索树。
-高度平衡二叉树是一棵满足「每个节点的左右两个子树的高度差的绝对值不超过1」的二叉树。
+高度平衡二叉树是一棵满足每个节点的左右两个子树的高度差的绝对值不超过1的二叉树。
 
 示例1：
 输入：nums = [-10,-3,0,5,9]
@@ -30,7 +30,8 @@ struct TreeNode {
 struct TreeNode* convert(int* nums, int left, int right) {
   if (left > right) return NULL;
   struct TreeNode* node = (struct TreeNode*)malloc(sizeof(struct TreeNode));
-  // 这么写其实有⼀个问题，就是数值越界，例如left和right都是最⼤int，这么操作就越界了，在⼆分法中尤其需要注意！
+  // 这么写其实有⼀个问题，就是数值越界，例如left和right都是最⼤int，
+  // 这么操作就越界了，在⼆分法中尤其需要注意！
   // int mid = (left + right) / 2;
   int mid = left + (right - left) / 2;
   node->val = nums[mid];

@@ -1,5 +1,6 @@
 /*
-给定一个二叉搜索树的根节点root和一个值key，删除二叉搜索树中的key对应的节点，并保证二叉搜索树的性质不变。
+给定一个二叉搜索树的根节点root和一个值key，删除二叉搜索树中的key对应的节点，
+并保证二叉搜索树的性质不变。
 返回二叉搜索树（有可能被更新）的根节点的引用。
 一般来说，删除节点可分为两个步骤：
 首先找到需要删除的节点；
@@ -9,7 +10,7 @@
 输入：root = [5,3,6,2,4,null,7], key = 3
 输出：[5,4,6,2,null,null,7]
 解释：给定需要删除的节点值是3，所以我们首先找到3这个节点，然后删除它。
-一个正确的答案是[5,4,6,2,null,null,7],如下图所示。
+一个正确的答案是[5,4,6,2,null,null,7]，如下图所示。
 另一个正确答案是[5,2,6,null,4,null,7]。
 
 示例2:
@@ -22,13 +23,13 @@
 输出: []
 
 提示:
-节点数的范围[0, 104].
--105 <= Node.val <= 105
+节点数的范围[0, 10^4].
+-10^5 <= Node.val <= 10^5
 节点值唯一
 root是合法的二叉搜索树
--105 <= key <= 105
+-10^5 <= key <= 10^5
 
-进阶： 要求算法时间复杂度为 O(h)，h 为树的高度。
+进阶：要求算法时间复杂度为O(h)，h为树的高度。
 */
 
 struct TreeNode {
@@ -47,8 +48,8 @@ struct TreeNode* deleteNode(struct TreeNode* root, int key) {
   } else if (root->val < key) {
     root->right = deleteNode(root->right, key);
   } else {
-    // 第⼆种情况：左右孩⼦都为空（叶⼦节点），直接删除节点，返回NULL为根节点
     if (root->left == NULL) {
+      // 第⼆种情况：左右孩⼦都为空（叶⼦节点），什么都不做，直接删除节点，返回NULL为根节点
       // 第三种情况：其左孩⼦为空，右孩⼦不为空，删除节点，右孩⼦补位，返回右孩⼦为根节点
       return root->right;
     } else if (root->right == NULL) {
@@ -74,8 +75,8 @@ struct TreeNode* deleteNode(struct TreeNode* root, int key) {
 
 // 递归
 // 代码中⽬标节点（要删除的节点）被操作了两次：
-//  第⼀次是和⽬标节点的右⼦树最左⾯节点交换。
-//  第⼆次直接被NULL覆盖了。
+// 第⼀次是和⽬标节点的右⼦树最左⾯节点交换。
+// 第⼆次直接被NULL覆盖了。
 struct TreeNode* deleteNode(struct TreeNode* root, int key) {
   if (root == NULL) return root;
 

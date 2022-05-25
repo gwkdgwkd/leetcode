@@ -20,6 +20,8 @@ preorder保证为二叉树的前序遍历序列
 inorder保证为二叉树的中序遍历序列
 */
 
+// 剑指Offer07重建二叉树
+
 struct TreeNode {
   int val;
   struct TreeNode* left;

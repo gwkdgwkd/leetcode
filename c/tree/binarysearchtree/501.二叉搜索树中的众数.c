@@ -16,8 +16,8 @@
 输出：[0]
 
 提示：
-树中节点的数目在范围[1, 104]内
--105 <= Node.val <= 105
+树中节点的数目在范围[1, 10^4]内
+-10^5 <= Node.val <= 10^5
 
 进阶：你可以不使用额外的空间吗？（假设由递归产生的隐式调用栈的开销不被计算在内）
 */
@@ -27,10 +27,6 @@ struct TreeNode {
   struct TreeNode* left;
   struct TreeNode* right;
 };
-
-/**
- * Note: The returned array must be malloced, assume caller calls free().
- */
 
 // 递归
 int* result;

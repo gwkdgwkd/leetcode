@@ -4,14 +4,14 @@ BSTIterator(TreeNode root) 初始化BSTIterator类的一个对象。
 BST的根节点root会作为构造函数的一部分给出。
 指针应初始化为一个不存在于BST中的数字，且该数字小于BST中的任何元素。
 boolean hasNext() 如果向指针右侧遍历存在数字，则返回true；否则返回false。
-int next()将指针向右移动，然后返回指针处的数字。
+int next() 将指针向右移动，然后返回指针处的数字。
 
 注意，指针初始化为一个不存在于BST中的数字，所以对next()的首次调用将返回BST中的最小元素。
 你可以假设next()调用总是有效的，也就是说，当调用next()时，BST的中序遍历中至少存在一个下一个数字。
 
 示例：
 输入
-["BSTIterator", "next", "next", "hasNext", "next", 
+["BSTIterator", "next", "next", "hasNext", "next",
  "hasNext", "next", "hasNext", "next", "hasNext"]
 [[[7, 3, 15, null, null, 9, 20]], [], [], [], [], [], [], [], [], []]
 输出
