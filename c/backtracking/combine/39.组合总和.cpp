@@ -120,3 +120,53 @@ int **combinationSum(int *candidates, int candidatesSize, int target,
 
   return result;
 }
+
+class Solution {
+  vector<vector<int>> ans;
+  vector<int> path;
+  void backtracking(vector<int> &candidates, int target, int start) {
+    if (start == candidates.size()) {
+      return;
+    }
+    if (target == 0) {
+      ans.emplace_back(path);
+      return;
+    }
+
+    backtracking(candidates, target, start + 1);
+    if (target - candidates[start] >= 0) {
+      path.emplace_back(candidates[start]);
+      backtracking(candidates, target - candidates[start], start);
+      path.pop_back();
+    }
+  }
+
+ public:
+  vector<vector<int>> combinationSum(vector<int> &candidates, int target) {
+    backtracking(candidates, target, 0);
+    return ans;
+  }
+};
+
+class Solution {
+  vector<vector<int>> ans;
+  vector<int> path;
+  void backtracking(vector<int> &candidates, int target, int start) {
+    if (target == 0) {
+      ans.emplace_back(path);
+      return;
+    }
+    for (int i = start; i < candidates.size() && candidates[i] <= target; ++i) {
+      path.emplace_back(candidates[i]);
+      backtracking(candidates, target - candidates[i], i);
+      path.pop_back();
+    }
+  }
+
+ public:
+  vector<vector<int>> combinationSum(vector<int> &candidates, int target) {
+    sort(candidates.begin(), candidates.end());
+    backtracking(candidates, target, 0);
+    return ans;
+  }
+};

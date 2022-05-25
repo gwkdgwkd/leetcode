@@ -67,3 +67,32 @@ int** permute(int* nums, int numsSize, int* returnSize,
 
   return result;
 }
+
+class Solution {
+  vector<vector<int>> ans;
+  vector<int> path;
+
+ public:
+  void backtracking(vector<int>& nums, vector<int>& used) {
+    if (path.size() == nums.size()) {
+      ans.emplace_back(path);
+      return;
+    }
+
+    for (int i = 0; i < nums.size(); ++i) {
+      if (used[i]) {
+        continue;
+      }
+      path.emplace_back(nums[i]);
+      used[i] = 1;
+      backtracking(nums, used);
+      used[i] = 0;
+      path.pop_back();
+    }
+  }
+  vector<vector<int>> permute(vector<int>& nums) {
+    vector<int> used(nums.size(), 0);
+    backtracking(nums, used);
+    return ans;
+  }
+};

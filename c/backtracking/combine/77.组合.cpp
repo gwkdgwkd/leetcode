@@ -20,7 +20,7 @@
 
 提示：
 1 <= n <= 20
-1 <= k <= n。
+1 <= k <= n
 */
 
 // 剑指OfferII080含有k个元素的组合
@@ -139,3 +139,27 @@ int** combine(int n, int k, int* returnSize, int** returnColumnSizes) {
   }
   return result;
 }
+
+class Solution {
+  vector<vector<int>> ans;
+  vector<int> path;
+  void backtracking(int n, int k, int start) {
+    if (path.size() == k) {
+      ans.emplace_back(path);
+      return;
+    }
+    // for(int i = start; i <= n; ++i) {
+    for (int i = start; i <= n - (k - path.size()) + 1; ++i) {  // 剪枝
+      path.emplace_back(i);
+      backtracking(n, k, i + 1);
+      path.pop_back();
+    }
+    return;
+  }
+
+ public:
+  vector<vector<int>> combine(int n, int k) {
+    backtracking(n, k, 1);
+    return ans;
+  }
+};

@@ -1,5 +1,6 @@
 /*
-给定一个仅包含数字2-9的字符串，返回所有它能表示的字母组合。答案可以按任意顺序返回。
+给定一个仅包含数字2-9的字符串，返回所有它能表示的字母组合。
+答案可以按任意顺序返回。
 给出数字到字母的映射如下（与电话按键相同）。注意1不对应任何字母。
 
 示例1：
@@ -75,3 +76,40 @@ char **letterCombinations(char *digits, int *returnSize) {
   *returnSize = resultSize;
   return result;
 }
+
+class Solution {
+  vector<string> m;
+  vector<string> ans;
+  string path;
+
+ public:
+  void backtracking(string digits, int index) {
+    if (path.size() == digits.size()) {
+      ans.emplace_back(path);
+      return;
+    }
+    int len = m[digits[index] - '0'].size();
+    for (int i = 0; i < len; ++i) {
+      path.push_back(m[digits[index] - '0'][i]);
+      backtracking(digits, index + 1);
+      path.pop_back();
+    }
+  }
+  vector<string> letterCombinations(string digits) {
+    if (digits.size() == 0) return ans;
+    m.assign({
+        "",      // 0
+        "",      // 1
+        "abc",   // 2
+        "def",   // 3
+        "ghi",   // 4
+        "jkl",   // 5
+        "mno",   // 6
+        "pqrs",  // 7
+        "tuv",   // 8
+        "wxyz",  // 9
+    });
+    backtracking(digits, 0);
+    return ans;
+  }
+};

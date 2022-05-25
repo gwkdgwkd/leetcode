@@ -96,3 +96,37 @@ char ***partition(char *s, int *returnSize, int **returnColumnSizes) {
   *returnSize = resultSize;
   return result;
 }
+
+class Solution {
+  vector<vector<string>> ans;
+  vector<string> path;
+
+ public:
+  bool isPalindrome(string str, int start, int end) {
+    for (int i = start, j = end; i < j; ++i, --j) {
+      if (str[i] != str[j]) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+  void backtracking(string s, int start) {
+    if (start == s.size()) {
+      ans.emplace_back(path);
+      return;
+    }
+    for (int i = start; i < s.size(); ++i) {
+      if (isPalindrome(s, start, i)) {
+        string t(s.begin() + start, s.begin() + i + 1);
+        path.emplace_back(t);
+        backtracking(s, i + 1);
+        path.pop_back();
+      }
+    }
+  }
+  vector<vector<string>> partition(string s) {
+    backtracking(s, 0);
+    return ans;
+  }
+};

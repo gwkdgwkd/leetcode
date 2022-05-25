@@ -66,3 +66,30 @@ int** findSubsequences(int* nums, int numsSize, int* returnSize,
 
   return result;
 }
+
+class Solution {
+  vector<vector<int>> ans;
+  vector<int> path;
+  void backtracking(vector<int>& nums, int start) {
+    if (path.size() > 1) {
+      ans.emplace_back(path);
+    }
+
+    unordered_set<int> used;
+    for (int i = start; i < nums.size(); ++i) {
+      if ((path.size() > 0 && nums[i] < path.back()) || used.count(nums[i])) {
+        continue;
+      }
+      used.insert(nums[i]);
+      path.emplace_back(nums[i]);
+      backtracking(nums, i + 1);
+      path.pop_back();
+    }
+  }
+
+ public:
+  vector<vector<int>> findSubsequences(vector<int>& nums) {
+    backtracking(nums, 0);
+    return ans;
+  }
+};

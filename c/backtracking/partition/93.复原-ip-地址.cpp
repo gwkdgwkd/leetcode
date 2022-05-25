@@ -2,7 +2,8 @@
 有效IP地址正好由四个整数（每个整数位于0到255之间组成，且不能含有前导0），整数之间用'.'分隔。
 例如："0.1.2.201"和"192.168.1.1"是有效IP地址，
 但是"0.011.255.245"、"192.168.1.312"和"192.168@1.1"是无效IP地址。
-给定一个只包含数字的字符串s，用以表示一个IP地址，返回所有可能的有效IP地址，这些地址可以通过在s中插入'.'来形成。
+给定一个只包含数字的字符串s，用以表示一个IP地址，返回所有可能的有效IP地址，
+这些地址可以通过在s中插入'.'来形成。
 你不能重新排序或删除s中的任何数字。你可以按任何顺序返回答案。
 
 示例1：
@@ -129,3 +130,60 @@ char **restoreIpAddresses(char *s, int *returnSize) {
   *returnSize = resultSize;
   return result;
 }
+
+class Solution {
+  vector<string> ans;
+  string path;
+  int pathSize;
+
+ public:
+  bool isValid(string str, int start, int end) {
+    if (end < start) {
+      return false;
+    }
+    if (str[start] == '0' && start != end) {
+      return false;
+    }
+
+    int num = 0;
+    for (int i = start; i <= end; i++) {
+      if (str[i] > '9' || str[i] < '0') {  // 遇到⾮数字字符不合法
+        return false;
+      }
+      num = num * 10 + (str[i] - '0');
+      if (num > 255) {  // 如果⼤于255了不合法
+        return false;
+      }
+    }
+
+    return true;
+  }
+  void backtracking(string s, int start) {
+    if (pathSize == 3) {
+      if (isValid(s, start, s.size() - 1)) {
+        path += string(s.begin() + start, s.end());
+        ans.emplace_back(path);
+      }
+    }
+    int index = path.size();
+    for (int i = start; i < s.size(); ++i) {
+      if (isValid(s, start, i)) {
+        path += s.substr(start, i - start + 1) + '.';
+        pathSize++;
+        backtracking(s, i + 1);
+        pathSize--;
+        path.erase(path.begin() + index, path.end());
+      } else {
+        break;
+      }
+    }
+  }
+  vector<string> restoreIpAddresses(string s) {
+    if (s.size() > 12) {
+      return ans;
+    }
+    pathSize = 0;
+    backtracking(s, 0);
+    return ans;
+  }
+};

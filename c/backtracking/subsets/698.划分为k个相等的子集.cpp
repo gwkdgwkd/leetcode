@@ -145,3 +145,65 @@ int main() {
 
   return 0;
 }
+
+// 比较慢
+class Solution {
+ public:
+  bool backTracking(vector<int> &nums, vector<bool> &used, int k, int sum,
+                    int &target, int startIndex) {
+    if (k == 0) return true;  // 如果已经划分完毕了，返回true
+    if (sum == target)
+      return backTracking(nums, used, k - 1, 0, target,
+                          0);  // 此次划分等于目标值
+
+    for (int i = startIndex; i < nums.size(); ++i) {
+      if (used[i])
+        continue;
+      else if (sum + nums[i] > target)
+        continue;
+      sum += nums[i];
+      used[i] = true;
+      if (backTracking(nums, used, k, sum, target, i + 1)) return true;
+      used[i] = false;
+      sum -= nums[i];
+    }
+    return false;
+  }
+  bool canPartitionKSubsets(vector<int> &nums, int k) {
+    int numsSum = accumulate(nums.begin(), nums.end(), 0);
+    if (numsSum % k != 0) return false;
+    int target = numsSum / k;
+    int maxNum = *max_element(nums.begin(), nums.end());
+    if (maxNum > target) return false;
+    vector<bool> used(nums.size(), false);
+    return backTracking(nums, used, k, 0, target, 0);
+  }
+};
+
+// 比较快
+class Solution {
+ public:
+#define ll long long
+  int vis[17];
+  bool canPartitionKSubsets(vector<int> &nums, int k) {
+    int n = nums.size();
+    sort(nums.begin(), nums.end());
+    ll sum = accumulate(nums.begin(), nums.end(), 0);
+    if (sum % k) return false;
+    sum /= k;
+    function<bool(int, int, int)> dfs = [&](int l, int cnt, int maxt) -> bool {
+      if (cnt == 0) return 1;
+      if (maxt == sum) return dfs(0, cnt - 1, 0);
+      for (int i = l; i < n; ++i) {
+        if (maxt + nums[i] > sum) break;
+        if (vis[i]) continue;
+        vis[i] = 1;
+        if (dfs(i + 1, cnt, maxt + nums[i])) return 1;
+        vis[i] = 0;
+        while (i + 1 < n && nums[i + 1] == nums[i]) i++;
+      }
+      return 0;
+    };
+    return dfs(0, k, 0);
+  }
+};

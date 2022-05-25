@@ -55,3 +55,31 @@ char **generateParenthesis(int n, int *returnSize) {
   *returnSize = resSize;
   return res;
 }
+
+class Solution {
+  vector<string> ans;
+  string path;
+
+ public:
+  void backtracking(int left, int right) {
+    if (right < 0 || left < 0 || right < left) {
+      return;
+    }
+
+    if (right == 0 && left == 0) {
+      ans.emplace_back(path);
+      return;
+    }
+    path.push_back('(');
+    backtracking(left - 1, right);
+    path.pop_back();
+
+    path.push_back(')');
+    backtracking(left, right - 1);
+    path.pop_back();
+  }
+  vector<string> generateParenthesis(int n) {
+    backtracking(n, n);
+    return ans;
+  }
+};

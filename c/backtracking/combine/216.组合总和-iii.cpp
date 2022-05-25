@@ -1,8 +1,8 @@
 /*
 找出所有相加之和为n的k个数的组合，且满足下列条件：
-只使用数字1到9
-每个数字最多使用一次 
-返回所有可能的有效组合的列表。该列表不能包含相同的组合两次，组合可以以任何顺序返回。
+只使用数字1到9，每个数字最多使用一次。
+返回所有可能的有效组合的列表。
+该列表不能包含相同的组合两次，组合可以以任何顺序返回。
 
 示例1:
 输入: k = 3, n = 7
@@ -24,7 +24,8 @@
 输入: k = 4, n = 1
 输出: []
 解释: 不存在有效的组合。
-在[1,9]范围内使用4个不同的数字，我们可以得到的最小和是1+2+3+4 = 10，因为10 > 1，没有有效的组合。
+在[1,9]范围内使用4个不同的数字，我们可以得到的最小和是1+2+3+4 = 10，
+因为10 > 1，没有有效的组合。
 
 提示:
 2 <= k <= 9
@@ -94,3 +95,31 @@ int **combinationSum3(int k, int n, int *returnSize, int **returnColumnSizes) {
 
   return result;
 }
+
+class Solution {
+  vector<vector<int>> ans;
+  vector<int> path;
+  void backtracking(int k, int target, int start) {
+    if (target < 0) {
+      return;
+    }
+    if (path.size() == k) {
+      if (target == 0) {
+        ans.emplace_back(path);
+      }
+      return;
+    }
+
+    for (int i = start; i <= 9 - (k - path.size()) + 1 && target >= i; ++i) {
+      path.emplace_back(i);
+      backtracking(k, target - i, i + 1);
+      path.pop_back();
+    }
+  }
+
+ public:
+  vector<vector<int>> combinationSum3(int k, int n) {
+    backtracking(k, n, 1);
+    return ans;
+  }
+};

@@ -47,3 +47,32 @@ char** permutation(char* s, int* returnSize) {
   backtrack(rec, returnSize, vis, s, 0, n, perm);
   return rec;
 }
+
+class Solution {
+  vector<string> ans;
+  string path;
+  void backtracking(string s, vector<int>& used) {
+    if (path.size() == s.size()) {
+      ans.emplace_back(path);
+      return;
+    }
+    for (int i = 0; i < s.size(); ++i) {
+      if (used[i] == 1 || (i > 0 && s[i] == s[i - 1] && used[i - 1] == 1)) {
+        continue;
+      }
+      path.push_back(s[i]);
+      used[i] = 1;
+      backtracking(s, used);
+      used[i] = 0;
+      path.pop_back();
+    }
+  }
+
+ public:
+  vector<string> permutation(string s) {
+    vector<int> used(s.size(), 0);
+    sort(s.begin(), s.end());
+    backtracking(s, used);
+    return ans;
+  }
+};

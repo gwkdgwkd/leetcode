@@ -56,3 +56,30 @@ int** subsetsWithDup(int* nums, int numsSize, int* returnSize,
 
   return result;
 }
+
+class Solution {
+  vector<vector<int>> ans;
+  vector<int> path;
+  void backtracking(vector<int>& nums, int start, vector<int>& used) {
+    ans.emplace_back(path);
+
+    for (int i = start; i < nums.size(); ++i) {
+      if (i > start && nums[i] == nums[i - 1] && used[i] == 0) {
+        continue;
+      }
+      path.emplace_back(nums[i]);
+      used[i] = 1;
+      backtracking(nums, i + 1, used);
+      used[i] = 0;
+      path.pop_back();
+    }
+  }
+
+ public:
+  vector<vector<int>> subsetsWithDup(vector<int>& nums) {
+    sort(nums.begin(), nums.end());
+    vector<int> used(nums.size(), 0);
+    backtracking(nums, 0, used);
+    return ans;
+  }
+};
