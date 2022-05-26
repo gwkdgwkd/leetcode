@@ -6,7 +6,7 @@
 
 示例1：
 输入：n = 12
-输出：3 
+输出：3
 解释：12 = 4 + 4 + 4
 
 示例2：
@@ -14,7 +14,7 @@
 输出：2
 解释：13 = 4 + 9
 
-提示：1 <= n <= 104
+提示：1 <= n <= 10^4
 */
 
 // 动态规划，可以看成背包问题
@@ -50,3 +50,19 @@ int numSquares(int n) {
 
   return dp[n];
 }
+
+class Solution {
+ public:
+  int numSquares(int n) {
+    vector<int> dp(n + 1, INT_MAX);
+    dp[0] = 0;
+
+    for (int i = 0; i <= n; ++i) {
+      for (int j = 1; j * j <= i; ++j) {
+        dp[i] = fmin(dp[i], dp[i - j * j] + 1);
+      }
+    }
+
+    return dp[n];
+  }
+};

@@ -6,14 +6,14 @@
 示例1：
 输入：strs = ["10", "0001", "111001", "1", "0"], m = 5, n = 3
 输出：4
-解释：最多有5个0和3个1的最大子集是{"10","0001","1","0"}，因此答案是4 。
+解释：最多有5个0和3个1的最大子集是{"10","0001","1","0"}，因此答案是4。
 其他满足题意但较小的子集包括{"0001","1"}和{"10","1","0"}。
-{"111001"}不满足题意，因为它含4个1，大于n的值3 。
+{"111001"}不满足题意，因为它含4个1，大于n的值3。
 
 示例2：
 输入：strs = ["10", "0", "1"], m = 1, n = 1
 输出：2
-解释：最大的子集是{"0", "1"}，所以答案是2 。
+解释：最大的子集是{"0", "1"}，所以答案是2。
 
 提示：
 1 <= strs.length <= 600
@@ -108,3 +108,29 @@ int findMaxForm(char** strs, int strsSize, int m, int n) {
 
   return dp[m][n];
 }
+
+class Solution {
+ public:
+  int findMaxForm(vector<string>& strs, int m, int n) {
+    vector<vector<int>> dp(m + 1, vector<int>(n + 1, 0));
+    for (int i = 0; i < strs.size(); ++i) {
+      int c0 = 0;
+      int c1 = 0;
+      for (int k = 0; k < strs[i].size(); ++k) {
+        if (strs[i][k] == '0') {
+          ++c0;
+        } else {
+          ++c1;
+        }
+      }
+
+      // 物品是字符串，价值是1，重量是0和1的个数，有2个维度
+      for (int j1 = m; j1 >= c0; --j1) {
+        for (int j2 = n; j2 >= c1; --j2) {
+          dp[j1][j2] = max(dp[j1][j2], dp[j1 - c0][j2 - c1] + 1);
+        }
+      }
+    }
+    return dp[m][n];
+  }
+};

@@ -70,3 +70,50 @@ int** pathWithObstacles(int** obstacleGrid, int obstacleGridSize,
 
   return ret;
 }
+
+class Solution {
+  vector<vector<int>> ans;
+  int size;
+  bool arrived;
+
+ public:
+  void dfs(vector<vector<int>>& obstacleGrid, int row, int col, int index,
+           vector<vector<int>>& used) {
+    if (row >= obstacleGrid.size() || col >= obstacleGrid[row].size() ||
+        arrived || obstacleGrid[row][col] || used[row][col]) {
+      return;
+    }
+
+    used[row][col] = 1;
+    ans[index][0] = row;
+    ans[index][1] = col;
+
+    if (row == obstacleGrid.size() - 1 && col == obstacleGrid[row].size() - 1) {
+      arrived = true;
+      size = index + 1;
+    } else {
+      dfs(obstacleGrid, row + 1, col, index + 1, used);
+      dfs(obstacleGrid, row, col + 1, index + 1, used);
+    }
+  }
+  vector<vector<int>> pathWithObstacles(vector<vector<int>>& obstacleGrid) {
+    vector<vector<int>> used;
+    for (int i = 0; i < obstacleGrid.size(); ++i) {
+      used.emplace_back(vector(obstacleGrid[i].size(), 0));
+    }
+
+    arrived = false;
+    int len = obstacleGrid.size() + obstacleGrid[0].size();
+    ans.resize(len);
+    for (int i = 0; i < len; ++i) {
+      ans[i].resize(2);
+    }
+    size = 0;
+    dfs(obstacleGrid, 0, 0, 0, used);
+    if (arrived == false) {
+      ans.clear();
+    }
+    ans.resize(size);
+    return ans;
+  }
+};

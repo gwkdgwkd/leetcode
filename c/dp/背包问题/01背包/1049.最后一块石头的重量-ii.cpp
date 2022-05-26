@@ -135,3 +135,20 @@ int lastStoneWeightII(int* stones, int stonesSize) {
 
   return sum - 2 * dp[target];
 }
+
+class Solution {
+ public:
+  int lastStoneWeightII(vector<int>& stones) {
+    int sum = accumulate(stones.begin(), stones.end(), 0);
+    int target = sum / 2;
+
+    vector<int> dp(target + 1, 0);
+    for (int i = 0; i < stones.size(); ++i) {
+      for (int j = target; j >= stones[i]; --j) {
+        dp[j] = fmax(dp[j], dp[j - stones[i]] + stones[i]);
+      }
+    }
+
+    return sum - 2 * dp[target];
+  }
+};

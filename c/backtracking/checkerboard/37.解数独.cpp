@@ -97,3 +97,56 @@ int backtracking(char** board, int boardSize, int* boardColSize) {
 void solveSudoku(char** board, int boardSize, int* boardColSize) {
   backtracking(board, boardSize, boardColSize);
 }
+
+class Solution {
+ public:
+  bool isValid(vector<vector<char>>& board, char val, int row, int col) {
+    for (int i = 0; i < 9; ++i) {
+      if (board[i][col] == val) {
+        return false;
+      }
+    }
+
+    for (int j = 0; j < 9; ++j) {
+      if (board[row][j] == val) {
+        return false;
+      }
+    }
+
+    int newrow = (row / 3) * 3;
+    int newcol = (col / 3) * 3;
+    for (int i = newrow; i < newrow + 3; ++i) {
+      for (int j = newcol; j < newcol + 3; ++j) {
+        if (board[i][j] == val) {
+          return false;
+        }
+      }
+    }
+
+    return true;
+  }
+
+  bool backtracking(vector<vector<char>>& board) {
+    for (int i = 0; i < board.size(); ++i) {
+      for (int j = 0; j < board[i].size(); ++j) {
+        if (board[i][j] != '.') {
+          continue;
+        }
+        for (char k = '1'; k <= '9'; ++k) {
+          if (isValid(board, k, i, j)) {
+            board[i][j] = k;
+            if (backtracking(board)) {
+              return true;
+            }
+            board[i][j] = '.';
+          }
+        }
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  void solveSudoku(vector<vector<char>>& board) { backtracking(board); }
+};

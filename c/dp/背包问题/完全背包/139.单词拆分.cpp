@@ -44,3 +44,24 @@ bool wordBreak(char* s, char** wordDict, int size) {
 
   return dp[n];
 }
+
+class Solution {
+ public:
+  bool wordBreak(string s, vector<string>& wordDict) {
+    int n = s.size();
+    vector<int> dp(n + 1, 0);
+    dp[0] = 1;
+
+    for (int i = 1; i <= n; ++i) {
+      for (int j = 0; j < wordDict.size(); ++j) {
+        int len = wordDict[j].size();
+        if (i >= len &&
+            wordDict[j] == string(s.begin() + i - len, s.begin() + i)) {
+          dp[i] |= dp[i - len];
+        }
+      }
+    }
+
+    return dp[n];
+  }
+};

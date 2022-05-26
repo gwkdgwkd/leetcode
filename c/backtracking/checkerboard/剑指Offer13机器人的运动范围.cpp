@@ -93,3 +93,51 @@ int movingCount(int m, int n, int k) {
   }
   return ans;
 }
+
+class Solution {
+  int count;
+
+ public:
+  bool check(int i, int j, int k) {
+    int sum = 0;
+    while (i) {
+      sum += i % 10;
+      i /= 10;
+    }
+    while (j) {
+      sum += j % 10;
+      j /= 10;
+    }
+    return sum <= k;
+  }
+  void dfs(int i, int j, int m, int n, int k, vector<vector<int>>& used) {
+    if (i >= m || j >= n || used[i][j] == 1) {
+      return;
+    }
+    if (!check(i, j, k)) {
+      return;
+    }
+
+    static const int dir[4][2] = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
+    ++count;
+    used[i][j] = 1;
+    for (int c = 0; c < 4; ++c) {
+      int newi = i + dir[c][0];
+      int newj = j + dir[c][1];
+      if (0 <= newi && newi < m && 0 <= newj && newj < n) {
+        dfs(newi, newj, m, n, k, used);
+      }
+    }
+  }
+  int movingCount(int m, int n, int k) {
+    vector<vector<int>> used;
+    for (int i = 0; i < m; ++i) {
+      used.emplace_back(vector(n, 0));
+    }
+
+    count = 0;
+    dfs(0, 0, m, n, k, used);
+
+    return count;
+  }
+};

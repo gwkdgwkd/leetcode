@@ -1,7 +1,7 @@
 /*
 给你一个整数数组coins表示不同面额的硬币，另给一个整数amount表示总金额。
 请你计算并返回可以凑成总金额的硬币组合数。如果任何硬币组合都无法凑出总金额，返回0。
-假设每一种面额的硬币有无限个。 
+假设每一种面额的硬币有无限个。
 题目数据保证结果符合32位带符号整数。
 
 示例1：
@@ -19,7 +19,7 @@
 解释：只用面额2的硬币不能凑成总金额3。
 
 示例3：
-输入：amount = 10, coins = [10] 
+输入：amount = 10, coins = [10]
 输出：1
 
 提示：
@@ -45,8 +45,8 @@ int change1(int amount, int* coins, int coinsSize) {
   for (int i = 0; i <= coinsSize; ++i) {
     dp[i][0] = 1;  // 如果要凑出的目标金额为0，那只有一种方法，什么面值都不选
   }
-  // for (int i = 1; i <= amount; ++i) {
-  //   dp[0][i] = 0;  // 不使用任何面值，就无法凑出任何金额
+  // for (int j = 1; j <= amount; ++j) {
+  //   dp[0][j] = 0;  // 不使用任何面值，就无法凑出任何金额
   // }
 
   for (int i = 1; i <= coinsSize; ++i) {
@@ -113,7 +113,8 @@ int change3(int amount, int* coins, int coinsSize) {
     for (int i = 0; i < coinsSize; ++i) {
       // printf("%d %d: ", j, coins[i]);
       if (j >= coins[i]) {
-        // printf("%d(dp[%d])+%d(dp[%d])=", dp[j], j, dp[j - coins[i]], j - coins[i]);
+        // printf("%d(dp[%d])+%d(dp[%d])=", dp[j], j, dp[j - coins[i]], j -
+        // coins[i]);
         dp[j] += dp[j - coins[i]];
       }
       // printf("%d\n", dp[j]);
@@ -150,3 +151,19 @@ int main() {
 
   return 0;
 }
+
+class Solution {
+ public:
+  int change(int amount, vector<int>& coins) {
+    vector<unsigned int> dp(amount + 1, 0);
+    dp[0] = 1;
+
+    for (int i = 0; i < coins.size(); ++i) {
+      for (int j = coins[i]; j <= amount; ++j) {
+        dp[j] += dp[j - coins[i]];
+      }
+    }
+
+    return dp[amount];
+  }
+};

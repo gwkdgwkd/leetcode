@@ -92,3 +92,51 @@ char ***solveNQueens(int n, int *returnSize, int **returnColumnSizes) {
 
   return result;
 }
+
+class Solution {
+  vector<vector<string>> ans;
+  vector<string> path;
+  int pathIndex;
+
+ public:
+  bool isValid(int n, int row, int col) {
+    for (int i = 0; i < row; ++i) {
+      if (path[i][col] == 'Q') {
+        return false;
+      }
+    }
+    for (int i = row - 1, j = col - 1; i >= 0 && j >= 0; --i, --j) {
+      if (path[i][j] == 'Q') {
+        return false;
+      }
+    }
+
+    for (int i = row - 1, j = col + 1; i >= 0 && j < n; --i, ++j) {
+      if (path[i][j] == 'Q') {
+        return false;
+      }
+    }
+    return true;
+  }
+  void backtracking(int n, int start) {
+    if (start == n) {
+      ans.emplace_back(path);
+      return;
+    }
+    for (int i = 0; i < n; ++i) {
+      if (isValid(n, start, i)) {
+        path[pathIndex++][i] = 'Q';
+        backtracking(n, start + 1);
+        path[--pathIndex][i] = '.';
+      }
+    }
+  }
+  vector<vector<string>> solveNQueens(int n) {
+    for (int i = 0; i < n; ++i) {
+      path.emplace_back(string(n, '.'));
+    }
+    pathIndex = 0;
+    backtracking(n, 0);
+    return ans;
+  }
+};
