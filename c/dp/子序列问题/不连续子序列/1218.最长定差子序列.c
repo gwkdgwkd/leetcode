@@ -19,8 +19,8 @@
 解释：最长的等差子序列是[7,5,3,1]。
 
 提示：
-1 <= arr.length <= 105
--104 <= arr[i], difference <= 104
+1 <= arr.length <= 10^5
+-10^4 <= arr[i], difference <= 10^4
 */
 
 // 动态规划，超时，与300类似
@@ -54,3 +54,46 @@ int longestSubsequence(int* arr, int arrSize, int difference) {
   }
   return ans;
 }
+
+class Solution {
+ public:
+  int longestSubsequence(vector<int>& arr, int difference) {
+    int n = arr.size();
+    vector<int> dp(n, 1);
+
+    int max = dp[0];
+
+    for (int i = 1; i < n; ++i) {
+      for (int j = 0; j < i; ++j) {
+        if (arr[i] - arr[j] == difference) {
+          dp[i] = std::max(dp[i], dp[j] + 1);
+          max = std::max(max, dp[i]);
+        }
+      }
+    }
+
+    return max;
+  }
+};
+
+class Solution {
+ public:
+  int longestSubsequence(vector<int>& arr, int difference) {
+    int n = arr.size();
+    unordered_map<int, int> dp;
+
+    int max = 0;
+    for (int i = 0; i < n; ++i) {
+      auto it = dp.find(arr[i] - difference);
+      if (it != dp.end()) {
+        dp[arr[i]] = it->second + 1;
+
+      } else {
+        dp[arr[i]] = 1;
+      }
+      max = std::max(max, dp[arr[i]]);
+    }
+
+    return max;
+  }
+};

@@ -25,7 +25,7 @@ exection -> execution (插入'u')
 
 提示：
 0 <= word1.length, word2.length <= 500
-word1和word2 由小写英文字母组成
+word1和word2由小写英文字母组成
 */
 
 // 动态规划
