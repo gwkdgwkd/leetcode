@@ -128,3 +128,21 @@ int fib(int n) {
 
   return pre2;
 }
+
+// 剑指Offer10-I斐波那契数列
+int fib(int n) {
+  if (n <= 1) {
+    return n;
+  }
+
+  int f0 = 0;
+  int f1 = 1;
+  int f2;
+  for (int i = 2; i <= n; ++i) {
+    f2 = (f1 + f0) % 1000000007;
+    f0 = f1;
+    f1 = f2;
+  }
+
+  return f1;  // 在这取余会产生错误
+}

@@ -22,7 +22,7 @@
 1 <= triangle.length <= 200
 triangle[0].length == 1
 triangle[i].length == triangle[i - 1].length + 1
--104 <= triangle[i][j] <= 104
+-10^4 <= triangle[i][j] <= 10^4
 
 进阶：你可以只使用O(n)的额外空间（n为三角形的总行数）来解决这个问题吗？
 */
@@ -98,3 +98,32 @@ int minimumTotal(int** triangle, int triangleSize, int* triangleColSize) {
     ret = fmin(ret, f[(triangleSize - 1) % 2][i]);
   return ret;
 }
+
+class Solution {
+ public:
+  int minimumTotal(vector<vector<int>>& triangle) {
+    vector<vector<int>> dp = triangle;
+    int m = triangle.size();
+
+    for (int i = 1; i < m; ++i) {
+      int n = triangle[i].size();
+      dp[i].assign(n, 0);
+      for (int j = 0; j < n; ++j) {
+        if (j == 0) {
+          dp[i][j] = dp[i - 1][j] + triangle[i][j];
+        } else if (j == n - 1) {
+          dp[i][j] = dp[i - 1][j - 1] + triangle[i][j];
+        } else {
+          dp[i][j] = min(dp[i - 1][j], dp[i - 1][j - 1]) + triangle[i][j];
+        }
+      }
+    }
+
+    int ans = dp[m - 1][0];
+    for (int j = 1; j < triangle[m - 1].size(); ++j) {
+      ans = min(ans, dp[m - 1][j]);
+    }
+
+    return ans;
+  }
+};

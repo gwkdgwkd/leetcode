@@ -65,6 +65,12 @@ int maximalSquare(char** matrix, int matrixSize, int* matrixColSize) {
       if (matrix[i - 1][j - 1] == '1') {
         // 若某格子值为1，则以此为右下角的正方形的最大边长为：
         // 上面的正方形、左面的正方形或左上的正方形中，最小的那个，再加上此格。
+        // 0 0 0 0 0 0
+        // 0 0 1 1 1 0
+        // 1 1 1 1 1 0
+        // 1 1 1 1 1 0
+        // 1 1 1 1 1 0
+        // 0 0 0 0 0 0
         dp[i][j] = fmin(dp[i - 1][j], fmin(dp[i - 1][j - 1], dp[i][j - 1])) + 1;
         max = fmax(max, dp[i][j]);
       }
@@ -73,3 +79,24 @@ int maximalSquare(char** matrix, int matrixSize, int* matrixColSize) {
 
   return max * max;
 }
+
+class Solution {
+ public:
+  int maximalSquare(vector<vector<char>>& matrix) {
+    int m = matrix.size();
+    int n = matrix[0].size();
+    vector<vector<int>> dp(m + 1, vector<int>(n + 1, 0));
+
+    int max = 0;
+    for (int i = 1; i <= m; ++i) {
+      for (int j = 1; j <= n; ++j) {
+        if (matrix[i - 1][j - 1] == '1') {
+          dp[i][j] = min(dp[i][j - 1], min(dp[i - 1][j], dp[i - 1][j - 1])) + 1;
+          max = std::max(max, dp[i][j]);
+        }
+      }
+    }
+
+    return max * max;
+  }
+};

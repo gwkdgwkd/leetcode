@@ -38,10 +38,10 @@ int minCostClimbingStairs(int* cost, int costSize) {
     dp[i] = fmin(dp[i - 1] + cost[i - 1], dp[i - 2] + cost[i - 2]);
   }
 
-  for (int i = 0; i <= costSize; ++i) {
-    printf("%3d ", dp[i]);
-  }
-  printf("\n");
+  // for (int i = 0; i <= costSize; ++i) {
+  //   printf("%3d ", dp[i]);
+  // }
+  // printf("\n");
   // [1, 100, 1, 1, 1, 100, 1, 1, 100, 1]
   // 0   0   1   2   2   3   3   4   4   5   6
 
