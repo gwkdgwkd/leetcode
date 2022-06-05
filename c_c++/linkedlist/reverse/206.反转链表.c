@@ -32,6 +32,10 @@ struct ListNode {
 // 该算法的实现思想非常直接，就是从当前链表的首元节点开始，一直遍历至链表的最后一个节点，
 // 这期间会逐个改变所遍历到的节点的指针域，另其指向前一个节点
 struct ListNode* reverseList(struct ListNode* head) {
+  // if (head == NULL || head->next == NULL) {
+  //   return head;
+  // }
+
   struct ListNode* left = NULL;
   struct ListNode* mid = head;
   struct ListNode* right;  // 保存mid的下一个节点
@@ -50,9 +54,9 @@ struct ListNode* reverseList(struct ListNode* head) {
 // 所谓头插法，是指在原有链表的基础上，依次将位于链表头部的节点摘下，
 // 然后采用从头部插入的方式生成一个新链表，则此链表即为原链表的反转版。
 struct ListNode* reverseList(struct ListNode* head) {
-  if (head == NULL || head->next == NULL) {
-    return head;
-  }
+  // if (head == NULL || head->next == NULL) {
+  //   return head;
+  // }
 
   struct ListNode* new_head = NULL;
   struct ListNode* temp = NULL;
@@ -69,7 +73,10 @@ struct ListNode* reverseList(struct ListNode* head) {
 // 就地逆置法和头插法的实现思想类似，唯一的区别在于，头插法是通过建立一个新链表实现的，
 // 而就地逆置法则是直接对原链表做修改，从而实现将原链表反转。
 struct ListNode* reverseList(struct ListNode* head) {
-  if (head == NULL || head->next == NULL) {
+  // if (head == NULL || head->next == NULL) {
+  //   return head;
+  // }
+  if (head == NULL) {
     return head;
   }
   struct ListNode* beg = head;
