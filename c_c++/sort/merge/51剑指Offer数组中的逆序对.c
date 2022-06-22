@@ -30,13 +30,16 @@ void Merge(int *nums, int left, int mid, int right) {
   int l = left;
   int r = mid + 1;
   int i = 0;
+
+  // [left ...l... mid | mid + 1 ...r... right]
+
   while (l <= mid || r <= right) {
     if (l > mid) {
       temp[i++] = nums[r++];
     } else if (r > right) {
       temp[i++] = nums[l++];
-      // r-(mid+1)表示右边被选择元素的个数，左边这个元素被选择，
-      // 比之前选择的r-(mid+1)个右边元素都大，就有r-(mid+1)个逆序对
+      // 此时要选择nums[l]，r-(mid+1)表示右边已经被排序的元素的个数，
+      // nums[l]比之前选择的r-(mid+1)个右边元素都大，就有r-(mid+1)个逆序对
       count += r - (mid + 1);
     } else if (nums[l] > nums[r]) {
       temp[i++] = nums[r++];

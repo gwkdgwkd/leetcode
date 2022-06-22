@@ -162,3 +162,37 @@ int *topKFrequent(int *nums, int numsSize, int k, int *returnSize) {
   *returnSize = k;
   return result;
 }
+
+class Solution {
+  static bool cmp(pair<int, int> &m, pair<int, int> &n) {
+    return m.second > n.second;
+  }
+
+ public:
+  vector<int> topKFrequent(vector<int> &nums, int k) {
+    unordered_map<int, int> um;
+    for (auto &i : nums) {
+      um[i]++;
+    }
+
+    priority_queue<pair<int, int>, vector<pair<int, int>>, decltype(&cmp)> q(
+        cmp);
+    for (auto it = um.begin(); it != um.end(); ++it) {
+      if (q.size() == k) {
+        if (q.top().second < it->second) {
+          q.pop();
+          q.emplace(it->first, it->second);
+        }
+      } else {
+        q.emplace(it->first, it->second);
+      }
+    }
+
+    vector<int> ret;
+    while (!q.empty()) {
+      ret.emplace_back(q.top().first);
+      q.pop();
+    }
+    return ret;
+  }
+};
