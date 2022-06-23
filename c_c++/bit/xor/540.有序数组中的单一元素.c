@@ -44,7 +44,7 @@ int singleNonDuplicate(int* nums, int numsSize) {
   int low = 0, high = numsSize - 1;
   while (low < high) {
     int mid = (high - low) / 2 + low;
-    // 将mid的值减去mid&1，即可确保mid是偶数，如果原来的mmid是偶数则值不变，如果原来的mid是奇数则值减1
+    // 将mid的值减去mid&1，即可确保mid是偶数，如果原来的mid是偶数则值不变，如果原来的mid是奇数则值减1
     mid -= mid & 1;
     if (nums[mid] == nums[mid + 1]) {
       low = mid + 2;

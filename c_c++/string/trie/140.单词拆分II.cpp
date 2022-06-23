@@ -8,9 +8,10 @@
 输出:["cats and dog","cat sand dog"]
 
 示例2：
-输入:s = "pineapplepenapple", wordDict = ["apple","pen","applepen","pine","pineapple"]
-输出:["pine apple pen apple","pineapple pen apple","pine applepen apple"]
-解释: 注意你可以重复使用字典中的单词。
+输入:s = "pineapplepenapple", wordDict =
+["apple","pen","applepen","pine","pineapple"] 输出:["pine apple pen
+apple","pineapple pen apple","pine applepen apple"] 解释:
+注意你可以重复使用字典中的单词。
 
 示例3：
 输入:s = "catsandog", wordDict = ["cats","dog","sand","and","cat"]
@@ -105,3 +106,61 @@ char** wordBreak(char* s, char** wordDict, int wordDictSize, int* returnSize) {
   *returnSize = ansSize[0];
   return ans[0];
 }
+
+class Trie {
+ private:
+  bool isend;
+  Trie* next[26];
+
+ public:
+  Trie() {
+    isend = false;
+    memset(next, 0, sizeof(next));
+  }
+  void insert(const string& s) {
+    Trie* node = this;
+    for (const char& c : s) {
+      if (!node->next[c - 'a']) node->next[c - 'a'] = new Trie();
+      node = node->next[c - 'a'];
+    }
+    node->isend = true;
+  }
+  void dfs(string& s, int pos, vector<bool>& visited, vector<string>& res) {
+    if (pos == s.size()) {
+      string tmp;
+      for (int i = 0; i < s.size(); ++i) {
+        tmp += s[i];
+        if (visited[i] && i != s.size() - 1) {
+          tmp += ' ';
+        }
+      }
+      res.push_back(tmp);
+      return;
+    }
+    Trie* node = this;
+    for (int i = pos; i < s.size(); ++i) {
+      if (node->next[s[i] - 'a']) {
+        node = node->next[s[i] - 'a'];
+        if (node->isend) {
+          visited[i] = true;
+          dfs(s, i + 1, visited, res);
+          visited[i] = false;
+        }
+      } else
+        return;
+    }
+  }
+};
+class Solution {
+ public:
+  vector<string> wordBreak(string s, vector<string>& wordDict) {
+    Trie* root = new Trie();
+    vector<bool> visited(s.size(), false);
+    for (const string& word : wordDict) {
+      root->insert(word);
+    }
+    vector<string> res;
+    root->dfs(s, 0, visited, res);
+    return res;
+  }
+};

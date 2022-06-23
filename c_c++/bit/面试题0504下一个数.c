@@ -28,11 +28,10 @@ int* findClosedNumbers(int num, int* returnSize) {
   res[0] = res[1] = -1;
   *returnSize = 2;
   int bits = cntbit(num);
-  printf("%d\r\n", bits);
   long n;
-  if (num == 2147483647)
+  if (num == 2147483647) {
     return res;  // 特殊情况特殊考虑；
-  else if (num < 2147483647) {
+  } else if (num < 2147483647) {
     for (n = num + 1; n <= 2147483647; n++) {
       if (cntbit(n) == bits) {
         res[0] = n;

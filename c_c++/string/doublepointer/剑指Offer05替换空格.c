@@ -8,8 +8,6 @@
 限制：0 <= s的长度 <= 10000
 */
 
-// 面试题0103URL化
-
 char* replaceSpace(char* s) {
   int count = 0;
   int len = strlen(s);
@@ -48,4 +46,32 @@ char* replaceSpace(char* s) {
   // }
 
   return res;
+}
+
+// 面试题0103URL化
+// URL化。编写一种方法，将字符串中的空格全部替换为%20。
+// 假定该字符串尾部有足够的空间存放新增字符，并且知道字符串的“真实”长度。
+char* replaceSpaces(char* S, int length) {
+  int count = 0;
+  for (int i = 0; i < length; ++i) {
+    if (S[i] == ' ') {
+      ++count;
+    }
+  }
+
+  int right = length + 2 * count;
+  S[right--] = 0;
+  int left = length - 1;
+  while (left >= 0) {
+    if (S[left] == ' ') {
+      S[right--] = '0';
+      S[right--] = '2';
+      S[right--] = '%';
+      --left;
+    } else {
+      S[right--] = S[left--];
+    }
+  }
+
+  return S;
 }

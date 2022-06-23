@@ -44,6 +44,8 @@ int* singleNumber(int* nums, int numsSize, int* returnSize) {
   for (int i = 0; i < numsSize; ++i) {
     // 3.通过与这个mask进行与操作，如果为0的分为一个数组，为1的分为另一个数组
     //   这样就把问题降低成了：“有一个数组每个数字都出现两次，有一个数字只出现了一次，求出该数字”
+    // if ((nums[i] & mask) == 0) { // 也行
+    // if ((nums[i] & mask) == 1) { // 不行
     if ((nums[i] & mask) == mask) {
       res[0] ^= nums[i];
     } else {
