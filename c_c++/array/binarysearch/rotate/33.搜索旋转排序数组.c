@@ -67,7 +67,7 @@ int search(int* nums, int numsSize, int target) {
     }
     if (nums[left] <= nums[mid]) {  // 要有=号，不然[3,1]错误
       // [left,mid]是有序的
-      if (target >= nums[left] && target < nums[mid]) {
+      if (nums[left] <= target && target < nums[mid]) {
         // target在[left,mid)中
         right = mid - 1;
       } else {
@@ -75,7 +75,7 @@ int search(int* nums, int numsSize, int target) {
       }
     } else {
       // [mid,right]是有序的
-      if (target > nums[mid] && target <= nums[right]) {
+      if (nums[mid] < target && target <= nums[right]) {
         // target在(mid,right]中
         left = mid + 1;
       } else {
@@ -85,3 +85,5 @@ int search(int* nums, int numsSize, int target) {
   }
   return -1;
 }
+
+// [面试题1003搜索旋转数组]的解法也行，但是上面的两个解法不能解决[面试题1003搜索旋转数组]

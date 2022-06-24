@@ -86,3 +86,35 @@ void solutionFree(Solution* obj) {
   free(obj->pre);
   free(obj);
 }
+
+// 下面的解法超时：
+typedef struct {
+  int* index;
+  int total
+} Solution;
+Solution* solutionCreate(int* w, int wSize) {
+  Solution* obj = malloc(sizeof(Solution));
+  obj->total = 0;
+  for (int i = 0; i < wSize; i++) {
+    obj->total += w[i];
+  }
+  obj->index = malloc(sizeof(int) * obj->total);
+
+  int j = 0;
+  for (int i = 0; i < wSize; i++) {  // O(m*n)，用c++的区间赋值可以么？
+    int len = j + w[i];
+    for (; j < len; ++j) {
+      obj->index[j] = i;
+    }
+  }
+
+  return obj;
+}
+int solutionPickIndex(Solution* obj) {
+  int x = rand() % obj->total;
+  return obj->index[x];
+}
+void solutionFree(Solution* obj) {
+  free(obj->index);
+  free(obj);
+}

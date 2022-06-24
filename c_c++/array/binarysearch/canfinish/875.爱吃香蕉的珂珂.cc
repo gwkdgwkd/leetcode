@@ -2,8 +2,8 @@
 珂珂喜欢吃香蕉，这里有N堆香蕉，第i堆中有piles[i]根香蕉。
 警卫已经离开了，将在H小时后回来。
 珂珂可以决定她吃香蕉的速度K（单位：根/小时）。
-每个小时，她将会选择一堆香蕉，从中吃掉K根。如果这堆香蕉少于K根，
-她将吃掉这堆的所有香蕉，然后这一小时内不会再吃更多的香蕉。
+每个小时，她将会选择一堆香蕉，从中吃掉K根。
+如果这堆香蕉少于K根，她将吃掉这堆的所有香蕉，然后这一小时内不会再吃更多的香蕉。
 珂珂喜欢慢慢吃，但仍然想在警卫回来前吃掉所有的香蕉。
 返回她可以在H小时内吃掉所有香蕉的最小速度K（K为整数）。
 
@@ -37,7 +37,7 @@ bool canFinish(int* piles, int pilesSize, int speed, int h) {
   return sum <= h;
 }
 int minEatingSpeed(int* piles, int pilesSize, int h) {
-  int left = 1;   // 最小速度没小时吃1根
+  int left = 1;   // 最小速度每小时吃1根
   int right = 1;  // 最大速度是piles中最大值
   for (int i = 0; i < pilesSize; ++i) {
     right = fmax(right, piles[i]);

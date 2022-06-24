@@ -43,7 +43,8 @@ int minSubArrayLen(int target, int* nums, int numsSize) {
   return ret == INT_MAX ? 0 : ret;
 }
 
-// 滑动窗口也可以理解为双指针法的一种！只不过这种解法更像是一个窗口的移动，所以叫做滑动窗口更适合一些。
+// 滑动窗口也可以理解为双指针法的一种！
+// 只不过这种解法更像是一个窗口的移动，所以叫做滑动窗口更适合一些。
 // 滑动窗口的精妙之处在于根据当前子序列和大小的情况，不断调节子序列的起始位置。
 // 从而将O(n^2)的暴力解法降为O(n)。
 int minSubArrayLen(int target, int* nums, int numsSize) {

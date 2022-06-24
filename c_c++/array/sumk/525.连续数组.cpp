@@ -58,6 +58,8 @@ class Solution {
     int maxLength = 0;
     unordered_map<int, int> mp;
     int counter = 0;
+    // 为了区分连续数组的起始点在index == 0的位置的情况，
+    // 如果最长连续数组在数组的最前方，不插入{0,-1}会得到错误的答案
     mp[counter] = -1;
     int n = nums.size();
     for (int i = 0; i < n; i++) {
@@ -67,7 +69,7 @@ class Solution {
       } else {
         counter--;
       }
-      if (mp.count(counter)) {
+      if (mp.count(counter)) {  // 说明子数在[i...prevIndex]和为0，找到一个解
         int prevIndex = mp[counter];
         maxLength = max(maxLength, i - prevIndex);
       } else {

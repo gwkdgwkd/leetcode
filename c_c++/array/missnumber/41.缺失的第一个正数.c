@@ -23,20 +23,27 @@
 // 时间复杂度：O(N)
 // 空间复杂度：O(1)
 int firstMissingPositive(int* nums, int numsSize) {
-  // 将数组中所有小于等于0的数修改为N+1，标记这个位置不是正确的数
+  // [3,4,-1,1]
+
   for (int i = 0; i < numsSize; ++i) {
     if (nums[i] <= 0) {
       nums[i] = numsSize + 1;
     }
+    // printf("%d ", nums[i]);
   }
+  // printf("\n");  // 3 4 5 1
 
   for (int i = 0; i < numsSize; ++i) {
     int num = abs(nums[i]);
     if (num <= numsSize) {  // 数组中出现的数字
-      nums[num - 1] =
-          -abs(nums[num - 1]);  // 把出现过的数字对应位置的数字设成负数
+      // 把出现过的数字对应位置的数字设成负数
+      nums[num - 1] = -abs(nums[num - 1]);
     }
   }
+  // for (int i = 0; i < numsSize; ++i) {
+  //   printf("%d ", nums[i]);
+  // }
+  // printf("\n");  // -3 4 -5 -1
 
   for (int i = 0; i < numsSize; ++i) {
     if (nums[i] > 0) {  // 第一个非负数，就是缺失的第一个正整数

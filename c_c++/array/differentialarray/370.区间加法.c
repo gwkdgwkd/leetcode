@@ -25,7 +25,7 @@ void print(int *p, int len) {
   printf("\n");
 }
 
-// 差分数组的主要适用场景是频繁对原始数组的某个区间的元素进行增减。
+// 差分数组的主要适用场景是频繁对原始数组的某个区间的元素进行增减
 typedef struct Difference {
   int *diff;
   int size;
@@ -46,14 +46,14 @@ Difference *createDifference(int *nums, int numsSize) {
   return d;
 }
 void increment(int i, int j, int val, Difference *d) {
-  // 只要花费O(1)的时间修改diff数组，就相当于给nums的整个区间做了修改。
+  // 只要花费O(1)的时间修改diff数组，就相当于给nums的整个区间做了修改
   d->diff[i] += val;  // 从i以后，所有的值都加上val
   if (j + 1 < d->size) {
     d->diff[j + 1] -= val;  // 从j+1以后，所有的值都减去val
   }
   // [i...j]内的元素都加上了val
 
-  // j+1>=d->size说明是对nums[i]及以后的整个数组都进行修改，那么就不需要再给diff数组减val了。
+  // j+1>=d->size说明是对nums[i]及以后的整个数组都进行修改，那么就不需要再给diff数组减val了
 }
 int *result(Difference *d) {
   int *res = (int *)malloc(sizeof(int) * d->size);

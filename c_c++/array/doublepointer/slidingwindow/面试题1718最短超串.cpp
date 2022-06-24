@@ -88,3 +88,43 @@ int* shortestSeq(int* big, int bigSize, int* small, int smallSize,
 
   return res;
 }
+
+class Solution {
+ public:
+  vector<int> shortestSeq(vector<int>& big, vector<int>& small) {
+    unordered_map<int, int> um;
+    for (auto i : small) {
+      um[i]++;
+    }
+
+    int lb = big.size();
+    int ls = small.size();
+
+    int right = 0;
+    int left = 0;
+
+    int minstart = 0;
+    int minlen = INT_MAX;
+    while (right < lb) {
+      if (um[big[right++]]-- > 0) {
+        --ls;
+      }
+      while (ls == 0) {
+        if (right - left < minlen) {
+          minstart = left;
+          minlen = right - left;
+        }
+        if (++um[big[left++]] > 0) {
+          ++ls;
+        }
+      }
+    }
+
+    vector<int> res;
+    if (minlen != INT_MAX) {
+      res.assign({minstart, minstart + minlen - 1});
+    }
+
+    return res;
+  }
+};

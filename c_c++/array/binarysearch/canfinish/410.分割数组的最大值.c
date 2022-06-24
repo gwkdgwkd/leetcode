@@ -29,6 +29,7 @@
 //           总状态数为O(n×m)，状态转移时间复杂度O(n)，所以总时间复杂度为O(n^2×m)。
 // 空间复杂度：O(n×m)，为动态规划数组的开销。
 int splitArray(int* nums, int numsSize, int m) {
+  // dp[i][j]表示将数组的前i个数分割为j段所能得到的最大连续子数组和的最小值
   int dp[numsSize + 1][m + 1];
   memset(dp, 0x3f, sizeof(dp));
   int pre[numsSize + 1];  // 前缀和
@@ -41,6 +42,8 @@ int splitArray(int* nums, int numsSize, int m) {
   for (int i = 1; i <= numsSize; ++i) {
     for (int j = 1; j <= fmin(i, m); ++j) {
       for (int k = 0; k < i; ++k) {
+        // dp[k][j-1]：i中前k个元素分j-1组
+        // pre[i]-pre[k]：k+1到i的元素当作1组的和
         dp[i][j] = fmin(dp[i][j], fmax(dp[k][j - 1], pre[i] - pre[k]));
       }
     }
