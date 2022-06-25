@@ -146,3 +146,30 @@ int* nextGreaterElement(int* nums1, int nums1Size, int* nums2, int nums2Size,
   return result;
   // -1,3,-1
 }
+
+class Solution {
+ public:
+  vector<int> nextGreaterElement(vector<int>& nums1, vector<int>& nums2) {
+    int len = nums2.size();
+    stack<int> stk;
+    unordered_map<int, int> hashmap;
+    for (int i = 0; i < len; ++i) {
+      while (!stk.empty() && nums2[stk.top()] < nums2[i]) {
+        hashmap[nums2[stk.top()]] = nums2[i];
+        stk.pop();
+      }
+      stk.push(i);
+    }
+
+    vector<int> ans;
+    for (int i = 0; i < nums1.size(); ++i) {
+      if (hashmap.count(nums1[i])) {
+        ans.emplace_back(hashmap[nums1[i]]);
+      } else {
+        ans.emplace_back(-1);
+      }
+    }
+
+    return ans;
+  }
+};

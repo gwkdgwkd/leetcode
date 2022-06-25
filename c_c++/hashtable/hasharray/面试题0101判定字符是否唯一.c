@@ -3,7 +3,7 @@
 
 示例1：
 输入: s = "leetcode"
-输出: false 
+输出: false
 
 示例2：
 输入: s = "abc"

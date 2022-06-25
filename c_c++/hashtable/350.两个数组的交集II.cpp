@@ -1,7 +1,7 @@
 /*
 给你两个整数数组nums1和nums2，请你以数组形式返回两数组的交集。
-返回结果中每个元素出现的次数，应与元素在两个数组中都出现的次数一致（如果出现次数不一致，则考虑取较小值）。
-可以不考虑输出结果的顺序。
+返回结果中每个元素出现的次数，应与元素在两个数组中都出现的次数一致，
+如果出现次数不一致，则考虑取较小值，可以不考虑输出结果的顺序。
 
 示例1：
 输入：nums1 = [1,2,2,1], nums2 = [2,2]
@@ -89,23 +89,12 @@ class Solution {
   vector<int> intersect(vector<int>& nums1, vector<int>& nums2) {
     unordered_map<int, int> hash;
     for (auto& i : nums1) {
-      auto it = hash.find(i);
-      if (it != hash.end()) {
-        hash[i]++;
-      } else {
-        hash[i] = 1;
-      }
+      hash[i]++;
     }
 
     vector<int> res;
     for (auto& i : nums2) {
-      auto it = hash.find(i);
-      if (it != hash.end()) {
-        if (hash[i] > 1) {
-          hash[i]--;
-        } else if (hash[i] == 1) {
-          hash.erase(i);
-        }
+      if (hash[i]-- > 0) {
         res.emplace_back(i);
       }
     }

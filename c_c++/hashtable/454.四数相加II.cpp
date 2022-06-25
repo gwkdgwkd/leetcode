@@ -1,5 +1,6 @@
 /*
-给你四个整数数组nums1、nums2、nums3和nums4，数组长度都是n，请你计算有多少个元组(i,j,k,l)能满足：
+给你四个整数数组nums1、nums2、nums3和nums4，数组长度都是n，
+请你计算有多少个元组(i,j,k,l)能满足：
 0 <= i, j, k, l < n
 nums1[i] + nums2[j] + nums3[k] + nums4[l] == 0
 
@@ -130,24 +131,14 @@ class Solution {
     unordered_map<int, int> hash;
     for (int i = 0; i < nums1.size(); ++i) {
       for (int j = 0; j < nums2.size(); ++j) {
-        int key = nums1[i] + nums2[j];
-        auto it = hash.find(key);
-        if (it != hash.end()) {
-          hash[key]++;
-        } else {
-          hash[key] = 1;
-        }
+        hash[nums1[i] + nums2[j]]++;
       }
     }
 
     int count = 0;
     for (int i = 0; i < nums3.size(); ++i) {
       for (int j = 0; j < nums4.size(); ++j) {
-        int key = (nums3[i] + nums4[j]) * -1;
-        auto it = hash.find(key);
-        if (it != hash.end()) {
-          count += hash[key];
-        }
+        count += hash[(nums3[i] + nums4[j]) * -1];
       }
     }
     return count;

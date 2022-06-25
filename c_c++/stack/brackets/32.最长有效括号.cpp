@@ -74,6 +74,29 @@ int longestValidParentheses(char* s) {
   return ans;
 }
 
+class Solution {
+ public:
+  int longestValidParentheses(string s) {
+    stack<int> stk;
+
+    int ans = 0;
+    stk.push(-1);
+    for (int i = 0; i < s.size(); ++i) {
+      if (s[i] == '(') {
+        stk.push(i);
+      } else {
+        stk.pop();
+        if (stk.empty()) {
+          stk.push(i);
+        } else {
+          ans = fmax(ans, i - stk.top());
+        }
+      }
+    }
+    return ans;
+  }
+};
+
 // 时间复杂度：O(n)
 // 空间复杂度：O(1)
 int longestValidParentheses(char* s) {

@@ -64,3 +64,20 @@ char *removeDuplicates(char *s) {
 
   return s;
 }
+
+class Solution {
+ public:
+  string removeDuplicates(string s) {
+    string stk;
+    int len = s.size();
+    for (int i = 0; i < len; ++i) {
+      if (stk.empty() || stk.back() != s[i]) {
+        stk.push_back(s[i]);
+      } else {
+        stk.pop_back();
+      }
+    }
+
+    return stk;
+  }
+};

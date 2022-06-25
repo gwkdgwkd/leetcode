@@ -31,8 +31,10 @@
 // 把从队首到队尾单调递减或递增的队列称之为单调队列。
 // 1.用一个数组和一前一后两个指针（head，tail）来模拟双端队列，
 //   而这个双端队列是用来存原来数组中符合条件的下标。
-// 2.因为窗口的大小是k，因此，在遍历原数组时，满足q[head]<=i-k时，q的head就得出列，就是head++。
-// 3.首先排除原队列中没用的尾巴tail，满足nums[q[tail-1]]<nums[i]时，原尾巴出列，就是tail--。
+// 2.因为窗口的大小是k，因此，在遍历原数组时，
+//   满足q[head]<=i-k时，q的head就得出列，就是head++。
+// 3.首先排除原队列中没用的尾巴tail，满足nums[q[tail-1]]<nums[i]时，
+//   原尾巴出列，就是tail--。
 //   然后就是q[tail++] = i，入队。
 // 时间复杂度：进队一次，出队一次，2N，就是O(N)
 // 空间复杂度：O(N)，因为要建立与原数组等大的队列（数组）与答案数组
@@ -81,39 +83,6 @@ int* maxSlidingWindow(int* nums, int numsSize, int k, int* returnSize) {
   return result;
 }
 
-// 单调队列
-int* maxSlidingWindow(int* nums, int numsSize, int k, int* returnSize) {
-  if (nums == NULL || returnSize == NULL) {
-    return NULL;
-  }
-  int outLen = numsSize - k + 1;
-  int* result = (int*)malloc(sizeof(int) * outLen);
-  int* deque = (int*)malloc(sizeof(int) * numsSize);
-  int start = 0;
-  int end = 0;
-  int i = 0, j = 0;
-  while (i < numsSize) {
-    // 若右边成员的值小于即将入队的值，就从右边依次出队
-    while (start != end && nums[i] > nums[deque[end - 1]]) {
-      end--;
-    }
-    // 从右边入队
-    deque[end++] = i;
-    // 已入队了K次，需要开始记录当前窗口最大值
-    if (i >= k - 1) {
-      result[i - k + 1] = nums[deque[start]];
-      if (start != end && deque[start] <= i - k + 1) {
-        // 最大值已出窗口，左边出队
-        start++;
-      }
-    }
-    i++;
-  }
-  free(deque);
-  *returnSize = outLen;
-  return result;
-}
-
 // 暴力法，超时
 int* maxSlidingWindow(int* nums, int numsSize, int k, int* returnSize) {
   *returnSize = 0;
@@ -130,3 +99,30 @@ int* maxSlidingWindow(int* nums, int numsSize, int k, int* returnSize) {
 
   return ans;
 }
+
+class Solution {
+ public:
+  vector<int> maxSlidingWindow(vector<int>& nums, int k) {
+    int len = nums.size();
+
+    vector<int> q(len);
+    int head = 0;
+    int tail = 0;
+    vector<int> res;
+
+    for (int i = 0; i < len; ++i) {
+      while (head < tail && i - k >= q[head]) {
+        ++head;
+      }
+      while (head < tail && nums[q[tail - 1]] < nums[i]) {
+        --tail;
+      }
+      q[tail++] = i;
+      if (i >= k - 1) {
+        res.emplace_back(nums[q[head]]);
+      }
+    }
+
+    return res;
+  }
+};

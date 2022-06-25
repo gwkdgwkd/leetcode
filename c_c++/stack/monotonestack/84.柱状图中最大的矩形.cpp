@@ -89,3 +89,27 @@ int largestRectangleArea(int* heights, int heightsSize) {
 
   return ret;
 }
+
+class Solution {
+ public:
+  int largestRectangleArea(vector<int>& heights) {
+    int ans = 0;
+    vector<int> st;  // 栈内元素递增
+    heights.insert(heights.begin(), 0);
+    heights.push_back(0);
+    for (int i = 0; i < heights.size(); i++) {
+      while (!st.empty() && heights[st.back()] > heights[i]) {
+        int cur = st.back();  // 栈顶元素的高度
+        st.pop_back();        // 出栈
+        // 新的栈顶是老栈顶左边第一小于它的，加1就是老栈顶左边连续比它高的最左边的那个
+        int left = st.back() + 1;
+        // i是老栈顶右边第一比它小的元素，减1就是老栈顶右边连续比它高的最右边的那个
+        int right = i - 1;
+        // (right - left + 1) * heights[cur]以老栈顶为高，生成的最大矩形面积
+        ans = max(ans, (right - left + 1) * heights[cur]);
+      }
+      st.push_back(i);
+    }
+    return ans;
+  }
+};

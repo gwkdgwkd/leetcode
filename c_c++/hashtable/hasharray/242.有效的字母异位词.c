@@ -17,6 +17,8 @@ s和t仅包含小写字母
 进阶: 如果输入字符串包含unicode字符怎么办？你能否调整你的解法来应对这种情况？
 */
 
+// 面试题0102判定是否互为字符重排
+
 // 哈希表
 bool isAnagram(char* s, char* t) {
   int lens = strlen(s);

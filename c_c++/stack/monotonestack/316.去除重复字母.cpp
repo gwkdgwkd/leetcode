@@ -56,3 +56,32 @@ char *removeDuplicateLetters(char *s) {
   stack[++top] = '\0';
   return stack;
 }
+
+class Solution {
+ public:
+  string removeDuplicateLetters(string s) {
+    int len = s.size();
+    unordered_map<char, int> um1;
+    for (int i = 0; i < len; ++i) {
+      um1[s[i]]++;
+    }
+
+    string stk;
+    unordered_map<char, bool> um2;
+    for (int i = 0; i < len; ++i) {
+      if (um2[s[i]]) {
+        um1[s[i]]--;
+      } else {
+        while (!stk.empty() && stk.back() > s[i] && um1[stk.back()] > 1) {
+          um1[stk.back()]--;
+          um2[stk.back()] = false;
+          stk.pop_back();
+        }
+        stk.push_back(s[i]);
+        um2[s[i]] = true;
+      }
+    }
+
+    return stk;
+  }
+};

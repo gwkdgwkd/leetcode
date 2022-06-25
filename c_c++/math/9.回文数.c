@@ -24,18 +24,14 @@ bool isPalindrome(int x) {
   char str[13];
   memset(str, 0, sizeof(str));
 
-  int index = 0;
-  bool flag = false;
   if (x < 0) {
-    flag = true;
+    return false;
   }
 
+  int index = 0;
   while (x) {
     str[index++] = x % 10 + '0';
     x /= 10;
-  }
-  if (flag) {
-    str[index++] = '-';
   }
 
   for (int l = 0, r = index - 1; l < r; ++l, --r) {

@@ -35,7 +35,7 @@ int* nextGreaterElements(int* nums, int numsSize, int* returnSize) {
   // nums：[1,2,1]
   for (int i = 0; i < numsSize * 2 - 1; ++i) {
     int index = i % numsSize;
-    printf("i[%d] index [%d] : \n", i, index);
+    // printf("i[%d] index [%d] : \n", i, index);
     while (top > 0 && nums[stack[top - 1]] < nums[index]) {
       // printf("result[%d] = %d\n", stack[top - 1], nums[index]);
       result[stack[top - 1]] = nums[index];
@@ -65,6 +65,26 @@ int* nextGreaterElements(int* nums, int numsSize, int* returnSize) {
 
   return result;
 }
+
+class Solution {
+ public:
+  vector<int> nextGreaterElements(vector<int>& nums) {
+    int len = nums.size();
+
+    stack<int> stk;
+    vector<int> ans(len, -1);
+
+    for (int i = 0; i < len * 2 - 1; ++i) {
+      int index = i % len;
+      while (!stk.empty() && nums[stk.top()] < nums[index]) {
+        ans[stk.top()] = nums[index];
+        stk.pop();
+      }
+      stk.push(index);
+    }
+    return ans;
+  }
+};
 
 // 单调栈模板[496,503,739]
 int* nextGreaterElements(int* nums, int numsSize, int* returnSize) {

@@ -66,10 +66,28 @@ int* dailyTemperatures(int* temperatures, int temperaturesSize,
   return result;
 }
 
+class Solution {
+ public:
+  vector<int> dailyTemperatures(vector<int>& temperatures) {
+    int len = temperatures.size();
+    stack<int> stk;
+    vector<int> ans(len, 0);
+    for (int i = 0; i < len; ++i) {
+      while (!stk.empty() && temperatures[stk.top()] < temperatures[i]) {
+        ans[stk.top()] = i - stk.top();
+        stk.pop();
+      }
+      stk.push(i);
+    }
+
+    return ans;
+  }
+};
+
 // 单调栈？就是栈里的元素保持升序或者降序。
 // 通常是一维数组，要寻找任一个元素的右边或者左边第一个比自己大或者小的元素的位置，此时我们就要想到可以用单调栈了。
 // 时间复杂度为O(n)。
-// 单调栈的本质是空间换时间，因为在遍历的过程中需要用一个栈来记录右边第一个比当前元素的元素，优点是只需要遍历一次。
+// 单调栈的本质是空间换时间，因为在遍历的过程中需要用一个栈来记录右边第一个比当前元素大的元素，优点是只需要遍历一次。
 #define STACKSIZE 30000
 int stackIndex;
 int stack[STACKSIZE];
