@@ -37,8 +37,12 @@ int dfs(struct TreeNode* root) {
   int left = dfs(root->left);
   int right = dfs(root->right);
 
-  // temp为三者的最大值：只用根节点 | 根节点+左子树  | 根节点+右子树
+  // temp表示以当前节点为根的子树，能提供的最大路径和，为三者的最大值：
+  // 1.只用根节点，走到当前节点不走了；
+  // 2.根节点+左子树，继续走到左子树；
+  // 3.根节点+右子树，继续走到右子树。
   int temp = fmax(fmax(left, right) + root->val, root->val);
+  // 一个子树内部的最大路径和=左子树提供的最大路径和+根节点值+右子树提供的最大路径和
   // max为三者的最大值：max | temp | 左子树+根节点+右节点
   max = fmax(max, fmax(temp, left + right + root->val));
 
