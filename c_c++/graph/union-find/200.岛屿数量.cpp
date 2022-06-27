@@ -116,3 +116,68 @@ int numIslands(char **grid, int gridSize, int *gridColSize) {
 
   return count;
 }
+
+class UF {
+ public:
+  UF(int n) : count(n) {
+    parent.reserve(n);
+    size.reserve(n);
+    for (int i = 0; i < n; ++i) {
+      parent[i] = i;
+      size[i] = 1;
+    }
+  }
+  void Union(int p, int q) {
+    int rootP = Find(p);
+    int rootQ = Find(q);
+    if (rootP == rootQ) return;
+    if (size[rootP] > size[rootQ]) {
+      parent[rootQ] = rootP;
+      size[rootP] += size[rootQ];
+    } else {
+      parent[rootP] = rootQ;
+      size[rootQ] += size[rootP];
+    }
+    --count;
+  }
+  bool Connected(int p, int q) { return Find(p) == Find(q); }
+  int Count() { return count; }
+
+ private:
+  int count;
+  vector<int> parent;
+  vector<int> size;
+
+  int Find(int x) {
+    while (parent[x] != x) {
+      parent[x] = parent[parent[x]];
+      x = parent[x];
+    }
+    return x;
+  }
+};
+class Solution {
+ public:
+  int numIslands(vector<vector<char>> &grid) {
+    int m = grid.size();
+    int n = grid[0].size();
+
+    UF uf(m * n + 1);
+    int dummy = m * n;  // 虚拟节点，所有的0都和这个节点连接
+    for (int i = 0; i < m; ++i) {
+      for (int j = 0; j < n; ++j) {
+        if (grid[i][j] == '0') {
+          uf.Union(dummy, i * n + j);
+          continue;
+        }
+        if (i > 0 && grid[i - 1][j] == '1') {
+          uf.Union((i - 1) * n + j, i * n + j);
+        }
+        if (j > 0 && grid[i][j - 1] == '1') {
+          uf.Union(i * n + j, i * n + j - 1);
+        }
+      }
+    }
+    return uf.Count() - 1;
+  }
+};

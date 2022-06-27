@@ -57,3 +57,69 @@ int maxAreaOfIsland(int** grid, int gridSize, int* gridColSize) {
   }
   return max;
 }
+
+// DFS
+class Solution {
+ public:
+  int dfs(vector<vector<int>>& grid, int x, int y) {
+    int m = grid.size();
+    int n = grid[0].size();
+
+    if (x < 0 || y < 0 || x >= m || y >= n || grid[x][y] == 0) {
+      return 0;
+    }
+
+    grid[x][y] = 0;
+
+    return 1 + dfs(grid, x + 1, y) + dfs(grid, x - 1, y) + dfs(grid, x, y + 1) +
+           dfs(grid, x, y - 1);
+  }
+  int maxAreaOfIsland(vector<vector<int>>& grid) {
+    int maxLand = 0;
+    for (int i = 0; i < grid.size(); ++i) {
+      for (int j = 0; j < grid[i].size(); ++j) {
+        maxLand = max(maxLand, dfs(grid, i, j));
+      }
+    }
+
+    return maxLand;
+  }
+};
+
+// BFS
+#define f first
+#define s second
+const int dx[] = {0, -1, 0, 1};
+const int dy[] = {1, 0, -1, 0};
+typedef pair<int, int> PII;
+class Solution {
+ public:
+  int maxAreaOfIsland(vector<vector<int>>& grid) {
+    int ans = 0;
+    int n = grid.size(), m = grid[0].size();
+    for (int i = 0; i < n; ++i)
+      for (int j = 0; j < m; ++j) {
+        if (grid[i][j] == 1) {
+          int cnt = 0;
+          grid[i][j] = 0;
+          cnt++;
+          queue<PII> q;
+          q.push({i, j});
+          while (q.size()) {
+            PII t = q.front();
+            q.pop();
+            for (int i = 0; i < 4; ++i) {
+              int a = t.f + dx[i], b = t.s + dy[i];
+              if (a >= 0 && a < n && b >= 0 && b < m && grid[a][b] == 1) {
+                grid[a][b] = 0;
+                cnt++;
+                q.push({a, b});
+              }
+            }
+          }
+          ans = max(ans, cnt);
+        }
+      }
+    return ans;
+  }
+};

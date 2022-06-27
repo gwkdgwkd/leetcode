@@ -146,3 +146,42 @@ int *pondSizes(int **land, int landSize, int *landColSize, int *returnSize) {
   qsort(poolSize, size, sizeof(int), cmp);
   return poolSize;
 }
+
+class Solution {
+ public:
+  void dfs(vector<vector<int>> &land, int x, int y, int &size) {
+    int m = land.size();
+    int n = land[0].size();
+    if (x < 0 || y < 0 || x >= m || y >= n || land[x][y]) {
+      return;
+    }
+
+    int dir[8][2] = {{0, 1},  {0, -1},  {-1, 0}, {1, 0},
+                     {-1, 1}, {-1, -1}, {1, 1},  {1, -1}};
+    land[x][y] = 1;
+    ++size;
+
+    for (int i = 0; i < 8; ++i) {
+      int newx = x + dir[i][0];
+      int newy = y + dir[i][1];
+      dfs(land, newx, newy, size);
+    }
+  }
+  vector<int> pondSizes(vector<vector<int>> &land) {
+    int m = land.size();
+    int n = land[0].size();
+
+    vector<int> res;
+    for (int i = 0; i < m; ++i) {
+      for (int j = 0; j < n; ++j) {
+        if (land[i][j] == 0) {
+          int size = 0;
+          dfs(land, i, j, size);
+          res.emplace_back(size);
+        }
+      }
+    }
+
+    return res;
+  }
+};

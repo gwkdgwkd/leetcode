@@ -2,13 +2,13 @@
 节点间通路。给定有向图，设计一个算法，找出两个节点之间是否存在一条路径。
 
 示例1:
-输入：n = 3, graph = [[0, 1], [0, 2], [1, 2], [1, 2]], 
+输入：n = 3, graph = [[0, 1], [0, 2], [1, 2], [1, 2]],
 start = 0, target = 2
 输出：true
 
 示例2:
-输入：n = 5, graph = [[0, 1], [0, 2], [0, 4], [0, 4], [0, 1], 
-[1, 3], [1, 4], [1, 3], [2, 3], [3, 4]], 
+输入：n = 5, graph = [[0, 1], [0, 2], [0, 4], [0, 4], [0, 1],
+[1, 3], [1, 4], [1, 3], [2, 3], [3, 4]],
 start = 0, target = 4
 输出 true
 
@@ -79,3 +79,75 @@ bool findWhetherExistsPath(int n, int **graph, int graphSize, int *graphColSize,
   free(book);
   return flag;
 }
+
+// DFS
+class Solution {
+ public:
+  void dfs(vector<unordered_set<int>> &hash, vector<bool> &isVisited, int start,
+           int target, bool &flag) {
+    if (start == target) {
+      flag = true;
+    }
+
+    isVisited[start] = true;  // 标记已经来过
+    for (int next : hash[start]) {
+      if (!isVisited[next]) {  // 若未访问过，则继续dfs
+        dfs(hash, isVisited, next, target, flag);
+      }
+    }
+    isVisited[start] = false;  // 还原现场
+  }
+
+  bool findWhetherExistsPath(int n, vector<vector<int>> &graph, int start,
+                             int target) {
+    vector<unordered_set<int>> hash(n);
+    vector<bool> isVisited(n, false);
+    bool flag = false;
+
+    for (vector<int> &path : graph) {
+      hash[path[0]].insert(path[1]);  // 构造图
+    }
+
+    dfs(hash, isVisited, start, target, flag);
+
+    return flag;
+  }
+};
+
+// BFS
+class Solution {
+ public:
+  bool bfs(vector<unordered_set<int>> &hash, vector<bool> &isVisited, int start,
+           int target) {
+    queue<int> q;
+    q.push(start);
+    isVisited[start] = true;
+
+    while (!q.empty()) {
+      int cur = q.front();
+      q.pop();
+
+      for (int next : hash[cur]) {
+        if (!isVisited[next]) {
+          if (next == target) return true;
+          q.push(next);
+          isVisited[next] = true;
+        }
+      }
+    }
+
+    return false;
+  }
+
+  bool findWhetherExistsPath(int n, vector<vector<int>> &graph, int start,
+                             int target) {
+    vector<unordered_set<int>> hash(n);
+    vector<bool> isVisited(n, false);
+
+    for (vector<int> &path : graph) {
+      hash[path[0]].insert(path[1]);
+    }
+
+    return bfs(hash, isVisited, start, target);
+  }
+};

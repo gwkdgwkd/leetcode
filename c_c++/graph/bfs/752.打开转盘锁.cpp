@@ -107,3 +107,64 @@ int openLock(char **deadends, int deadendsSize, char *target) {
   }
   return -1;
 }
+
+class Solution {
+ public:
+  string AddOne(string s, int i) {
+    if (s[i] == '9') {
+      s[i] = '0';
+    } else {
+      s[i]++;
+    }
+    return s;
+  }
+  string DecOne(string s, int i) {
+    if (s[i] == '0') {
+      s[i] = '9';
+    } else {
+      s[i]--;
+    }
+    return s;
+  }
+  int openLock(vector<string> &deadends, string target) {
+    unordered_set<string> us;
+    for (auto &s : deadends) {
+      us.insert(s);
+    }
+
+    if (us.count("0000")) {
+      return -1;
+    }
+
+    queue<string> q;
+    q.push("0000");
+
+    int step = 0;
+    while (!q.empty()) {
+      int len = q.size();
+      for (int i = 0; i < len; ++i) {
+        string temp = q.front();
+        q.pop();
+        if (temp == target) {
+          return step;
+        }
+
+        for (int j = 0; j < 4; ++j) {
+          string add = AddOne(temp, j);
+          if (us.count(add) == 0) {
+            us.insert(add);
+            q.push(add);
+          }
+          string dec = DecOne(temp, j);
+          if (us.count(dec) == 0) {
+            us.insert(dec);
+            q.push(dec);
+          }
+        }
+      }
+      ++step;
+    }
+
+    return -1;
+  }
+};

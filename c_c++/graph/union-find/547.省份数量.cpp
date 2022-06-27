@@ -77,3 +77,63 @@ int findCircleNum(int** isConnected, int isConnectedSize,
   }
   return count;
 }
+
+class UF {
+ public:
+  UF(int n) : count(n) {
+    parent.reserve(n);
+    size.reserve(n);
+    for (int i = 0; i < n; ++i) {
+      parent[i] = i;
+      size[i] = 1;
+    }
+  }
+  void Union(int p, int q) {
+    int rootP = Find(p);
+    int rootQ = Find(q);
+
+    if (rootP == rootQ) return;
+
+    if (size[rootP] > size[rootQ]) {
+      parent[rootQ] = rootP;
+      size[rootP] += size[rootQ];
+    } else {
+      parent[rootP] = rootQ;
+      size[rootQ] += size[rootP];
+    }
+    --count;
+  }
+  bool Connected(int p, int q) { return Find(p) == Find(q); }
+  int Count() { return count; }
+
+ private:
+  int count;
+  vector<int> parent;
+  vector<int> size;
+  int Find(int x) {
+    while (parent[x] != x) {
+      parent[x] = parent[parent[x]];
+      x = parent[x];
+    }
+    return x;
+  }
+};
+
+class Solution {
+ public:
+  int findCircleNum(vector<vector<int>>& isConnected) {
+    int m = isConnected.size();
+    int n = isConnected[0].size();
+    UF uf(m);
+
+    for (int i = 0; i < m; ++i) {
+      for (int j = 0; j < n; ++j) {
+        if (isConnected[i][j]) {
+          uf.Union(i, j);
+        }
+      }
+    }
+
+    return uf.Count();
+  }
+};

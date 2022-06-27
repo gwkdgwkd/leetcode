@@ -124,3 +124,65 @@ bool equationsPossible(char** equations, int equationsSize) {
   }
   return true;
 }
+
+class UF {
+ public:
+  UF(int n) : count(n) {
+    parent.reserve(n);
+    size.reserve(n);
+    for (int i = 0; i < n; ++i) {
+      parent[i] = i;
+      size[i] = 1;
+    }
+  }
+  void Union(int p, int q) {
+    int rootP = Find(p);
+    int rootQ = Find(q);
+
+    if (rootP == rootQ) return;
+
+    if (size[rootP] > size[rootQ]) {
+      parent[rootQ] = rootP;
+      size[rootP] += size[rootQ];
+    } else {
+      parent[rootP] = rootQ;
+      size[rootQ] += size[rootP];
+    }
+    --count;
+  }
+  bool Connected(int p, int q) { return Find(p) == Find(q); }
+  int Count() { return count; }
+
+ private:
+  int count;
+  vector<int> parent;
+  vector<int> size;
+  int Find(int x) {
+    while (parent[x] != x) {
+      parent[x] = parent[parent[x]];
+      x = parent[x];
+    }
+    return x;
+  }
+};
+
+class Solution {
+ public:
+  bool equationsPossible(vector<string>& equations) {
+    int m = equations.size();
+
+    UF uf(26);
+    for (int i = 0; i < m; ++i) {
+      if (equations[i][1] == '=') {
+        uf.Union(equations[i][0] - 'a', equations[i][3] - 'a');
+      }
+    }
+    for (int i = 0; i < m; ++i) {
+      if (equations[i][1] == '!' &&
+          uf.Connected(equations[i][0] - 'a', equations[i][3] - 'a')) {
+        return false;
+      }
+    }
+    return true;
+  }
+};

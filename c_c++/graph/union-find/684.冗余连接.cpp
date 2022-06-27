@@ -90,3 +90,62 @@ int* findRedundantConnection(int** edges, int edgesSize, int* edgesColSize,
   *returnSize = 0;
   return NULL;
 }
+
+class UF {
+ public:
+  UF(int n) : count(n) {
+    parent.reserve(n);
+    size.reserve(n);
+    for (int i = 0; i < n; ++i) {
+      parent[i] = i;
+      size[i] = 1;
+    }
+  }
+  void Union(int p, int q) {
+    int rootP = Find(p);
+    int rootQ = Find(q);
+
+    if (rootP == rootQ) return;
+
+    if (size[rootP] > size[rootQ]) {
+      parent[rootQ] = rootP;
+      size[rootP] += size[rootQ];
+    } else {
+      parent[rootP] = rootQ;
+      size[rootQ] += size[rootP];
+    }
+    --count;
+  }
+  bool Connected(int p, int q) { return Find(p) == Find(q); }
+  int Count() { return count; }
+
+ private:
+  int count;
+  vector<int> parent;
+  vector<int> size;
+  int Find(int x) {
+    while (parent[x] != x) {
+      parent[x] = parent[parent[x]];
+      x = parent[x];
+    }
+    return x;
+  }
+};
+class Solution {
+ public:
+  vector<int> findRedundantConnection(vector<vector<int>>& edges) {
+    int m = edges.size();
+    UF uf(m);
+
+    vector<int> res;
+    for (int i = 0; i < m; ++i) {
+      if (uf.Connected(edges[i][0] - 1, edges[i][1] - 1)) {
+        return {edges[i][0], edges[i][1]};
+      } else {
+        uf.Union(edges[i][0] - 1, edges[i][1] - 1);
+      }
+    }
+
+    return res;
+  }
+};

@@ -161,3 +161,86 @@ char** trulyMostPopular(char** names, int namesSize, char** synonyms,
   *returnSize = ret_index;
   return ret;
 }
+
+class UnionSet {
+ private:
+  unordered_map<string, string> parents;
+  unordered_map<string, int> sizes;
+
+ public:
+  void Put(string&& str, int size) {
+    parents[str] = str;
+    sizes[str] = size;
+  }
+
+  void Put(string& str, int size) {
+    parents[str] = str;
+    sizes[str] = size;
+  }
+
+  void Merge(string str1, string str2) {
+    str1 = Find(str1);
+    str2 = Find(str2);
+    if (str1 < str2) {
+      parents[str2] = str1;
+      sizes[str1] = sizes[str2] + sizes[str1];
+    } else if (str2 < str1) {
+      parents[str1] = str2;
+      sizes[str2] = sizes[str2] + sizes[str1];
+    }
+  }
+
+  string Find(string& a) {
+    if (parents[a] == a) {
+      return a;
+    }
+    return Find(parents[a]);
+  }
+
+  int Size(string& str) { return sizes[str]; }
+
+  bool IsExist(string& str) { return parents.find(str) != parents.end(); }
+};
+
+class Solution {
+ public:
+  vector<string> trulyMostPopular(vector<string>& names,
+                                  vector<string>& synonyms) {
+    UnionSet us;
+    // 存储目前的名字
+    vector<string> allNames;
+    // 首次遍历names把数量插入到UnionSet里
+    for (string& name : names) {
+      auto start = name.find("(");
+      auto end = name.find(")");
+      us.Put(name.substr(0, start),
+             stoi(name.substr(start + 1, end - start - 1)));
+      allNames.push_back(name.substr(0, start));
+    }
+
+    // 遍历synnoyms来生成并查集
+    for (string synonym : synonyms) {
+      // 考虑在names里不存在name，也插入默认的size=0
+      auto index1 = synonym.find(",");
+      string name1 = synonym.substr(1, index1 - 1);
+      string name2 = synonym.substr(index1 + 1, synonym.find(")") - index1 - 1);
+      if (!us.IsExist(name1)) {
+        us.Put(name1, 0);
+      }
+      if (!us.IsExist(name2)) {
+        us.Put(name2, 0);
+      }
+      us.Merge(name1, name2);
+    }
+
+    // 再次遍历只找自己的父节点是自己的name（即就是输出真实的字典序最小）
+    vector<string> res;
+    for (string& name : allNames) {
+      // 只输出根节点是自己的
+      if (us.Find(name) == name) {
+        res.push_back(name + "(" + to_string(us.Size(name)) + ")");
+      }
+    }
+    return res;
+  }
+};

@@ -95,3 +95,78 @@ int numSimilarGroups(char **strs, int strsSize) {
 
   return count;
 }
+
+class UF {
+ public:
+  UF(int n) : count(n) {
+    parent.reserve(n);
+    size.reserve(n);
+    for (int i = 0; i < n; ++i) {
+      parent[i] = i;
+      size[i] = 1;
+    }
+  }
+  void Union(int p, int q) {
+    int rootP = Find(p);
+    int rootQ = Find(q);
+
+    if (rootP == rootQ) return;
+
+    if (size[rootP] > size[rootQ]) {
+      parent[rootQ] = rootP;
+      size[rootP] += size[rootQ];
+    } else {
+      parent[rootP] = rootQ;
+      size[rootQ] += size[rootP];
+    }
+    --count;
+  }
+  bool Connected(int p, int q) { return Find(p) == Find(q); }
+  int Count() { return count; }
+
+ private:
+  int count;
+  vector<int> parent;
+  vector<int> size;
+  int Find(int x) {
+    while (parent[x] != x) {
+      parent[x] = parent[parent[x]];
+      x = parent[x];
+    }
+    return x;
+  }
+};
+
+class Solution {
+ public:
+  bool check(const string &a, const string &b) {
+    int la = a.size();
+    int lb = b.size();
+    if (la != lb) return false;
+
+    int count = 0;
+    for (int i = 0; i < la; ++i) {
+      if (a[i] != b[i] && ++count > 2) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+  int numSimilarGroups(vector<string> &strs) {
+    int m = strs.size();
+    UF uf(m);
+
+    for (int i = 0; i < m - 1; ++i) {
+      for (int j = i + 1; j < m; ++j) {
+        if (uf.Connected(i, j)) {
+          continue;
+        }
+        if (check(strs[i], strs[j])) {
+          uf.Union(i, j);
+        }
+      }
+    }
+    return uf.Count();
+  }
+};

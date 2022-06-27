@@ -1,5 +1,5 @@
 /*
-在一个2 x 3的板上（board）有5块砖瓦，用数字1~5来表示,以及一块空缺用0来表示。
+在一个2 x 3的板上（board）有5块砖瓦，用数字1~5来表示，以及一块空缺用0来表示。
 一次移动定义为选择0与一个相邻的数字（上下左右）进行交换。
 最终当板board的结果是[[1,2,3],[4,5,0]]谜板被解开。
 给出一个谜板的初始状态board，返回最少可以通过多少次移动解开谜板，如果不能解开谜板，则返回-1。
@@ -207,3 +207,55 @@ int slidingPuzzle(int** board, int boardSize, int* boardColSize) {
 
   return -1;
 }
+
+class Solution {
+ public:
+  int slidingPuzzle(vector<vector<int>>& board) {
+    int step = 0;
+    string target = "123450";
+    string init = "";
+    for (int i = 0; i < board.size(); ++i) {
+      for (int j = 0; j < board[i].size(); ++j) {
+        init.push_back(board[i][j] + '0');
+      }
+    }
+    if (target == init) {
+      return step;
+    }
+
+    queue<string> q;
+    q.push(init);
+
+    unordered_set<string> us;
+    us.insert(init);
+
+    const int neighbors[6][3] = {{1, 3, -1}, {0, 2, 4}, {1, 5, -1},
+                                 {0, 4, -1}, {1, 3, 5}, {2, 4, -1}};
+
+    while (!q.empty()) {
+      int len = q.size();
+      for (int i = 0; i < len; ++i) {
+        string temp = q.front();
+        q.pop();
+        if (temp == target) {
+          return step;
+        }
+        int m = temp.find('0');
+        for (int k = 0; k < 3 && neighbors[m][k] != -1; ++k) {
+          string dst = temp;
+          int index = neighbors[m][k];
+          char c = dst[m];
+          dst[m] = dst[index];
+          dst[index] = c;
+          if (us.count(dst) == 0) {
+            us.insert(dst);
+            q.push(dst);
+          }
+        }
+      }
+      ++step;
+    }
+
+    return -1;
+  }
+};

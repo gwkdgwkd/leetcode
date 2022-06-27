@@ -151,3 +151,52 @@ bool sequenceReconstruction(int *org, int orgSize, int **seqs, int seqsSize,
   // 若所有节点最终都能入队并出队，则说明有向图无环，能够重建序列
   return count == orgSize;
 }
+
+class Solution {
+ public:
+  bool sequenceReconstruction(vector<int> &org, vector<vector<int>> &seqs) {
+    if (seqs.size() == 0) return false;
+
+    int n = org.size();
+
+    vector<vector<int>> edges(n);
+    vector<int> indeg(n, 0);
+
+    int i, j, u, v;
+    for (auto &seq : seqs) {
+      if (seq[0] - 1 >= n || seq[0] - 1 < 0) return false;
+
+      for (i = 0; i < seq.size() - 1; ++i) {
+        u = seq[i] - 1;
+        v = seq[i + 1] - 1;
+        if (u >= n || v >= n || u < 0 || v < 0) return false;
+        edges[u].push_back(v);
+        ++indeg[v];
+      }
+    }
+
+    queue<int> q;
+    for (i = 0; i < n; ++i) {
+      if (!indeg[i]) {
+        q.push(i);
+      }
+    }
+
+    vector<int> ans;
+    while (!q.empty()) {
+      if (q.size() != 1) return false;
+      u = q.front();
+      q.pop();
+      ans.push_back(u + 1);
+
+      for (i = 0; i < edges[u].size(); ++i) {
+        v = edges[u][i];
+        if (--indeg[v] == 0) {
+          q.push(v);
+        }
+      }
+    }
+
+    return ans == org;
+  }
+};

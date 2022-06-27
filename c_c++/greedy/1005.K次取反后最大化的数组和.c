@@ -28,16 +28,16 @@
 // 贪心算法
 int cmp(void *a, void *b) { return abs(*(int *)b) - abs(*(int *)a); }
 int largestSumAfterKNegations(int *nums, int numsSize, int k) {
-  qsort(nums, numsSize, sizeof(int), cmp);
+  qsort(nums, numsSize, sizeof(int), cmp);  // 5,-4,-3,2,-1
 
   for (int i = 0; i < numsSize; ++i) {
-    if (nums[i] < 0 && k > 0) {
+    if (nums[i] < 0 && k > 0) {  // 从大到小，把负数变正数
       nums[i] *= -1;
       --k;
     }
   }
 
-  while (k--) {
+  while (k--) {  // k还有剩余，一直用最小的数变来变去
     nums[numsSize - 1] *= -1;
   }
 

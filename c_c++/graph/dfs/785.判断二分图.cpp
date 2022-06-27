@@ -114,3 +114,37 @@ bool isBipartite(int** graph, int graphSize, int* graphColSize) {
   free(q);
   return true;
 }
+
+class Solution {
+ public:
+  bool dfs(vector<vector<int>>& graph, vector<int>& color, int c, int i) {
+    color[i] = c;
+    int cNei = (c == 1 ? 2 : 1);
+    for (int j = 0; j < graph[i].size(); ++j) {
+      int nei = graph[i][j];
+      if (color[nei] == 0) {
+        if (!dfs(graph, color, cNei, nei)) {
+          return false;
+        }
+      } else if (color[nei] != cNei) {
+        return false;
+      }
+    }
+    return true;
+  }
+  bool isBipartite(vector<vector<int>>& graph) {
+    int m = graph.size();
+    vector<int> color(m, 0);
+
+    for (int i = 0; i < m; ++i) {
+      if (color[i] > 0) {
+        continue;
+      }
+      if (!dfs(graph, color, 1, i)) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+};
