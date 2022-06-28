@@ -94,7 +94,7 @@ char ***solveNQueens(int n, int *returnSize, int **returnColumnSizes) {
 }
 
 class Solution {
-  vector<vector<string>> ans;
+  vector<vector<string>> res;
   vector<string> path;
   int pathIndex;
 
@@ -110,7 +110,6 @@ class Solution {
         return false;
       }
     }
-
     for (int i = row - 1, j = col + 1; i >= 0 && j < n; --i, ++j) {
       if (path[i][j] == 'Q') {
         return false;
@@ -120,23 +119,20 @@ class Solution {
   }
   void backtracking(int n, int start) {
     if (start == n) {
-      ans.emplace_back(path);
-      return;
+      res.emplace_back(path);
     }
-    for (int i = 0; i < n; ++i) {
-      if (isValid(n, start, i)) {
-        path[pathIndex++][i] = 'Q';
+
+    for (int j = 0; j < n; ++j) {
+      if (isValid(n, start, j)) {
+        path[pathIndex++][j] = 'Q';
         backtracking(n, start + 1);
-        path[--pathIndex][i] = '.';
+        path[--pathIndex][j] = '.';
       }
     }
   }
   vector<vector<string>> solveNQueens(int n) {
-    for (int i = 0; i < n; ++i) {
-      path.emplace_back(string(n, '.'));
-    }
-    pathIndex = 0;
+    path.assign(n, string(n, '.'));
     backtracking(n, 0);
-    return ans;
+    return res;
   }
 };

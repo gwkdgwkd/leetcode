@@ -1,5 +1,5 @@
 /*
-给定一个m x n二维字符网格board和一个字符串单词word。
+给定一个mxn二维字符网格board和一个字符串单词word。
 如果word存在于网格中，返回true；否则，返回false。
 单词必须按照字母顺序，通过相邻的单元格内的字母构成，
 其中“相邻”单元格是那些水平相邻或垂直相邻的单元格。
@@ -79,8 +79,8 @@ bool exist(char** board, int boardSize, int* boardColSize, char* word) {
 
 class Solution {
  public:
-  bool check(vector<vector<char>>& board, int row, int col, string s, int index,
-             vector<vector<int>>& used) {
+  bool check(vector<vector<char>>& board, int row, int col, string& s,
+             int index, vector<vector<int>>& used) {
     if (board[row][col] != s[index]) {
       return false;
     } else if (index == s.size() - 1) {
@@ -107,10 +107,7 @@ class Solution {
     return ret;
   }
   bool exist(vector<vector<char>>& board, string word) {
-    vector<vector<int>> used(board.size());
-    for (int i = 0; i < board.size(); ++i) {
-      used[i].assign(board[i].size(), 0);
-    }
+    vector<vector<int>> used(board.size(), vector<int>(board[0].size(), 0));
 
     for (int i = 0; i < board.size(); ++i) {
       for (int j = 0; j < board[i].size(); ++j) {

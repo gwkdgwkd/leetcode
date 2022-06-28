@@ -39,7 +39,7 @@ bool backtrack1(int *nums, int numsSize, int k, int index, int target) {
   }
 
   for (int i = 0; i < k; ++i) {  // 穷举nums[index]可能装入的桶
-    if (bucket[i] + nums[index] > target) {  // 剪枝，桶装装满了
+    if (bucket[i] + nums[index] > target) {  // 剪枝，桶装满了
       continue;
     }
 
@@ -73,12 +73,12 @@ bool canPartitionKSubsets1(int *nums, int numsSize, int k) {
 }
 
 // 回溯算法，从桶的视角
-// 每个桶要遍历n个数字，选择「装入」或「不装入」，组合的结果有2^n种；
+// 每个桶要遍历n个数字，选择装入或不装入，组合的结果有2^n种；
 // 而我们有k个桶，所以总的时间复杂度为O(k*2^n)。
 // 当然，这是理论上的最坏复杂度，实际的复杂度肯定要好一些，毕竟我们添加了这么多剪枝逻辑。
 // 不过，从复杂度的上界已经可以看出第一种思路要慢很多了。
-// 通俗来说，我们应该尽量「少量多次」，就是说宁可多做几次选择，也不要给太大的选择空间；
-// 宁可「二选一」选k次，也不要「k选一」选一次。
+// 通俗来说，我们应该尽量少量多次，就是说宁可多做几次选择，也不要给太大的选择空间；
+// 宁可二选一选k次，也不要k选一选一次。
 bool *used;
 bool backtrack2(int *nums, int numsSize, int k, int start, int target,
                 int bucket) {

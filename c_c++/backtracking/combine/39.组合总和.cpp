@@ -158,6 +158,7 @@ class Solution {
     }
     for (int i = start; i < candidates.size() && candidates[i] <= target; ++i) {
       path.emplace_back(candidates[i]);
+      // 元素可以重复选，所以使用i而不是i+1
       backtracking(candidates, target - candidates[i], i);
       path.pop_back();
     }

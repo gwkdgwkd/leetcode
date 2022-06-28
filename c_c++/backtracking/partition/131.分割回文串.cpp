@@ -102,9 +102,9 @@ class Solution {
   vector<string> path;
 
  public:
-  bool isPalindrome(string str, int start, int end) {
-    for (int i = start, j = end; i < j; ++i, --j) {
-      if (str[i] != str[j]) {
+  bool isPalindrome(const string &str) {
+    for (int left = 0, right = str.size() - 1; left < right; ++left, --right) {
+      if (str[left] != str[right]) {
         return false;
       }
     }
@@ -114,12 +114,12 @@ class Solution {
   void backtracking(string s, int start) {
     if (start == s.size()) {
       ans.emplace_back(path);
-      return;
     }
+
     for (int i = start; i < s.size(); ++i) {
-      if (isPalindrome(s, start, i)) {
-        string t(s.begin() + start, s.begin() + i + 1);
-        path.emplace_back(t);
+      string temp(s.begin() + start, s.begin() + i + 1);
+      if (isPalindrome(temp)) {
+        path.emplace_back(temp);
         backtracking(s, i + 1);
         path.pop_back();
       }

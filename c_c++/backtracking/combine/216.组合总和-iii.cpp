@@ -100,13 +100,8 @@ class Solution {
   vector<vector<int>> ans;
   vector<int> path;
   void backtracking(int k, int target, int start) {
-    if (target < 0) {
-      return;
-    }
-    if (path.size() == k) {
-      if (target == 0) {
-        ans.emplace_back(path);
-      }
+    if (target == 0 && path.size() == k) {
+      ans.emplace_back(path);
       return;
     }
 

@@ -88,30 +88,30 @@ int **combinationSum2(int *candidates, int candidatesSize, int target,
 class Solution {
   vector<vector<int>> ans;
   vector<int> path;
-  void backtracking(vector<int> &candidates, int target, int start,
-                    vector<int> &used) {
+  vector<bool> used;
+  void backtracking(vector<int> &candidates, int target, int start) {
     if (target == 0) {
       ans.emplace_back(path);
       return;
     }
 
     for (int i = start; i < candidates.size() && candidates[i] <= target; ++i) {
-      if (i > 0 && candidates[i] == candidates[i - 1] && used[i - 1] == 0) {
+      if (i > 0 && candidates[i] == candidates[i - 1] && used[i - 1] == false) {
         continue;
       }
       path.emplace_back(candidates[i]);
-      used[i] = 1;
-      backtracking(candidates, target - candidates[i], i + 1, used);
-      used[i] = 0;
+      used[i] = true;
+      backtracking(candidates, target - candidates[i], i + 1);
+      used[i] = false;
       path.pop_back();
     }
   }
 
  public:
   vector<vector<int>> combinationSum2(vector<int> &candidates, int target) {
-    vector<int> used(candidates.size(), 0);
+    used.assign(candidates.size(), false);
     sort(candidates.begin(), candidates.end());
-    backtracking(candidates, target, 0, used);
+    backtracking(candidates, target, 0);
     return ans;
   }
 };

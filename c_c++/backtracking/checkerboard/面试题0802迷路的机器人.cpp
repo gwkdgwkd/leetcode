@@ -72,48 +72,53 @@ int** pathWithObstacles(int** obstacleGrid, int obstacleGridSize,
 }
 
 class Solution {
-  vector<vector<int>> ans;
-  int size;
+  vector<vector<int>> res;
+  vector<vector<bool>> used;
   bool arrived;
+  int dir[2][2] = {{0, 1}, {1, 0}};
 
  public:
-  void dfs(vector<vector<int>>& obstacleGrid, int row, int col, int index,
-           vector<vector<int>>& used) {
-    if (row >= obstacleGrid.size() || col >= obstacleGrid[row].size() ||
-        arrived || obstacleGrid[row][col] || used[row][col]) {
+  void dfs(vector<vector<int>>& obstacleGrid, int row, int col) {
+    if (arrived) return;
+
+    int m = obstacleGrid.size();
+    int n = obstacleGrid[0].size();
+    if (row == m - 1 && col == n - 1) {
+      arrived = true;
       return;
     }
-
-    used[row][col] = 1;
-    ans[index][0] = row;
-    ans[index][1] = col;
-
-    if (row == obstacleGrid.size() - 1 && col == obstacleGrid[row].size() - 1) {
-      arrived = true;
-      size = index + 1;
-    } else {
-      dfs(obstacleGrid, row + 1, col, index + 1, used);
-      dfs(obstacleGrid, row, col + 1, index + 1, used);
+    for (int d = 0; d < 2 && !arrived; ++d) {
+      int newRow = row + dir[d][0];
+      int newCol = col + dir[d][1];
+      if (newRow >= 0 && newCol >= 0 && newRow < m && newCol < n) {
+        if (!used[newRow][newCol] && !obstacleGrid[newRow][newCol]) {
+          used[newRow][newCol] = true;
+          res.push_back({newRow, newCol});
+          dfs(obstacleGrid, newRow, newCol);
+          if (!arrived) {
+            // 如果前后左右都能走，那么回溯的时候visited要置成false
+            // visited[newRow][newCol] = false;
+            res.pop_back();
+          }
+        }
+      }
     }
   }
   vector<vector<int>> pathWithObstacles(vector<vector<int>>& obstacleGrid) {
-    vector<vector<int>> used;
-    for (int i = 0; i < obstacleGrid.size(); ++i) {
-      used.emplace_back(vector(obstacleGrid[i].size(), 0));
+    int m = obstacleGrid.size();
+    int n = obstacleGrid[0].size();
+    if (obstacleGrid[0][0] || obstacleGrid[m - 1][n - 1]) {
+      return res;
     }
-
     arrived = false;
-    int len = obstacleGrid.size() + obstacleGrid[0].size();
-    ans.resize(len);
-    for (int i = 0; i < len; ++i) {
-      ans[i].resize(2);
+    used.assign(m, vector<bool>(n, false));
+
+    used[0][0] = true;
+    res.push_back({0, 0});
+    dfs(obstacleGrid, 0, 0);
+    if (!arrived) {
+      res.resize(0);
     }
-    size = 0;
-    dfs(obstacleGrid, 0, 0, 0, used);
-    if (arrived == false) {
-      ans.clear();
-    }
-    ans.resize(size);
-    return ans;
+    return res;
   }
 };

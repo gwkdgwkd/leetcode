@@ -99,33 +99,33 @@ int** permuteUnique(int* nums, int numsSize, int* returnSize,
 }
 
 class Solution {
-  vector<vector<int>> ans;
+  vector<vector<int>> res;
   vector<int> path;
+  vector<bool> used;
 
  public:
-  void backtracking(vector<int>& nums, vector<int>& used) {
+  void backtracking(vector<int>& nums) {
     if (path.size() == nums.size()) {
-      ans.emplace_back(path);
+      res.emplace_back(path);
       return;
     }
 
     for (int i = 0; i < nums.size(); ++i) {
-      //   if (used[i] || (i > 0 && nums[i] == nums[i - 1] && used[i - 1] == 0))
-      //   {
-      if (used[i] || (i > 0 && nums[i] == nums[i - 1] && used[i - 1] == 1)) {
+      if ((used[i]) || (i > 0 && nums[i] == nums[i - 1] &&
+                        used[i - 1] == true)) {  // used[i - 1] == true也行
         continue;
       }
       path.emplace_back(nums[i]);
-      used[i] = 1;
-      backtracking(nums, used);
-      used[i] = 0;
+      used[i] = true;
+      backtracking(nums);
+      used[i] = false;
       path.pop_back();
     }
   }
   vector<vector<int>> permuteUnique(vector<int>& nums) {
-    vector<int> used(nums.size(), 0);
+    used.assign(nums.size(), false);
     sort(nums.begin(), nums.end());
-    backtracking(nums, used);
-    return ans;
+    backtracking(nums);
+    return res;
   }
 };

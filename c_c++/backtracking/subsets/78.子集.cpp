@@ -66,6 +66,11 @@ class Solution {
   void backtracking(vector<int>& nums, int start) {
     ans.emplace_back(path);
 
+    // 不写也行，如果下面等式成立，那么start也比nums.size()大了
+    // if (path.size() == nums.size()) {
+    //   return;
+    // }
+
     for (int i = start; i < nums.size(); ++i) {
       path.emplace_back(nums[i]);
       backtracking(nums, i + 1);

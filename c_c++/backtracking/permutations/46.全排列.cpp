@@ -69,13 +69,14 @@ int** permute(int* nums, int numsSize, int* returnSize,
 }
 
 class Solution {
-  vector<vector<int>> ans;
+  vector<vector<int>> res;
   vector<int> path;
+  vector<bool> used;
 
  public:
-  void backtracking(vector<int>& nums, vector<int>& used) {
+  void backtracking(vector<int>& nums) {
     if (path.size() == nums.size()) {
-      ans.emplace_back(path);
+      res.emplace_back(path);
       return;
     }
 
@@ -84,15 +85,15 @@ class Solution {
         continue;
       }
       path.emplace_back(nums[i]);
-      used[i] = 1;
-      backtracking(nums, used);
-      used[i] = 0;
+      used[i] = true;
+      backtracking(nums);
+      used[i] = false;
       path.pop_back();
     }
   }
   vector<vector<int>> permute(vector<int>& nums) {
-    vector<int> used(nums.size(), 0);
-    backtracking(nums, used);
-    return ans;
+    used.assign(nums.size(), false);
+    backtracking(nums);
+    return res;
   }
 };
