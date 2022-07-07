@@ -155,10 +155,39 @@ int main() {
 class Solution {
  public:
   int change(int amount, vector<int>& coins) {
-    vector<unsigned int> dp(amount + 1, 0);
+    int m = coins.size();
+    vector<vector<int>> dp(m, vector<int>(amount + 1, 0));
+    for (int i = 0; i < m; ++i) {
+      dp[i][0] = 1;  // 使用前i个硬币，凑出0，有1种方法，一个硬币都用
+    }
+    for (int j = coins[0]; j <= amount; ++j) {
+      if (j % coins[0] == 0) {
+        dp[0][j] = 1;  // 如果j可以由coins[0]凑出，那么有1种方法
+      }
+    }
+
+    for (int i = 1; i < m; ++i) {
+      for (int j = 1; j <= amount; ++j) {
+        if (j < coins[i]) {
+          dp[i][j] = dp[i - 1][j];
+        } else {
+          dp[i][j] = dp[i - 1][j] + dp[i][j - coins[i]];
+        }
+      }
+    }
+
+    return dp[m - 1][amount];
+  }
+};
+
+class Solution {
+ public:
+  int change(int amount, vector<int>& coins) {
+    int m = coins.size();
+    vector<int> dp(amount + 1, 0);
     dp[0] = 1;
 
-    for (int i = 0; i < coins.size(); ++i) {
+    for (int i = 0; i < m; ++i) {
       for (int j = coins[i]; j <= amount; ++j) {
         dp[j] += dp[j - coins[i]];
       }

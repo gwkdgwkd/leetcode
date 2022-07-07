@@ -52,14 +52,35 @@ int combinationSum4(int* nums, int numsSize, int target) {
   return dp[target];
 }
 
+using ULL = unsigned long long;
 class Solution {
  public:
   int combinationSum4(vector<int>& nums, int target) {
+    int len = target;
+    vector<vector<ULL>> f(len + 1, vector<ULL>(target + 1, 0));
+    f[0][0] = 1;
+    int ans = 0;
+    for (int i = 1; i <= len; i++) {
+      for (int j = 0; j <= target; j++) {
+        for (auto x : nums) {
+          if (j >= x) f[i][j] += f[i - 1][j - x];
+        }
+      }
+      ans += f[i][target];
+    }
+    return ans;
+  }
+};
+
+class Solution {
+ public:
+  int combinationSum4(vector<int>& nums, int target) {
+    int m = nums.size();
     vector<unsigned int> dp(target + 1, 0);
     dp[0] = 1;
 
     for (int j = 0; j <= target; ++j) {
-      for (int i = 0; i < nums.size(); ++i) {
+      for (int i = 0; i < m; ++i) {
         if (j >= nums[i]) {
           dp[j] += dp[j - nums[i]];
         }

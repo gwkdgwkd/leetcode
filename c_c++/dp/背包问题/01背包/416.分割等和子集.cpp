@@ -182,9 +182,9 @@ class Solution {
   bool canPartition(vector<int>& nums) {
     int sum = 0;
     int max = INT_MIN;
-    for (auto& i : nums) {
+    for (const auto& i : nums) {
       sum += i;
-      max = fmax(max, i);
+      max = std::max(max, i);
     }
 
     if (sum % 2) {
@@ -197,18 +197,96 @@ class Solution {
     }
 
     int m = nums.size();
+    // dp[i][j]表示使用前i个物品，装容量为j的背包，最大的价值（价值和和重量一样）是多少
     vector<vector<int>> dp(m, vector<int>(target + 1, 0));
-    for (int i = 0; i < m; ++i) {
-      dp[i][0] = 1;
+    for (int j = nums[0]; j <= target; ++j) {
+      dp[0][j] = nums[0];
     }
-    dp[0][nums[0]] = 1;
 
     for (int i = 1; i < m; ++i) {
       for (int j = 1; j <= target; ++j) {
-        if (j >= nums[i]) {
-          dp[i][j] = dp[i - 1][j] | dp[i - 1][j - nums[i]];
-        } else {
+        if (j < nums[i]) {
           dp[i][j] = dp[i - 1][j];
+        } else {
+          dp[i][j] = std::max(dp[i - 1][j], dp[i - 1][j - nums[i]] + nums[i]);
+        }
+      }
+      if (dp[i][target] == target) {  // 如果有一部分元素的和为target，直接返回
+        return true;
+      }
+    }
+
+    return dp[m - 1][target] == target;
+  }
+};
+
+class Solution {
+ public:
+  bool canPartition(vector<int>& nums) {
+    int sum = 0;
+    int max = INT_MIN;
+    for (const auto& i : nums) {
+      sum += i;
+      max = std::max(max, i);
+    }
+
+    if (sum % 2) {
+      return false;
+    }
+
+    int target = sum / 2;
+    if (max > target) {
+      return false;
+    }
+
+    int m = nums.size();
+    vector<int> dp(target + 1, 0);
+    for (int i = 0; i < m; ++i) {
+      for (int j = target; j >= nums[i]; --j) {
+        dp[j] = std::max(dp[j], dp[j - nums[i]] + nums[i]);
+      }
+      if (dp[target] == target) {
+        return true;
+      }
+    }
+
+    return dp[target] == target;
+  }
+};
+
+class Solution {
+ public:
+  bool canPartition(vector<int>& nums) {
+    int sum = 0;
+    int max = INT_MIN;
+    for (const auto& i : nums) {
+      sum += i;
+      max = std::max(max, i);
+    }
+
+    if (sum % 2) {
+      return false;
+    }
+
+    int target = sum / 2;
+    if (max > target) {
+      return false;
+    }
+
+    int m = nums.size();
+    // dp[i][j]表示前i个元素，是否可以装满容量为j的背包
+    vector<vector<bool>> dp(m, vector<bool>(target + 1, false));
+    for (int i = 0; i < m; ++i) {
+      dp[i][0] = true;  // 对于任何物品，只要不选择，就可以填满容量为0的背包
+    }
+    dp[0][nums[0]] = true;
+
+    for (int i = 1; i < m; ++i) {
+      for (int j = 1; j <= target; ++j) {
+        if (j < nums[i]) {
+          dp[i][j] = dp[i - 1][j];
+        } else {
+          dp[i][j] = dp[i - 1][j] || dp[i - 1][j - nums[i]];
         }
       }
       if (dp[i][target]) {
@@ -224,23 +302,35 @@ class Solution {
  public:
   bool canPartition(vector<int>& nums) {
     int sum = 0;
-    for (auto& i : nums) {
+    int max = INT_MIN;
+    for (const auto& i : nums) {
       sum += i;
+      max = std::max(max, i);
     }
 
     if (sum % 2) {
       return false;
     }
 
-    sum /= 2;
+    int target = sum / 2;
+    if (max > target) {
+      return false;
+    }
+
     int m = nums.size();
-    vector<int> dp(sum + 1, 0);
+    vector<bool> dp(target + 1, false);
+    dp[0] = true;
+
     for (int i = 0; i < m; ++i) {
-      for (int j = sum; j >= nums[i]; --j) {
-        dp[j] = max(dp[j], dp[j - nums[i]] + nums[i]);
+      for (int j = target; j >= nums[i]; --j) {
+        dp[j] = dp[j] || dp[j - nums[i]];
+        // dp[j] = dp[j] | dp[j - nums[i]];  // 位运算，也行
+      }
+      if (dp[target]) {
+        return true;
       }
     }
 
-    return dp[sum] == sum;
+    return dp[target];
   }
 };

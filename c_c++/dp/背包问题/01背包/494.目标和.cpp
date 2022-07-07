@@ -73,11 +73,48 @@ int findTargetSumWays(int* nums, int numsSize, int target) {
 class Solution {
  public:
   int findTargetSumWays(vector<int>& nums, int target) {
-    if (nums.size() == 1 && nums[0] != target && nums[0] != -target) {
+    if (nums.size() == 1) {
+      return abs(target) != abs(nums[0]) ? 0 : 1;
+    }
+    target += accumulate(nums.begin(), nums.end(), 0);
+    if (target % 2) {
       return 0;
     }
-    int sum = accumulate(nums.begin(), nums.end(), 0);
-    target += sum;
+
+    target /= 2;
+    cout << target << endl;
+    int m = nums.size();
+    vector<vector<int>> dp(m, vector<int>(target + 1, 0));
+
+    if (nums[0]) {
+      dp[0][0] = 1;
+      dp[0][nums[0]] = 1;
+    } else {
+      dp[0][0] = 2;  // 如果nums[0]==0，那么需要初始化为2
+    }
+
+    for (int i = 1; i < m; ++i) {
+      for (int j = 0; j <= target; ++j) {
+        if (j < nums[i]) {
+          dp[i][j] = dp[i - 1][j];
+        } else {
+          dp[i][j] = dp[i - 1][j] + dp[i - 1][j - nums[i]];
+        }
+      }
+    }
+
+    return dp[m - 1][target];
+  }
+};
+
+class Solution {
+ public:
+  int findTargetSumWays(vector<int>& nums, int target) {
+    if (nums.size() == 1 && abs(target) != abs(nums[0])) {
+      return 0;
+    }
+
+    target += accumulate(nums.begin(), nums.end(), 0);
     if (target % 2) {
       return 0;
     }
@@ -88,7 +125,7 @@ class Solution {
 
     for (int i = 0; i < nums.size(); ++i) {
       for (int j = target; j >= nums[i]; --j) {
-        dp[j] = dp[j] + dp[j - nums[i]];
+        dp[j] += dp[j - nums[i]];
       }
     }
 

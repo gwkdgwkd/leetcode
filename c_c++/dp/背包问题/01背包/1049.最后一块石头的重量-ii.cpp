@@ -44,13 +44,6 @@ int lastStoneWeightII(int* stones, int stonesSize) {
     }
   }
 
-  // for(int i = 0; i <= stonesSize; ++i) {
-  //   for(int j = 0; j <= target; ++j) {
-  //       printf("%3d ", dp[i][j]);
-  //   }
-  //   printf("\n");
-  // }
-
   return sum - 2 * dp[stonesSize][target];
 }
 
