@@ -52,13 +52,13 @@ class Solution {
  public:
   int nthSuperUglyNumber(int n, vector<int>& primes) {
     int psize = primes.size();
-    vector<int> pointers(psize, 1);
+    vector<int> pointers(psize, 0);
 
-    vector<int> dp(n + 1);
-    dp[1] = 1;
-    for (int i = 2; i <= n; ++i) {
-      vector<int> nums(psize);
-      int minNum = INT_MAX;
+    vector<long> dp(n);
+    dp[0] = 1;
+    for (int i = 1; i < n; ++i) {
+      vector<long> nums(psize);
+      long minNum = INT_MAX;
       for (int j = 0; j < psize; ++j) {
         nums[j] = dp[pointers[j]] * primes[j];
         minNum = min(minNum, nums[j]);
@@ -71,6 +71,6 @@ class Solution {
       }
     }
 
-    return dp[n];
+    return dp[n - 1];
   }
 };

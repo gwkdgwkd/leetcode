@@ -39,7 +39,6 @@ int translateNum(int num) {
     int k = nums[i - 1] * 10 + nums[i];
     if (k > 9 && k < 26) {
       dp[i] = dp[i - 1] + dp[i - 2];
-
     } else {
       dp[i] = dp[i - 1];
     }

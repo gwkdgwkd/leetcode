@@ -41,13 +41,13 @@ int nthUglyNumber(int n) {
 class Solution {
  public:
   int nthUglyNumber(int n) {
-    vector<int> dp(n + 1);
-    dp[1] = 1;
+    vector<int> dp(n);
+    dp[0] = 1;
 
-    int p2 = 1;
-    int p3 = 1;
-    int p5 = 1;
-    for (int i = 2; i <= n; ++i) {
+    int p2 = 0;
+    int p3 = 0;
+    int p5 = 0;
+    for (int i = 1; i < n; ++i) {
       int n2 = dp[p2] * 2;
       int n3 = dp[p3] * 3;
       int n5 = dp[p5] * 5;
@@ -57,6 +57,6 @@ class Solution {
       if (dp[i] == n5) ++p5;
     }
 
-    return dp[n];
+    return dp[n - 1];
   }
 };

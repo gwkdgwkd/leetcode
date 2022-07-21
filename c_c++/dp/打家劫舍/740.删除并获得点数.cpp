@@ -47,17 +47,6 @@ int deleteAndEarn(int* nums, int numsSize) {
   for (int i = 2; i <= max; ++i) {
     dp[i] = fmax(dp[i - 1], dp[i - 2] + sum[i]);
   }
-  // for (int i = 0; i <= max; ++i) {
-  //   printf("%d ", sum[i]);
-  // }
-  // printf("\n");
-  // for (int i = 0; i <= max; ++i) {
-  //   printf("%d ", dp[i]);
-  // }
-  // printf("\n");
-  // [2,2,3,3,3,4]
-  // 0 0 4 9 4
-  // 0 0 4 9 9
 
   return dp[max];
 }
