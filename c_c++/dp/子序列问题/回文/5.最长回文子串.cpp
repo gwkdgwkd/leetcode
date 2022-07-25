@@ -44,19 +44,6 @@ char* longestPalindrome(char* s) {
   }
   s[start + maxlen] = 0;
 
-  // for(int i = 0; i < len; ++i) {
-  //   for(int j = 0; j < len; ++j) {
-  //       printf("%d ", dp[i][j]);
-  //   }
-  //   printf("\n");
-  // }
-  // "babad"
-  // 1 0 1 0 0
-  // 0 1 0 1 0
-  // 0 0 1 0 0
-  // 0 0 0 1 0
-  // 0 0 0 0 1
-
   return s + start;
 }
 
@@ -109,7 +96,6 @@ char* longestPalindrome(char* s) {
     }
   }
   char* ans = (char*)calloc(len + 1, sizeof(char));
-  // printf("len:%d pLeft:%d pRight:%d\r\n", len, pLeft, pRight);
   int z = 0;
   for (int j = pLeft; j < pRight + 1; j++) {
     ans[z++] = s[j];
@@ -123,24 +109,25 @@ class Solution {
  public:
   string longestPalindrome(string s) {
     int n = s.size();
-    vector<vector<int>> dp(n, vector<int>(n, 0));
+    vector<vector<bool>> dp(n, vector<bool>(n, false));
 
-    int max = 1;
     int start = 0;
+    int len = 1;
     for (int i = n - 1; i >= 0; --i) {
-      for (int j = i; j < n; ++j) {
+      dp[i][i] = true;
+      for (int j = i + 1; j < n; ++j) {
         if (s[i] == s[j]) {
-          if (j - i <= 1 || dp[i + 1][j - 1]) {
-            dp[i][j] = 1;
-          }
-          if (dp[i][j] && j - i + 1 > max) {
-            start = i;
-            max = j - i + 1;
+          if (j == i + 1 || dp[i + 1][j - 1]) {
+            dp[i][j] = true;
+            if (j - i + 1 > len) {
+              start = i;
+              len = j - i + 1;
+            }
           }
         }
       }
     }
 
-    return string(s.begin() + start, s.begin() + start + max);
+    return string(s.begin() + start, s.begin() + start + len);
   }
 };

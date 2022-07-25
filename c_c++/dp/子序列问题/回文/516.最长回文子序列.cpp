@@ -22,7 +22,8 @@ s仅由小写英文字母组成
 // 动态规划
 int longestPalindromeSubseq(char* s) {
   int len = strlen(s);
-  int dp[len][len];  // dp[i][j]：s在[i,j]范围内最⻓的回⽂⼦序列的⻓度为dp[i][j]
+  // dp[i][j]：s在[i,j]范围内最⻓的回⽂⼦序列的⻓度为dp[i][j]
+  int dp[len][len];
   memset(dp, 0, sizeof(dp));
   // 当i与j相同，那么dp[i][j]⼀定是等于1的，即：
   // 1.⼀个字符的回⽂⼦序列⻓度就是1
@@ -31,15 +32,16 @@ int longestPalindromeSubseq(char* s) {
     dp[i][i] = 1;
   }
 
-  // dp[i][j]是依赖于dp[i+1][j-1]和dp[i+1][j]，也就是从矩阵的⻆度来说，dp[i][j]下⼀⾏的数据。
+  // dp[i][j]是依赖于dp[i+1][j-1]和dp[i+1][j]，
+  // 也就是从矩阵的⻆度来说，dp[i][j]下⼀⾏的数据。
   // 所以遍历i的时候⼀定要从下到上遍历，这样才能保证，下⼀⾏的数据是经过计算的。
   for (int i = len - 1; i >= 0; --i) {
     for (int j = i + 1; j < len; ++j) {
       if (s[i] == s[j]) {
-        // 对于[i...j]，如果s[i]与s[j]相同，那么dp[i][j]等于[i+1...j-1]的最长长度加上2
+        // 对于[i:j]，如果s[i]与s[j]相同，那么dp[i][j]等于[i+1:j-1]的最长长度加上2
         dp[i][j] = dp[i + 1][j - 1] + 2;
       } else {
-        // 对于[i...j]，如果s[i]与s[j]不相同，那么dp[i][j]等于[i+1...j]和[i...j-1]的最大值
+        // 对于[i:j]，如果s[i]与s[j]不相同，那么dp[i][j]等于[i+1:j]和[i:j-1]的最大值
         dp[i][j] = fmax(dp[i + 1][j], dp[i][j - 1]);
       }
     }
