@@ -1,7 +1,9 @@
 /*
 给你一个整数数组arr和一个整数difference，
-请你找出并返回arr中最长等差子序列的长度，该子序列中相邻元素之间的差等于difference。
-子序列是指在不改变其余元素顺序的情况下，通过删除一些元素或不删除任何元素而从arr派生出来的序列。
+请你找出并返回arr中最长等差子序列的长度，
+该子序列中相邻元素之间的差等于difference。
+子序列是指在不改变其余元素顺序的情况下，
+通过删除一些元素或不删除任何元素而从arr派生出来的序列。
 
 示例1：
 输入：arr = [1,2,3,4], difference = 1
@@ -60,7 +62,6 @@ class Solution {
   int longestSubsequence(vector<int>& arr, int difference) {
     int n = arr.size();
     vector<int> dp(n, 1);
-
     int max = dp[0];
 
     for (int i = 1; i < n; ++i) {
@@ -87,7 +88,6 @@ class Solution {
       auto it = dp.find(arr[i] - difference);
       if (it != dp.end()) {
         dp[arr[i]] = it->second + 1;
-
       } else {
         dp[arr[i]] = 1;
       }

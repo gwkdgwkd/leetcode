@@ -59,13 +59,6 @@ int minimumDeleteSum(char *s1, char *s2) {
     }
   }
 
-  // for (int i = 0; i <= m; ++i) {
-  //   for (int j = 0; j <= n; ++j) {
-  //     printf("%d ", dp[i][j]);
-  //   }
-  //   printf("\n");
-  // }
-
   return dp[m][n];
 }
 

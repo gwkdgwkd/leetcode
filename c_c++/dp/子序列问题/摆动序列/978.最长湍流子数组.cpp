@@ -4,7 +4,7 @@
 更正式地来说，当arr的子数组A[i],A[i+1],...,A[j]满足仅满足下列条件时，
 我们称其为湍流子数组：
 若i <= k < j ：
-    当k为奇数时， A[k] > A[k+1]，且
+    当k为奇数时，A[k] > A[k+1]，且
     当k为偶数时，A[k] < A[k+1]；
 或若i <= k < j ：
     当k为偶数时，A[k] > A[k+1]，且
@@ -48,20 +48,6 @@ int maxTurbulenceSize(int* arr, int arrSize) {
     }
     max = fmax(max, fmax(dp[i][0], dp[i][1]));
   }
-
-  // for (int i = 0; i < arrSize; i++) {
-  //   printf("%3d ",arr[i]);
-  // }
-  // printf("\n");
-  // for (int i = 0; i < 2; i++) {
-  //   for (int j = 0; j < arrSize; j++) {
-  //     printf("%3d ",dp[j][i]);
-  //   }
-  //   printf("\n");
-  // }
-  //   9   4   2  10   7   8   8   1   9
-  //   1   2   2   1   4   1   1   2   1
-  //   1   1   1   3   1   5   1   1   3
 
   return max;
 }

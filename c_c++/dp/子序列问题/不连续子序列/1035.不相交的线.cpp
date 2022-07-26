@@ -1,7 +1,7 @@
 /*
 在两条独立的水平线上按给定的顺序写下nums1和nums2中的整数。
-现在，可以绘制一些连接两个数字nums1[i]和nums2[j]的直线，这些直线需要同时满足满足：
-nums1[i] == nums2[j]
+现在，可以绘制一些连接两个数字nums1[i]和nums2[j]的直线，这些直线需要同时满足：
+nums1[i] == nums2[j]，
 且绘制的直线不与任何其他连线（非水平线）相交。
 请注意，连线即使在端点也不能相交：每个数字只能属于一条连线。
 以这种方法绘制线条，并返回可以绘制的最大连线数。
@@ -42,18 +42,6 @@ int maxUncrossedLines(int* nums1, int nums1Size, int* nums2, int nums2Size) {
       }
     }
   }
-
-  // for (int i = 0; i <= nums1Size; ++i) {
-  //   for (int j = 0; j <= nums2Size; ++j) {
-  //     printf("%3d ", dp[i][j]);
-  //   }
-  //   printf("\n");
-  // }
-  // [1,4,2] [1,2,4]
-  //  0   0   0   0
-  //  0   1   1   1
-  //  0   1   1   2
-  //  0   1   2   2
 
   return dp[nums1Size][nums2Size];
 }

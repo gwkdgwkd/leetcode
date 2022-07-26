@@ -37,9 +37,7 @@ int pileBox(int **box, int boxSize, int *boxColSize) {
   }
   int i, j, t;
   qsort(box, boxSize, sizeof(int *), cmp);
-  // for (i = 0; i < boxSize; i++) {
-  //     printf("%d %d %d\n", box[i][0], box[i][1], box[i][2]);
-  // }
+
   int dp[boxSize];
   int max = 0;
   for (i = 0; i < boxSize; i++) {

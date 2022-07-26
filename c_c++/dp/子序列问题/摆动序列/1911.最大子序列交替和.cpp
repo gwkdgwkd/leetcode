@@ -42,9 +42,9 @@ long long maxAlternatingSum(int* nums, int numsSize) {
 
 long long maxAlternatingSum(int* nums, int numsSize) {
   long long dp[numsSize][2];
-  // 1.f[i][0]表示在数组nums[0...i]中选择元素组成子序列，
+  // 1.dp[i][0]表示在数组nums[0:i]中选择元素组成子序列，
   //   且最后一个选择的元素下标为奇数时，可以得到的最大交替和
-  // 2.f[i][1]表示在数组nums[0...i]中选择元素组成子序列，
+  // 2.dp[i][1]表示在数组nums[0:i]中选择元素组成子序列，
   //   且最后一个选择的元素下标为偶数时，可以得到的最大交替和
   // 注意：最大一个选择的元素下标奇偶表示的是在子序列中的下标
 

@@ -70,22 +70,6 @@ int numDistinct(char* s, char* t) {
     }
   }
 
-  //  for(int i = 0; i <= m; ++i) {
-  //    for(int j = 0; j <= n; ++j) {
-  //      printf("%2d ", dp[i][j]);
-  //    }
-  //    printf("\n");
-  //  }
-  //       r  a  b  b  i  t
-  //    1  0  0  0  0  0  0
-  //  r 1  1  0  0  0  0  0
-  //  a 1  1  1  0  0  0  0
-  //  b 1  1  1  1  0  0  0
-  //  b 1  1  1  2  1  0  0
-  //  b 1  1  1  3  3  0  0
-  //  i 1  1  1  3  3  3  0
-  //  t 1  1  1  3  3  3  3
-
   return dp[m][n];
 }
 

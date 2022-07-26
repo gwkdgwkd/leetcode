@@ -31,20 +31,6 @@ int findLength(int* nums1, int nums1Size, int* nums2, int nums2Size) {
     }
   }
 
-  // for (int i = 0; i <= nums1Size; ++i) {
-  //   for (int j = 0; j <= nums2Size; ++j) {
-  //     printf("%3d ", dp[i][j]);
-  //   }
-  //   printf("\n");
-  // }
-  // [1,2,3,2,1],[3,2,1,4,7]
-  //   0   0   0   0   0   0
-  //   0   0   0   1   0   0
-  //   0   0   1   0   0   0
-  //   0   1   0   0   0   0
-  //   0   0   2   0   0   0
-  //   0   0   0   3   0   0
-
   return max;
 }
 

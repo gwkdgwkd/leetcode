@@ -42,23 +42,10 @@ bool isSubsequence(char* s, char* t) {
         // 此时相当于t要删除元素，t如果把当前元素t[j-1]删除，
         // 那么dp[i][j]的数值就是看s[i-1]与t[j-2]的⽐较结果了，即：
         dp[i][j] = dp[i][j - 1];
-
         // dp[i][j] = fmax(dp[i - 1][j], dp[i][j - 1]);  // 也可以
       }
     }
   }
-
-  // for (int i = 0; i <= l1; ++i) {
-  //   for (int j = 0; j <= l2; ++j) {
-  //     printf("%d ", dp[i][j]);
-  //   }
-  //   printf("\n");
-  // }
-  // "abc" "ahbgdc"
-  // 0 0 0 0 0 0 0
-  // 0 1 1 1 1 1 1
-  // 0 0 0 2 2 2 2
-  // 0 0 0 0 0 0 3
 
   return dp[l1][l2] == l1;
 }
