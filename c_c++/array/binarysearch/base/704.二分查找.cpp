@@ -1,3 +1,7 @@
+#include <stdio.h>
+
+#include <vector>
+
 /*
 给定一个n个元素有序的（升序）整型数组nums和一个目标值target，
 写一个函数搜索nums中的target，如果目标值存在返回下标，否则返回-1。
@@ -17,8 +21,6 @@
 n将在[1, 10000]之间。
 nums的每个元素都将在[-9999, 9999]之间。
 */
-
-#include <stdio.h>
 
 // 第一种写法：
 int search1(int* nums, int numsSize, int target) {
@@ -42,6 +44,28 @@ int search1(int* nums, int numsSize, int target) {
   return -1;  // 未找到目标值
 }
 
+using namespace std;
+class Solution {
+ public:
+  int search(vector<int>& nums, int target) {
+    int left = 0;
+    int right = nums.size() - 1;
+
+    while (left <= right) {
+      int mid = left + (right - left) / 2;
+      if (nums[mid] < target) {
+        left = mid + 1;
+      } else if (nums[mid] > target) {
+        right = mid - 1;
+      } else {
+        return mid;
+      }
+    }
+
+    return -1;
+  }
+};
+
 // 第二种写法：
 int search2(int* nums, int numsSize, int target) {
   int left = 0;
@@ -61,6 +85,27 @@ int search2(int* nums, int numsSize, int target) {
 
   return -1;  // 未找到目标值
 }
+
+class Solution {
+ public:
+  int search(vector<int>& nums, int target) {
+    int left = 0;
+    int right = nums.size();
+
+    while (left < right) {
+      int mid = left + (right - left) / 2;
+      if (nums[mid] < target) {
+        left = mid + 1;
+      } else if (nums[mid] > target) {
+        right = mid;
+      } else {
+        return mid;
+      }
+    }
+
+    return -1;
+  }
+};
 
 int main() {
   int nums1[] = {1, 2, 2, 2, 2, 2, 3};

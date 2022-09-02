@@ -16,7 +16,8 @@
 第4天：9
 第5天：10
 请注意，货物必须按照给定的顺序装运，
-因此使用载重能力为14的船舶并将包装分成(2,3,4,5),(1,6,7),(8),(9),(10)是不允许的。
+因此使用载重能力为14的船舶并将包装分成(2,3,4,5),
+(1,6,7),(8),(9),(10)是不允许的。
 
 示例2：
 输入：weights = [3,2,2,4,1,4], days = 3
@@ -76,3 +77,40 @@ int shipWithinDays(int* weights, int weightsSize, int days) {
 
   return left;
 }
+
+class Solution {
+ public:
+  bool canFinish(vector<int>& weights, int days, int weight) {
+    int sum = 1;
+    int tmp = 0;
+    for (const auto& i : weights) {
+      if (weight - tmp >= i) {
+        tmp += i;
+      } else {
+        ++sum;
+        tmp = i;
+      }
+    }
+
+    return sum <= days;
+  }
+  int shipWithinDays(vector<int>& weights, int days) {
+    int left = 0;
+    int right = 0;
+    for (const auto& i : weights) {
+      left = max(left, i);
+      right += i;
+    }
+
+    while (left < right) {
+      int mid = left + (right - left) / 2;
+      if (canFinish(weights, days, mid)) {
+        right = mid;
+      } else {
+        left = mid + 1;
+      }
+    }
+
+    return left;
+  }
+};

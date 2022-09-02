@@ -1,5 +1,6 @@
 /*
-给定一个非负整数数组nums和一个整数m，你需要将这个数组分成m个非空的连续子数组。
+给定一个非负整数数组nums和一个整数m，
+你需要将这个数组分成m个非空的连续子数组。
 设计一个算法使得这m个子数组各自和的最大值最小。
 
 示例1：
@@ -26,7 +27,8 @@
 
 // 动态规划，将数组分割为m段，求……是动态规划题目常见的问法。
 // 时间复杂度：O(n^2×m)，n是数组的长度，m子数组的个数。
-//           总状态数为O(n×m)，状态转移时间复杂度O(n)，所以总时间复杂度为O(n^2×m)。
+//           总状态数为O(n×m)，状态转移时间复杂度O(n)，
+//           所以总时间复杂度为O(n^2×m)。
 // 空间复杂度：O(n×m)，为动态规划数组的开销。
 int splitArray(int* nums, int numsSize, int m) {
   // dp[i][j]表示将数组的前i个数分割为j段所能得到的最大连续子数组和的最小值
@@ -86,3 +88,40 @@ int splitArray(int* nums, int numsSize, int m) {
 
   return left;
 }
+
+class Solution {
+ public:
+  bool canSplit(vector<int>& nums, int m, int sum) {
+    int n = 1;
+    int tmp = 0;
+    for (const auto& i : nums) {
+      if (tmp + i > sum) {
+        ++n;
+        tmp = i;
+      } else {
+        tmp += i;
+      }
+    }
+
+    return n <= m;
+  }
+  int splitArray(vector<int>& nums, int m) {
+    int left = 0;
+    int right = 0;
+    for (const auto& i : nums) {
+      left = fmax(left, i);
+      right += i;
+    }
+
+    while (left < right) {
+      int mid = left + (right - left) / 2;
+      if (canSplit(nums, m, mid)) {
+        right = mid;
+      } else {
+        left = mid + 1;
+      }
+    }
+
+    return left;
+  }
+};

@@ -1,3 +1,8 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#include <vector>
+
 /*
 给定一个按照升序排列的整数数组nums，和一个目标值target。
 找出给定目标值在数组中的开始位置和结束位置。
@@ -23,9 +28,6 @@
 nums是一个非递减数组
 -10^9 <= target <= 10^9
 */
-
-#include <stdio.h>
-#include <stdlib.h>
 
 #if 0
 // 704方法二
@@ -80,7 +82,8 @@ int right_bound(int* nums, int numsSize, int target) {
   // return nums[right - 1] == target ? (right - 1) : -1;  // 也行
 }
 #else
-// 和704第一种二分搜索算法统一了，都是两端都闭的搜索区间，而且最后返回的也是left变量的值：
+// 和704第一种二分搜索算法统一了，都是两端都闭的搜索区间，
+// 而且最后返回的也是left变量的值：
 int left_bound(int* nums, int numsSize, int target) {
   int left = 0;
   int right = numsSize - 1;
@@ -133,6 +136,57 @@ int* searchRange(int* nums, int numsSize, int target, int* returnSize) {
 
   return result;
 }
+
+using namespace std;
+class Solution {
+ public:
+  vector<int> searchRange(vector<int>& nums, int target) {
+    int size = nums.size();
+    if (size == 0) {
+      return {-1, -1};
+    }
+
+    int begin = [&nums, &target, size]() {
+      int left = 0;
+      int right = size - 1;
+      while (left <= right) {
+        int mid = left + (right - left) / 2;
+        if (nums[mid] < target) {
+          left = mid + 1;
+        } else if (nums[mid] > target) {
+          right = mid - 1;
+        } else {
+          right = mid - 1;
+        }
+      }
+
+      return (left >= size || nums[left] != target) ? -1 : left;
+    }();
+
+    if (begin == -1) {
+      return {-1, -1};
+    }
+
+    int end = [&nums, &target, &size]() {
+      int left = 0;
+      int right = size - 1;
+      while (left <= right) {
+        int mid = left + (right - left) / 2;
+        if (nums[mid] < target) {
+          left = mid + 1;
+        } else if (nums[mid] > target) {
+          right = mid - 1;
+        } else {
+          left = mid + 1;
+        }
+      }
+
+      return (right < 0 || nums[right] != target) ? -1 : right;
+    }();
+
+    return {begin, end};
+  }
+};
 
 // 剑指Offer53-I在排序数组中查找数字I
 // 返回找到的元素个数

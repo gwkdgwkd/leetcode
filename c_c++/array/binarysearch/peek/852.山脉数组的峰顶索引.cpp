@@ -32,7 +32,8 @@ arr[0]<arr[1]<...arr[i-1]<arr[i]>arr[i+1]>...>arr[arr.length-1]的下标i。
 0 <= arr[i] <= 10^6
 题目数据保证arr是一个山脉数组
 
-进阶：很容易想到时间复杂度O(n)的解决方案，你可以设计一个O(logn)的解决方案吗？
+进阶：很容易想到时间复杂度O(n)的解决方案，
+你可以设计一个O(logn)的解决方案吗？
 */
 
 // 剑指OfferII069山峰数组的顶部
@@ -68,3 +69,22 @@ int peakIndexInMountainArray(int* arr, int arrSize) {
   }
   return left;
 }
+
+class Solution {
+ public:
+  int peakIndexInMountainArray(vector<int>& arr) {
+    int left = 0;
+    int right = arr.size() - 1;
+
+    while (left < right) {
+      int mid = left + ((right - left) >> 1);
+      if (arr[mid] > arr[mid + 1]) {
+        right = mid;
+      } else {
+        left = mid + 1;
+      }
+    }
+
+    return left;
+  }
+};

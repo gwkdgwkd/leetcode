@@ -105,7 +105,7 @@ int kthSmallest(int **matrix, int matrixSize, int *matrixColSize, int k) {
 bool check(int **matrix, int mid, int k, int n) {
   int i = n - 1;
   int j = 0;
-  int num = 0;
+  int num = 0;  // 表示矩阵中小于等于mid的元素个数
   while (i >= 0 && j < n) {
     if (matrix[i][j] <= mid) {
       num += i + 1;
@@ -129,3 +129,40 @@ int kthSmallest(int **matrix, int matrixSize, int *matrixColSize, int k) {
   }
   return left;
 }
+
+class Solution {
+ public:
+  int kthSmallest(vector<vector<int>> &matrix, int k) {
+    int m = matrix.size();
+    int n = matrix[0].size();
+
+    auto check = [&m, &n, &matrix, &k](int item) -> bool {
+      int i = n - 1;
+      int j = 0;
+      int num = 0;
+      while (i >= 0 && j < n) {
+        if (matrix[i][j] <= item) {
+          num += i + 1;
+          j++;
+        } else {
+          i--;
+        }
+      }
+      return num >= k;
+    };
+
+    int left = matrix[0][0];
+    int right = matrix[m - 1][n - 1];
+
+    while (left < right) {
+      int mid = left + (right - left) / 2;
+      if (check(mid)) {
+        right = mid;
+      } else {
+        left = mid + 1;
+      }
+    }
+
+    return left;
+  }
+};
