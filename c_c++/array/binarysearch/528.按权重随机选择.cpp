@@ -1,9 +1,10 @@
 /*
 给你一个下标从0开始的正整数数组w，其中w[i]代表第i个下标的权重。
-请你实现一个函数pickIndex，它可以随机地从范围[0,w.length-1]内（含0和w.length-1）选出并返回一个下标。
+请你实现一个函数pickIndex，
+它可以随机地从范围[0,w.length-1]内选出并返回一个下标。
 选取下标i的概率为w[i]/sum(w)。
-例如，对于w = [1, 3]，挑选下标0的概率为1 / (1 + 3) = 0.25（即，25%），
-而选取下标1的概率为3 / (1 + 3) = 0.75（即，75%）。
+例如，对于w=[1,3]，挑选下标0的概率为1/(1+3)= 0.25（即，25%），
+而选取下标1的概率为3/(1+3)=0.75（即，75%）。
 
 示例1：
 输入：
@@ -47,7 +48,7 @@ pickIndex将被调用不超过10^4次
 // 剑指OfferII071按权重生成随机数
 
 typedef struct {
-  int* pre;
+  int* pre;  // 前缀和
   int preSize;
   int total;
 } Solution;
@@ -86,6 +87,38 @@ void solutionFree(Solution* obj) {
   free(obj->pre);
   free(obj);
 }
+
+class Solution {
+  int total = 0;
+  vector<int> pre;
+
+ public:
+  Solution(vector<int>& w) {
+    pre.resize(w.size());
+    for (int i = 0; i < w.size(); ++i) {
+      total += w[i];
+      if (i == 0) {
+        pre[i] = w[i];
+      } else {
+        pre[i] = w[i] + pre[i - 1];
+      }
+    }
+  }
+  int pickIndex() {
+    int x = rand() % total + 1;
+    int left = 0;
+    int right = pre.size() - 1;
+    while (left < right) {
+      int mid = left + (right - left) / 2;
+      if (pre[mid] < x) {
+        left = mid + 1;
+      } else {
+        right = mid;
+      }
+    }
+    return left;
+  }
+};
 
 // 下面的解法超时：
 typedef struct {

@@ -1,8 +1,9 @@
 /*
 这里有n个航班，它们分别从1到n进行编号。
-有一份航班预订表bookings，表中第i条预订记录bookings[i]=[firsti,lasti,seatsi]意味着
+有一份航班预订表bookings，
+表中第i条预订记录bookings[i]=[firsti,lasti,seatsi]意味着：
 在从firsti到lasti（包含firsti和lasti）的每个航班上预订了seatsi个座位。
-请你返回一个长度为n的数组answer，里面的元素是每个航班预定的座位总数。
+请返回一个长度为n的数组answer，里面的元素是每个航班预定的座位总数。
 
 示例1：
 输入：bookings = [[1,2,10],[2,3,20],[2,5,25]], n = 5
@@ -53,3 +54,22 @@ int* corpFlightBookings(int** bookings, int bookingsSize, int* bookingsColSize,
 
   return nums;
 }
+
+class Solution {
+ public:
+  vector<int> corpFlightBookings(vector<vector<int>>& bookings, int n) {
+    vector<int> diff(n, 0);
+    for (const auto& booking : bookings) {
+      diff[booking[0] - 1] += booking[2];
+      if (booking[1] < n) {
+        diff[booking[1]] -= booking[2];
+      }
+    }
+
+    for (int i = 1; i < diff.size(); ++i) {
+      diff[i] += diff[i - 1];
+    }
+
+    return diff;
+  }
+};

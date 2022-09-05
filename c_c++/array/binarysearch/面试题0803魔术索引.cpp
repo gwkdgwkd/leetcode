@@ -14,7 +14,7 @@
 输出：1
 
 说明:
-nums长度在[1, 1000000]之间
+nums长度在[1,1000000]之间
 此题为原书中的Follow-up，即数组中可能包含重复元素的版本
 */
 
@@ -51,3 +51,27 @@ int findMagicIndex(int* nums, int numsSize) {
   g_nums = nums;
   return find(0, numsSize - 1);
 }
+
+class Solution {
+ public:
+  int find(vector<int>& nums, int left, int right) {
+    if (left > right) {
+      return -1;
+    }
+    int mid = left + (right - left) / 2;
+
+    int res = -1;
+    if ((res = find(nums, left, mid - 1)) >= 0) {
+      return res;
+    }
+
+    if (nums[mid] == mid) {
+      return mid;
+    }
+
+    return find(nums, mid + 1, right);
+  }
+  int findMagicIndex(vector<int>& nums) {
+    return find(nums, 0, nums.size() - 1);
+  }
+};

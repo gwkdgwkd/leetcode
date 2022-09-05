@@ -1,5 +1,6 @@
 /*
-给你一个按非递减顺序排序的整数数组nums，返回每个数字的平方组成的新数组，要求也按非递减顺序排序。
+给你一个按非递减顺序排序的整数数组nums，
+返回每个数字的平方组成的新数组，要求也按非递减顺序排序。
 
 示例1：
 输入：nums = [-4,-1,0,3,10]
@@ -42,3 +43,28 @@ int* sortedSquares(int* nums, int numsSize, int* returnSize) {
 
   return ans;
 }
+
+class Solution {
+ public:
+  vector<int> sortedSquares(vector<int>& nums) {
+    int len = nums.size();
+    int left = 0;
+    int right = len - 1;
+
+    vector<int> res(len);
+    int i = len - 1;
+    while (left <= right) {
+      int t1 = nums[left] * nums[left];
+      int t2 = nums[right] * nums[right];
+      if (t1 > t2) {
+        res[i--] = t1;
+        ++left;
+      } else {
+        res[i--] = t2;
+        --right;
+      }
+    }
+
+    return res;
+  }
+};

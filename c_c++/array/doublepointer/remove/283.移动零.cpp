@@ -1,5 +1,6 @@
 /*
-给定一个数组nums，编写一个函数将所有0移动到数组的末尾，同时保持非零元素的相对顺序。
+给定一个数组nums，编写一个函数将所有0移动到数组的末尾，
+同时保持非零元素的相对顺序。
 请注意，必须在不复制数组的情况下原地对数组进行操作。
 
 示例1:
@@ -52,3 +53,23 @@ void moveZeroes(int* nums, int numsSize) {
     nums[i++] = 0;
   }
 }
+
+class Solution {
+ public:
+  void moveZeroes(vector<int>& nums) {
+    int slow = 0;
+    int fast = 0;
+    int len = nums.size();
+
+    while (fast < len) {
+      if (nums[fast] != 0) {
+        nums[slow++] = nums[fast];
+      }
+      ++fast;
+    }
+
+    while (slow < len) {
+      nums[slow++] = 0;
+    }
+  }
+};

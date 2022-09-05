@@ -48,8 +48,6 @@ int *findSwapValues(int *array1, int array1Size, int *array2, int array2Size,
   }
 
   int target = (sum1 - sum2) / 2;
-  // printf("%d %d %d %d\n",sum1,sum2,sum,target);
-
   qsort(array2, array2Size, sizeof(int), cmp);
 
   int *res = NULL;
@@ -66,3 +64,41 @@ int *findSwapValues(int *array1, int array1Size, int *array2, int array2Size,
 
   return res;
 }
+
+class Solution {
+ public:
+  int binarySearch(vector<int> &arr, int left, int right, int target) {
+    while (left <= right) {
+      int mid = left + (right - left) / 2;
+      if (arr[mid] < target) {
+        left = mid + 1;
+      } else if (arr[mid] > target) {
+        right = mid - 1;
+      } else {
+        return mid;
+      }
+    }
+
+    return -1;
+  }
+  vector<int> findSwapValues(vector<int> &array1, vector<int> &array2) {
+    int sum1 = accumulate(array1.begin(), array1.end(), 0);
+    int sum2 = accumulate(array2.begin(), array2.end(), 0);
+
+    if ((sum1 + sum2) % 2) {
+      return {};
+    }
+
+    int target = (sum1 - sum2) / 2;
+    sort(array1.begin(), array1.end());
+    for (int i = 0; i < array2.size(); ++i) {
+      int index =
+          binarySearch(array1, 0, array1.size() - 1, array2[i] + target);
+      if (index != -1) {
+        return {array2[i] + target, array2[i]};
+      }
+    }
+
+    return {};
+  }
+};

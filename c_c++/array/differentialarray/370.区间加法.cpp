@@ -53,7 +53,8 @@ void increment(int i, int j, int val, Difference *d) {
   }
   // [i...j]内的元素都加上了val
 
-  // j+1>=d->size说明是对nums[i]及以后的整个数组都进行修改，那么就不需要再给diff数组减val了
+  // j+1>=d->size说明是对nums[i]及以后的整个数组都进行修改，
+  // 那么就不需要再给diff数组减val了
 }
 int *result(Difference *d) {
   int *res = (int *)malloc(sizeof(int) * d->size);

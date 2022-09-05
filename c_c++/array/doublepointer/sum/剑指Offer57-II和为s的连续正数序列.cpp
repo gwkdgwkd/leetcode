@@ -44,3 +44,31 @@ int **findContinuousSequence(int target, int *returnSize,
   }
   return res;
 }
+
+class Solution {
+ public:
+  vector<vector<int>> findContinuousSequence(int target) {
+    int left = 1;
+    int right = 1;
+    int sum = 0;
+
+    vector<vector<int>> res;
+    while (left <= target / 2) {
+      if (sum < target) {
+        sum += right++;
+      } else if (sum > target) {
+        sum -= left++;
+      } else {
+        int len = right - left;
+        vector<int> v(len);
+        for (int i = 0; i < len; ++i) {
+          v[i] = i + left;
+        }
+        res.emplace_back(v);
+        sum -= left++;
+      }
+    }
+
+    return res;
+  }
+};

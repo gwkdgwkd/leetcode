@@ -22,12 +22,13 @@ birth[i] <= death[i]
 #define MMAX(a, b) ((a) > (b) ? (a) : (b))
 #define MMIN(a, b) ((a) < (b) ? (a) : (b))
 #define BASE_YEAR 1900
-#define MAX_LEN 102
+#define MAX_LEN 102  // 实际大小是101
 int maxAliveYear(int* birth, int birthSize, int* death, int deathSize) {
   int* years = (int*)calloc(MAX_LEN, sizeof(int));
 
   for (int i = 0; i < birthSize; i++) {
     years[birth[i] - BASE_YEAR]++;
+    // 对于2000，实际不用减，但是数组长度多了1个，所以这里不用判断：
     years[death[i] - BASE_YEAR + 1]--;
   }
 
@@ -45,3 +46,33 @@ int maxAliveYear(int* birth, int birthSize, int* death, int deathSize) {
 
   return max_year;
 }
+
+class Solution {
+  static const int kBaseYear = 1900;
+  static const int kMaxYear = 2000;
+  static const int kLen = 101;
+
+ public:
+  int maxAliveYear(vector<int>& birth, vector<int>& death) {
+    vector<int> nums(kLen, 0);
+
+    for (int i = 0; i < birth.size(); ++i) {
+      nums[birth[i] - kBaseYear]++;
+      if (death[i] < kMaxYear) {
+        nums[death[i] - kBaseYear + 1]--;
+      }
+    }
+
+    int m = nums[0];
+    int year = kBaseYear;
+    for (int i = 1; i < kLen; ++i) {
+      nums[i] += nums[i - 1];
+      if (nums[i] > m) {
+        m = nums[i];
+        year = kBaseYear + i;
+      }
+    }
+
+    return year;
+  }
+};

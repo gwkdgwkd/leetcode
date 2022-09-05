@@ -42,3 +42,28 @@ int** pairSums(int* nums, int numsSize, int target, int* returnSize,
   *returnSize = size;
   return ans;
 }
+
+class Solution {
+ public:
+  vector<vector<int>> pairSums(vector<int>& nums, int target) {
+    sort(nums.begin(), nums.end());
+
+    int left = 0;
+    int right = nums.size() - 1;
+
+    vector<vector<int>> res;
+    while (left < right) {
+      int sum = nums[left] + nums[right];
+      if (sum < target) {
+        ++left;
+      } else if (sum > target) {
+        --right;
+      } else {
+        vector<int> v{nums[left++], nums[right--]};
+        res.emplace_back(v);
+      }
+    }
+
+    return res;
+  }
+};

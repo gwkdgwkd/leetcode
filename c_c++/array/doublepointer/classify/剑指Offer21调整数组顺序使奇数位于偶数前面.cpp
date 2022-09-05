@@ -4,7 +4,7 @@
 
 示例：
 输入：nums = [1,2,3,4]
-输出：[1,3,2,4] 
+输出：[1,3,2,4]
 注：[3,1,2,4]也是正确的答案之一。
 
 提示：
@@ -35,3 +35,28 @@ int* exchange(int* nums, int numsSize, int* returnSize) {
   *returnSize = numsSize;
   return nums;
 }
+
+class Solution {
+ public:
+  vector<int> exchange(vector<int>& nums) {
+    int len = nums.size();
+    int left = 0;
+    int right = len - 1;
+
+    while (left < right) {
+      while (left < len && nums[left] % 2) {
+        ++left;
+      }
+      while (right > 0 && nums[right] % 2 == 0) {
+        --right;
+      }
+      if (left < right) {
+        swap(nums[left], nums[right]);
+      }
+      ++left;
+      --right;
+    }
+
+    return nums;
+  }
+};

@@ -1,7 +1,8 @@
 /*
-给定一个包含红色、白色和蓝色、共n个元素的数组nums，原地对它们进行排序，
-使得相同颜色的元素相邻，并按照红色、白色、蓝色顺序排列。
-我们使用整数0、1和2分别表示红色、白色和蓝色。
+给定一个包含红色、白色和蓝色、共n个元素的数组nums，
+原地对它们进行排序，使得相同颜色的元素相邻，
+并按照红色、白色、蓝色顺序排列。
+使用整数0、1和2分别表示红色、白色和蓝色。
 必须在不使用库的sort函数的情况下解决这个问题。
 
 示例1：
@@ -49,3 +50,30 @@ void sortColors(int *nums, int numsSize) {  // 这是三指针么？
     }
   }
 }
+
+class Solution {
+ public:
+  void sortColors(vector<int> &nums) {
+    int len = nums.size();
+    int left = 0;
+    int right = len - 1;
+
+    while (left < len && nums[left] == 0) {
+      ++left;
+    }
+    while (right > 0 && nums[right] == 2) {
+      --right;
+    }
+
+    for (int mid = left; mid <= right; ++mid) {
+      while (mid < right && nums[mid] == 2) {
+        swap(nums[mid], nums[right]);
+        --right;
+      }
+      if (nums[mid] == 0) {
+        swap(nums[mid], nums[left]);
+        ++left;
+      }
+    }
+  }
+};

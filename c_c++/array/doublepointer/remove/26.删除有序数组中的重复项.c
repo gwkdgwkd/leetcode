@@ -21,7 +21,7 @@ for (int i = 0; i < k; i++) {
 示例1：
 输入：nums = [1,1,2]
 输出：2, nums = [1,2]
-解释：函数应该返回新的长度2，并且原数组 nums的前两个元素被修改为1,2。
+解释：函数应该返回新的长度2，并且原数组nums的前两个元素被修改为1,2。
      不需要考虑数组中超出新长度后面的元素。
 
 示例2：
@@ -50,3 +50,21 @@ int removeDuplicates(int* nums, int numsSize) {
 
   return slow;
 }
+
+class Solution {
+ public:
+  int removeDuplicates(vector<int>& nums) {
+    int slow = 1;
+    int fast = 1;
+    int len = nums.size();
+
+    while (fast < len) {
+      if (nums[fast - 1] != nums[fast]) {
+        nums[slow++] = nums[fast];
+      }
+      ++fast;
+    }
+
+    return slow;
+  }
+};
