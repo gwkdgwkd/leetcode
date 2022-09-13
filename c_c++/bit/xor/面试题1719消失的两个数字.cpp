@@ -79,3 +79,34 @@ int* missingTwo(int* nums, int numsSize, int* returnSize) {
   res[1] = two_sum - res[0];
   return res;
 }
+
+class Solution {
+ public:
+  vector<int> missingTwo(vector<int>& nums) {
+    int n = nums.size();
+
+    int sum = (n + 1) ^ (n + 2);
+    for (int i = 0; i < n; ++i) {
+      sum ^= i + 1;
+      sum ^= nums[i];
+    }
+
+    int mask = sum & -sum;
+    vector<int> ans(2);
+    auto tmp = [&ans, &mask](int num) {
+      if ((num & mask) == mask) {
+        ans[0] ^= num;
+      } else {
+        ans[1] ^= num;
+      }
+    };
+    tmp(n + 1);
+    tmp(n + 2);
+    for (int i = 0; i < n; ++i) {
+      tmp(i + 1);
+      tmp(nums[i]);
+    }
+
+    return ans;
+  }
+};

@@ -1,5 +1,6 @@
 /*
-给定一个包含[0,n]中n个数的数组nums，找出[0,n]这个范围内没有出现在数组中的那个数。
+给定一个包含[0,n]中n个数的数组nums，
+找出[0,n]这个范围内没有出现在数组中的那个数。
 
 示例1：
 输入：nums = [3,0,1]
@@ -50,6 +51,20 @@ int missingNumber(int* nums, int numsSize) {
   ans ^= numsSize;
   return ans;
 }
+
+class Solution {
+ public:
+  int missingNumber(vector<int>& nums) {
+    int n = nums.size();
+    int ans = n;
+    for (int i = 0; i < n; ++i) {
+      ans ^= i;
+      ans ^= nums[i];
+    }
+
+    return ans;
+  }
+};
 
 // 等差公式求和
 int missingNumber(int* nums, int numsSize) {

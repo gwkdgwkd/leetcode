@@ -4,7 +4,7 @@
 
 示例1:
 输入：num = 2（或者0b10）
-输出 1 (或者 0b01)
+输出：1(或者0b01)
 
 示例2:
 输入：num = 3
@@ -41,3 +41,19 @@ int exchangeBits(int num) {
   }
   return num;
 }
+
+class Solution {
+ public:
+  int exchangeBits(int num) {
+    for (int i = 0; i <= 30; i += 2) {
+      int a = num >> i & 1;
+      int b = num >> (i + 1) & 1;
+      if (a != b) {
+        num ^= 1 << i;
+        num ^= 1 << (i + 1);
+      }
+    }
+
+    return num;
+  }
+};

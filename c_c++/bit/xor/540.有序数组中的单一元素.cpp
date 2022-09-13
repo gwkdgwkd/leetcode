@@ -1,6 +1,6 @@
 /*
-给你一个仅由整数组成的有序数组，其中每个元素都会出现两次，唯有一个数只会出现一次。
-请你找出并返回只出现一次的那个数。
+给你一个仅由整数组成的有序数组，其中每个元素都会出现两次，
+唯有一个数只会出现一次，请你找出并返回只出现一次的那个数。
 你设计的解决方案必须满足O(logn)时间复杂度和O(1)空间复杂度。
 
 示例1:
@@ -38,13 +38,16 @@ int singleNonDuplicate(int* nums, int numsSize) {
 }
 
 // 偶数下标的二分查找
-// 由于只出现一次的元素所在下标x的左边有偶数个元素，因此下标x一定是偶数，可以在偶数下标范围内二分查找。
-// 二分查找的目标是找到满足nums[x]=nums[x+1]的最小的偶数下标x，则下标x处的元素是只出现一次的元素。
+// 由于只出现一次的元素所在下标x的左边有偶数个元素，
+// 因此下标x一定是偶数，可以在偶数下标范围内二分查找。
+// 二分查找的目标是找到满足nums[x]=nums[x+1]的最小的偶数下标x，
+// 则下标x处的元素是只出现一次的元素。
 int singleNonDuplicate(int* nums, int numsSize) {
   int low = 0, high = numsSize - 1;
   while (low < high) {
     int mid = (high - low) / 2 + low;
-    // 将mid的值减去mid&1，即可确保mid是偶数，如果原来的mid是偶数则值不变，如果原来的mid是奇数则值减1
+    // 将mid的值减去mid&1，即可确保mid是偶数，
+    // 如果原来的mid是偶数则值不变，如果原来的mid是奇数则值减1
     mid -= mid & 1;
     if (nums[mid] == nums[mid + 1]) {
       low = mid + 2;
@@ -63,3 +66,30 @@ int singleNonDuplicate(int* nums, int numsSize) {
   }
   return res;
 }
+
+class Solution {
+ public:
+  int singleNonDuplicate(vector<int>& nums) {
+    int ans = 0;
+    for (int num : nums) {
+      ans ^= num;
+    }
+    return ans;
+  }
+};
+
+class Solution {
+ public:
+  int singleNonDuplicate(vector<int>& nums) {
+    int low = 0, high = nums.size() - 1;
+    while (low < high) {
+      int mid = (high - low) / 2 + low;
+      if (nums[mid] == nums[mid ^ 1]) {
+        low = mid + 1;
+      } else {
+        high = mid;
+      }
+    }
+    return nums[low];
+  }
+};

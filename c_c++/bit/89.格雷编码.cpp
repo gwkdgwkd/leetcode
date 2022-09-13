@@ -52,3 +52,15 @@ int* grayCode(int n, int* returnSize) {
   *returnSize = ret_size;
   return ret;
 }
+
+class Solution {
+ public:
+  vector<int> grayCode(int n) {
+    int size = 1 << n;
+    vector<int> ans(size);
+    for (int i = 0; i < size; ++i) {
+      ans[i] = (i >> 1) ^ i;
+    }
+    return ans;
+  }
+};

@@ -28,7 +28,7 @@
 
 int* singleNumber(int* nums, int numsSize, int* returnSize) {
   // 1.把所有的元素进行异或操作，最终得到一个异或值
-  //   因为是不同的两个数字，所以这个值必定不为0
+  //   因为是不同的两个数字，所以这个值必定不为0：
   long xor = 0;
   for (int i = 0; i < numsSize; ++i) {
     xor ^= nums[i];
@@ -38,12 +38,14 @@ int* singleNumber(int* nums, int numsSize, int* returnSize) {
   int* res = (int*)malloc(sizeof(int) * 2);
   memset(res, 0, sizeof(int) * 2);
 
-  // 2.取异或值最后一个二进制位为1的数字作为mask，如果是1则表示两个数字在这一位上不同
+  // 2.取异或值最后一个二进制位为1的数字作为mask，
+  //   如果是1则表示两个数字在这一位上不同：
   long mask = xor&(-xor);
 
   for (int i = 0; i < numsSize; ++i) {
-    // 3.通过与这个mask进行与操作，如果为0的分为一个数组，为1的分为另一个数组
-    //   这样就把问题降低成了：“有一个数组每个数字都出现两次，有一个数字只出现了一次，求出该数字”
+    // 3.通过与这个mask进行与操作，如果为0的分为一个数组，
+    //   为1的分为另一个数组，这样就把问题降低成了：
+    //   有一个数组每个数字都出现两次，有一个数字只出现了一次，求出该数字。
     // if ((nums[i] & mask) == 0) { // 也行
     // if ((nums[i] & mask) == 1) { // 不行
     if ((nums[i] & mask) == mask) {
@@ -54,3 +56,25 @@ int* singleNumber(int* nums, int numsSize, int* returnSize) {
   }
   return res;
 }
+
+class Solution {
+ public:
+  vector<int> singleNumber(vector<int>& nums) {
+    long sum = 0;
+    for (int num : nums) {
+      sum ^= num;
+    }
+
+    vector<int> ans(2);
+    long mask = sum & -sum;
+    for (int num : nums) {
+      if ((num & mask) == mask) {
+        ans[0] ^= num;
+      } else {
+        ans[1] ^= num;
+      }
+    }
+
+    return ans;
+  }
+};

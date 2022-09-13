@@ -48,3 +48,29 @@ int hammingWeight(uint32_t n) {
   }
   return 32 - count;
 }
+
+class Solution {
+ public:
+  int hammingWeight(uint32_t n) {
+    int cnt = 0;
+    while (n) {
+      n &= (n - 1);
+      ++cnt;
+    }
+
+    return cnt;
+  }
+};
+
+class Solution {
+ public:
+  int hammingWeight(uint32_t n) {
+    int cnt = 0;
+    while (n != -1) {
+      n |= (n + 1);
+      ++cnt;
+    }
+
+    return 32 - cnt;
+  }
+};

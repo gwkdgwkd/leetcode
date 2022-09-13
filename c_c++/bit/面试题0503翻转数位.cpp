@@ -25,3 +25,31 @@ int reverseBits(int num) {
   }
   return max;
 }
+
+// 滑动窗口
+class Solution {
+ public:
+  int reverseBits(int num) {
+    bitset<32> b(num);
+    int left = 0;
+    int right = 0;
+
+    int cnt = 0;
+    int ans = 0;
+    while (right < 32) {
+      if (b[right++] == 0) {
+        ++cnt;
+      }
+
+      while (left < right && cnt > 1) {
+        if (b[left++] == 0) {
+          --cnt;
+        }
+      }
+
+      ans = max(ans, right - left);
+    }
+
+    return ans;
+  }
+};

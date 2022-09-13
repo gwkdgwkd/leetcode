@@ -20,6 +20,17 @@ int* swapNumbers(int* numbers, int numbersSize, int* returnSize) {
   return numbers;
 }
 
+class Solution {
+ public:
+  vector<int> swapNumbers(vector<int>& numbers) {
+    numbers[1] ^= numbers[0];
+    numbers[0] ^= numbers[1];
+    numbers[1] ^= numbers[0];
+
+    return numbers;
+  }
+};
+
 // 溢出
 int* swapNumbers(int* numbers, int numbersSize, int* returnSize) {
   *returnSize = numbersSize;

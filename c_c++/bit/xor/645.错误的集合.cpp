@@ -91,3 +91,43 @@ int* findErrorNums(int* nums, int numsSize, int* returnSize) {
   res[1] = a;
   return res;
 }
+
+class Solution {
+ public:
+  vector<int> findErrorNums(vector<int>& nums) {
+    int n = nums.size();
+    int sum = 0;
+    for (int i = 0; i < n; ++i) {
+      sum ^= i + 1;
+      sum ^= nums[i];
+    }
+
+    int mask = sum & -sum;
+    vector<int> ans(2);
+    for (int i = 0; i < n; ++i) {
+      if (((i + 1) & mask) == mask) {
+        ans[0] ^= (i + 1);
+      } else {
+        ans[1] ^= (i + 1);
+      }
+      if ((nums[i] & mask) == mask) {
+        ans[0] ^= nums[i];
+      } else {
+        ans[1] ^= nums[i];
+      }
+    }
+
+    int count = 0;
+    for (int num : nums) {
+      if (num == ans[0]) {
+        ++count;
+      }
+    }
+
+    if (count == 0) {
+      swap(ans[0], ans[1]);
+    }
+
+    return ans;
+  }
+};
