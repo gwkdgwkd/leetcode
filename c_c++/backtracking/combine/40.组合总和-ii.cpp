@@ -115,3 +115,58 @@ class Solution {
     return ans;
   }
 };
+
+// 不使用used数组也可以：
+class Solution {
+  vector<vector<int>> ans;
+  vector<int> path;
+
+ public:
+  void dfs(vector<int> &candidates, int target, int start) {
+    if (target == 0) {
+      ans.emplace_back(path);
+      return;
+    }
+
+    for (int i = start; i < candidates.size() && candidates[i] <= target; ++i) {
+      if (i > start && candidates[i] == candidates[i - 1]) {
+        // 这个避免重复当思想是在是太重要了。
+        // 这个方法最重要的作用是，可以让同一层级，不出现相同的元素。
+        // 这种情况不会发生：
+        //     1
+        //    / \
+        //   2   2
+        //  /     \
+        // 5       5
+        // 这种情况确是允许的：
+        //     1
+        //    /
+        //   2
+        //  /
+        // 2
+        // 为何会有这种神奇的效果呢？
+        // 首先candidates[i] == candidates[i - 1]，
+        // 是用于判定当前元素是否和之前元素相同的语句。
+        // 这个语句就能砍掉第一中情况，可是问题来了，
+        // 如果把所有与之前一个元素相同的都砍掉，那么第二种情况也会消失。
+        // 因为当第二个2出现的时候，他就和前一个2相同了。
+        // 那么如何保留例2呢？
+        // 那么就用i > start来避免这种情况，
+        // 第一种情况的两个2是处在同一个层级上的，当i>start时，
+        // 证明同一层中已经使用过了相同的元素。
+        // 第二种情况的两个2是处在不同层级上的，当i==start时，
+        // 证明是当前层的第一个元素，虽然candidates[i]==candidates[i-1]，
+        // 但这是一个树枝上的，不是同一层的。
+        continue;
+      }
+      path.emplace_back(candidates[i]);
+      dfs(candidates, target - candidates[i], i + 1);
+      path.pop_back();
+    }
+  }
+  vector<vector<int>> combinationSum2(vector<int> &candidates, int target) {
+    sort(candidates.begin(), candidates.end());
+    dfs(candidates, target, 0);
+    return ans;
+  }
+};

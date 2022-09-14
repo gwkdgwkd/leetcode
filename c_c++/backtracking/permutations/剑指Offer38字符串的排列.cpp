@@ -48,6 +48,7 @@ char** permutation(char* s, int* returnSize) {
   return rec;
 }
 
+// 与[47.全排列-ii]的区别，只是把vector<int>换成了string：
 class Solution {
   vector<string> ans;
   string path;

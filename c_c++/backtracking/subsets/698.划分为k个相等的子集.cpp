@@ -1,5 +1,6 @@
 /*
-给定一个整数数组nums和一个正整数k，找出是否有可能把这个数组分成k个非空子集，其总和都相等。
+给定一个整数数组nums和一个正整数k，
+找出是否有可能把这个数组分成k个非空子集，其总和都相等。
 
 示例1：
 输入： nums = [4, 3, 2, 3, 5, 2, 1], k = 4
@@ -24,7 +25,8 @@
 #define false 0
 
 // 回溯算法，以数字的视角，超时
-// n个数字，每个数字有k个桶可供选择，所以组合出的结果个数为k^n，时间复杂度也就是O(k^n)。
+// n个数字，每个数字有k个桶可供选择，
+// 所以组合出的结果个数为k^n，时间复杂度也就是O(k^n)。
 int *bucket;
 bool cmp(const void *a, const void *b) { return *(int *)a > *(int *)b; }
 bool backtrack1(int *nums, int numsSize, int k, int index, int target) {
@@ -75,9 +77,11 @@ bool canPartitionKSubsets1(int *nums, int numsSize, int k) {
 // 回溯算法，从桶的视角
 // 每个桶要遍历n个数字，选择装入或不装入，组合的结果有2^n种；
 // 而我们有k个桶，所以总的时间复杂度为O(k*2^n)。
-// 当然，这是理论上的最坏复杂度，实际的复杂度肯定要好一些，毕竟我们添加了这么多剪枝逻辑。
+// 当然，这是理论上的最坏复杂度，
+// 实际的复杂度肯定要好一些，毕竟我们添加了这么多剪枝逻辑。
 // 不过，从复杂度的上界已经可以看出第一种思路要慢很多了。
-// 通俗来说，我们应该尽量少量多次，就是说宁可多做几次选择，也不要给太大的选择空间；
+// 通俗来说，我们应该尽量少量多次，
+// 就是说宁可多做几次选择，也不要给太大的选择空间；
 // 宁可二选一选k次，也不要k选一选一次。
 bool *used;
 bool backtrack2(int *nums, int numsSize, int k, int start, int target,
@@ -152,9 +156,10 @@ class Solution {
   bool backTracking(vector<int> &nums, vector<bool> &used, int k, int sum,
                     int &target, int startIndex) {
     if (k == 0) return true;  // 如果已经划分完毕了，返回true
-    if (sum == target)
-      return backTracking(nums, used, k - 1, 0, target,
-                          0);  // 此次划分等于目标值
+    if (sum == target) {
+      // 此次划分等于目标值
+      return backTracking(nums, used, k - 1, 0, target, 0);
+    }
 
     for (int i = startIndex; i < nums.size(); ++i) {
       if (used[i])

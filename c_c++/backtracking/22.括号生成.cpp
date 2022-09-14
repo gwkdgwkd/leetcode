@@ -1,5 +1,6 @@
 /*
-数字n代表生成括号的对数，请你设计一个函数，用于能够生成所有可能的并且有效的括号组合。
+数字n代表生成括号的对数，请你设计一个函数，
+用于能够生成所有可能的并且有效的括号组合。
 
 示例1：
 输入：n = 3
@@ -16,10 +17,11 @@
 // 面试题0809括号
 
 // 回溯算法
-// 翻译：现在有2n个位置，每个位置可以放置字符(或者)，组成的所有括号组合中，有多少个是合法的？
-// 有关括号问题，你只要记住两个个性质，思路就很容易想出来：
+// 现在有2n个位置，每个位置可以放置字符(或者)，
+// 组成的所有括号组合中，有多少个是合法的？
+// 有关括号问题，你只要记住两个性质，思路就很容易想出来：
 // 1.一个合法括号组合的左括号数量一定等于右括号数量，这个显而易见。
-// 2.对于一个合法的括号字符串组合p，必然对于任何0 <= i < len(p)都有：
+// 2.对于一个合法的括号字符串组合p，必然对于任何0<=i<len(p)都有：
 //   子串p[0..i]中左括号的数量都大于或等于右括号的数量。
 char **res;
 int resSize;
@@ -61,7 +63,7 @@ class Solution {
   string path;
 
  public:
-  void backtracking(int left, int right) {
+  void dfs(int left, int right) {
     if (right < 0 || left < 0 || right < left) {
       return;
     }
@@ -71,15 +73,15 @@ class Solution {
       return;
     }
     path.push_back('(');
-    backtracking(left - 1, right);
+    dfs(left - 1, right);
     path.pop_back();
 
     path.push_back(')');
-    backtracking(left, right - 1);
+    dfs(left, right - 1);
     path.pop_back();
   }
   vector<string> generateParenthesis(int n) {
-    backtracking(n, n);
+    dfs(n, n);
     return ans;
   }
 };

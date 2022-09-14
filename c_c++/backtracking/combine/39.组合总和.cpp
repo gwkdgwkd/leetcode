@@ -1,6 +1,7 @@
 /*
 给你一个无重复元素的整数数组candidates和一个目标整数target，
-找出candidates中可以使数字和为目标数target的所有不同组合，并以列表形式返回。
+找出candidates中可以使数字和为目标数target的所有不同组合，
+并以列表形式返回。
 你可以按任意顺序返回这些组合。
 candidates中的同一个数字可以无限制重复被选取。
 如果至少一个数字的被选数量不同，则两种组合是不同的。
@@ -151,7 +152,7 @@ class Solution {
 class Solution {
   vector<vector<int>> ans;
   vector<int> path;
-  void backtracking(vector<int> &candidates, int target, int start) {
+  void dfs(vector<int> &candidates, int target, int start) {
     if (target == 0) {
       ans.emplace_back(path);
       return;
@@ -159,7 +160,7 @@ class Solution {
     for (int i = start; i < candidates.size() && candidates[i] <= target; ++i) {
       path.emplace_back(candidates[i]);
       // 元素可以重复选，所以使用i而不是i+1
-      backtracking(candidates, target - candidates[i], i);
+      dfs(candidates, target - candidates[i], i);
       path.pop_back();
     }
   }
@@ -167,7 +168,7 @@ class Solution {
  public:
   vector<vector<int>> combinationSum(vector<int> &candidates, int target) {
     sort(candidates.begin(), candidates.end());
-    backtracking(candidates, target, 0);
+    dfs(candidates, target, 0);
     return ans;
   }
 };

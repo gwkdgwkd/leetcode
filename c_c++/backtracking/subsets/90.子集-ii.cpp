@@ -1,5 +1,6 @@
 /*
-给你一个整数数组nums，其中可能包含重复元素，请你返回该数组所有可能的子集（幂集）。
+给你一个整数数组nums，其中可能包含重复元素，
+请你返回该数组所有可能的子集（幂集）。
 解集不能包含重复的子集。返回的解集中，子集可以按任意顺序排列。
 
 示例1：
@@ -82,5 +83,34 @@ class Solution {
     sort(nums.begin(), nums.end());
     backtracking(nums, 0);
     return res;
+  }
+};
+
+// 不使用used数组也可以：
+class Solution {
+  vector<vector<int>> ans;
+  vector<int> path;
+  void dfs(vector<int>& nums, int start) {
+    ans.emplace_back(path);
+
+    if (start == nums.size()) {
+      return;
+    }
+
+    for (int i = start; i < nums.size(); ++i) {
+      if (i > start && nums[i] == nums[i - 1]) {
+        continue;
+      }
+      path.emplace_back(nums[i]);
+      dfs(nums, i + 1);
+      path.pop_back();
+    }
+  }
+
+ public:
+  vector<vector<int>> subsetsWithDup(vector<int>& nums) {
+    sort(nums.begin(), nums.end());
+    dfs(nums, 0);
+    return ans;
   }
 };

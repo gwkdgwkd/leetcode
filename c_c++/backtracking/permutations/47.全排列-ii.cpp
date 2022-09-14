@@ -55,7 +55,7 @@ void backtracking(int* nums, int numsSize, int* used) {
   for (int i = 0; i < numsSize; ++i) {
     // used[i-1] == 1，说明同⼀树⽀nums[i-1]使⽤过
     // used[i-1] == 0，说明同⼀树层nums[i-1]使⽤过
-    // 如果同⼀树层nums[i-1]使⽤过则直接跳过
+    // 如果同⼀树层nums[i-1]使⽤过则直接跳过，
     // 如果要对树层中前⼀位去重，就⽤used[i-1] == false，
     // 如果要对树枝前⼀位去重⽤used[i-1] == true。
     // 对于排列问题，树层上去重和树枝上去重，都是可以的，但是树层上去重效率更⾼！

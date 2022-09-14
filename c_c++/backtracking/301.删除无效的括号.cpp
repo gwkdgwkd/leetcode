@@ -1,6 +1,7 @@
 /*
-给你一个由若干括号和字母组成的字符串s，删除最小数量的无效括号，使得输入的字符串有效。
-返回所有可能的结果。答案可以按任意顺序返回。
+给你一个由若干括号和字母组成的字符串s，
+删除最小数量的无效括号，使得输入的字符串有效。
+返回所有可能的结果，答案可以按任意顺序返回。
 
 示例1：
 输入：s = "()())()"
@@ -105,67 +106,63 @@ char **removeInvalidParentheses(char *s, int *returnSize) {
 }
 
 class Solution {
- public:
-  vector<string> res;
-  vector<string> removeInvalidParentheses(string s) {
-    int lremove = 0;
-    int rremove = 0;
-
-    for (char c : s) {
-      if (c == '(') {
-        lremove++;
-      } else if (c == ')') {
-        if (lremove == 0) {
-          rremove++;
-        } else {
-          lremove--;
-        }
-      }
-    }
-    helper(s, 0, lremove, rremove);
-    return res;
-  }
-
-  void helper(string str, int start, int lremove, int rremove) {
-    if (lremove == 0 && rremove == 0) {
-      if (isValid(str)) {
-        res.push_back(str);
-      }
-      return;
-    }
-    for (int i = start; i < str.size(); i++) {
-      if (i != start && str[i] == str[i - 1]) {
-        continue;
-      }
-      // 如果剩余的字符无法满足去掉的数量要求，直接返回
-      if (lremove + rremove > str.size() - i) {
-        return;
-      }
-      // 尝试去掉一个左括号
-      if (lremove > 0 && str[i] == '(') {
-        helper(str.substr(0, i) + str.substr(i + 1), i, lremove - 1, rremove);
-      }
-      // 尝试去掉一个右括号
-      if (rremove > 0 && str[i] == ')') {
-        helper(str.substr(0, i) + str.substr(i + 1), i, lremove, rremove - 1);
-      }
-    }
-  }
-
-  inline bool isValid(const string &str) {
+  vector<string> result;
+  inline bool check(const string &s) {
     int cnt = 0;
-
-    for (int i = 0; i < str.size(); i++) {
-      if (str[i] == '(') {
-        cnt++;
-      } else if (str[i] == ')') {
-        cnt--;
-        if (cnt < 0) {
+    for (const auto &c : s) {
+      if (c == '(') {
+        ++cnt;
+      } else if (c == ')') {
+        if (--cnt < 0) {
           return false;
         }
       }
     }
-
     return cnt == 0;
+  }
+  void dfs(string s, int start, int lremove, int rremove) {
+    if (lremove == 0 && rremove == 0) {
+      if (check(s)) {
+        result.emplace_back(s);
+      }
+      return;
+    }
+
+    for (int i = start; i < s.size(); ++i) {
+      if (i != start && s[i] == s[i - 1]) {
+        continue;
+      }
+      if (lremove + rremove > s.size() - i) {
+        return;
+      }
+      if (lremove > 0 && s[i] == '(') {
+        dfs(s.substr(0, i) + s.substr(i + 1), i, lremove - 1, rremove);
+      }
+      if (rremove > 0 && s[i] == ')') {
+        dfs(s.substr(0, i) + s.substr(i + 1), i, lremove, rremove - 1);
+      }
+    }
+  }
+
+ public:
+  vector<string> removeInvalidParentheses(string s) {
+    int left = 0;
+    int right = 0;
+
+    for (const auto &c : s) {
+      if (c == '(') {
+        ++left;
+      } else if (c == ')') {
+        if (left == 0) {
+          ++right;
+        } else {
+          --left;
+        }
+      }
+    }
+
+    dfs(s, 0, left, right);
+
+    return result;
   }
 };

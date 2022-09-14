@@ -96,46 +96,53 @@ int movingCount(int m, int n, int k) {
 
 class Solution {
   vector<vector<bool>> used;
+  int rows;
+  int cols;
+  int sum;
   int count;
+  bool check(int x, int y) {
+    int tmp = 0;
+    while (x) {
+      tmp += x % 10;
+      x /= 10;
+    }
+    while (y) {
+      tmp += y % 10;
+      y /= 10;
+    }
 
- public:
-  bool check(int i, int j, int k) {
-    int sum = 0;
-    while (i) {
-      sum += i % 10;
-      i /= 10;
-    }
-    while (j) {
-      sum += j % 10;
-      j /= 10;
-    }
-    return sum <= k;
+    return tmp <= sum;
   }
-  void dfs(int i, int j, int m, int n, int k) {
-    if (i >= m || j >= n || used[i][j] == true) {
-      return;
-    }
-    if (!check(i, j, k)) {
+  void dfs(int x, int y) {
+    if (used[x][y]) {
       return;
     }
 
-    static const int dir[4][2] = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
+    if (!check(x, y)) {
+      return;
+    }
     ++count;
-    used[i][j] = true;
-    for (int c = 0; c < 4; ++c) {
-      int newi = i + dir[c][0];
-      int newj = j + dir[c][1];
-      if (0 <= newi && newi < m && 0 <= newj && newj < n) {
-        dfs(newi, newj, m, n, k);
+
+    int dir[4][2] = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
+    used[x][y] = true;
+    for (int i = 0; i < 4; ++i) {
+      int newx = x + dir[i][0];
+      int newy = y + dir[i][1];
+      if (0 <= newx && newx < rows && 0 <= newy && newy < cols) {
+        dfs(newx, newy);
       }
     }
   }
+
+ public:
   int movingCount(int m, int n, int k) {
     used.assign(m, vector<bool>(n, false));
-
+    rows = m;
+    cols = n;
+    sum = k;
     count = 0;
-    dfs(0, 0, m, n, k);
 
+    dfs(0, 0);
     return count;
   }
 };

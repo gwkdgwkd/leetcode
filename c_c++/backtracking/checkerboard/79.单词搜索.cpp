@@ -2,21 +2,27 @@
 给定一个mxn二维字符网格board和一个字符串单词word。
 如果word存在于网格中，返回true；否则，返回false。
 单词必须按照字母顺序，通过相邻的单元格内的字母构成，
-其中“相邻”单元格是那些水平相邻或垂直相邻的单元格。
+其中相邻单元格是那些水平相邻或垂直相邻的单元格。
 同一个单元格内的字母不允许被重复使用。
 
 示例1：
-输入：board = [["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]],
+输入：board = [["A","B","C","E"],
+              ["S","F","C","S"],
+              ["A","D","E","E"]],
      word = "ABCCED"
 输出：true
 
 示例2：
-输入：board = [["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]],
+输入：board = [["A","B","C","E"],
+              ["S","F","C","S"],
+              ["A","D","E","E"]],
      word = "SEE"
 输出：true
 
 示例3：
-输入：board = [["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]],
+输入：board = [["A","B","C","E"],
+              ["S","F","C","S"],
+              ["A","D","E","E"]],
      word = "ABCB"
 输出：false
 
@@ -27,7 +33,8 @@ n = board[i].length
 1 <= word.length <= 15
 board和word仅由大小写英文字母组成
 
-进阶：你可以使用搜索剪枝的技术来优化解决方案，使其在board更大的情况下可以更快解决问题？
+进阶：你可以使用搜索剪枝的技术来优化解决方案，
+使其在board更大的情况下可以更快解决问题？
 */
 
 // 剑指Offer12矩阵中的路径
@@ -78,40 +85,47 @@ bool exist(char** board, int boardSize, int* boardColSize, char* word) {
 }
 
 class Solution {
- public:
-  bool check(vector<vector<char>>& board, int row, int col, string& s,
-             int index, vector<vector<int>>& used) {
-    if (board[row][col] != s[index]) {
+  vector<vector<bool>> used;
+  int m;
+  int n;
+
+  bool check(vector<vector<char>>& board, string& word, int row, int col,
+             int index) {
+    if (board[row][col] != word[index]) {
       return false;
-    } else if (index == s.size() - 1) {
+    }
+
+    if (index == word.size() - 1) {
       return true;
     }
 
     bool ret = false;
     int directions[4][2] = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
-    used[row][col] = 1;
-    for (int k = 0; k < 4; ++k) {
-      int newi = row + directions[k][0];
-      int newj = col + directions[k][1];
-      if (0 <= newi && newi < board.size() && 0 <= newj &&
-          newj < board[newi].size()) {
-        if (used[newi][newj] == 0 &&
-            check(board, newi, newj, s, index + 1, used)) {
+    used[row][col] = true;
+    for (int i = 0; i < 4; ++i) {
+      int newi = row + directions[i][0];
+      int newj = col + directions[i][1];
+      if (0 <= newi && newi < m && 0 <= newj && newj < n) {
+        if (used[newi][newj] == false &&
+            check(board, word, newi, newj, index + 1)) {
           ret = true;
           break;
         }
       }
     }
-    used[row][col] = 0;
-
+    used[row][col] = false;
     return ret;
   }
-  bool exist(vector<vector<char>>& board, string word) {
-    vector<vector<int>> used(board.size(), vector<int>(board[0].size(), 0));
 
-    for (int i = 0; i < board.size(); ++i) {
-      for (int j = 0; j < board[i].size(); ++j) {
-        if (check(board, i, j, word, 0, used)) {
+ public:
+  bool exist(vector<vector<char>>& board, string word) {
+    m = board.size();
+    n = board[0].size();
+    used.assign(m, vector<bool>(n, false));
+
+    for (int i = 0; i < m; ++i) {
+      for (int j = 0; j < n; ++j) {
+        if (check(board, word, i, j, 0)) {
           return true;
         }
       }

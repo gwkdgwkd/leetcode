@@ -1,11 +1,14 @@
 /*
-n皇后问题研究的是如何将n个皇后放置在n×n的棋盘上，并且使皇后彼此之间不能相互攻击。
+n皇后问题研究的是如何将n个皇后放置在n×n的棋盘上，
+并且使皇后彼此之间不能相互攻击。
 给你一个整数n，返回所有不同的n皇后问题的解决方案。
-每一种解法包含一个不同的n皇后问题的棋子放置方案，该方案中'Q'和'.'分别代表了皇后和空位。
+每一种解法包含一个不同的n皇后问题的棋子放置方案，
+该方案中'Q'和'.'分别代表了皇后和空位。
 
 示例1：
 输入：n = 4
-输出：[[".Q..","...Q","Q...","..Q."],["..Q.","Q...","...Q",".Q.."]]
+输出：[[".Q..","...Q","Q...","..Q."],
+      ["..Q.","Q...","...Q",".Q.."]]
 解释：4皇后问题存在两个不同的解法。
 
 示例2：
@@ -24,7 +27,8 @@ char **path;
 int pathSize;
 int isValid(int n, int row, int col) {
   // 为什么没有在同⾏进⾏检查呢？
-  // 因为在单层搜索的过程中，每⼀层递归，只会选for循环（也就是同⼀⾏）⾥的⼀个元素，所以不⽤去重了。
+  // 因为在单层搜索的过程中，每⼀层递归，
+  // 只会选for循环（也就是同⼀⾏）⾥的⼀个元素，所以不⽤去重了。
 
   // 检查列
   for (int i = 0; i < row; i++) {  // 这是⼀个剪枝
@@ -94,12 +98,12 @@ char ***solveNQueens(int n, int *returnSize, int **returnColumnSizes) {
 }
 
 class Solution {
-  vector<vector<string>> res;
+  vector<vector<string>> result;
   vector<string> path;
-  int pathIndex;
+  int pathIndex = 0;
 
  public:
-  bool isValid(int n, int row, int col) {
+  bool check(int n, int row, int col) {
     for (int i = 0; i < row; ++i) {
       if (path[i][col] == 'Q') {
         return false;
@@ -115,15 +119,17 @@ class Solution {
         return false;
       }
     }
+
     return true;
   }
   void backtracking(int n, int start) {
     if (start == n) {
-      res.emplace_back(path);
+      result.emplace_back(path);
+      return;  // 没有这句也正确，下面的check会失败
     }
 
     for (int j = 0; j < n; ++j) {
-      if (isValid(n, start, j)) {
+      if (check(n, start, j)) {
         path[pathIndex++][j] = 'Q';
         backtracking(n, start + 1);
         path[--pathIndex][j] = '.';
@@ -133,6 +139,6 @@ class Solution {
   vector<vector<string>> solveNQueens(int n) {
     path.assign(n, string(n, '.'));
     backtracking(n, 0);
-    return res;
+    return result;
   }
 };
