@@ -1,7 +1,9 @@
 /*
 栈排序。编写程序，对栈进行排序使最小元素位于栈顶。
-最多只能使用一个其他的临时栈存放数据，但不得将元素复制到别的数据结构（如数组）中。
-该栈支持如下操作：push、pop、peek和isEmpty。当栈为空时，peek 返回-1。
+最多只能使用一个其他的临时栈存放数据，
+但不得将元素复制到别的数据结构（如数组）中。
+该栈支持如下操作：push、pop、peek和isEmpty。
+当栈为空时，peek返回-1。
 
 示例1:
 输入：
@@ -11,7 +13,7 @@
 [null,null,null,1,null,2]
 
 示例2:
-输入： 
+输入：
 ["SortedStack", "pop", "pop", "push", "pop", "isEmpty"]
 [[], [], [], [1], [], []]
 输出：
@@ -80,3 +82,44 @@ bool sortedStackIsEmpty(SortedStack* obj) {
   return false;
 }
 void sortedStackFree(SortedStack* obj) { free(obj); }
+
+// 作弊方法：
+class SortedStack {
+  priority_queue<int, vector<int>, greater<int>> q;
+
+ public:
+  SortedStack() {}
+  void push(int val) { q.push(val); }
+  void pop() {
+    if (!q.empty()) {
+      q.pop();
+    }
+  }
+  int peek() { return q.empty() ? -1 : q.top(); }
+  bool isEmpty() { return q.empty(); }
+};
+
+class SortedStack {
+ public:
+  stack<int> s1, s2;
+  SortedStack() {}
+  void push(int val) {
+    while (!s1.empty() && s1.top() < val) {
+      s2.push(s1.top());
+      s1.pop();
+    }
+    s1.push(val);
+    while (!s2.empty()) {
+      s1.push(s2.top());
+      s2.pop();
+    }
+  }
+  void pop() {
+    if (!s1.empty()) s1.pop();
+  }
+  int peek() {
+    if (!s1.empty()) return s1.top();
+    return -1;
+  }
+  bool isEmpty() { return s1.empty(); }
+};

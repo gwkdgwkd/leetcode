@@ -1,5 +1,6 @@
 /*
-中位数是有序列表中间的数。如果列表长度是偶数，中位数则是中间两个数的平均值。
+中位数是有序列表中间的数。
+如果列表长度是偶数，中位数则是中间两个数的平均值。
 例如，
 [2,3,4]的中位数是3
 [2,3]的中位数是(2 + 3) / 2 = 2.5
@@ -238,32 +239,31 @@ double medianFinderFindMedian(MedianFinder* obj) {
 void medianFinderFree(MedianFinder* obj) { free(obj); }
 
 class MedianFinder {
+  priority_queue<int> bigTop;  // 默认，大顶堆
+  // priority_queue<int,vector<int>,less<int>> bigTop; // 也可以
+  priority_queue<int, vector<int>, greater<int>> smallTop;  // 小顶堆
+
  public:
-  priority_queue<int, vector<int>, less<int>> queMin;
-  priority_queue<int, vector<int>, greater<int>> queMax;
-
   MedianFinder() {}
-
   void addNum(int num) {
-    if (queMin.empty() || num <= queMin.top()) {
-      queMin.push(num);
-      if (queMax.size() + 1 < queMin.size()) {
-        queMax.push(queMin.top());
-        queMin.pop();
+    if (bigTop.empty() || num <= bigTop.top()) {
+      bigTop.push(num);
+      if (bigTop.size() - smallTop.size() > 1) {
+        smallTop.push(bigTop.top());
+        bigTop.pop();
       }
     } else {
-      queMax.push(num);
-      if (queMax.size() > queMin.size()) {
-        queMin.push(queMax.top());
-        queMax.pop();
+      smallTop.push(num);
+      if (smallTop.size() > bigTop.size()) {
+        bigTop.push(smallTop.top());
+        smallTop.pop();
       }
     }
   }
-
   double findMedian() {
-    if (queMin.size() > queMax.size()) {
-      return queMin.top();
+    if (bigTop.size() > smallTop.size()) {
+      return bigTop.top();
     }
-    return (queMin.top() + queMax.top()) / 2.0;
+    return (bigTop.top() + smallTop.top()) / 2.0;
   }
 };

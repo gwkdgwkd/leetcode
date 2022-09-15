@@ -1,5 +1,6 @@
 /*
-请你仅使用两个队列实现一个后入先出（LIFO）的栈，并支持普通栈的全部四种操作（push、top、pop和empty）。
+请你仅使用两个队列实现一个后入先出（LIFO）的栈，
+并支持普通栈的全部四种操作（push、top、pop和empty）。
 实现MyStack类：
 void push(int x)将元素x压入栈顶。
 int pop()移除并返回栈顶元素。
@@ -7,9 +8,11 @@ int top()返回栈顶元素。
 boolean empty()如果栈是空的，返回true；否则，返回false。
 
 注意：
-你只能使用队列的基本操作——也就是pushtoback、peek/popfromfront、size和isempty这些操作。
+你只能使用队列的基本操作——也就是pushtoback、
+peek/popfromfront、size和isempty这些操作。
 你所使用的语言也许不支持队列，
-你可以使用list（列表）或者deque（双端队列）来模拟一个队列，只要是标准的队列操作即可。
+你可以使用list（列表）或者deque（双端队列）来模拟一个队列，
+只要是标准的队列操作即可。
 
 示例：
 输入：
@@ -159,52 +162,46 @@ void myStackFree(MyStack *obj) {
 }
 
 class MyStack {
+  queue<int> stack;
+  queue<int> tmp;
+
  public:
-  queue<int> q1;
-  queue<int> q2;
   MyStack() {}
-
   void push(int x) {
-    q2.push(x);
-    while (!q1.empty()) {
-      q2.push(q1.front());
-      q1.pop();
+    tmp.push(x);
+    while (!stack.empty()) {
+      tmp.push(stack.front());
+      stack.pop();
     }
-    swap(q1, q2);
+    swap(stack, tmp);
   }
-
   int pop() {
-    int t = q1.front();
-    q1.pop();
+    int t = stack.front();
+    stack.pop();
     return t;
   }
-
-  int top() { return q1.front(); }
-
-  bool empty() { return q1.empty(); }
+  int top() { return stack.front(); }
+  bool empty() { return stack.empty(); }
 };
 
 class MyStack {
- public:
-  queue<int> q;
-  MyStack() {}
+  queue<int> stack;
 
+ public:
+  MyStack() {}
   void push(int x) {
-    int n = q.size();
-    q.push(x);
+    int n = stack.size();
+    stack.push(x);
     for (int i = 0; i < n; ++i) {
-      q.push(q.front());
-      q.pop();
+      stack.push(stack.front());
+      stack.pop();
     }
   }
-
   int pop() {
-    int t = q.front();
-    q.pop();
+    int t = stack.front();
+    stack.pop();
     return t;
   }
-
-  int top() { return q.front(); }
-
-  bool empty() { return q.empty(); }
+  int top() { return stack.front(); }
+  bool empty() { return stack.empty(); }
 };

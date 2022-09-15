@@ -1,11 +1,15 @@
 /*
 给你一个嵌套的整数列表nestedList。
-每个元素要么是一个整数，要么是一个列表；该列表的元素也可能是整数或者是其他列表。
+每个元素要么是一个整数，要么是一个列表；
+该列表的元素也可能是整数或者是其他列表。
 请你实现一个迭代器将其扁平化，使之能够遍历这个列表中的所有整数。
 实现扁平迭代器类NestedIterator：
-NestedIterator(List<NestedInteger> nestedList)用嵌套列表nestedList初始化迭代器。
-int next()返回嵌套列表的下一个整数。
-boolean hasNext()如果仍然存在待迭代的整数，返回true；否则，返回false。
+NestedIterator(List<NestedInteger> nestedList)
+用嵌套列表nestedList初始化迭代器。
+int next()
+返回嵌套列表的下一个整数。
+boolean hasNext()
+如果仍然存在待迭代的整数，返回true；否则，返回false。
 你的代码将会用下述伪代码检测：
 initialize iterator with nestedList
 res = []
@@ -17,12 +21,14 @@ return res
 示例1：
 输入：nestedList = [[1,1],2,[1,1]]
 输出：[1,1,2,1,1]
-解释：通过重复调用next直到hasNext返回false，next返回的元素的顺序应该是:[1,1,2,1,1]。
+解释：通过重复调用next直到hasNext返回false，
+     next返回的元素的顺序应该是:[1,1,2,1,1]。
 
 示例2：
 输入：nestedList = [1,[4,[6]]]
 输出：[1,4,6]
-解释：通过重复调用next直到hasNext返回false，next返回的元素的顺序应该是:[1,4,6]。
+解释：通过重复调用next直到hasNext返回false，
+     next返回的元素的顺序应该是:[1,4,6]。
 
 提示：
 1 <= nestedList.length <= 500
@@ -65,11 +71,18 @@ void nestedIterFree(struct NestedIterator *iter) {
   free(iter);
 }
 
+/*
+class NestedInteger {
+ public:
+  bool isInteger() const;
+  int getInteger() const;
+  const vector<NestedInteger> &getList() const;
+};
+*/
 class NestedIterator {
  private:
   vector<int> vals;
   vector<int>::iterator cur;
-
   void dfs(const vector<NestedInteger> &nestedList) {
     for (auto &nest : nestedList) {
       if (nest.isInteger()) {
@@ -85,8 +98,6 @@ class NestedIterator {
     dfs(nestedList);
     cur = vals.begin();
   }
-
   int next() { return *cur++; }
-
   bool hasNext() { return cur != vals.end(); }
 };

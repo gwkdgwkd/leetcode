@@ -1,5 +1,6 @@
 /*
-假设你正在读取一串整数。每隔一段时间，你希望能找出数字x的秩(小于或等于x的值的个数)。
+假设你正在读取一串整数。每隔一段时间，
+你希望能找出数字x的秩(小于或等于x的值的个数)。
 请实现数据结构和算法来支持这些操作，也就是说：
 实现track(int x)方法，每读入一个数字都会调用该方法；
 实现getRankOfNumber(int x)方法，返回小于或等于x的值的个数。
@@ -34,3 +35,23 @@ int streamRankGetRankOfNumber(StreamRank* obj, int x) {
   return sum;
 }
 void streamRankFree(StreamRank* obj) { free(obj); }
+
+// 树状数组
+class StreamRank {
+ public:
+  vector<int> nums;
+  StreamRank() { nums.assign(50002, 0); }
+  void track(int x) {
+    ++x;
+    for (int i = x; i <= 50001; i += i & (-i)) {
+      ++nums[i];
+    }
+  }
+  int getRankOfNumber(int x) {
+    int res = 0;
+    for (int i = x + 1; i; i -= i & (-i)) {
+      res += nums[i];
+    }
+    return res;
+  }
+};

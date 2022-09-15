@@ -1,12 +1,13 @@
 /*
 堆盘子。设想有一堆盘子，堆太高可能会倒下来。
-因此，在现实生活中，盘子堆到一定高度时，我们就会另外堆一堆盘子。
+因此，在现实生活中，盘子堆到一定高度时，就会另外堆一堆盘子。
 请实现数据结构SetOfStacks，模拟这种行为。
 SetOfStacks应该由多个栈组成，并且在前一个栈填满时新建一个栈。
-此外，SetOfStacks.push()和SetOfStacks.pop()应该与普通栈的操作方法相同，
+此外，push()和pop()应该与普通栈的操作方法相同，
 也就是说，pop()返回的值，应该跟只有一个栈时的情况一样。
 进阶：实现一个popAt(int index)方法，根据指定的子栈，执行pop操作。
-当某个栈为空时，应当删除该栈。当栈中没有元素或不存在该栈时，pop，popAt应返回-1。
+当某个栈为空时，应当删除该栈。
+当栈中没有元素或不存在该栈时，pop，popAt应返回-1。
 
 示例1:
 输入：
@@ -83,3 +84,43 @@ void stackOfPlatesFree(StackOfPlates* obj) {
   }
   free(obj);
 }
+
+class StackOfPlates {
+ public:
+  StackOfPlates(int cap) { capacity = cap; }
+  void push(int val) {
+    if (capacity == 0) {
+      return;
+    }
+    if (stks.empty() || stks.back().size() == capacity) {
+      stks.emplace_back(stack<int>());
+    }
+    stks.back().push(val);
+  }
+  int pop() {
+    if (capacity == 0 || stks.empty()) {
+      return -1;
+    }
+    int res = stks.back().top();
+    stks.back().pop();
+    if (stks.back().empty()) {
+      stks.pop_back();
+    }
+    return res;
+  }
+  int popAt(int index) {
+    if (capacity == 0 || index >= stks.size() || stks[index].empty()) {
+      return -1;
+    }
+    int res = stks[index].top();
+    stks[index].pop();
+    if (stks[index].empty()) {
+      stks.erase(stks.begin() + index);
+    }
+    return res;
+  }
+
+ private:
+  vector<stack<int>> stks;
+  int capacity;
+};

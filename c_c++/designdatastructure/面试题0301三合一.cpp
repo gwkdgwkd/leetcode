@@ -67,3 +67,35 @@ void tripleInOneFree(TripleInOne* obj) {
   free(obj->data);
   free(obj);
 }
+
+class TripleInOne {
+ public:
+  vector<int> arr;
+  vector<int> ptrs;
+  int stackSize;
+  TripleInOne(int stackSize) {
+    this->stackSize = stackSize;
+    arr.resize(3 * stackSize);
+
+    ptrs.resize(3);
+    ptrs[0] = 0;
+    ptrs[1] = stackSize;
+    ptrs[2] = stackSize * 2;
+  }
+  void push(int stackNum, int value) {
+    if (ptrs[stackNum] < (stackNum + 1) * stackSize) {
+      arr[ptrs[stackNum]] = value;
+      ptrs[stackNum]++;
+    }
+  }
+  int pop(int stackNum) {
+    if (isEmpty(stackNum)) return -1;
+    ptrs[stackNum]--;
+    return arr[ptrs[stackNum]];
+  }
+  int peek(int stackNum) {
+    if (isEmpty(stackNum)) return -1;
+    return arr[ptrs[stackNum] - 1];
+  }
+  bool isEmpty(int stackNum) { return ptrs[stackNum] == stackSize * stackNum; }
+};

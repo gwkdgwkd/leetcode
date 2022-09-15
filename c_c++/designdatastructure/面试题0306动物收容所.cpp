@@ -1,16 +1,21 @@
 /*
-动物收容所。有家动物收容所只收容狗与猫，且严格遵守“先进先出”的原则。
-在收养该收容所的动物时，收养人只能收养所有动物中“最老”（由其进入收容所的时间长短而定）的动物，
-或者可以挑选猫或狗（同时必须收养此类动物中“最老”的）。
+动物收容所。有家动物收容所只收容狗与猫，且严格遵守先进先出的原则。
+在收养该收容所的动物时，收养人只能收养所有动物中最老的动物，
+由其进入收容所的时间长短而定，
+或者可以挑选猫或狗，同时必须收养此类动物中最老的。
 换言之，收养人不能自由挑选想收养的对象。
-请创建适用于这个系统的数据结构，实现各种操作方法，比如enqueue、dequeueAny、dequeueDog和dequeueCat。
+请创建适用于这个系统的数据结构，实现各种操作方法，
+比如enqueue、dequeueAny、dequeueDog和dequeueCat。
 允许使用Java内置的LinkedList数据结构。
-enqueue方法有一个animal参数，animal[0]代表动物编号，animal[1]代表动物种类，其中0代表猫，1代表狗。
-dequeue*方法返回一个列表[动物编号,动物种类]，若没有可以收养的动物，则返回[-1,-1]。
+enqueue方法有一个animal参数，animal[0]代表动物编号，
+animal[1]代表动物种类，其中0代表猫，1代表狗。
+dequeue*方法返回一个列表[动物编号,动物种类]，
+若没有可以收养的动物，则返回[-1,-1]。
 
 示例1:
 输入：
-["AnimalShelf", "enqueue", "enqueue", "dequeueCat", "dequeueDog", "dequeueAny"]
+["AnimalShelf", "enqueue", "enqueue",
+ "dequeueCat", "dequeueDog", "dequeueAny"]
 [[], [[0, 0]], [[1, 0]], [], [], []]
 输出：
 [null,null,null,[0,0],[-1,-1],[1,0]]
@@ -104,3 +109,43 @@ void animalShelfFree(AnimalShelf* obj) {
   obj = NULL;
   return;
 }
+
+class AnimalShelf {
+  queue<pair<int, int>> queCat;
+  queue<pair<int, int>> queDog;
+  int cout = 0;
+
+ public:
+  AnimalShelf() {}
+  void enqueue(vector<int> animal) {
+    if (animal[1])
+      queDog.push({cout, animal[0]});
+    else
+      queCat.push({cout, animal[0]});
+    cout++;
+  }
+  vector<int> dequeueAny() {
+    if (queDog.empty() && queCat.empty())
+      return {-1, -1};
+    else if (queCat.empty() && queDog.size())
+      return dequeueDog();
+    else if (queDog.empty() && queCat.size())
+      return dequeueCat();
+    else if (queDog.front() < queCat.front())
+      return dequeueDog();
+    else
+      return dequeueCat();
+  }
+  vector<int> dequeueDog() {
+    if (queDog.empty()) return {-1, -1};
+    int temp = queDog.front().first;
+    queDog.pop();
+    return {temp, 1};
+  }
+  vector<int> dequeueCat() {
+    if (queCat.empty()) return {-1, -1};
+    int temp = queCat.front().first;
+    queCat.pop();
+    return {temp, 0};
+  }
+};

@@ -69,3 +69,25 @@ void minStackFree(MinStack* obj) {
   free(obj);
   obj = NULL;
 }
+
+class MinStack {
+  stack<int> stack_;
+  stack<int> min_;
+
+ public:
+  MinStack() {}
+  void push(int val) {
+    stack_.push(val);
+    if (min_.size()) {
+      min_.push(min(val, min_.top()));
+    } else {
+      min_.push(val);
+    }
+  }
+  void pop() {
+    stack_.pop();
+    min_.pop();
+  }
+  int top() { return stack_.top(); }
+  int getMin() { return min_.top(); }
+};

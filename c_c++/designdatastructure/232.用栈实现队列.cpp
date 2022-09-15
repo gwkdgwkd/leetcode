@@ -1,5 +1,6 @@
 /*
-请你仅使用两个栈实现先入先出队列。队列应当支持一般队列支持的所有操作（push、pop、peek、empty）：
+请你仅使用两个栈实现先入先出队列。
+队列应当支持一般队列支持的所有操作（push、pop、peek、empty）：
 实现MyQueue类：
 void push(int x)将元素x推到队列的末尾
 int pop()从队列的开头移除并返回元素
@@ -7,8 +8,10 @@ int peek()返回队列开头的元素
 boolean empty()如果队列为空，返回true；否则，返回false
 
 说明：
-你只能使用标准的栈操作——也就是只有pushtotop,peek/popfromtop,size和isempty操作是合法的。
-你所使用的语言也许不支持栈。你可以使用list或者deque（双端队列）来模拟一个栈，只要是标准的栈操作即可。
+你只能使用标准的栈操作，也就是只有pushtotop、
+peek/popfromtop、size和isempty操作是合法的。
+你所使用的语言也许不支持栈。
+你可以使用list或deque（双端队列）来模拟栈，只要是标准的栈操作即可。
 
 示例1：
 输入：
@@ -20,7 +23,7 @@ boolean empty()如果队列为空，返回true；否则，返回false
 解释：
 MyQueue myQueue = new MyQueue();
 myQueue.push(1); // queue is: [1]
-myQueue.push(2); // queue is: [1, 2] (leftmost is front of the queue)
+myQueue.push(2); // queue is: [1, 2]
 myQueue.peek(); // return 1
 myQueue.pop(); // return 1, queue is [2]
 myQueue.empty(); // return false
@@ -32,7 +35,8 @@ myQueue.empty(); // return false
 
 进阶：
 你能否实现每个操作均摊时间复杂度为O(1)的队列？
-换句话说，执行n个操作的总时间复杂度为O(n)，即使其中一个操作可能花费较长时间。
+换句话说，执行n个操作的总时间复杂度为O(n)，
+即使其中一个操作可能花费较长时间。
 */
 
 // 面试题0304化栈为队
@@ -95,46 +99,42 @@ void myQueueFree(MyQueue* obj) {
 }
 
 class MyQueue {
- private:
-  stack<int> inStack, outStack;
-
-  void in2out() {
-    while (!inStack.empty()) {
-      outStack.push(inStack.top());
-      inStack.pop();
+  stack<int> in;
+  stack<int> out;
+  void inToOut() {
+    while (!in.empty()) {
+      out.push(in.top());
+      in.pop();
     }
   }
 
  public:
   MyQueue() {}
-
-  void push(int x) { inStack.push(x); }
-
+  void push(int x) { in.push(x); }
   int pop() {
-    if (outStack.empty()) {
-      in2out();
+    if (out.empty()) {
+      inToOut();
     }
-    int x = outStack.top();
-    outStack.pop();
-    return x;
-  }
 
+    int t = out.top();
+    out.pop();
+    return t;
+  }
   int peek() {
-    if (outStack.empty()) {
-      in2out();
+    if (out.empty()) {
+      inToOut();
     }
-    return outStack.top();
+    return out.top();
   }
-
-  bool empty() { return inStack.empty() && outStack.empty(); }
+  bool empty() { return out.empty() && in.empty(); }
 };
-
 /*
 剑指Offer09用两个栈实现队列
 
-用两个栈实现一个队列。队列的声明如下，请实现它的两个函数appendTail和deleteHead，
+用两个栈实现一个队列。队列的声明如下，
+请实现它的两个函数appendTail和deleteHead，
 分别完成在队列尾部插入整数和在队列头部删除整数的功能。
-若队列中没有元素，deleteHead操作返回-1
+若队列中没有元素，deleteHead操作返回-1。
 
 示例1：
 输入：

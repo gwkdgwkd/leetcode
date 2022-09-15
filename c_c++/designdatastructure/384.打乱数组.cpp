@@ -2,9 +2,12 @@
 给你一个整数数组nums，设计算法来打乱一个没有重复元素的数组。
 打乱后，数组的所有排列应该是等可能的。
 实现Solution class:
-Solution(int[] nums) 使用整数数组nums初始化对象
-int[] reset() 重设数组到它的初始状态并返回
-int[] shuffle() 返回数组随机打乱后的结果
+Solution(int[] nums)
+使用整数数组nums初始化对象
+int[] reset()
+重设数组到它的初始状态并返回
+int[] shuffle()
+返回数组随机打乱后的结果
 
 示例1：
 输入
@@ -26,7 +29,7 @@ solution.shuffle();
 1 <= nums.length <= 200
 -10^6 <= nums[i] <= 10^6
 nums中的所有元素都是唯一的
-最多可以调用5 * 10^4次reset和shuffle
+最多可以调用5*10^4次reset和shuffle
 */
 
 typedef struct {
@@ -65,8 +68,8 @@ int* solutionReset(Solution* obj, int* retSize) {
 int* solutionShuffle(Solution* obj, int* retSize) {
   *retSize = obj->size;
   int swapIndex;
-  // 用srand(time(NULL))的话不能得到全排列的“均匀”随机数，所以不用
-  // srand(time(NULL));
+  // 用srand(time(NULL))的话不能得到全排列的均匀随机数，
+  // 所以不用srand(time(NULL));
   for (int i = 0; i < *retSize; i++) {
     swapIndex = randomInt(i, *retSize - 1);
     swap(&(obj->array[i]), &(obj->array[swapIndex]));
@@ -79,3 +82,28 @@ void solutionFree(Solution* obj) {
   free(obj);
   return;
 }
+
+// Fisher-Yates洗牌算法
+class Solution {
+ public:
+  Solution(vector<int>& nums) {
+    this->nums = nums;
+    this->original.resize(nums.size());
+    copy(nums.begin(), nums.end(), original.begin());
+  }
+  vector<int> reset() {
+    copy(original.begin(), original.end(), nums.begin());
+    return nums;
+  }
+  vector<int> shuffle() {
+    for (int i = 0; i < nums.size(); ++i) {
+      int j = i + rand() % (nums.size() - i);
+      swap(nums[i], nums[j]);
+    }
+    return nums;
+  }
+
+ private:
+  vector<int> nums;
+  vector<int> original;
+};

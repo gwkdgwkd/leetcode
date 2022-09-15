@@ -1,9 +1,12 @@
 /*
 请你设计并实现一个满足LRU(最近最少使用)缓存约束的数据结构。
 实现LRUCache类：
-LRUCache(int capacity)以正整数作为容量capacity初始化LRU缓存
-int get(int key)如果关键字key存在于缓存中，则返回关键字的值，否则返回-1。
-void put(int key, int value)如果关键字key已经存在，则变更其数据值value；
+LRUCache(int capacity)
+以正整数作为容量capacity初始化LRU缓存。
+int get(int key)
+如果关键字key存在于缓存中，则返回关键字的值，否则返回-1。
+void put(int key, int value)
+如果关键字key已经存在，则变更其数据值value；
 如果不存在，则向缓存中插入该组key-value。
 如果插入操作导致关键字数量超过capacity，则应该逐出最久未使用的关键字。
 函数get和put必须以O(1)的平均时间复杂度运行。
@@ -38,23 +41,32 @@ lRUCache.get(4);    // 返回4
 // 面试题1625LRU缓存
 
 // 哈希表 + 双向链表
-// LRU缓存机制可以通过哈希表辅以双向链表实现，我们用一个哈希表和一个双向链表维护所有在缓存中的键值对。
-// 双向链表按照被使用的顺序存储了这些键值对，靠近头部的键值对是最近使用的，而靠近尾部的键值对是最久未使用的。
-// 哈希表即为普通的哈希映射（HashMap），通过缓存数据的键映射到其在双向链表中的位置。
-// 这样以来，我们首先使用哈希表进行定位，找出缓存项在双向链表中的位置，随后将其移动到双向链表的头部，
-// 即可在O(1)的时间内完成get或者put操作。具体的方法如下：
+// LRU缓存机制可以通过哈希表辅以双向链表实现，
+// 用一个哈希表和一个双向链表维护所有在缓存中的键值对。
+// 双向链表按照被使用的顺序存储了这些键值对，
+// 靠近头部的键值对是最近使用的，而靠近尾部的键值对是最久未使用的。
+// 哈希表即为普通的哈希映射（HashMap），
+// 通过缓存数据的键映射到其在双向链表中的位置。
+// 这样以来，我们首先使用哈希表进行定位，找出缓存项在双向链表中的位置，
+// 随后将其移动到双向链表的头部，即可在O(1)的时间内完成get或者put操作。
+// 具体的方法如下：
 // 对于get操作，首先判断key是否存在：
 //  如果key不存在，则返回-1；
 //  如果key存在，则key对应的节点是最近被使用的节点。
-//  通过哈希表定位到该节点在双向链表中的位置，并将其移动到双向链表的头部，最后返回该节点的值。
+//  通过哈希表定位到该节点在双向链表中的位置，
+//  并将其移动到双向链表的头部，最后返回该节点的值。
 // 对于put操作，首先判断key是否存在：
-//  如果key不存在，使用key和value创建一个新的节点，在双向链表的头部添加该节点，
-//  并将key和该节点添加进哈希表中。
-//  然后判断双向链表的节点数是否超出容量，如果超出容量，则删除双向链表的尾部节点，并删除哈希表中对应的项；
-//  如果key存在，则与get操作类似，先通过哈希表定位，再将对应的节点的值更新为value，并将该节点移到双向链表的头部。
+//  如果key不存在，使用key和value创建一个新的节点，
+//  在双向链表的头部添加该节点，并将key和该节点添加进哈希表中。
+//  然后判断双向链表的节点数是否超出容量，如果超出容量，
+//  则删除双向链表的尾部节点，并删除哈希表中对应的项；
+//  如果key存在，则与get操作类似，先通过哈希表定位，
+//  再将对应的节点的值更新为value，并将该节点移到双向链表的头部。
 // 上述各项操作中，访问哈希表的时间复杂度为O(1)，
 // 在双向链表的头部添加节点、在双向链表的尾部删除节点的复杂度也为O(1)。
-// 而将一个节点移到双向链表的头部，可以分成删除该节点和在双向链表的头部添加节点两步操作，都可以在O(1)时间内完成。
+// 而将一个节点移到双向链表的头部，
+// 可以分成删除该节点和在双向链表的头部添加节点两步操作，
+// 都可以在O(1)时间内完成。
 
 // 题目要求O(1)完成查询和插入，需要使用hash链表。
 // 而C语言优秀库uthash底层本身就是用双向链表实现的hash
@@ -116,8 +128,7 @@ struct DLinkedNode {
   int key, value;
   DLinkedNode* prev;
   DLinkedNode* next;
-  DLinkedNode() : key(0), value(0), prev(nullptr), next(nullptr) {}
-  DLinkedNode(int _key, int _value)
+  DLinkedNode(int _key = 0, int _value = 0)
       : key(_key), value(_value), prev(nullptr), next(nullptr) {}
 };
 class LRUCache {
@@ -127,10 +138,33 @@ class LRUCache {
   DLinkedNode* tail;
   int size;
   int capacity;
+  void addToHead(DLinkedNode* node) {
+    node->prev = head;
+    node->next = head->next;
+    head->next->prev = node;
+    // node->next->prev = node;  // 也可以
+    head->next = node;
+  }
+
+  void removeNode(DLinkedNode* node) {
+    node->prev->next = node->next;
+    node->next->prev = node->prev;
+  }
+
+  void moveToHead(DLinkedNode* node) {
+    removeNode(node);
+    addToHead(node);
+  }
+
+  DLinkedNode* removeTail() {
+    DLinkedNode* node = tail->prev;
+    removeNode(node);
+    return node;
+  }
 
  public:
   LRUCache(int _capacity) : capacity(_capacity), size(0) {
-    // 使用伪头部和伪尾部节点
+    // 使用伪头部和伪尾部节点：
     head = new DLinkedNode();
     tail = new DLinkedNode();
     head->next = tail;
@@ -155,8 +189,7 @@ class LRUCache {
       cache[key] = node;
       // 添加至双向链表的头部
       addToHead(node);
-      ++size;
-      if (size > capacity) {
+      if (++size > capacity) {
         // 如果超出容量，删除双向链表的尾部节点
         DLinkedNode* removed = removeTail();
         // 删除哈希表中对应的项
@@ -171,28 +204,5 @@ class LRUCache {
       node->value = value;
       moveToHead(node);
     }
-  }
-
-  void addToHead(DLinkedNode* node) {
-    node->prev = head;
-    node->next = head->next;
-    head->next->prev = node;
-    head->next = node;
-  }
-
-  void removeNode(DLinkedNode* node) {
-    node->prev->next = node->next;
-    node->next->prev = node->prev;
-  }
-
-  void moveToHead(DLinkedNode* node) {
-    removeNode(node);
-    addToHead(node);
-  }
-
-  DLinkedNode* removeTail() {
-    DLinkedNode* node = tail->prev;
-    removeNode(node);
-    return node;
   }
 };

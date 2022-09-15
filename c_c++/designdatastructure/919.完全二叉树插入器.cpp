@@ -2,9 +2,11 @@
 完全二叉树是每一层（除最后一层外）都是完全填充（即，节点数达到最大）的，
 并且所有的节点都尽可能地集中在左侧。
 设计一种算法，将一个新节点插入到一个完整的二叉树中，并在插入后保持其完整。
-实现CBTInserter类:
-CBTInserter(TreeNode root) 使用头节点为root的给定树初始化该数据结构；
-CBTInserter.insert(int v) 向树中插入一个值为Node.val == val的新节点TreeNode。
+实现CBTInserter类：
+CBTInserter(TreeNode root)
+使用头节点为root的给定树初始化该数据结构；
+CBTInserter.insert(int v)
+向树中插入一个值为Node.val == val的新节点TreeNode。
 使树保持完全二叉树的状态，并返回插入节点TreeNode的父节点的值；
 CBTInserter.get_root() 将返回树的头节点。
 
@@ -37,7 +39,8 @@ struct TreeNode {
 };
 
 typedef struct {
-  struct TreeNode *queue[12000];  // 指针数组存节点的指针。根节点从下标1开始。
+  // 指针数组存节点的指针，根节点从下标1开始：
+  struct TreeNode *queue[12000];
   int cnt;
 } CBTInserter;
 void traval(struct TreeNode *root, int idx, CBTInserter *obj) {
@@ -74,3 +77,47 @@ struct TreeNode *cBTInserterGet_root(CBTInserter *obj) {
   return obj->queue[1];
 }
 void cBTInserterFree(CBTInserter *obj) { free(obj); }
+
+class CBTInserter {
+ public:
+  CBTInserter(TreeNode *root) {
+    this->root = root;
+
+    queue<TreeNode *> q;
+    q.push(root);
+
+    while (!q.empty()) {
+      TreeNode *node = q.front();
+      q.pop();
+      if (node->left) {
+        q.push(node->left);
+      }
+      if (node->right) {
+        q.push(node->right);
+      }
+      if (!(node->left && node->right)) {
+        candidate.push(node);
+      }
+    }
+  }
+  int insert(int val) {
+    TreeNode *child = new TreeNode(val);
+    TreeNode *node = candidate.front();
+    int ret = node->val;
+    if (!node->left) {
+      node->left = child;
+    } else {
+      node->right = child;
+      candidate.pop();
+    }
+    candidate.push(child);
+    return ret;
+  }
+
+  TreeNode *get_root() { return root; }
+
+ private:
+  // 按从上到下，从左到右的顺序保存树中可以插入节点的节点：
+  queue<TreeNode *> candidate;
+  TreeNode *root;
+};

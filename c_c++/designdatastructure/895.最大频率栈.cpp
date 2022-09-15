@@ -1,14 +1,19 @@
 /*
-设计一个类似堆栈的数据结构，将元素推入堆栈，并从堆栈中弹出出现频率最高的元素。
+设计一个类似堆栈的数据结构，将元素推入堆栈，
+并从堆栈中弹出出现频率最高的元素。
 实现FreqStack类:
-FreqStack() 构造一个空的堆栈。
-void push(int val) 将一个整数val压入栈顶。
-int pop() 删除并返回堆栈中出现频率最高的元素。
+FreqStack()
+构造一个空的堆栈。
+void push(int val)
+将一个整数val压入栈顶。
+int pop()
+删除并返回堆栈中出现频率最高的元素。
 如果出现频率最高的元素不只一个，则移除并返回最接近栈顶的元素。
 
 示例1：
 输入：
-["FreqStack","push","push","push","push","push","push","pop","pop","pop","pop"],
+["FreqStack","push","push","push","push",
+ "push","push","pop","pop","pop","pop"],
 [[],[5],[7],[5],[7],[4],[5],[],[],[],[]]
 输出：[null,null,null,null,null,null,null,5,7,5,4]
 解释：
@@ -19,10 +24,14 @@ freqStack.push(5); // 堆栈是[5,7,5]
 freqStack.push(7); // 堆栈是[5,7,5,7]
 freqStack.push(4); // 堆栈是[5,7,5,7,4]
 freqStack.push(5); // 堆栈是[5,7,5,7,4,5]
-freqStack.pop(); // 返回5，因为5出现频率最高。堆栈变成[5,7,5,7,4]。
-freqStack.pop();//返回7，因为5和7出现频率最高，但7最接近顶部。堆栈变成[5,7,5,4]。
-freqStack.pop(); // 返回5，因为5出现频率最高。堆栈变成[5,7,4]。
-freqStack.pop();//返回4，因为4,5和7出现频率最高，但4是最接近顶部的。堆栈变成[5,7]。
+freqStack.pop();   // 返回5，因为5出现频率最高。
+堆栈变成[5,7,5,7,4]。
+freqStack.pop();   // 返回7，因为5和7出现频率最高，但7最接近顶部。
+堆栈变成[5,7,5,4]。
+freqStack.pop();   // 返回5，因为5出现频率最高。
+堆栈变成[5,7,4]。
+freqStack.pop();   // 返回4，因为4,5和7出现频率最高，但4是最接近顶部的。
+堆栈变成[5,7]。
 
 提示：
 0 <= val <= 10^9
@@ -69,7 +78,8 @@ void freqStackPush(FreqStack *obj, int x) {
   node->freq = s->cnt;
   Num *curr = obj->head.next;
   Num *pre = &obj->head;
-  // 在链表中做插入排序，排序关键字就是出现次数freq，找到第1个不大于当前x的，插入此位置
+  // 在链表中做插入排序，排序关键字就是出现次数freq，
+  // 找到第1个不大于当前x的，插入此位置
   while (curr != NULL) {
     if (node->freq < curr->freq) {
       pre = curr;
@@ -141,7 +151,6 @@ FreqStack *freqStackCreate() {
   return init;
 }
 void freqStackPush(FreqStack *obj, int val) {
-  // printf("VAL = %d\n",val);
   FreqStack *temp;
   HASH_FIND_INT(obj, &val, temp);
   if (temp == NULL) {
@@ -157,8 +166,6 @@ void freqStackPush(FreqStack *obj, int val) {
   return;
 }
 int freqStackPop(FreqStack *obj) {
-  // printf("maxfreq = %d\n",maxfreq);
-  // printf("mapcolsize[maxfreq] = %d\n",mapcolsize[maxfreq]);
   int ans = freqmap[maxfreq][mapcolsize[maxfreq] - 1];
   mapcolsize[maxfreq]--;
   while (mapcolsize[maxfreq] == 0) {
@@ -173,7 +180,10 @@ void freqStackFree(FreqStack *obj) { HASH_CLEAR(hh, obj); }
 
 class FreqStack {
  public:
-  priority_queue<tuple<int, int, int>> pq;  // frequency, timestamp, value
+  // frequency, timestamp, value
+  // 如果frequency，则timestamp大的优先级高
+  priority_queue<tuple<int, int, int>> pq;
+  // <val,freq>
   unordered_map<int, int> val2freq;
   int ts;
   FreqStack() : ts(0) {}

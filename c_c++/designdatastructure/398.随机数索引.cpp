@@ -1,5 +1,6 @@
 /*
-给定一个可能含有重复元素的整数数组，要求随机输出给定的数字的索引。您可以假设给定的数字一定存在于数组中。
+给定一个可能含有重复元素的整数数组，要求随机输出给定的数字的索引。
+您可以假设给定的数字一定存在于数组中。
 
 注意：
 数组大小可能非常大。使用太多额外空间的解决方案将不会通过测试。
@@ -39,3 +40,40 @@ void solutionFree(Solution* obj) {
   obj->nums = NULL;
   free(obj);
 }
+
+// 哈希表
+class Solution {
+  unordered_map<int, vector<int>> pos;
+
+ public:
+  Solution(vector<int>& nums) {
+    for (int i = 0; i < nums.size(); ++i) {
+      pos[nums[i]].push_back(i);
+    }
+  }
+  int pick(int target) {
+    auto& indices = pos[target];
+    return indices[rand() % indices.size()];
+  }
+};
+
+// 水塘抽样，超时
+class Solution {
+  vector<int>& nums;
+
+ public:
+  Solution(vector<int>& nums) : nums(nums) {}
+
+  int pick(int target) {
+    int ans;
+    for (int i = 0, cnt = 0; i < nums.size(); ++i) {
+      if (nums[i] == target) {
+        ++cnt;  // 第cnt次遇到target
+        if (rand() % cnt == 0) {
+          ans = i;
+        }
+      }
+    }
+    return ans;
+  }
+};
