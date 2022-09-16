@@ -1,5 +1,6 @@
 /*
-给你一个整数数组coins，表示不同面额的硬币；以及一个整数amount，表示总金额。
+给你一个整数数组coins，表示不同面额的硬币；
+以及一个整数amount，表示总金额。
 计算并返回可以凑成总金额所需的最少的硬币个数。
 如果没有任何一种硬币组合能组成总金额，返回-1。
 你可以认为每种硬币的数量是无限的。
@@ -179,16 +180,24 @@ class Solution {
 class Solution {
  public:
   int coinChange(vector<int> &coins, int amount) {
-    int m = coins.size();
-
     vector<int> dp(amount + 1, INT_MAX - 1);
     dp[0] = 0;
 
-    for (int i = 0; i < m; ++i) {
+    int n = coins.size();
+
+    for (int i = 0; i < n; ++i) {
       for (int j = coins[i]; j <= amount; ++j) {
         dp[j] = min(dp[j], dp[j - coins[i]] + 1);
       }
     }
+
+    // for(int i = 0; i <= amount; ++i) {
+    //     for(int j = 0; j < n; ++j) {
+    //         if(i >= coins[j]) {
+    //             dp[i] = min(dp[i],dp[i - coins[j]] + 1);
+    //         }
+    //     }
+    // }
 
     return dp[amount] == INT_MAX - 1 ? -1 : dp[amount];
   }

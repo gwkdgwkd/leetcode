@@ -1,10 +1,12 @@
 /*
-有一堆石头，用整数数组stones表示。其中stones[i]表示第i块石头的重量。
+有一堆石头，用整数数组stones表示。
+其中stones[i]表示第i块石头的重量。
 每一回合，从中选出任意两块石头，然后将它们一起粉碎。
 假设石头的重量分别为x和y，且x <= y。那么粉碎的可能结果如下：
 如果x == y，那么两块石头都会被完全粉碎；
 如果x != y，那么重量为x的石头将会完全粉碎，而重量为y的石头新重量为y-x。
-最后，最多只会剩下一块石头。返回此石头最小的可能重量。如果没有石头剩下，就返回0。
+最后，最多只会剩下一块石头，返回此石头最小的可能重量。
+如果没有石头剩下，就返回0。
 
 示例1：
 输入：stones = [2,7,4,1,8,1]
@@ -62,7 +64,8 @@ int lastStoneWeightII(int* stones, int stonesSize) {
   }
   int target = sum / 2;  // target向下取整，所以是下面的sum2
 
-  int dp[target + 1];  // dp[i]背包容量为i时能选取的最大石头的大小和
+  // dp[i]背包容量为i时能选取的最大石头的大小和
+  int dp[target + 1];
   memset(dp, 0, sizeof(dp));
   for (int i = 0; i < stonesSize; ++i) {
     for (int j = target; j >= stones[i]; --j) {
@@ -70,7 +73,8 @@ int lastStoneWeightII(int* stones, int stonesSize) {
     }
   }
 
-  // 可以把这堆石头分成大小差不多的两堆石头，分别为sum1和sum2，答案是abs(sum1-sum2)。
+  // 可以把这堆石头分成大小差不多的两堆石头，
+  // 分别为sum1和sum2，答案是abs(sum1-sum2)。
   // 知道sum1，就知道了sum2=sum-sum1。
   // abs((sum-sum1)-sum1)就是最后答案，也就是sum-2*dp[target]
   return sum - 2 * dp[target];
@@ -135,6 +139,7 @@ class Solution {
     int sum = accumulate(stones.begin(), stones.end(), 0);
     int target = sum / 2;
 
+    // dp[j]容量为j时，最多装多少石头
     vector<int> dp(target + 1, 0);
     for (int i = 0; i < stones.size(); ++i) {
       for (int j = target; j >= stones[i]; --j) {

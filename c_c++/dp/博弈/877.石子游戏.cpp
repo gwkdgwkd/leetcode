@@ -1,10 +1,13 @@
 /*
 Alice和Bob用几堆石子在做游戏。
 一共有偶数堆石子，排成一行；每堆都有正整数颗石子，数目为piles[i]。
-游戏以谁手中的石子最多来决出胜负。石子的总数是奇数，所以没有平局。
-Alice和Bob轮流进行，Alice先开始。每回合，玩家从行的开始或结束处取走整堆石头。
+游戏以谁手中的石子最多来决出胜负。
+石子的总数是奇数，所以没有平局。
+Alice和Bob轮流进行，Alice先开始。
+每回合，玩家从行的开始或结束处取走整堆石头。
 这种情况一直持续到没有更多的石子堆为止，此时手中石子最多的玩家获胜。
-假设Alice和Bob都发挥出最佳水平，当Alice赢得比赛时返回true，当Bob赢得比赛时返回false。
+假设Alice和Bob都发挥出最佳水平，
+当Alice赢得比赛时返回true，当Bob赢得比赛时返回false。
 
 示例1：
 输入：piles = [5,3,4,5]
@@ -29,8 +32,8 @@ sum(piles[i])是奇数
 
 // 动态规划
 bool stoneGame(int* piles, int pilesSize) {
-  // dp[i][j]表示当剩下的石子堆为下标i到下标j时，
-  // 即在下标范围[i,j]中，当前玩家与另一个玩家的石子数量之差的最大值
+  // dp[i][j]表示当剩下的石子堆为[i,j]时，
+  // 当前玩家与另一个玩家的石子数量之差的最大值
   int dp[pilesSize][pilesSize];
   for (int i = 0; i < pilesSize; i++) {
     // 当i=j时，只剩下一堆石子，当前玩家只能取走这堆石子
@@ -40,8 +43,10 @@ bool stoneGame(int* piles, int pilesSize) {
     for (int j = i + 1; j < pilesSize; j++) {  // 从左向右
       // 当i<j时，当前玩家可以选择取走piles[i]或piles[j]，
       // 然后轮到另一个玩家在剩下的石子堆中取走石子。
-      // dp[i][j]先手获得piles[i]，另一个玩家从i+1到j中选，会获得dp[i+1][j]，相减就是此轮两人的差值
-      // dp[i][j]先手获得piles[j]，另一个玩家从i到j-1中选，会获得dp[i][j-1]，相减就是此轮两人的差值
+      // dp[i][j]先手获得piles[i]，另一个玩家从i+1到j中选，
+      // 会获得dp[i+1][j]，相减就是此轮两人的差值；
+      // dp[i][j]先手获得piles[j]，另一个玩家从i到j-1中选，
+      // 会获得dp[i][j-1]，相减就是此轮两人的差值；
       dp[i][j] = fmax(piles[i] - dp[i + 1][j], piles[j] - dp[i][j - 1]);
     }
   }

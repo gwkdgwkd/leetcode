@@ -9,7 +9,8 @@ int test1(int *weight, int *value, int size, int bagweight) {
   int dp[size][bagweight + 1];
   memset(dp, 0, sizeof(dp));
   for (int i = weight[0]; i <= bagweight; ++i) {
-    // 初始化与01背包不同，对于第一个物品，要尽量装，直到装不下时，才是dp中需要的值
+    // 初始化与01背包不同，对于第一个物品，
+    // 要尽量装，直到装不下时，才是dp中需要的值：
     dp[0][i] = value[0] * (i / weight[0]);
   }
 
@@ -20,11 +21,13 @@ int test1(int *weight, int *value, int size, int bagweight) {
       } else {
         // 递推公式与01背包不同，选择当前物品i时：
         // 01背包要在不包括当前物品且重量为j-weight[i]的基础上，加上value[i]。
-        // dp[i][j] = MAX(dp[i - 1][j], dp[i - 1][j - weight[i]] + value[i]);
+        // dp[i][j] = MAX(dp[i-1][j],dp[i-1][j-weight[i]]+value[i]);
         // 完全背包要在包括当前物品且重量为j-weight[i]的基础上，加上value[i]。
         dp[i][j] = MAX(dp[i - 1][j], dp[i][j - weight[i]] + value[i]);
-        // 01背包依赖dp[i-1][j]和dp[i-1][j-weight[i]]，即上和左上，所以一维dp的内层循环需要从右向左。
-        // 完全背包依赖dp[i-1][j]和dp[i][j-weight[i]]，即上和左，所以一维dp的内层循环需要从左向右。
+        // 01背包依赖dp[i-1][j]和dp[i-1][j-weight[i]]，
+        // 即上和左上，所以一维dp的内层循环需要从右向左。
+        // 完全背包依赖dp[i-1][j]和dp[i][j-weight[i]]，
+        // 即上和左，所以一维dp的内层循环需要从左向右。
       }
     }
   }

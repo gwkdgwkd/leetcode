@@ -1,9 +1,9 @@
 /*
-有n个气球，编号为0到n - 1，每个气球上都标有一个数字，这些数字存在数组nums中。
-现在要求你戳破所有的气球。
-戳破第i个气球，你可以获得nums[i - 1] * nums[i] * nums[i + 1]枚硬币。
-这里的i - 1和i + 1代表和i相邻的两个气球的序号。
-如果i - 1或i + 1超出了数组的边界，那么就当它是一个数字为1的气球。
+有n个气球，编号为0到n-1，每个气球上都标有一个数字，
+这些数字存在数组nums中，现在要求你戳破所有的气球。
+戳破第i个气球，你可以获得nums[i-1]*nums[i]*nums[i+1]枚硬币。
+这里的i-1和i+1代表和i相邻的两个气球的序号。
+如果i-1或i+1超出了数组的边界，那么就当它是一个数字为1的气球。
 求所能获得硬币的最大数量。
 
 示例1：
@@ -38,8 +38,10 @@ int maxCoins(int* nums, int numsSize) {
   for (int i = numsSize - 1; i >= 0; i--) {
     for (int j = i + 2; j <= numsSize + 1; j++) {
       for (int k = i + 1; k < j; k++) {
-        int sum = value[i] * value[k] * value[j];  // 戳k时，获取的硬币
-        sum += dp[i][k] + dp[k][j];  // 区间(i,k)和区间(k,j)总共的硬币和
+        // 戳k时，获取的硬币：
+        int sum = value[i] * value[k] * value[j];
+        // 区间(i,k)和区间(k,j)总共的硬币和：
+        sum += dp[i][k] + dp[k][j];
         dp[i][j] = fmax(dp[i][j], sum);
       }
     }

@@ -173,7 +173,8 @@ bool canPartition(int* nums, int numsSize) {
     }
   }
 
-  // 如果dp[sum]==sum，说明可以将这个数组分割成两个子集，使得两个子集的元素和相等
+  // 如果dp[sum]==sum，说明可以将这个数组分割成两个子集，
+  // 使得两个子集的元素和相等
   return dp[sum] == sum;
 }
 
@@ -197,7 +198,8 @@ class Solution {
     }
 
     int m = nums.size();
-    // dp[i][j]表示使用前i个物品，装容量为j的背包，最大的价值（价值和和重量一样）是多少
+    // dp[i][j]表示使用前i个物品，装容量为j的背包，
+    // 最大的价值（价值和和重量一样）是多少
     vector<vector<int>> dp(m, vector<int>(target + 1, 0));
     for (int j = nums[0]; j <= target; ++j) {
       dp[0][j] = nums[0];
@@ -211,7 +213,9 @@ class Solution {
           dp[i][j] = std::max(dp[i - 1][j], dp[i - 1][j - nums[i]] + nums[i]);
         }
       }
-      if (dp[i][target] == target) {  // 如果有一部分元素的和为target，直接返回
+      // 如果有一部分元素的和为target，直接返回，
+      // 不判断也可以得到正确答案，但是效率低：
+      if (dp[i][target] == target) {
         return true;
       }
     }
@@ -245,7 +249,7 @@ class Solution {
       for (int j = target; j >= nums[i]; --j) {
         dp[j] = std::max(dp[j], dp[j - nums[i]] + nums[i]);
       }
-      if (dp[target] == target) {
+      if (dp[target] == target) {  // 可以不写，但是慢
         return true;
       }
     }
@@ -277,7 +281,8 @@ class Solution {
     // dp[i][j]表示前i个元素，是否可以装满容量为j的背包
     vector<vector<bool>> dp(m, vector<bool>(target + 1, false));
     for (int i = 0; i < m; ++i) {
-      dp[i][0] = true;  // 对于任何物品，只要不选择，就可以填满容量为0的背包
+      // 对于任何物品，只要不选择，就可以填满容量为0的背包：
+      dp[i][0] = true;
     }
     dp[0][nums[0]] = true;
 
@@ -289,7 +294,7 @@ class Solution {
           dp[i][j] = dp[i - 1][j] || dp[i - 1][j - nums[i]];
         }
       }
-      if (dp[i][target]) {
+      if (dp[i][target]) {  // 可以不写，但是慢
         return true;
       }
     }
@@ -326,7 +331,7 @@ class Solution {
         dp[j] = dp[j] || dp[j - nums[i]];
         // dp[j] = dp[j] | dp[j - nums[i]];  // 位运算，也行
       }
-      if (dp[target]) {
+      if (dp[target]) {  // 可以不写，但是慢
         return true;
       }
     }
