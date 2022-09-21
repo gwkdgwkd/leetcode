@@ -42,7 +42,7 @@ class Solution {
           res[j] = 1;
           continue;
         }
-        if (j > 0) {
+        if (j > 0) {  // 不判断也行
           res[j] = res[j - 1] + res[j];
         }
       }

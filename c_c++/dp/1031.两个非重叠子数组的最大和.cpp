@@ -1,7 +1,9 @@
 /*
-给出非负整数数组A，返回两个非重叠（连续）子数组中元素的最大和，子数组的长度分别为L和M。
+给出非负整数数组A，返回两个非重叠（连续）子数组中元素的最大和，
+子数组的长度分别为L和M。
 这里需要澄清的是，长为L的子数组可以出现在长为M的子数组之前或之后。
-从形式上看，返回最大的V，而V=(A[i]+A[i+1]+...+A[i+L-1])+(A[j]+A[j+1]+...+A[j+M-1])
+从形式上看，返回最大的V，
+而V=(A[i]+A[i+1]+...+A[i+L-1])+(A[j]+A[j+1]+...+A[j+M-1])
 并满足下列条件之一：
 0 <= i < i + L - 1 < j < j + M - 1 < A.length,或
 0 <= j < j + M - 1 < i < i + L - 1 < A.length.
@@ -65,8 +67,14 @@ class Solution {
     }
 
     int sum = 0;
+    // 然后分两种情况讨论：
+    // 情况1，L在M左侧，可以考虑从左往右依次枚举M的起始点，
+    // M的起始点每向右移动一格，L可以取的区间也右移一格，
+    // 如果新的L区间，元素和更大，那么更新L的最大元素和。
+    // 情况2，M在L左侧，过程同上，依葫芦画瓢重复一次即可。
     for (int k = 0; k < 2; ++k) {
       int firstsum = 0;
+      // i表示右边子数组的起点：
       for (int i = firstLen; i + secondLen <= n; ++i) {
         firstsum = max(firstsum, presum[i] - presum[i - firstLen]);
         sum = max(sum, firstsum + presum[i + secondLen] - presum[i]);

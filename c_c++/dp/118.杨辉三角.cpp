@@ -1,5 +1,5 @@
 /*
-给定一个非负整数numRows，生成「杨辉三角」的前numRows行。
+给定一个非负整数numRows，生成杨辉三角的前numRows行。
 在杨辉三角中，每个数是它左上方和右上方的数的和。
 
 示例1:
@@ -40,7 +40,7 @@ class Solution {
           rows[j] = 1;
           continue;
         }
-        if (j > 0) {
+        if (j > 0) {  // 不判断也行，j==0时，运行不到这里
           rows[j] = res[i - 1][j - 1] + res[i - 1][j];
         }
       }

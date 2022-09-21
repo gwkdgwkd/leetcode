@@ -1,8 +1,8 @@
 /*
 给定一个方阵，其中每个单元(像素)非黑即白。
 设计一个算法，找出4条边皆为黑色像素的最大子方阵。
-返回一个数组[r, c, size]，其中r,
-c分别代表子方阵左上角的行号和列号，size是子方阵的边长。
+返回一个数组[r, c, size]，
+其中r，c分别代表子方阵左上角的行号和列号，size是子方阵的边长。
 若有多个满足条件的子方阵，返回r最小的，若r相同，返回c最小的子方阵。
 若无满足条件的子方阵，返回空数组。
 
@@ -103,7 +103,7 @@ int* findSquare(int** matrix, int matrixSize, int* matrixColSize,
   return ret;
 }
 
-// 动态规划，cnt[r][c][0/1]表示以坐标r,c为起点向左/右最多的连续黑色块的数量
+// 动态规划，cnt[r][c][0/1]表示以坐标r，c为起点向左/右最多的连续黑色块的数量
 class Solution {
  public:
   vector<int> findSquare(vector<vector<int>>& matrix) {
@@ -135,7 +135,7 @@ class Solution {
             cnt[r][c][0] = 1;
           // 更新当前最大子方阵
           int len = min(cnt[r][c][0], cnt[r][c][1]);  // 最大的可能的边长
-          while (len >= ans[2]) {  // 要答案r,c最小，所以带等号
+          while (len >= ans[2]) {  // 要答案r，c最小，所以带等号
             if (cnt[r + len - 1][c][0] >= len &&
                 cnt[r][c + len - 1][1] >= len) {
               // 可以构成长为len的方阵

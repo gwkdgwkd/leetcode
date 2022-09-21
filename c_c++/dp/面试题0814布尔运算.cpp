@@ -54,7 +54,6 @@ int countEval(char* s, int result) {
           }
         }
       }
-      // printf("dp[%d][%d][0]=%d,dp[%d][%d][1]=%d\n",i,i+step,dp[i][i+step][0],i,i+step,dp[i][i+step][1]);
     }
   }
 

@@ -1,6 +1,7 @@
 /*
-给你一个整数数组nums，有一个大小为k的滑动窗口从数组的最左侧移动到数组的最右侧。
-你只可以看到在滑动窗口内的k个数字。滑动窗口每次只向右移动一位。
+给你一个整数数组nums，
+有一个大小为k的滑动窗口从数组的最左侧移动到数组的最右侧。
+你只可以看到在滑动窗口内的k个数字，滑动窗口每次只向右移动一位。
 返回滑动窗口中的最大值。
 
 示例1：
@@ -54,17 +55,19 @@ int* maxSlidingWindow(int* nums, int numsSize, int k, int* returnSize) {
   int queue[numsSize];     // 单调递减
   int head = 0, tail = 0;  // 头和尾指针
   for (int i = 0; i < numsSize; ++i) {
-    // 窗口已经越过队列头指向的元素，从队列头出队
+    // 窗口已经越过队列头指向的元素，从队列头出队：
     while (head < tail && queue[head] <= i - k) {
       ++head;
     }
-    // 新元素比队列尾的元素要大，为了维持单调递减，从队列尾把小于新元素的都出队
+    // 新元素比队列尾的元素要大，为了维持单调递减，
+    // 从队列尾把小于新元素的都出队：
     while (head < tail && nums[queue[tail - 1]] <= nums[i]) {
       --tail;
     }
     queue[tail++] = i;  // 从队尾插入新元素
     // print_q(q, head, tail, i, nums);
-    if (i >= k - 1) {  // 满足窗口大小时，队列头元素就是当前窗口最大的元素
+    // 满足窗口大小时，队列头元素就是当前窗口最大的元素：
+    if (i >= k - 1) {
       result[(*returnSize)++] = nums[queue[head]];
     }
   }

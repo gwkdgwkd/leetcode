@@ -1,5 +1,6 @@
 /*
-给你一个nxn的方形整数数组matrix，请你找出并返回通过matrix的下降路径的最小和。
+给你一个nxn的方形整数数组matrix，
+请你找出并返回通过matrix的下降路径的最小和。
 下降路径可以从第一行中的任何元素开始，并从每一行中选择一个元素。
 在下一行选择的元素和当前行所选元素最多相隔一列，
 即位于正下方或者沿对角线向左或者向右的第一个元素。
@@ -108,6 +109,40 @@ class Solution {
     for (int j = 1; j < n; ++j) {
       ans = min(ans, dp[m - 1][j]);
     }
+    return ans;
+  }
+};
+
+class Solution {
+ public:
+  int minFallingPathSum(vector<vector<int>>& matrix) {
+    int m = matrix.size();
+    int n = matrix[0].size();
+
+    // 滚动数组：
+    vector<vector<int>> dp(2, vector<int>(n));
+    dp[0] = matrix[0];
+    for (int i = 1; i < m; ++i) {
+      for (int j = 0; j < n; ++j) {
+        int k1 = (i + 1) % 2;
+        int k2 = i % 2;
+        dp[k2][j] = dp[k1][j];
+        if (j > 0) {
+          dp[k2][j] = min(dp[k2][j], dp[k1][j - 1]);
+        }
+        if (j < n - 1) {
+          dp[k2][j] = min(dp[k2][j], dp[k1][j + 1]);
+        }
+        dp[k2][j] += matrix[i][j];
+      }
+    }
+
+    int k = (m - 1) % 2;
+    int ans = dp[k][0];
+    for (int j = 1; j < n; ++j) {
+      ans = min(ans, dp[k][j]);
+    }
+
     return ans;
   }
 };

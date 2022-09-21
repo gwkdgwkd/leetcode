@@ -1,6 +1,6 @@
 /*
 一个机器人位于一个m x n网格的左上角。
-机器人每次只能向下或者向右移动一步。机器人试图达到网格的右下角。
+机器人每次只能向下或者向右移动一步，机器人试图达到网格的右下角。
 问总共有多少条不同的路径？
 
 示例1：
@@ -26,14 +26,16 @@
 
 提示：
 1 <= m, n <= 100
-题目数据保证答案小于等于2 * 10^9
+题目数据保证答案小于等于2*10^9
 */
 
 // 剑指OfferII098路径的数目
 
 // 组合计算
-// 从左上角到右下角的过程中，我们需要移动m+n−2次，其中有m−1次向下移动，n−1次向右移动。
-// 因此路径的总数，就等于从m+n−2次移动中选择m−1次向下移动的方案数，即组合数。
+// 从左上角到右下角的过程中，需要移动m+n−2次，
+// 其中有m−1次向下移动，n−1次向右移动。
+// 因此路径的总数，
+// 就等于从m+n−2次移动中选择m−1次向下移动的方案数，即组合数。
 int uniquePaths(int m, int n) {
   long long ans = 1;
   for (int x = n, y = 1; y < m; ++x, ++y) {
@@ -64,13 +66,7 @@ int uniquePaths(int m, int n) {
 class Solution {
  public:
   int uniquePaths(int m, int n) {
-    vector<vector<int>> dp(m, vector<int>(n, 0));
-    for (int i = 0; i < m; ++i) {
-      dp[i][0] = 1;
-    }
-    for (int j = 1; j < n; ++j) {
-      dp[0][j] = 1;
-    }
+    vector<vector<int>> dp(m, vector<int>(n, 1));
 
     for (int i = 1; i < m; ++i) {
       for (int j = 1; j < n; ++j) {

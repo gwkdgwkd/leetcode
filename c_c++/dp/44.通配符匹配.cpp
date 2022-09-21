@@ -1,5 +1,6 @@
 /*
-给定一个字符串(s)和一个字符模式(p)，实现一个支持'?'和'*'的通配符匹配。
+给定一个字符串(s)和一个字符模式(p)，
+实现一个支持'?'和'*'的通配符匹配：
 '?'可以匹配任何单个字符。
 '*'可以匹配任意字符串（包括空字符串）。
 两个字符串完全匹配才算匹配成功。
@@ -51,8 +52,8 @@ bool isMatch(char* s, char* p) {
 
   // dp[0][0]=true，即当字符串s和模式p均为空时，匹配成功；
   // dp[i][0]=false，即空模式无法匹配非空字符串；
-  // dp[0][j]需要分情况讨论：
-  // 因为星号才能匹配空字符串，所以只有当模式p的前j个字符均为星号时，dp[0][j]才为真
+  // dp[0][j]需要分情况讨论：因为星号才能匹配空字符串，
+  // 所以只有当模式p的前j个字符均为星号时，dp[0][j]才为真。
   memset(dp, 0, sizeof(dp));
   dp[0][0] = true;
   for (int i = 1; i <= n; ++i) {
@@ -82,7 +83,8 @@ class Solution {
     int m = s.size();
     int n = p.size();
 
-    // deque<deque<bool>> dp(m + 1, deque<bool>(n + 1, false));  // 慢、空间大
+    // 慢、空间大：
+    // deque<deque<bool>> dp(m + 1, deque<bool>(n + 1, false));
     vector<vector<int>> dp(m + 1, vector<int>(n + 1, false));
     dp[0][0] = true;
     for (int j = 1; j <= n; ++j) {

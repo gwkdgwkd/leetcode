@@ -1,8 +1,10 @@
 /*
 给定一个三角形triangle，找出自顶向下的最小路径和。
 每一步只能移动到下一行中相邻的结点上。
-相邻的结点在这里指的是下标与上一层结点下标相同或者等于上一层结点下标+1的两个结点。
-也就是说，如果正位于当前行的下标i，那么下一步可以移动到下一行的下标i或i+1。
+相邻的结点在这里指的是：
+下标与上一层结点下标相同或者等于上一层结点下标+1的两个结点。
+也就是说，如果正位于当前行的下标i，
+那么下一步可以移动到下一行的下标i或i+1。
 
 示例1：
 输入：triangle = [[2],[3,4],[6,5,7],[4,1,8,3]]
@@ -122,6 +124,37 @@ class Solution {
     int ans = dp[m - 1][0];
     for (int j = 1; j < triangle[m - 1].size(); ++j) {
       ans = min(ans, dp[m - 1][j]);
+    }
+
+    return ans;
+  }
+};
+
+class Solution {
+ public:
+  int minimumTotal(vector<vector<int>>& triangle) {
+    int m = triangle.size();
+    int size = triangle[m - 1].size();
+
+    vector<int> dp(size);
+    dp[0] = triangle[0][0];
+
+    for (int i = 1; i < m; ++i) {
+      int n = triangle[i].size();
+      for (int j = n - 1; j >= 0; --j) {
+        if (j == 0) {
+          dp[j] = dp[j] + triangle[i][j];
+        } else if (j == n - 1) {
+          dp[j] = dp[j - 1] + triangle[i][j];
+        } else {
+          dp[j] = min(dp[j], dp[j - 1]) + triangle[i][j];
+        }
+      }
+    }
+
+    int ans = dp[0];
+    for (int j = 1; j < size; ++j) {
+      ans = min(ans, dp[j]);
     }
 
     return ans;
