@@ -1,5 +1,6 @@
 /*
-节点间通路。给定有向图，设计一个算法，找出两个节点之间是否存在一条路径。
+节点间通路。
+给定有向图，设计一个算法，找出两个节点之间是否存在一条路径。
 
 示例1:
 输入：n = 3, graph = [[0, 1], [0, 2], [1, 2], [1, 2]],
@@ -82,43 +83,48 @@ bool findWhetherExistsPath(int n, int **graph, int graphSize, int *graphColSize,
 
 // DFS
 class Solution {
+  vector<vector<int>> graph;
+  vector<bool> isVisited;
+  bool ans;
+
  public:
-  void dfs(vector<unordered_set<int>> &hash, vector<bool> &isVisited, int start,
-           int target, bool &flag) {
+  void dfs(int start, int target) {
     if (start == target) {
-      flag = true;
+      ans = true;
+      return;
     }
 
     isVisited[start] = true;  // 标记已经来过
-    for (int next : hash[start]) {
+    for (int next : graph[start]) {
       if (!isVisited[next]) {  // 若未访问过，则继续dfs
-        dfs(hash, isVisited, next, target, flag);
+        dfs(next, target);
       }
     }
     isVisited[start] = false;  // 还原现场
   }
 
-  bool findWhetherExistsPath(int n, vector<vector<int>> &graph, int start,
+  bool findWhetherExistsPath(int n, vector<vector<int>> &paths, int start,
                              int target) {
-    vector<unordered_set<int>> hash(n);
-    vector<bool> isVisited(n, false);
-    bool flag = false;
-
-    for (vector<int> &path : graph) {
-      hash[path[0]].insert(path[1]);  // 构造图
+    graph.resize(n);
+    isVisited.assign(n, false);
+    ans = false;
+    for (vector<int> &path : paths) {  // 构造图的邻接表
+      graph[path[0]].emplace_back(path[1]);
     }
 
-    dfs(hash, isVisited, start, target, flag);
+    dfs(start, target);
 
-    return flag;
+    return ans;
   }
 };
 
 // BFS
 class Solution {
+  vector<vector<int>> graph;
+  vector<bool> isVisited;
+
  public:
-  bool bfs(vector<unordered_set<int>> &hash, vector<bool> &isVisited, int start,
-           int target) {
+  bool bfs(int start, int target) {
     queue<int> q;
     q.push(start);
     isVisited[start] = true;
@@ -127,7 +133,7 @@ class Solution {
       int cur = q.front();
       q.pop();
 
-      for (int next : hash[cur]) {
+      for (int next : graph[cur]) {
         if (!isVisited[next]) {
           if (next == target) return true;
           q.push(next);
@@ -139,15 +145,14 @@ class Solution {
     return false;
   }
 
-  bool findWhetherExistsPath(int n, vector<vector<int>> &graph, int start,
+  bool findWhetherExistsPath(int n, vector<vector<int>> &paths, int start,
                              int target) {
-    vector<unordered_set<int>> hash(n);
-    vector<bool> isVisited(n, false);
-
-    for (vector<int> &path : graph) {
-      hash[path[0]].insert(path[1]);
+    graph.resize(n);
+    isVisited.assign(n, false);
+    for (vector<int> &path : paths) {
+      graph[path[0]].emplace_back(path[1]);  // 构造图的邻接表
     }
 
-    return bfs(hash, isVisited, start, target);
+    return bfs(start, target);
   }
 };

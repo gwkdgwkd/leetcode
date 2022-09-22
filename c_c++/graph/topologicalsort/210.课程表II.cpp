@@ -1,19 +1,24 @@
 /*
-现在你总共有numCourses门课需要选，记为0到numCourses - 1。
-给你一个数组prerequisites，其中prerequisites[i]=[ai,bi]，表示在选修课程ai前必须先选修bi。
-例如，想要学习课程0，你需要先完成课程1，我们用一个匹配来表示：[0,1]。
-返回你为了学完所有课程所安排的学习顺序。可能会有多个正确的顺序，
-你只要返回任意一种就可以了。如果不可能完成所有课程，返回一个空数组。
+现在你总共有numCourses门课需要选，记为0到numCourses-1。
+给你一个数组prerequisites，其中prerequisites[i]=[ai,bi]，
+表示在选修课程ai前必须先选修bi。
+例如，想要学习课程0，你需要先完成课程1，用一个匹配来表示：[0,1]。
+返回你为了学完所有课程所安排的学习顺序。
+可能会有多个正确的顺序，你只要返回任意一种就可以了。
+如果不可能完成所有课程，返回一个空数组。
 
 示例1：
 输入：numCourses = 2, prerequisites = [[1,0]]
 输出：[0,1]
-解释：总共有2门课程。要学习课程1，你需要先完成课程0。因此，正确的课程顺序为[0,1]。
+解释：总共有2门课程。要学习课程1，你需要先完成课程0。
+     因此，正确的课程顺序为[0,1]。
 
 示例2：
 输入：numCourses = 4, prerequisites = [[1,0],[2,0],[3,1],[3,2]]
 输出：[0,2,1,3]
-解释：总共有4门课程。要学习课程3，你应该先完成课程1和课程2。并且课程1和课程2都应该排在课程0之后。
+解释：总共有4门课程。
+     要学习课程3，你应该先完成课程1和课程2。
+     并且课程1和课程2都应该排在课程0之后。
 因此，一个正确的课程顺序是[0,1,2,3]。另一个正确的排序是[0,2,1,3]。
 
 示例3：
@@ -366,42 +371,40 @@ class Solution {
 
 // 广度优先搜索
 class Solution {
- private:
-  vector<vector<int>> edges;  // 存储有向图
-  vector<int> indeg;          // 存储每个节点的入度
-  vector<int> result;         // 存储答案
-
  public:
   vector<int> findOrder(int numCourses, vector<vector<int>> &prerequisites) {
-    edges.resize(numCourses);
-    indeg.resize(numCourses);
-    for (const auto &info : prerequisites) {
-      edges[info[1]].push_back(info[0]);
-      ++indeg[info[0]];
+    vector<vector<int>> graph(numCourses);
+    vector<int> indeg(numCourses);
+    for (const auto &v : prerequisites) {
+      graph[v[1]].emplace_back(v[0]);
+      indeg[v[0]]++;
     }
 
     queue<int> q;
-    for (int i = 0; i < numCourses; ++i) {  // 将所有入度为0的节点放入队列中
+    for (int i = 0; i < numCourses; ++i) {
       if (indeg[i] == 0) {
         q.push(i);
       }
     }
 
-    while (!q.empty()) {
-      int u = q.front();  // 从队首取出一个节点
+    int count = 0;
+    vector<int> ans;
+    while (q.size()) {
+      ++count;
+      int n = q.front();
       q.pop();
-      result.push_back(u);  // 放入答案中
-      for (int v : edges[u]) {
-        --indeg[v];
-        if (indeg[v] == 0) {  // 如果相邻节点v的入度为0，就可以选v对应的课程了
-          q.push(v);
+      ans.emplace_back(n);
+      for (int i : graph[n]) {
+        if (--indeg[i] == 0) {
+          q.push(i);
         }
       }
     }
 
-    if (result.size() != numCourses) {
-      return {};
+    if (count != numCourses) {
+      ans.resize(0);
     }
-    return result;
+
+    return ans;
   }
 };

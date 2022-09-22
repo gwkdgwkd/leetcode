@@ -1,10 +1,11 @@
 /*
-你这个学期必须选修numCourses门课程，记为0到numCourses - 1。
+你这个学期必须选修numCourses门课程，记为0到numCourses-1。
 在选修某些课程之前需要一些先修课程。
-先修课程按数组prerequisites给出，其中prerequisites[i] = [ai, bi]，
+先修课程按数组prerequisites给出，其中prerequisites[i]=[ai,bi]，
 表示如果要学习课程ai则必须先学习课程bi。
-例如，先修课程对[0, 1]表示：想要学习课程0，你需要先完成课程1。
-请你判断是否可能完成所有课程的学习？如果可以，返回true；否则，返回false。
+例如，先修课程对[0,1]表示：想要学习课程0，你需要先完成课程1。
+请你判断是否可能完成所有课程的学习？
+如果可以，返回true；否则，返回false。
 
 示例1：
 输入：numCourses = 2, prerequisites = [[1,0]]
@@ -19,13 +20,14 @@
 */
 
 // 拓扑排序就是由某个集合上的一个偏序得到该集合上的一个全序。
-// 某个集合的偏序就是指集合中仅有部分成员之间可比较，而全序是集合中全部成员都可以进行比较。
+// 某个集合的偏序就是指集合中仅有部分成员之间可比较，
+// 而全序是集合中全部成员都可以进行比较。
 // 可以进行拓扑排序的需要是一个有向无环图。
 // 对一个图进行拓扑排序，就要进行以下几个步骤：
 // 1.在有向图中选一个没有前驱的顶点并输入之；
 // 2.从图中删除该顶点和所有以它为尾的弧；
-// 重复这两个步骤，直到所有顶点均以输出（拓扑排序成功），
-// 或者当前图中不存在无前驱的顶点为止（说明图中存在环，无法进行排序）。
+// 重复这两个步骤，直到所有顶点均以输出，拓扑排序成功；
+// 或者当前图中不存在无前驱的顶点为止，说明图中存在环，无法进行排序。
 
 // 拓扑排序 + 图的邻接表存储 + bfs
 #define QUE_MAX 100000
@@ -210,17 +212,13 @@ class Solution {
 
 // 广度优先搜索
 class Solution {
- private:
-  vector<vector<int>> edges;
-  vector<int> indeg;
-
  public:
   bool canFinish(int numCourses, vector<vector<int>> &prerequisites) {
-    edges.resize(numCourses);
-    indeg.resize(numCourses);
-    for (const auto &info : prerequisites) {
-      edges[info[1]].push_back(info[0]);
-      ++indeg[info[0]];
+    vector<vector<int>> graph(numCourses);
+    vector<int> indeg(numCourses);
+    for (const auto &v : prerequisites) {
+      graph[v[1]].emplace_back(v[0]);
+      indeg[v[0]]++;
     }
 
     queue<int> q;
@@ -230,19 +228,18 @@ class Solution {
       }
     }
 
-    int visited = 0;
-    while (!q.empty()) {
-      ++visited;
-      int u = q.front();
+    int count = 0;
+    while (q.size()) {
+      ++count;
+      int n = q.front();
       q.pop();
-      for (int v : edges[u]) {
-        --indeg[v];
-        if (indeg[v] == 0) {
-          q.push(v);
+      for (int i : graph[n]) {
+        if (--indeg[i] == 0) {
+          q.push(i);
         }
       }
     }
 
-    return visited == numCourses;
+    return count == numCourses;
   }
 };

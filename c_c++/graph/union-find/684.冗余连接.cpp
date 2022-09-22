@@ -1,8 +1,10 @@
 /*
 树可以看成是一个连通且无环的无向图。
 给定往一棵n个节点(节点值1～n)的树中添加一条边后的图。
-添加的边的两个顶点包含在1到n中间，且这条附加的边不属于树中已存在的边。
-图的信息记录于长度为n的二维数组edges，edges[i]=[ai,bi]表示图中在ai和bi之间存在一条边。
+添加的边的两个顶点包含在1到n中间，
+且这条附加的边不属于树中已存在的边。
+图的信息记录于长度为n的二维数组edges，
+edges[i]=[ai,bi]表示图中在ai和bi之间存在一条边。
 请找出一条可以删去的边，删除后可使得剩余部分是一个有着n个节点的树。
 如果有多个答案，则返回数组edges中最后出现的边。
 
@@ -94,7 +96,7 @@ int* findRedundantConnection(int** edges, int edgesSize, int* edgesColSize,
 class UF {
  public:
   UF(int n) : count(n) {
-    parent.reserve(n);
+    parent.resize(n);
     size.reserve(n);
     for (int i = 0; i < n; ++i) {
       parent[i] = i;

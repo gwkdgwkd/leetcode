@@ -1,31 +1,33 @@
 /*
-在一个2 x 3的板上（board）有5块砖瓦，用数字1~5来表示，以及一块空缺用0来表示。
+在一个2x3的板上（board）有5块砖瓦，
+用数字1~5来表示，以及一块空缺用0来表示。
 一次移动定义为选择0与一个相邻的数字（上下左右）进行交换。
 最终当板board的结果是[[1,2,3],[4,5,0]]谜板被解开。
-给出一个谜板的初始状态board，返回最少可以通过多少次移动解开谜板，如果不能解开谜板，则返回-1。
+给出一个谜板的初始状态board，
+返回最少可以通过多少次移动解开谜板，如果不能解开谜板，则返回-1。
 
 示例1：
 输入：board = [[1,2,3],[4,0,5]]
 输出：1
 解释：交0和5，1步完成
 
-示例2:
+示例2：
 输入：board = [[1,2,3],[5,4,0]]
 输出：-1
 解释：没有办法完成谜板
 
-示例3:
+示例3：
 输入：board = [[4,1,2],[5,0,3]]
 输出：5
 解释：
 最少完成谜板的最少移动次数是5，
 一种移动路径:
-尚未移动: [[4,1,2],[5,0,3]]
-移动1次: [[4,1,2],[0,5,3]]
-移动2次: [[0,1,2],[4,5,3]]
-移动3次: [[1,0,2],[4,5,3]]
-移动4次: [[1,2,0],[4,5,3]]
-移动5次: [[1,2,3],[4,5,0]]
+尚未移动：[[4,1,2],[5,0,3]]
+移动1次：[[4,1,2],[0,5,3]]
+移动2次：[[0,1,2],[4,5,3]]
+移动3次：[[1,0,2],[4,5,3]]
+移动4次：[[1,2,0],[4,5,3]]
+移动5次：[[1,2,3],[4,5,0]]
 
 提示：
 board.length == 2
@@ -211,42 +213,35 @@ int slidingPuzzle(int** board, int boardSize, int* boardColSize) {
 class Solution {
  public:
   int slidingPuzzle(vector<vector<int>>& board) {
-    int step = 0;
-    string target = "123450";
-    string init = "";
-    for (int i = 0; i < board.size(); ++i) {
-      for (int j = 0; j < board[i].size(); ++j) {
-        init.push_back(board[i][j] + '0');
+    string target("123450");
+    string init;
+    for (const auto& v : board) {
+      for (const auto& i : v) {
+        init.push_back(i + '0');
       }
     }
-    if (target == init) {
-      return step;
-    }
-
-    queue<string> q;
-    q.push(init);
 
     unordered_set<string> us;
     us.insert(init);
+    queue<string> q;
+    q.push(init);
 
+    // 字符0在下标0-5位置时，可以移动到的位置，-1表示不能移动：
     const int neighbors[6][3] = {{1, 3, -1}, {0, 2, 4}, {1, 5, -1},
-                                 {0, 4, -1}, {1, 3, 5}, {2, 4, -1}};
-
+                                 {0, 4, -1}, {3, 1, 5}, {4, 2, -1}};
+    int step = 0;
     while (!q.empty()) {
-      int len = q.size();
-      for (int i = 0; i < len; ++i) {
+      int n = q.size();
+      for (int i = 0; i < n; ++i) {
         string temp = q.front();
         q.pop();
         if (temp == target) {
           return step;
         }
-        int m = temp.find('0');
-        for (int k = 0; k < 3 && neighbors[m][k] != -1; ++k) {
+        int k = temp.find('0');
+        for (int j = 0; j < 3 && neighbors[k][j] != -1; ++j) {
           string dst = temp;
-          int index = neighbors[m][k];
-          char c = dst[m];
-          dst[m] = dst[index];
-          dst[index] = c;
+          swap(dst[k], dst[neighbors[k][j]]);
           if (us.count(dst) == 0) {
             us.insert(dst);
             q.push(dst);

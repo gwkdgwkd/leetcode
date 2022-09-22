@@ -1,9 +1,11 @@
 /*
-给你一个大小为m x n的二进制矩阵grid。
-岛屿是由一些相邻的1(代表土地)构成的组合，这里的相邻要求两个1必须在水平或者竖直的四个方向上相邻。
+给你一个大小为mxn的二进制矩阵grid。
+岛屿是由一些相邻的1(代表土地)构成的组合，
+这里的相邻要求两个1必须在水平或者竖直的四个方向上相邻。
 你可以假设grid的四个边缘都被0（代表水）包围着。
 岛屿的面积是岛上值为1的单元格的数目。
-计算并返回grid中最大的岛屿面积。如果没有岛屿，则返回面积为0。
+计算并返回grid中最大的岛屿面积。
+如果没有岛屿，则返回面积为0。
 
 示例1：
 输入：grid =
@@ -60,24 +62,24 @@ int maxAreaOfIsland(int** grid, int gridSize, int* gridColSize) {
 
 // DFS
 class Solution {
- public:
+  int m;
+  int n;
+  int maxLand = 0;
   int dfs(vector<vector<int>>& grid, int x, int y) {
-    int m = grid.size();
-    int n = grid[0].size();
-
-    if (x < 0 || y < 0 || x >= m || y >= n || grid[x][y] == 0) {
+    if (x < 0 || x >= m || y < 0 || y >= n || grid[x][y] == 0) {
       return 0;
     }
-
     grid[x][y] = 0;
-
-    return 1 + dfs(grid, x + 1, y) + dfs(grid, x - 1, y) + dfs(grid, x, y + 1) +
-           dfs(grid, x, y - 1);
+    return 1 + dfs(grid, x - 1, y) + dfs(grid, x + 1, y) + dfs(grid, x, y - 1) +
+           dfs(grid, x, y + 1);
   }
+
+ public:
   int maxAreaOfIsland(vector<vector<int>>& grid) {
-    int maxLand = 0;
-    for (int i = 0; i < grid.size(); ++i) {
-      for (int j = 0; j < grid[i].size(); ++j) {
+    m = grid.size();
+    n = grid[0].size();
+    for (int i = 0; i < m; ++i) {
+      for (int j = 0; j < n; ++j) {
         maxLand = max(maxLand, dfs(grid, i, j));
       }
     }

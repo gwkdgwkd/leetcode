@@ -1,6 +1,8 @@
 /*
-给你一个有n个节点的有向无环图（DAG），请你找出所有从节点0到节点n-1的路径并输出（不要求按特定顺序）
-graph[i]是一个从节点i可以访问的所有节点的列表（即从节点i到节点graph[i][j]存在一条有向边）。
+给你一个有n个节点的有向无环图（DAG），
+请你找出所有从节点0到节点n-1的路径并输出（不要求按特定顺序）
+graph[i]是一个从节点i可以访问的所有节点的列表，
+即从节点i到节点graph[i][j]存在一条有向边。
 
 示例1：
 输入：graph = [[1,2],[3],[3],[]]
@@ -95,24 +97,27 @@ int** allPathsSourceTarget(int** graph, int graphSize, int* graphColSize,
 }
 
 class Solution {
- public:
   vector<vector<int>> ans;
-  vector<int> tmp;
-  void dfs(vector<vector<int>>& graph, int x, int n) {
-    if (x == n - 1) {
-      ans.emplace_back(tmp);
+  vector<int> path;
+  int m;
+  void dfs(vector<vector<int>>& graph, int i) {
+    if (i == m - 1) {
+      ans.emplace_back(path);
       return;
     }
-    for (auto& y : graph[x]) {
-      tmp.emplace_back(y);
-      dfs(graph, y, n);
-      tmp.pop_back();
+    for (int j = 0; j < graph[i].size(); ++j) {
+      path.emplace_back(graph[i][j]);
+      dfs(graph, graph[i][j]);
+      path.pop_back();
     }
+    return;
   }
 
+ public:
   vector<vector<int>> allPathsSourceTarget(vector<vector<int>>& graph) {
-    tmp.emplace_back(0);
-    dfs(graph, 0, graph.size());
+    m = graph.size();
+    path.emplace_back(0);
+    dfs(graph, 0);
 
     return ans;
   }

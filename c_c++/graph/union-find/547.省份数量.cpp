@@ -1,8 +1,10 @@
 /*
 有n个城市，其中一些彼此相连，另一些没有相连。
-如果城市a与城市b直接相连，且城市b与城市c直接相连，那么城市a与城市c间接相连。
+如果城市a与城市b直接相连，且城市b与城市c直接相连，
+那么城市a与城市c间接相连。
 省份是一组直接或间接相连的城市，组内不含其他没有相连的城市。
-给你一个nxn的矩阵isConnected，其中isConnected[i][j]=1表示第i个城市和第j个城市直接相连，
+给你一个nxn的矩阵isConnected，
+其中isConnected[i][j]=1表示第i个城市和第j个城市直接相连，
 而isConnected[i][j] = 0表示二者不直接相连。
 返回矩阵中省份的数量。
 
@@ -81,12 +83,11 @@ int findCircleNum(int** isConnected, int isConnectedSize,
 class UF {
  public:
   UF(int n) : count(n) {
-    parent.reserve(n);
-    size.reserve(n);
+    parent.resize(n);
     for (int i = 0; i < n; ++i) {
       parent[i] = i;
-      size[i] = 1;
     }
+    size.assign(n, 1);
   }
   void Union(int p, int q) {
     int rootP = Find(p);
@@ -118,15 +119,13 @@ class UF {
     return x;
   }
 };
-
 class Solution {
  public:
   int findCircleNum(vector<vector<int>>& isConnected) {
-    int m = isConnected.size();
-    int n = isConnected[0].size();
-    UF uf(m);
+    int n = isConnected.size();
+    UF uf(n);
 
-    for (int i = 0; i < m; ++i) {
+    for (int i = 0; i < n; ++i) {
       for (int j = 0; j < n; ++j) {
         if (isConnected[i][j]) {
           uf.Union(i, j);

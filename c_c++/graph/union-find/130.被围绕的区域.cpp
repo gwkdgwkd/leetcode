@@ -1,5 +1,5 @@
 /*
-给你一个m x n的矩阵board，由若干字符'X'和'O'，
+给你一个mxn的矩阵board，由若干字符'X'和'O'，
 找到所有被'X'围绕的区域，并将这些区域里所有的'O'用'X'填充。
 
 示例1：
@@ -11,9 +11,10 @@
       ["X","X","X","X"],
       ["X","X","X","X"],
       ["X","O","X","X"]]
-解释：被围绕的区间不会存在于边界上，换句话说，任何边界上的'O'都不会被填充为'X'。
-任何不在边界上，或不与边界上的'O'相连的'O'最终都会被填充为'X'。
-如果两个元素在水平或垂直方向相邻，则称它们是“相连”的。
+解释：被围绕的区间不会存在于边界上，
+     换句话说，任何边界上的'O'都不会被填充为'X'。
+     任何不在边界上，或不与边界上的'O'相连的'O'最终都会被填充为'X'。
+     如果两个元素在水平或垂直方向相邻，则称它们是相连的。
 
 示例2：
 输入：board = [["X"]]
@@ -135,8 +136,9 @@ bool Connected(int p, int q) {
 }
 // 使用Union-Find算法
 void solve(char** board, int boardSize, int* boardColSize) {
-  // 不需要被替换的O看成一个拥有独门绝技的门派，它们有一个共同祖师爷叫dummy，
-  // 这些O和dummy互相连通，而那些需要被替换的O与dummy不连通。
+  // 不需要被替换的O看成一个拥有独门绝技的门派，
+  // 它们有一个共同祖师爷叫dummy，这些O和dummy互相连通，
+  // 而那些需要被替换的O与dummy不连通。
   if (boardSize == 0) return;
 
   int m = boardSize;
@@ -187,7 +189,6 @@ class UF {
   void Union(int p, int q) {
     int rootP = Find(p);
     int rootQ = Find(q);
-
     if (rootP == rootQ) {
       return;
     }
@@ -217,20 +218,61 @@ class UF {
   }
 };
 
+class UF {
+ public:
+  UF(int n) : count(n) {
+    parent.resize(n);
+    size.assign(n, 1);
+    for (int i = 0; i < n; ++i) {
+      parent[i] = i;
+    }
+  }
+  void Union(int p, int q) {
+    int rootP = Find(p);
+    int rootQ = Find(q);
+    if (rootP == rootQ) {
+      return;
+    }
+
+    if (size[rootP] > size[rootQ]) {
+      parent[rootQ] = rootP;
+      size[rootP] += size[rootQ];
+    } else {
+      parent[rootP] = rootQ;
+      size[rootQ] += size[rootP];
+    }
+  }
+  bool Connected(int p, int q) { return Find(p) == Find(q); }
+
+ private:
+  vector<int> parent;
+  vector<int> size;
+  int count;
+
+  int Find(int x) {
+    while (parent[x] != x) {
+      parent[x] = parent[parent[x]];
+      x = parent[x];
+    }
+
+    return x;
+  }
+};
 class Solution {
  public:
   void solve(vector<vector<char>>& board) {
     int m = board.size();
     int n = board[0].size();
-    UF uf(m * n + 1);
-    int dummy = m * n;
+
+    UF uf(n * m + 1);
+    int dummy = n * m;
 
     for (int i = 0; i < m; ++i) {
       if (board[i][0] == 'O') {
         uf.Union(dummy, i * n);
       }
       if (board[i][n - 1] == 'O') {
-        uf.Union(dummy, i * n + n - 1);
+        uf.Union(dummy, n * i + n - 1);
       }
     }
     for (int j = 0; j < n; ++j) {
@@ -256,10 +298,9 @@ class Solution {
         }
       }
     }
-
     for (int i = 1; i < m - 1; ++i) {
       for (int j = 1; j < n - 1; ++j) {
-        if (!uf.Connected(i * n + j, dummy)) {
+        if (!uf.Connected(dummy, i * n + j)) {
           board[i][j] = 'X';
         }
       }
