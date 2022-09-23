@@ -1,6 +1,7 @@
 /*
 给你一个按升序排序的整数数组num（可能包含重复数字），
-请你将它们分割成一个或多个长度至少为3的子序列，其中每个子序列都由连续整数组成。
+请你将它们分割成一个或多个长度至少为3的子序列，
+其中每个子序列都由连续整数组成。
 如果可以完成上述分割，则返回true；否则，返回false。
 
 示例1：
@@ -102,10 +103,23 @@ bool isPossible(int* nums, int numsSize) {
   return true;
 }
 
+// 由于需要将数组分割成一个或多个由连续整数组成的子序列，
+// 因此只要知道子序列的最后一个数字和子序列的长度，就能确定子序列。
+// 当x在数组中时，如果存在一个子序列以x−1结尾，长度为k，
+// 则可以将x加入该子序列中，得到长度为k+1的子序列。
+// 如果不存在以x−1结尾的子序列，则必须新建一个只包含x的子序列，长度为1。
+// 当x在数组中时，如果存在多个子序列以x−1结尾，
+// 应该将x加入其中的哪一个子序列？
+// 由于题目要求每个子序列的长度至少为3，
+// 显然应该让最短的子序列尽可能长，因此应该将x加入其中最短的子序列。
+
 // 哈希表 + 最小堆
 class Solution {
  public:
   bool isPossible(vector<int>& nums) {
+    // 哈希表的键为子序列的最后一个数字，值为最小堆，
+    // 用于存储所有的子序列长度，最小堆满足堆顶的元素是最小的，
+    // 因此堆顶的元素即为最小的子序列长度：
     unordered_map<int, priority_queue<int, vector<int>, greater<int>>> mp;
     for (auto& x : nums) {
       if (mp.find(x) == mp.end()) {
@@ -123,8 +137,7 @@ class Solution {
       }
     }
     for (auto it = mp.begin(); it != mp.end(); ++it) {
-      priority_queue<int, vector<int>, greater<int>> queue = it->second;
-      if (queue.top() < 3) {
+      if (it->second.top() < 3) {
         return false;
       }
     }

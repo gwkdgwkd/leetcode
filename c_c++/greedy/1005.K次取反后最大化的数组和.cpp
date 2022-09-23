@@ -48,3 +48,24 @@ int largestSumAfterKNegations(int *nums, int numsSize, int k) {
 
   return ret;
 }
+
+class Solution {
+ public:
+  int largestSumAfterKNegations(vector<int> &nums, int k) {
+    sort(nums.begin(), nums.end(),
+         [](const auto &a, const auto &b) { return abs(a) > abs(b); });
+
+    int n = nums.size();
+    for (int i = 0; i < n; ++i) {
+      if (nums[i] < 0 && k > 0) {
+        nums[i] *= -1;
+        --k;
+      }
+    }
+    while (k--) {
+      nums[n - 1] *= -1;
+    }
+
+    return accumulate(nums.begin(), nums.end(), 0);
+  }
+};

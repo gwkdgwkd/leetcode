@@ -1,5 +1,6 @@
 /*
-当且仅当每个相邻位数上的数字x和y满足x <= y时，我们称这个整数是单调递增的。
+当且仅当每个相邻位数上的数字x和y满足x<=y时，
+称这个整数是单调递增的。
 给定一个整数n，返回小于或等于n的最大数字，且数字呈单调递增。
 
 示例1:
@@ -72,3 +73,24 @@ int monotoneIncreasingDigits(int n) {
   }
   return atoi(strN);
 }
+
+class Solution {
+ public:
+  int monotoneIncreasingDigits(int n) {
+    string strN = to_string(n);
+    int i = 1;
+    while (i < strN.length() && strN[i - 1] <= strN[i]) {
+      i += 1;
+    }
+    if (i < strN.length()) {
+      while (i > 0 && strN[i - 1] > strN[i]) {
+        strN[i - 1] -= 1;
+        i -= 1;
+      }
+      for (i += 1; i < strN.length(); ++i) {
+        strN[i] = '9';
+      }
+    }
+    return stoi(strN);
+  }
+};

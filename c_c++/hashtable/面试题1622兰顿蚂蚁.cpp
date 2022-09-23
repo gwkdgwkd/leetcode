@@ -1,11 +1,16 @@
 /*
 一只蚂蚁坐在由白色和黑色方格构成的无限网格上。
-开始时，网格全白，蚂蚁面向右侧。每行走一步，蚂蚁执行以下操作。
-(1)如果在白色方格上，则翻转方格的颜色，向右(顺时针)转90度，并向前移动一个单位。
-(2)如果在黑色方格上，则翻转方格的颜色，向左(逆时针方向)转90度，并向前移动一个单位。
+开始时，网格全白，蚂蚁面向右侧。
+每行走一步，蚂蚁执行以下操作。
+1.如果在白色方格上，则翻转方格的颜色，
+  向右(顺时针)转90度，并向前移动一个单位。
+2.如果在黑色方格上，则翻转方格的颜色，
+  向左(逆时针方向)转90度，并向前移动一个单位。
 编写程序来模拟蚂蚁执行的前K个动作，并返回最终的网格。
-网格由数组表示，每个元素是一个字符串，代表网格中的一行，黑色方格由'X'表示，白色方格由'_'表示，
-蚂蚁所在的位置由'L','U','R','D'表示，分别表示蚂蚁 左、上、右、下 的朝向。
+网格由数组表示，每个元素是一个字符串，代表网格中的一行，
+黑色方格由'X'表示，白色方格由'_'表示，
+蚂蚁所在的位置由'L','U','R','D'表示，
+分别表示蚂蚁左、上、右、下的朝向。
 只需要返回能够包含蚂蚁走过的所有方格的最小矩形。
 
 示例1:
@@ -67,7 +72,7 @@ char **printKMoves(int K, int *returnSize) {
       hash_st *new = &pool[psize++];
       new->key[0] = cur[0];
       new->key[1] = cur[1];
-      new->val = 1;  // 没有使用的位置总是空白‘0’，但后面使用过后就为‘1’
+      new->val = 1;  // 没有使用的位置总是空白0，但后面使用过后就为1
 
       HASH_ADD_KEYPTR(hh, head, new->key, sizeof(new->key), new);
 
@@ -120,7 +125,6 @@ char **printKMoves(int K, int *returnSize) {
   }
 
   // 最终位置会填写方向，无需hash操作
-  // printf("[%d, %d](%c)\n", cur[0], cur[1], dirc);
 
   // 准备输出结果
   int row = ulen - dlen + 1;
@@ -151,3 +155,44 @@ char **printKMoves(int K, int *returnSize) {
   *returnSize = row;
   return ret;
 }
+
+class Solution {
+ public:
+  vector<string> printKMoves(int K) {
+    set<pair<int, int>> black;
+    if (K == 0) return vector<string>{"R"};
+    vector<char> direction = {'L', 'U', 'R', 'D'};
+    vector<int> hori = {-1, 0, 1, 0};
+    vector<int> vert = {0, 1, 0, -1};
+    int cur_x = 1, cur_y = 0;
+    int cur_direction = 2;
+    int top_left = 1, top_right = 0;
+    int top_up = 0, top_down = 0;
+    for (int i = 0; i < K; i++) {
+      if (black.find(pair<int, int>{cur_x, cur_y}) == black.end()) {
+        black.insert(pair<int, int>{cur_x, cur_y});
+        cur_direction = (cur_direction + 1) % 4;
+      } else {
+        black.erase(pair<int, int>{cur_x, cur_y});
+        cur_direction = (cur_direction - 1 + 4) % 4;
+      }
+      cur_x += hori[cur_direction];
+      cur_y += vert[cur_direction];
+      top_left = min(top_left, cur_x);
+      top_right = max(top_right, cur_x);
+      top_down = min(top_down, cur_y);
+      top_up = max(top_up, cur_y);
+    }
+    int rows = top_up - top_down + 1;
+    int cols = top_right - top_left + 1;
+    string t;
+    for (int i = 0; i < cols; i++) t.push_back('_');
+    vector<string> ans(rows, t);
+    for (auto it = black.begin(); it != black.end(); it++) {
+      int x = it->first, y = it->second;
+      ans[top_up - y][x - top_left] = 'X';
+    }
+    ans[top_up - cur_y][cur_x - top_left] = direction[cur_direction];
+    return ans;
+  }
+};

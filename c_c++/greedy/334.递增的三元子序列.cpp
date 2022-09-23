@@ -13,10 +13,11 @@
 输出：false
 解释：不存在满足题意的三元组
 
-示例 3：
+示例3：
 输入：nums = [2,1,5,0,4,6]
 输出：true
-解释：三元组(3, 4, 5)满足题意，因为nums[3] == 0 < nums[4] == 4 < nums[5] == 6
+解释：三元组(3, 4, 5)满足题意，
+     因为nums[3] == 0 < nums[4] == 4 < nums[5] == 6
 
 提示：
 1 <= nums.length <= 5 * 10^5
@@ -74,3 +75,28 @@ bool increasingTriplet(int *nums, int numsSize) {
   }
   return false;
 }
+
+class Solution {
+ public:
+  bool increasingTriplet(vector<int> &nums) {
+    int n = nums.size();
+    if (n < 3) {
+      return false;
+    }
+
+    int num1 = nums[0];
+    int num2 = INT_MAX;
+    for (int i = 1; i < n; ++i) {
+      int num3 = nums[i];
+      if (num3 > num2) {
+        return true;
+      } else if (num3 > num1) {
+        num2 = num3;
+      } else {
+        num1 = num3;
+      }
+    }
+
+    return false;
+  }
+};

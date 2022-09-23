@@ -40,3 +40,18 @@ bool isUnique(char* astr) {
 
   return true;
 }
+
+class Solution {
+ public:
+  bool isUnique(string astr) {
+    int n = astr.size();
+    int hash[26] = {0};
+    for (int i = 0; i < n; ++i) {
+      if (hash[astr[i] - 'a']++ > 0) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+};

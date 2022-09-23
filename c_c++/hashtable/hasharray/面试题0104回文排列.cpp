@@ -24,3 +24,23 @@ bool canPermutePalindrome(char* s) {
 
   return count < 2;
 }
+
+class Solution {
+ public:
+  bool canPermutePalindrome(string s) {
+    int n = s.size();
+    int hash[128] = {0};
+
+    for (int i = 0; i < n; ++i) {
+      hash[s[i]]++;
+    }
+    int cnt = 0;
+    for (int i = 0; i < 128; ++i) {
+      if (hash[i] % 2 && cnt++ > 0) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+};

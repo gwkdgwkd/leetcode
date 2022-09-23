@@ -22,7 +22,8 @@
 解释：
 前2位顾客那里，我们按顺序收取2张5美元的钞票。
 对于接下来的2位顾客，我们收取一张10美元的钞票，然后返还5美元。
-对于最后一位顾客，我们无法退回15美元，因为我们现在只有两张10美元的钞票。
+对于最后一位顾客，我们无法退回15美元，
+因为我们现在只有两张10美元的钞票。
 由于不是每位顾客都得到了正确的找零，所以答案是false。
 
 提示：
@@ -60,3 +61,32 @@ bool lemonadeChange(int* bills, int billsSize) {
 
   return true;
 }
+
+class Solution {
+ public:
+  bool lemonadeChange(vector<int>& bills) {
+    int c5 = 0;
+    int c10 = 0;
+
+    for (int i = 0; i < bills.size(); ++i) {
+      if (bills[i] == 5) {
+        ++c5;
+      } else if (bills[i] == 10) {
+        ++c10;
+        --c5;
+      } else if (bills[i] == 20) {
+        if (c10 > 0) {
+          --c10;
+          --c5;
+        } else {
+          c5 -= 3;
+        }
+      }
+      if (c5 < 0) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+};

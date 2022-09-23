@@ -1,5 +1,6 @@
 /*
-给定两个大小相等的数组A和B，A相对于B的优势可以用满足A[i] > B[i]的索引i的数目来描述。
+给定两个大小相等的数组A和B，
+A相对于B的优势可以用满足A[i]>B[i]的索引i的数目来描述。
 返回A的任意排列，使其相对于B的优势最大化。
 
 示例1：
@@ -56,3 +57,35 @@ int *advantageCount(int *A, int ASize, int *B, int BSize, int *returnSize) {
   *returnSize = ASize;
   return list;
 }
+
+class Solution {
+ public:
+  vector<int> advantageCount(vector<int> &nums1, vector<int> &nums2) {
+    sort(nums1.begin(), nums1.end(), greater<int>());
+    vector<pair<int, int>> pairs;
+
+    int n = nums2.size();
+    for (int i = 0; i < n; i++) {
+      pairs.push_back({i, nums2[i]});
+    }
+    sort(pairs.begin(), pairs.end(),
+         [](auto x, auto y) { return x.second > y.second; });
+
+    int curr = 0;
+    int min = n - 1;
+    vector<int> result(nums1.size(), 0);
+    for (int i = 0; i < n; ++i) {
+      int ide = pairs[i].first;
+      int val = pairs[i].second;
+      if (nums1[curr] > val) {
+        result[ide] = nums1[curr];
+        curr++;
+      } else {
+        result[ide] = nums1[min];
+        min--;
+      }
+    }
+
+    return result;
+  }
+};

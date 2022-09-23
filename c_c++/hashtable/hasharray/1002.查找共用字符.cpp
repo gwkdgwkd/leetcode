@@ -1,5 +1,7 @@
 /*
-给你一个字符串数组words，请你找出所有在words的每个字符串中都出现的共用字符（包括重复字符），并以数组形式返回。
+给你一个字符串数组words，
+请你找出所有在words的每个字符串中都出现的共用字符（包括重复字符），
+并以数组形式返回。
 你可以按任意顺序返回答案。
 
 示例1：
@@ -54,3 +56,34 @@ char** commonChars(char** words, int wordsSize, int* returnSize) {
 
   return res;
 }
+
+class Solution {
+ public:
+  vector<string> commonChars(vector<string>& words) {
+    int hash1[26] = {0};
+
+    int n = words.size();
+    for (int i = 0; i < words[0].size(); ++i) {
+      hash1[words[0][i] - 'a']++;
+    }
+
+    for (int i = 1; i < n; ++i) {
+      int hash2[26] = {0};
+      for (int j = 0; j < words[i].size(); ++j) {
+        hash2[words[i][j] - 'a']++;
+      }
+      for (int j = 0; j < 26; ++j) {
+        hash1[j] = min(hash1[j], hash2[j]);
+      }
+    }
+
+    vector<string> ans;
+    for (int j = 0; j < 26; ++j) {
+      while (hash1[j]--) {
+        ans.push_back({static_cast<char>(j + 'a')});
+      }
+    }
+
+    return ans;
+  }
+};

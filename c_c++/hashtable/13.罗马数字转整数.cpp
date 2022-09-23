@@ -1,5 +1,5 @@
 /*
-罗马数字包含以下七种字符:I， V， X， L，C，D和M。
+罗马数字包含以下七种字符:I，V，X，L，C，D和M。
 字符          数值
 I             1
 V             5
@@ -44,10 +44,11 @@ C可以放在D(500)和M(1000)的左边，来表示400和900。
 
 提示：
 1 <= s.length <= 15
-s仅含字符('I', 'V', 'X', 'L', 'C', 'D', 'M')
-题目数据保证s是一个有效的罗马数字，且表示整数在范围[1, 3999]内
+s仅含字符('I'，'V'，'X'，'L'，'C'，'D'，'M')
+题目数据保证s是一个有效的罗马数字，且表示整数在范围[1,3999]内。
 题目所给测试用例皆符合罗马数字书写规则，不会出现跨位等情况。
-IL和IM这样的例子并不符合题目要求，49应该写作XLIX，999应该写作CMXCIX。
+IL和IM这样的例子并不符合题目要求，
+49应该写作XLIX，999应该写作CMXCIX。
 */
 
 int romanToInt(char* s) {
@@ -71,3 +72,26 @@ int romanToInt(char* s) {
   }
   return ans;
 }
+
+class Solution {
+ private:
+  unordered_map<char, int> symbolValues = {
+      {'I', 1},   {'V', 5},   {'X', 10},   {'L', 50},
+      {'C', 100}, {'D', 500}, {'M', 1000},
+  };
+
+ public:
+  int romanToInt(string s) {
+    int ans = 0;
+    int n = s.length();
+    for (int i = 0; i < n; ++i) {
+      int value = symbolValues[s[i]];
+      if (i < n - 1 && value < symbolValues[s[i + 1]]) {
+        ans -= value;
+      } else {
+        ans += value;
+      }
+    }
+    return ans;
+  }
+};

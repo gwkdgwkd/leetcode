@@ -1,5 +1,6 @@
 /*
-给你两个字符串：ransomNote和magazine，判断ransomNote能不能由magazine里面的字符构成。
+给你两个字符串：ransomNote和magazine，
+判断ransomNote能不能由magazine里面的字符构成。
 如果可以，返回true；否则返回false。
 magazine中的每个字符只能在ransomNote中使用一次。
 
@@ -37,3 +38,23 @@ bool canConstruct(char* ransomNote, char* magazine) {
 
   return true;
 }
+
+class Solution {
+ public:
+  bool canConstruct(string ransomNote, string magazine) {
+    int lenr = ransomNote.size();
+    int lenm = magazine.size();
+
+    int hash[26] = {0};
+    for (int i = 0; i < lenm; ++i) {
+      hash[magazine[i] - 'a']++;
+    }
+    for (int i = 0; i < lenr; ++i) {
+      if (--hash[ransomNote[i] - 'a'] < 0) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+};

@@ -1,7 +1,8 @@
 /*
 给定一个整数数组nums和一个整数目标值target，
 请你在该数组中找出和为目标值target的那两个整数，并返回它们的数组下标。
-你可以假设每种输入只会对应一个答案。但是，数组中同一个元素在答案里不能重复出现。
+你可以假设每种输入只会对应一个答案。
+但是，数组中同一个元素在答案里不能重复出现。
 你可以按任意顺序返回答案。
 
 示例1：
@@ -29,8 +30,8 @@
 // 哈希表
 // 时间复杂度：O(N)
 // 空间复杂度：O(N)
-// 一般情况下，我们会首先把数组排序再考虑双指针技巧。
-// TwoSum启发我们，HashMap或者HashSet也可以帮助我们处理无序数组相关的简单问题。
+// 一般情况下，会首先把数组排序再考虑双指针技巧。
+// HashMap或者HashSet也可以帮助处理无序数组相关的简单问题。
 struct hashTable {
   int key;
   int val;
@@ -91,14 +92,18 @@ int* twoSum(int* nums, int numsSize, int target, int* returnSize) {
 class Solution {
  public:
   vector<int> twoSum(vector<int>& nums, int target) {
+    int n = nums.size();
     unordered_map<int, int> hash;
-    for (int i = 0; i < nums.size(); ++i) {
+    vector<int> ans;
+    for (int i = 0; i < n; ++i) {
       auto it = hash.find(target - nums[i]);
       if (it != hash.end()) {
         return {it->second, i};
+      } else {
+        hash.insert({nums[i], i});
       }
-      hash[nums[i]] = i;
     }
+
     return {};
   }
 };

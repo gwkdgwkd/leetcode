@@ -1,8 +1,12 @@
 /*
-假设有打乱顺序的一群人站成一个队列，数组people表示队列中一些人的属性（不一定按顺序）。
-每个people[i]=[hi,ki]表示第i个人的身高为hi，前面正好有ki个身高大于或等于hi的人。
+假设有打乱顺序的一群人站成一个队列，
+数组people表示队列中一些人的属性（不一定按顺序）。
+每个people[i]=[hi,ki]表示第i个人的身高为hi，
+前面正好有ki个身高大于或等于hi的人。
 请你重新构造并返回输入数组people所表示的队列。
-返回的队列应该格式化为数组queue，其中queue[j]=[hj,kj]是队列中第j个人的属性（queue[0]是排在队列前面的人）。
+返回的队列应该格式化为数组queue，
+其中queue[j]=[hj,kj]是队列中第j个人的属性，
+queue[0]是排在队列前面的人。
 
 示例1：
 输入：people = [[7,0],[4,4],[7,1],[5,0],[6,1],[5,2]]
@@ -63,3 +67,18 @@ int** reconstructQueue(int** people, int peopleSize, int* peopleColSize,
   *returnSize = peopleSize;
   return res;
 }
+
+class Solution {
+ public:
+  vector<vector<int>> reconstructQueue(vector<vector<int>>& people) {
+    sort(people.begin(), people.end(), [](const auto& a, const auto& b) {
+      return a[0] > b[0] || (a[0] == b[0] && a[1] < b[1]);
+    });
+    vector<vector<int>> ans;
+    for (const auto& p : people) {
+      ans.insert(ans.begin() + p[1], p);
+    }
+
+    return ans;
+  }
+};
