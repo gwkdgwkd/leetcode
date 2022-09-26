@@ -12,3 +12,12 @@ int maximum(int a, int b) {
   long long d = b;
   return ((c + d) + fabs(c - d)) / 2;
 }
+
+class Solution {
+ public:
+  int maximum(int a, int b) {
+    long long c = a;
+    long long d = b;
+    return ((c + d) + abs(c - d)) / 2;
+  }
+};

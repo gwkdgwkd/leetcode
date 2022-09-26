@@ -22,3 +22,19 @@ int numberOf2sInRange(int n) {
   }
   return ans;
 }
+
+class Solution {
+ public:
+  int numberOf2sInRange(int n) {
+    long mulk = 1;
+    int ans = 0;
+
+    while (n >= mulk) {
+      ans += (n / (mulk * 10)) * mulk +
+             min(max(n % (mulk * 10) - 2 * mulk + 1, 0L), mulk);
+      mulk *= 10;
+    }
+
+    return ans;
+  }
+};

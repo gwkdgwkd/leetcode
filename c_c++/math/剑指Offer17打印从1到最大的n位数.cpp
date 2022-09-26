@@ -16,14 +16,25 @@ int* printNumbers(int n, int* returnSize) {
   for (int i = 0; i < n; ++i) {
     len *= 10;
   }
-
   int* res = (int*)malloc(sizeof(int) * (len - 1));
 
   for (int i = 0; i < len - 1; ++i) {
     res[i] = i + 1;
   }
-
   *returnSize = len - 1;
 
   return res;
 }
+
+class Solution {
+ public:
+  vector<int> printNumbers(int n) {
+    vector<int> ans;
+    int count = pow(10, n);
+    for (int i = 1; i < count; ++i) {
+      ans.emplace_back(i);
+    }
+
+    return ans;
+  }
+};

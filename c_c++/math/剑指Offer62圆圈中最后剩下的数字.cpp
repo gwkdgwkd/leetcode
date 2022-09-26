@@ -1,8 +1,9 @@
 /*
-0,1,···,n-1这n个数字排成一个圆圈，从数字0开始，
+0,1···n-1这n个数字排成一个圆圈，从数字0开始，
 每次从这个圆圈里删除第m个数字（删除后从下一个数字开始计数）。
 求出这个圆圈里剩下的最后一个数字。
-例如，0、1、2、3、4这5个数字组成一个圆圈，从数字0开始每次删除第3个数字，
+例如，0、1、2、3、4这5个数字组成一个圆圈，
+从数字0开始每次删除第3个数字，
 则删除的前4个数字依次是2、0、4、1，因此最后剩下的数字是3。
 
 示例1：
@@ -45,6 +46,17 @@ int lastRemaining(int n, int m) {
   return ret;
 }
 
+class Solution {
+ public:
+  int lastRemaining(int n, int m) {
+    int ans = 0;
+    for (int i = 2; i <= n; ++i) {
+      ans = (ans + m) % i;
+    }
+    return ans;
+  }
+};
+
 // 环形链表，超时
 typedef struct node {
   int number;
@@ -77,9 +89,11 @@ int findAndKillK(person* head, int k, int m) {
     tail = p;
     p = p->next;
   }
-  // 从编号为k的人开始，只有符合p->next==p时，说明链表中除了p结点，所有编号都出列了，
+  // 从编号为k的人开始，只有符合p->next==p时，
+  // 说明链表中除了p结点，所有编号都出列了，
   while (p->next != p) {
-    // 找到从p报数1开始，报m的人，并且还要知道数m-1的人的位置tail，方便做删除操作。
+    // 找到从p报数1开始，报m的人，
+    // 并且还要知道数m-1的人的位置tail，方便做删除操作。
     for (int i = 0; i < m - 1; i++) {
       tail = p;
       p = p->next;
