@@ -106,26 +106,31 @@ int* maxSlidingWindow(int* nums, int numsSize, int k, int* returnSize) {
 class Solution {
  public:
   vector<int> maxSlidingWindow(vector<int>& nums, int k) {
-    int len = nums.size();
+    int n = nums.size();
 
-    vector<int> q(len);
+    // 单调递减的双端队列，保存nums的下标：
+    vector<int> que(n);
+    vector<int> ans;
     int head = 0;
     int tail = 0;
-    vector<int> res;
-
-    for (int i = 0; i < len; ++i) {
-      while (head < tail && i - k >= q[head]) {
+    for (int i = 0; i < n; ++i) {
+      // i-k>=que[head]表示当前窗口开始位置，已经超过head指定的索引：
+      while (head < tail && i - k >= que[head]) {
         ++head;
       }
-      while (head < tail && nums[q[tail - 1]] < nums[i]) {
+      // nums[que[tail - 1]] < nums[i]表示，
+      // nums[i]破坏了队列的单调递减行，
+      // 把队列中比nums[i]小的从队尾出队，
+      // 也就是说，出队的元素不是窗口内的最大值，不是答案：
+      while (head < tail && nums[que[tail - 1]] < nums[i]) {
         --tail;
       }
-      q[tail++] = i;
+      que[tail++] = i;
       if (i >= k - 1) {
-        res.emplace_back(nums[q[head]]);
+        ans.emplace_back(nums[que[head]]);
       }
     }
 
-    return res;
+    return ans;
   }
 };

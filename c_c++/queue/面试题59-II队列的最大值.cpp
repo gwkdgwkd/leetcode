@@ -4,8 +4,8 @@
 若队列为空，pop_front和max_value需要返回-1
 
 示例1：
-输入:
-["MaxQueue","push_back","push_back","max_value","pop_front","max_value"]
+输入：["MaxQueue","push_back","push_back",
+      "max_value","pop_front","max_value"]
 [[],[1],[2],[],[],[]]
 输出: [null,null,null,2,1,2]
 
@@ -54,3 +54,32 @@ int maxQueuePop_front(MaxQueue* obj) {
   return res;
 }
 void maxQueueFree(MaxQueue* obj) { free(obj); }
+
+class MaxQueue {
+  queue<int> que;
+  deque<int> max;
+
+ public:
+  MaxQueue() {}
+  int max_value() { return max.empty() ? -1 : max.front(); }
+  void push_back(int value) {
+    while (!max.empty() && max.back() < value) {
+      max.pop_back();
+    }
+    max.push_back(value);
+    que.push(value);
+  }
+  int pop_front() {
+    if (que.empty()) {
+      return -1;
+    }
+    int ans = que.front();
+    que.pop();
+
+    if (ans == max.front()) {
+      max.pop_front();
+    }
+
+    return ans;
+  }
+};

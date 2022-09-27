@@ -1,6 +1,8 @@
 /*
-在经典汉诺塔问题中，有3根柱子及N个不同大小的穿孔圆盘，盘子可以滑入任意一根柱子。
-一开始，所有盘子自上而下按升序依次套在第一根柱子上(即每一个盘子只能放在更大的盘子上面)。
+在经典汉诺塔问题中，有3根柱子及N个不同大小的穿孔圆盘，
+盘子可以滑入任意一根柱子。
+一开始，所有盘子自上而下按升序依次套在第一根柱子上，
+即每一个盘子只能放在更大的盘子上面。
 移动圆盘时受到以下限制:
 1.每次只能移动一个盘子;
 2.盘子只能从柱子顶端滑出移到下一根柱子;
@@ -20,7 +22,7 @@
 */
 
 // n==1，从a上移动到c
-// n>1,先从a上移动一个到b，然后从a上移动一个到c，最后从b上移动一个到c。
+// n>1，先从a上移动一个到b，然后从a上移动一个到c，最后从b上移动一个到c。
 void move(int n, int* a, int* n1, int* b, int* n2, int* c, int* n3) {
   if (n == 1) {
     c[(*n3)++] = a[--(*n1)];
@@ -38,3 +40,25 @@ void hanota(int* A, int ASize, int* B, int BSize, int** C, int* CSize) {
   *C = ret;
   *CSize = n;
 }
+
+class Solution {
+  // 把A中的n个元素移动到C，需要借助B：
+  void move(int n, vector<int>& A, vector<int>& B, vector<int>& C) {
+    if (n == 1) {
+      C.push_back(A.back());
+      A.pop_back();
+      return;
+    }
+
+    move(n - 1, A, C, B);
+    C.push_back(A.back());
+    A.pop_back();
+    move(n - 1, B, A, C);
+  }
+
+ public:
+  void hanota(vector<int>& A, vector<int>& B, vector<int>& C) {
+    int n = A.size();
+    move(n, A, B, C);
+  }
+};

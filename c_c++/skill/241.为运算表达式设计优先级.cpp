@@ -1,6 +1,6 @@
 /*
-给你一个由数字和运算符组成的字符串expression，按不同优先级组合数字和运算符，
-计算并返回所有可能组合的结果。
+给你一个由数字和运算符组成的字符串expression，
+按不同优先级组合数字和运算符，计算并返回所有可能组合的结果。
 你可以按任意顺序返回答案。
 
 示例1：
@@ -92,3 +92,35 @@ int *diffWaysToCompute(char *input, int *returnSize) {
   *returnSize = retcnt;
   return ret;
 }
+
+// 分治
+class Solution {
+ public:
+  vector<int> diffWaysToCompute(string exp) {
+    vector<int> ans;
+    if (exp.size() == 0) return {};
+    for (int i = 0; i < exp.size(); i++) {
+      char act = exp[i];
+      if (act == '+' || act == '-' || act == '*') {
+        vector<int> left = diffWaysToCompute(exp.substr(0, i));
+        vector<int> right =
+            diffWaysToCompute(exp.substr(i + 1, exp.size() - i - 1));
+        for (int l_num : left) {
+          for (int r_num : right) {
+            if (act == '+') {
+              ans.push_back(l_num + r_num);
+            }
+            if (act == '-') {
+              ans.push_back(l_num - r_num);
+            }
+            if (act == '*') {
+              ans.push_back(l_num * r_num);
+            }
+          }
+        }
+      }
+    }
+    if (ans.size() == 0) ans.push_back(stoi(exp));
+    return ans;
+  }
+};

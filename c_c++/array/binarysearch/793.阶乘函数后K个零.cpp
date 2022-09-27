@@ -1,6 +1,8 @@
 /*
-f(x)是x!末尾是0的数量。回想一下x! = 1 * 2 * 3 * ... * x，且0! = 1 。
-例如，f(3) = 0，因为3! = 6的末尾没有0；而f(11) = 2，因为11!=39916800末端有2个0。
+f(x)是x!末尾是0的数量。
+回想一下x! = 1 * 2 * 3 * ... * x，且0! = 1 。
+例如，f(3) = 0，因为3! = 6的末尾没有0；
+而f(11) = 2，因为11!=39916800末端有2个0。
 给定k，找出返回能满足f(x) = k的非负整数x的数量。
 
 示例1：
@@ -22,6 +24,7 @@ f(x)是x!末尾是0的数量。回想一下x! = 1 * 2 * 3 * ... * x，且0! = 1 
 
 // 面试题1605阶乘尾数
 
+// 172.阶乘后的零的写法：
 long trailingZeroes(long n) {
   long res = 0;
   for (long d = n; d / 5 > 0; d = d / 5) {
@@ -61,3 +64,31 @@ long right_bound(int target) {
   return lo - 1;
 }
 int preimageSizeFZF(int k) { return right_bound(k) - left_bound(k) + 1; }
+
+class Solution {
+ public:
+  // 计算x的阶乘末尾有多少个0：
+  long zeta(long x) {
+    long ans = 0;
+    while (x) {
+      x /= 5;
+      ans += x;
+    }
+    return ans;
+  }
+
+  int preimageSizeFZF(int k) {
+    long left = k, right = 5L * k;
+    while (left <= right) {
+      long mid = left + (right - left) / 2;
+      long tmp = zeta(mid);
+      if (tmp == k)
+        return 5;
+      else if (tmp > k)
+        right = mid / 5 * 5 - 5;
+      else
+        left = mid / 5 * 5 + 5;
+    }
+    return 0;
+  }
+};
