@@ -93,3 +93,48 @@ void reorderList(struct ListNode* head) {
 
   return head;
 }
+
+class Solution {
+  ListNode* reverse(ListNode* head) {
+    ListNode* left = nullptr;
+    ListNode* curr = head;
+    ListNode* right;
+    while (curr) {
+      right = curr->next;
+      curr->next = left;
+      left = curr;
+      curr = right;
+    }
+
+    return left;
+  }
+  void merge(ListNode* head1, ListNode* head2) {
+    ListNode* h1;
+    ListNode* h2;
+    while (head1 && head2) {
+      h1 = head1->next;
+      h2 = head2->next;
+
+      head1->next = head2;
+      head1 = h1;
+      head2->next = head1;
+      head2 = h2;
+    }
+  }
+
+ public:
+  void reorderList(ListNode* head) {
+    ListNode* slow = head;
+    ListNode* fast = head;
+    while (fast && fast->next) {
+      fast = fast->next->next;
+      slow = slow->next;
+    }
+
+    ListNode* tmp = slow->next;
+    slow->next = nullptr;
+    ListNode* head2 = reverse(tmp);
+
+    merge(head, head2);
+  }
+};

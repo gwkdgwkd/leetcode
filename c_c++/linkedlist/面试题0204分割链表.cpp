@@ -42,3 +42,30 @@ struct ListNode* partition(struct ListNode* head, int x) {
 
   return dummy1.next;
 }
+
+class Solution {
+ public:
+  ListNode* partition(ListNode* head, int x) {
+    ListNode dummy1(0, head);
+    ListNode* h1 = &dummy1;
+    ListNode dummy2(0, head);
+    ListNode* h2 = &dummy2;
+
+    while (head) {
+      if (head->val < x) {
+        h1->next = head;
+        h1 = h1->next;
+      } else {
+        h2->next = head;
+        h2 = h2->next;
+      }
+
+      head = head->next;
+    }
+
+    h2->next = nullptr;
+    h1->next = dummy2.next;
+
+    return dummy1.next;
+  }
+};

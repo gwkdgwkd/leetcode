@@ -25,3 +25,23 @@ int* reversePrint(struct ListNode* head, int* returnSize) {
 
   return res;
 }
+
+// 栈+数组逆转链表
+class Solution {
+ public:
+  vector<int> reversePrint(ListNode* head) {
+    stack<int> stk;
+    while (head) {
+      stk.push(head->val);
+      head = head->next;
+    }
+
+    vector<int> ans;
+    while (!stk.empty()) {
+      ans.emplace_back(stk.top());
+      stk.pop();
+    }
+
+    return ans;
+  }
+};

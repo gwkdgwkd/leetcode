@@ -1,11 +1,13 @@
 /*
-设计链表的实现。您可以选择使用单链表或双链表。单链表中的节点应该具有两个属性：val和next。
+设计链表的实现。您可以选择使用单链表或双链表。
+单链表中的节点应该具有两个属性：val和next。
 val是当前节点的值，next是指向下一个节点的指针/引用。
 如果要使用双向链表，则还需要一个属性prev以指示链表中的上一个节点。
 假设链表中的所有节点都是0-index的。
 
 在链表类中实现这些功能：
-get(index)：获取链表中第index个节点的值。如果索引无效，则返回-1。
+get(index)：获取链表中第index个节点的值。
+            如果索引无效，则返回-1。
 addAtHead(val)：在链表的第一个元素之前添加一个值为val的节点。
                 插入后，新节点将成为链表的第一个节点。
 addAtTail(val)：将值为val的节点追加到链表的最后一个元素。
@@ -161,3 +163,54 @@ void printLinkedList(const char* str, MyLinkedList* obj) {
   }
   printf("]\n");
 }
+
+class MyLinkedList {
+ public:
+  MyLinkedList() {
+    this->size = 0;
+    this->head = new ListNode(0);
+  }
+  int get(int index) {
+    if (index < 0 || index >= size) {
+      return -1;
+    }
+    ListNode* cur = head;
+    for (int i = 0; i <= index; i++) {
+      cur = cur->next;
+    }
+    return cur->val;
+  }
+  void addAtHead(int val) { addAtIndex(0, val); }
+  void addAtTail(int val) { addAtIndex(size, val); }
+  void addAtIndex(int index, int val) {
+    if (index > size) {
+      return;
+    }
+    index = max(0, index);
+    size++;
+    ListNode* pred = head;
+    for (int i = 0; i < index; i++) {
+      pred = pred->next;
+    }
+    ListNode* toAdd = new ListNode(val);
+    toAdd->next = pred->next;
+    pred->next = toAdd;
+  }
+  void deleteAtIndex(int index) {
+    if (index < 0 || index >= size) {
+      return;
+    }
+    size--;
+    ListNode* pred = head;
+    for (int i = 0; i < index; i++) {
+      pred = pred->next;
+    }
+    ListNode* p = pred->next;
+    pred->next = pred->next->next;
+    delete p;
+  }
+
+ private:
+  int size;
+  ListNode* head;
+};

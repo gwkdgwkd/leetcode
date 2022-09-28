@@ -53,3 +53,35 @@ struct ListNode* reverseKGroup(struct ListNode* head, int k) {
 
   return res;
 }
+
+class Solution {
+  ListNode* reverse(ListNode* start, ListNode* end) {
+    ListNode* left = nullptr;
+    ListNode* curr = start;
+    ListNode* right;
+    while (curr != end) {
+      right = curr->next;
+      curr->next = left;
+      left = curr;
+      curr = right;
+    }
+    return left;
+  }
+
+ public:
+  ListNode* reverseKGroup(ListNode* head, int k) {
+    ListNode* curr = head;
+    for (int i = 0; i < k; ++i) {
+      if (!curr) {
+        return head;
+      }
+      curr = curr->next;
+    }
+
+    ListNode* ans = reverse(head, curr);
+    // head此时变成了链表尾了：
+    head->next = reverseKGroup(curr, k);
+
+    return ans;
+  }
+};

@@ -39,8 +39,8 @@ struct ListNode* removeNthFromEnd(struct ListNode* head, int n) {
   struct ListNode* slow = &dummy;
 
   while (fast) {
-    // 让fast先走n+1步
-    if (n-- >= 0) {  // 等于0，让fast多走一步，最终slow停在删除节点之前
+    // 等于0，让fast多走一步，最终slow停在删除节点之前：
+    if (n-- >= 0) {
       fast = fast->next;
       continue;
     }
@@ -55,7 +55,8 @@ struct ListNode* removeNthFromEnd(struct ListNode* head, int n) {
   free(del);
   del = NULL;
 
-  return dummy.next;  // 不能返回head，只有一个节点时，head为NULL
+  // 不能返回head，只有一个节点时，head为NULL：
+  return dummy.next;
 }
 
 struct ListNode* removeNthFromEnd(struct ListNode* head, int n) {
@@ -65,7 +66,8 @@ struct ListNode* removeNthFromEnd(struct ListNode* head, int n) {
   int i = 1;
   if (!(head->next)) return NULL;
 
-  // 快指针先走n个节点后，开始执行while,然快慢指针同时走，最后快指针走到尾部时，慢指针正好是倒数第n个
+  // 快指针先走n个节点后，开始执行while，然快慢指针同时走，
+  // 最后快指针走到尾部时，慢指针正好是倒数第n个：
   while (i <= n) {
     fast = fast->next;
     i++;
@@ -94,20 +96,47 @@ struct ListNode* removeNthFromEnd(struct ListNode* head, int n) {
   }
 
   if (fast == NULL) {
-    // 如果此时快指针走到头了，说明倒数第n个节点就是第一个节点
+    // 如果此时快指针走到头了，说明倒数第n个节点就是第一个节点：
     return head->next;
   }
 
-  // 让慢指针和快指针同步向前
+  // 让慢指针和快指针同步向前：
   while (fast != NULL && fast->next != NULL) {
     fast = fast->next;
     slow = slow->next;
   }
 
-  // slow.next就是倒数第n个节点的前一个节点，删除它
+  // slow.next就是倒数第n个节点的前一个节点，删除它：
   slow->next = slow->next->next;
   return head;
 }
+
+class Solution {
+ public:
+  ListNode* removeNthFromEnd(ListNode* head, int n) {
+    ListNode dummy;
+    dummy.next = head;
+    ListNode* fast = &dummy;
+    ListNode* slow = &dummy;
+
+    while (fast) {
+      while (n-- >= 0) {
+        fast = fast->next;
+        continue;
+      }
+      if (fast) {
+        fast = fast->next;
+        slow = slow->next;
+      }
+    }
+    ListNode* del = slow->next;
+    slow->next = slow->next->next;
+    delete (del);
+    del = nullptr;
+
+    return dummy.next;
+  }
+};
 
 // 剑指Offer22链表中倒数第k个节点，输出该链表中倒数第k个节点
 struct ListNode* getKthFromEnd(struct ListNode* head, int k) {

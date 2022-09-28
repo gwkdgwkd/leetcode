@@ -66,3 +66,33 @@ struct Node* insert(struct Node* head, int insertVal) {
 
   return head;
 }
+
+class Solution {
+ public:
+  Node* insert(Node* head, int insertVal) {
+    Node* node = new Node(insertVal);
+    if (head == nullptr) {
+      node->next = node;
+      return node;
+    }
+
+    Node* currNode = head;
+    Node* nextNode = head->next;
+    while (nextNode != head) {
+      if (currNode->val <= insertVal && insertVal <= nextNode->val) {
+        break;
+      }
+      if (currNode->val > nextNode->val &&
+          (currNode->val < insertVal || insertVal < nextNode->val)) {
+        break;
+      }
+      currNode = currNode->next;
+      nextNode = nextNode->next;
+    }
+
+    currNode->next = node;
+    node->next = nextNode;
+
+    return head;
+  }
+};

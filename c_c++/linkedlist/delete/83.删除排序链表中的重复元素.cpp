@@ -1,5 +1,7 @@
 /*
-给定一个已排序的链表的头head，删除所有重复的元素，使每个元素只出现一次。返回已排序的链表。
+给定一个已排序的链表的头head，
+删除所有重复的元素，使每个元素只出现一次。
+返回已排序的链表。
 
 示例1：
 输入：head = [1,1,2]
@@ -37,6 +39,27 @@ struct ListNode* deleteDuplicates(struct ListNode* head) {
   return head;
 }
 
+class Solution {
+ public:
+  ListNode* deleteDuplicates(ListNode* head) {
+    if (!head) {
+      return head;
+    }
+    ListNode* slow = head;
+    ListNode* fast = head;
+    while (fast) {
+      if (slow->val != fast->val) {
+        slow->next = fast;
+        slow = slow->next;
+      }
+      fast = fast->next;
+    }
+
+    slow->next = nullptr;
+    return head;
+  }
+};
+
 // 面试题0201移除重复节点
 // 编写代码，移除未排序链表中的重复节点。保留最开始出现的节点。
 // 进阶：如果不得使用临时缓冲区，该怎么解决？
@@ -54,3 +77,24 @@ struct ListNode* removeDuplicateNodes(struct ListNode* head) {
     h1 = h1->next;
   }
   return head;
+}
+
+class Solution {
+ public:
+  ListNode* removeDuplicateNodes(ListNode* head) {
+    ListNode* slow = head;
+    while (slow) {
+      ListNode* fast = slow;
+      while (fast->next) {
+        if (slow->val == fast->next->val) {
+          fast->next = fast->next->next;
+        } else {
+          fast = fast->next;
+        }
+      }
+      slow = slow->next;
+    }
+
+    return head;
+  }
+};

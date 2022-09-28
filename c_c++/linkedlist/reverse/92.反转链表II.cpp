@@ -1,5 +1,5 @@
 /*
-给你单链表的头指针head和两个整数left和right，其中left <= right。
+给你单链表的头指针head和两个整数left和right，其中left<=right。
 请你反转从位置left到位置right的链表节点，返回反转后的链表。
 
 示例1：
@@ -57,11 +57,11 @@ struct ListNode* reverseBetween(struct ListNode* head, int left, int right) {
   dummy.next = head;
   struct ListNode* preTmp = &dummy;
   for (int i = 1; i < left; ++i) {
-    // 找到翻转区间的pre节点
+    // 找到翻转区间的pre节点：
     preTmp = preTmp->next;
   }
 
-  // 对翻转区间进行翻转
+  // 对翻转区间进行翻转：
   struct ListNode* pre = preTmp;
   struct ListNode* cur = pre->next;
   struct ListNode* next = NULL;
@@ -79,17 +79,43 @@ struct ListNode* reverseBetween(struct ListNode* head, int left, int right) {
   return dummy.next;
 }
 
+class Solution {
+ public:
+  ListNode* reverseBetween(ListNode* head, int left, int right) {
+    ListNode dummy(0, head);
+    ListNode* pre = &dummy;
+    int i = 1;
+    while (i++ < left) {
+      pre = pre->next;
+    }
+
+    ListNode* leftNode = pre;
+    ListNode* currNode = pre->next;
+    ListNode* rightNode;
+    for (i = left; i <= right; ++i) {
+      rightNode = currNode->next;
+      currNode->next = leftNode;
+      leftNode = currNode;
+      currNode = rightNode;
+    }
+
+    pre->next->next = currNode;
+    pre->next = leftNode;
+    return dummy.next;
+  }
+};
+
 // 迭代
 struct ListNode* reverseBetween(struct ListNode* head, int left, int right) {
-  // left, right相等或链表只有一个结点可以直接返回结果
+  // left, right相等或链表只有一个结点可以直接返回结果：
   if (head->next == NULL || left == right) return head;
 
-  // 设置头结点可以将left为1的情况一般化
+  // 设置头结点可以将left为1的情况一般化：
   int i;
   struct ListNode *p, *q, *r, h;
   h.next = head;
 
-  // q对应left位置的结点, p指向其前一个结点
+  // q对应left位置的结点, p指向其前一个结点：
   for (p = &h, i = 0; i < left - 1; i++, p = p->next)
     ;
   q = p->next;

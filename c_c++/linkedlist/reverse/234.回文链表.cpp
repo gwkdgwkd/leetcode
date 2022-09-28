@@ -1,5 +1,7 @@
 /*
-给你一个单链表的头节点head，请你判断该链表是否为回文链表。如果是，返回true；否则，返回false。
+给你一个单链表的头节点head，请你判断该链表是否为回文链表。
+如果是，返回true；
+否则，返回false。
 
 示例1：
 输入：head = [1,2,2,1]
@@ -63,3 +65,42 @@ bool isPalindrome(struct ListNode* head) {
 
   return true;
 }
+
+class Solution {
+  ListNode* reverse(ListNode* head) {
+    ListNode* left = nullptr;
+    ListNode* curr = head;
+    ListNode* right;
+    while (curr) {
+      right = curr->next;
+      curr->next = left;
+      left = curr;
+      curr = right;
+    }
+    return left;
+  }
+
+ public:
+  bool isPalindrome(ListNode* head) {
+    ListNode* slow = head;
+    ListNode* fast = head;
+    while (fast && fast->next) {
+      fast = fast->next->next;
+      slow = slow->next;
+    }
+
+    if (fast) {
+      slow = slow->next;
+    }
+
+    ListNode* r = reverse(slow);
+    while (r) {
+      if (head->val != r->val) {
+        return false;
+      }
+      head = head->next;
+      r = r->next;
+    }
+    return true;
+  }
+};

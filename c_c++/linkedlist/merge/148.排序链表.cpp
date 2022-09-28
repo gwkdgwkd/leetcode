@@ -17,7 +17,8 @@
 链表中节点的数目在范围[0, 5 * 10^4]内
 -10^5 <= Node.val <= 10^5
 
-进阶：你可以在O(nlogn)时间复杂度和常数级空间复杂度下，对链表进行排序吗？
+进阶：你可以在O(nlogn)时间复杂度和常数级空间复杂度下，
+     对链表进行排序吗？
 */
 
 struct ListNode {
@@ -27,7 +28,7 @@ struct ListNode {
 
 // 自顶向下归并排序
 // 时间复杂度：O(nlog⁡n)
-// 空间复杂度：O(log⁡n)
+// 空间复杂度：O(log⁡n)，由于递归导致的
 struct ListNode* merge(struct ListNode* head1, struct ListNode* head2) {
   struct ListNode* dummyHead = malloc(sizeof(struct ListNode));
   dummyHead->val = 0;
@@ -71,6 +72,54 @@ struct ListNode* toSortList(struct ListNode* head, struct ListNode* tail) {
 struct ListNode* sortList(struct ListNode* head) {
   return toSortList(head, NULL);
 }
+
+class Solution {
+ public:
+  // 21.合并两个有序链表：
+  ListNode* merge(ListNode* list1, ListNode* list2) {
+    ListNode dummy;
+    ListNode* curr = &dummy;
+    ListNode* l1 = list1;
+    ListNode* l2 = list2;
+    while (l1 && l2) {
+      if (l1->val < l2->val) {
+        curr->next = l1;
+        l1 = l1->next;
+      } else {
+        curr->next = l2;
+        l2 = l2->next;
+      }
+      curr = curr->next;
+    }
+    if (l1) {
+      curr->next = l1;
+    }
+    if (l2) {
+      curr->next = l2;
+    }
+    return dummy.next;
+  }
+  ListNode* twoList(ListNode* start, ListNode* end) {
+    if (start == nullptr) {
+      return start;
+    }
+    if (start->next == end) {
+      start->next = nullptr;
+      return start;
+    }
+    ListNode* slow = start;
+    ListNode* fast = start;
+    while (fast != end && fast->next != end) {
+      fast = fast->next->next;
+      slow = slow->next;
+    }
+
+    ListNode* l = twoList(start, slow);  // slow此时就是mid
+    ListNode* r = twoList(slow, end);
+    return merge(l, r);
+  }
+  ListNode* sortList(ListNode* head) { return twoList(head, nullptr); }
+};
 
 // 自底向上归并排序
 // 时间复杂度：O(nlog⁡n)
@@ -137,3 +186,78 @@ struct ListNode* sortList(struct ListNode* head) {
   }
   return dummyHead->next;
 }
+
+class Solution {
+ public:
+  // 21.合并两个有序链表：
+  ListNode* merge(ListNode* list1, ListNode* list2) {
+    ListNode dummy;
+    ListNode* curr = &dummy;
+    ListNode* l1 = list1;
+    ListNode* l2 = list2;
+    while (l1 && l2) {
+      if (l1->val < l2->val) {
+        curr->next = l1;
+        l1 = l1->next;
+      } else {
+        curr->next = l2;
+        l2 = l2->next;
+      }
+      curr = curr->next;
+    }
+    if (l1) {
+      curr->next = l1;
+    }
+    if (l2) {
+      curr->next = l2;
+    }
+    return dummy.next;
+  }
+
+  // 使用迭代，不用递归，所以空间复杂度为：O(1)
+  ListNode* sortList(ListNode* head) {
+    if (head == nullptr) {
+      return head;
+    }
+
+    // 统计链表节点个数：
+    ListNode* node = head;
+    int n = 0;
+    while (node) {
+      node = node->next;
+      ++n;
+    }
+
+    ListNode dummy(0, head);                 // 虚拟头节点
+    for (int len = 1; len < n; len <<= 1) {  // 遍历子链表长度
+      ListNode* prev = &dummy;
+      ListNode* curr = dummy.next;
+      while (curr) {
+        // 找到长度为len的子链表1：
+        ListNode* head1 = curr;
+        for (int i = 1; i < len && curr->next; ++i) {
+          curr = curr->next;
+        }
+        ListNode* head2 = curr->next;
+        curr->next = nullptr;  // 子链表尾部为空
+        curr = head2;
+        // 找到长度为len的子链表2：
+        for (int i = 1; i < len && curr && curr->next; ++i) {
+          curr = curr->next;
+        }
+        ListNode* remain = nullptr;  // 标记子链表1和2后面的节点
+        if (curr != nullptr) {
+          remain = curr->next;
+          curr->next = nullptr;
+        }
+        prev->next = merge(head1, head2);  // 排序子链表1和子链表2
+        while (prev->next) {
+          prev = prev->next;
+        }
+        curr = remain;  // curr指向没排序子链表，下次循环继续拆分排序
+      }
+    }
+
+    return dummy.next;
+  }
+};
