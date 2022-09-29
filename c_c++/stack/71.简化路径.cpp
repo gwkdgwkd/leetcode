@@ -1,13 +1,17 @@
 /*
-给你一个字符串path，表示指向某一文件或目录的Unix风格绝对路径（以'/'开头），请你将其转化为更加简洁的规范路径。
-在Unix风格的文件系统中，一个点（.）表示当前目录本身；此外，两个点（..）表示将目录切换到上一级（指向父目录）；
-两者都可以是复杂相对路径的组成部分。任意多个连续的斜杠（即，'//'）都被视为单个斜杠'/'。
+给你一个字符串path，
+表示指向某一文件或目录的Unix风格绝对路径（以'/'开头），
+请你将其转化为更加简洁的规范路径。
+在Unix风格的文件系统中，一个点（.）表示当前目录本身；
+此外，两个点（..）表示将目录切换到上一级（指向父目录）；
+两者都可以是复杂相对路径的组成部分。
+任意多个连续的斜杠（即，'//'）都被视为单个斜杠'/'。
 对于此问题，任何其他格式的点（例如，'...'）均被视为文件/目录名称。
 请注意，返回的规范路径必须遵循下述格式：
 始终以斜杠'/'开头。
 两个目录名之间必须只有一个斜杠'/'。
 最后一个目录名（如果存在）不能以'/'结尾。
-此外，路径仅包含从根目录到目标文件或目录的路径上的目录（即，不含'.'或'..'）。
+此外，路径仅包含从根目录到目标文件或目录的路径上的目录（不含'.'或'..'）。
 返回简化后得到的规范路径。
 
 示例1：
@@ -98,3 +102,44 @@ char *simplifyPath(char *path) {
   free(stack);
   return ans;
 }
+
+class Solution {
+ public:
+  string simplifyPath(string path) {
+    auto split = [](const string &s, char delim) -> vector<string> {
+      vector<string> ans;
+      string cur;
+      for (char ch : s) {
+        if (ch == delim) {
+          ans.push_back(move(cur));
+          cur.clear();
+        } else {
+          cur += ch;
+        }
+      }
+      ans.push_back(move(cur));
+      return ans;
+    };
+
+    vector<string> names = split(path, '/');
+    vector<string> stack;
+    for (string &name : names) {
+      if (name == "..") {
+        if (!stack.empty()) {
+          stack.pop_back();
+        }
+      } else if (!name.empty() && name != ".") {
+        stack.push_back(move(name));
+      }
+    }
+    string ans;
+    if (stack.empty()) {
+      ans = "/";
+    } else {
+      for (string &name : stack) {
+        ans += "/" + move(name);
+      }
+    }
+    return ans;
+  }
+};

@@ -1,7 +1,8 @@
 /*
 给你一个字符串表达式s，请你实现一个基本计算器来计算并返回它的值。
 整数除法仅保留整数部分。
-你可以假设给定的表达式总是有效的。所有中间结果将在[-2^31, 2^31 - 1]的范围内。
+你可以假设给定的表达式总是有效的。
+所有中间结果将在[-2^31, 2^31 - 1]的范围内。
 注意：不允许使用任何将字符串作为数学表达式计算的内置函数，比如eval()。
 
 示例1：
@@ -59,3 +60,36 @@ int calculate(char* s) {
   }
   return ret;
 }
+
+class Solution {
+ public:
+  int calculate(string s) {
+    vector<int> stk;
+    char preSign = '+';
+    int num = 0;
+    int n = s.length();
+    for (int i = 0; i < n; ++i) {
+      if (isdigit(s[i])) {
+        num = num * 10 + int(s[i] - '0');
+      }
+      if (!isdigit(s[i]) && s[i] != ' ' || i == n - 1) {
+        switch (preSign) {
+          case '+':
+            stk.push_back(num);
+            break;
+          case '-':
+            stk.push_back(-num);
+            break;
+          case '*':
+            stk.back() *= num;
+            break;
+          default:
+            stk.back() /= num;
+        }
+        preSign = s[i];
+        num = 0;
+      }
+    }
+    return accumulate(stk.begin(), stk.end(), 0);
+  }
+};

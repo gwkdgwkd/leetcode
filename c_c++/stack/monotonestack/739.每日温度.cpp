@@ -85,9 +85,13 @@ class Solution {
 };
 
 // 单调栈？就是栈里的元素保持升序或者降序。
-// 通常是一维数组，要寻找任一个元素的右边或者左边第一个比自己大或者小的元素的位置，此时我们就要想到可以用单调栈了。
+// 通常是一维数组，
+// 要寻找任一个元素的右边或者左边第一个比自己大或者小的元素的位置，
+// 此时就要想到可以用单调栈了。
 // 时间复杂度为O(n)。
-// 单调栈的本质是空间换时间，因为在遍历的过程中需要用一个栈来记录右边第一个比当前元素大的元素，优点是只需要遍历一次。
+// 单调栈的本质是空间换时间，
+// 因为在遍历的过程中需要用一个栈来记录右边第一个比当前元素大的元素，
+// 优点是只需要遍历一次。
 #define STACKSIZE 30000
 int stackIndex;
 int stack[STACKSIZE];
@@ -97,17 +101,23 @@ void push(int c) { stack[stackIndex++] = c; }
 bool empty() { return stackIndex == 0; }
 int* dailyTemperatures(int* temperatures, int temperaturesSize,
                        int* returnSize) {
-  // 维护一个存储下标的单调栈，从栈底到栈顶的下标对应的温度列表中的温度依次递减。
+  // 维护一个存储下标的单调栈，
+  // 从栈底到栈顶的下标对应的温度列表中的温度依次递减。
   // 如果一个下标在单调栈里，则表示尚未找到下一次温度更高的下标。
-  // 正向遍历温度列表。对于温度列表中的每个元素temperatures[i]，如果栈为空，则直接将i进栈，
-  // 如果栈不为空，则比较栈顶元素prevIndex对应的温度temperatures[prevIndex]和当前温度temperatures[i]，
-  // 如果temperatures[i] > temperatures[prevIndex]，则将prevIndex移除，
-  // 并将prevIndex对应的等待天数赋为i - prevIndex，
+  // 正向遍历温度列表，对于温度列表中的每个元素temperatures[i]，
+  // 如果栈为空，则直接将i进栈，如果栈不为空，
+  // 则比较栈顶元素prevIndex对应的温度temperatures[prevIndex]，
+  // 和当前温度temperatures[i]，
+  // 如果temperatures[i]>temperatures[prevIndex]，则将prevIndex移除，
+  // 并将prevIndex对应的等待天数赋为i-prevIndex，
   // 重复上述操作直到栈为空或者栈顶元素对应的温度小于等于当前温度，然后将i进栈。
   // 为什么可以在弹栈的时候更新ans[prevIndex]呢？
-  // 因为在这种情况下，即将进栈的i对应的temperatures[i]一定是temperatures[prevIndex]右边第一个比它大的元素，
-  // 试想如果prevIndex和i有比它大的元素，假设下标为j，那么prevIndex一定会在下标j的那一轮被弹掉。
-  // 由于单调栈满足从栈底到栈顶元素对应的温度递减，因此每次有元素进栈时，会将温度更低的元素全部移除，
+  // 因为在这种情况下，即将进栈的i对应的temperatures[i]，
+  // 一定是temperatures[prevIndex]右边第一个比它大的元素，
+  // 试想如果prevIndex和i有比它大的元素，假设下标为j，
+  // 那么prevIndex一定会在下标j的那一轮被弹掉。
+  // 由于单调栈满足从栈底到栈顶元素对应的温度递减，
+  // 因此每次有元素进栈时，会将温度更低的元素全部移除，
   // 并更新出栈元素对应的等待天数，这样可以确保等待天数一定是最小的。
 
   int* res = (int*)malloc(sizeof(int) * temperaturesSize);
@@ -120,15 +130,15 @@ int* dailyTemperatures(int* temperatures, int temperaturesSize,
 
   for (int i = 1; i < temperaturesSize; ++i) {
     if (temperatures[i] < temperatures[top()]) {
-      // 情况一，当前遍历的元素temperatures[i]小于栈顶元素temperatures[st.top()]的情况
+      // 情况一，当前元素temperatures[i]小于栈顶元素的情况
       push(i);
 
     } else if (temperatures[i] == temperatures[top()]) {
-      // 情况二，当前遍历的元素temperatures[i]等于栈顶元素temperatures[st.top()]的情况
+      // 情况二，当前元素temperatures[i]等于栈顶元素的情况
       push(i);
 
     } else {
-      // 情况三，当前遍历的元素temperatures[i]大于栈顶元素temperatures[st.top()]的情况
+      // 情况三，当前元素temperatures[i]大于栈顶元素的情况
       while (!empty() && temperatures[i] > temperatures[top()]) {
         // 找到一个比栈顶大的元素，那么该元素是栈顶右边第一个比栈顶大的元素
         res[top()] = i - top();

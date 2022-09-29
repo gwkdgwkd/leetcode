@@ -1,10 +1,12 @@
 /*
-给定n个非负整数表示每个宽度为1的柱子的高度图，计算按此排列的柱子，下雨之后能接多少雨水。
+给定n个非负整数表示每个宽度为1的柱子的高度图，
+计算按此排列的柱子，下雨之后能接多少雨水。
 
 示例1：
 输入：height = [0,1,0,2,1,0,1,3,2,1,2,1]
 输出：6
-解释：上面是由数组[0,1,0,2,1,0,1,3,2,1,2,1]表示的高度图，在这种情况下，可以接6个单位的雨水。
+解释：上面是由数组[0,1,0,2,1,0,1,3,2,1,2,1]表示的高度图，
+     在这种情况下，可以接6个单位的雨水。
 
 示例2：
 输入：height = [4,2,0,3,2,5]
@@ -83,9 +85,9 @@ int trap(int* height, int heightSize) {
       }
       // 栈顶和栈顶的下一个元素以及要入栈的三个元素来接水！
       int left = stk[top - 1];
-      // 雨水的宽度是：凹槽右边的下标-凹槽左边的下标-1（因为只求中间宽度），代码为：
+      // 雨水的宽度是：凹槽右边的下标-凹槽左边的下标-1（因为只求中间宽度）：
       int currWidth = i - left - 1;
-      // 雨水高度是：min(凹槽左边高度,凹槽右边高度)-凹槽底部高度，代码为：
+      // 雨水高度是：min(凹槽左边高度,凹槽右边高度)-凹槽底部高度：
       int currHeight = fmin(height[left], height[i]) - height[stk_top];
       // 当前凹槽雨水的体积就是：
       ans += currWidth * currHeight;
@@ -94,3 +96,27 @@ int trap(int* height, int heightSize) {
   }
   return ans;
 }
+
+class Solution {
+ public:
+  int trap(vector<int>& height) {
+    int ans = 0;
+    stack<int> stk;
+    int n = height.size();
+    for (int i = 0; i < n; ++i) {
+      while (!stk.empty() && height[i] > height[stk.top()]) {
+        int top = stk.top();
+        stk.pop();
+        if (stk.empty()) {
+          break;
+        }
+        int left = stk.top();
+        int currWidth = i - left - 1;
+        int currHeight = min(height[left], height[i]) - height[top];
+        ans += currWidth * currHeight;
+      }
+      stk.push(i);
+    }
+    return ans;
+  }
+};

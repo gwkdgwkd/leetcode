@@ -1,5 +1,5 @@
 /*
-给定一个仅包含0和1 、大小为rows x cols的二维二进制矩阵，
+给定一个仅包含0和1、大小为rowsxcols的二维二进制矩阵，
 找出只包含1的最大矩形，并返回其面积。
 
 示例1：
@@ -71,6 +71,45 @@ int maximalRectangle(char** matrix, int matrixSize, int* matrixColSize) {
 
   return ans;
 }
+
+class Solution {
+ public:
+  int maximalRectangle(vector<vector<char>>& matrix) {
+    int m = matrix.size();
+    if (m == 0) return 0;
+    int n = matrix[0].size();
+    vector<vector<int>> dp(m, vector<int>(n, 0));
+
+    for (int i = 0; i < m; ++i) {
+      for (int j = 0; j < n; ++j) {
+        if (matrix[i][j] == '1') {
+          dp[i][j] = (j == 0 ? 0 : dp[i][j - 1]) + 1;  // 考虑边界情况
+        }
+      }
+    }
+    int ans = 0;
+    for (int j = 0; j < n; ++j) {  // 分别讨论每一列
+      vector<int> vec(m + 2, 0);
+      for (int i = 0; i < m; ++i) {
+        vec[i + 1] = dp[i][j];
+      }
+      // 问题转换为直方图中的最大矩阵
+      stack<int> st;  // 单调栈，递增
+      st.emplace(0);
+      for (int i = 1; i < vec.size(); ++i) {
+        while (vec[st.top()] > vec[i]) {
+          int mid = st.top();
+          st.pop();
+          int w = i - st.top() - 1;
+          int h = vec[mid];
+          ans = max(ans, w * h);
+        }
+        st.emplace(i);
+      }
+    }
+    return ans;
+  }
+};
 
 // 剑指OfferII040矩阵中最大的矩形
 int largestRectangleArea(int* heights, int heightsSize) {  // 84题解法
