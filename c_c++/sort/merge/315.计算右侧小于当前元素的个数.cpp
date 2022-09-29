@@ -1,6 +1,7 @@
 /*
 给你一个整数数组nums，按要求返回一个新数组counts。
-数组counts有该性质：counts[i]的值是nums[i]右侧小于nums[i]的元素的数量。
+数组counts有该性质：
+counts[i]的值是nums[i]右侧小于nums[i]的元素的数量。
 
 示例1：
 输入：nums = [5,2,6,1]
@@ -119,3 +120,55 @@ int main() {
 
   return 0;
 }
+
+#include <vector>
+using namespace std;
+class Solution {
+ public:
+  typedef pair<int, int> PII;
+  vector<int> ans;
+  vector<PII> data;
+  void merge(int left, int mid, int right) {
+    int len = right - left + 1;
+    vector<PII> temp(len);
+    int cur = 0;
+    int i = left, j = mid + 1;
+    while (i <= mid && j <= right) {
+      if (data[i].first > data[j].first) {
+        ans[data[i].second] += right - j + 1;
+        temp[cur++] = data[i++];
+      } else {
+        temp[cur++] = data[j++];
+      }
+    }
+    while (i <= mid) {
+      temp[cur++] = data[i++];
+    }
+    while (j <= right) {
+      temp[cur++] = data[j++];
+    }
+    cur = 0;
+    for (int i = left; i <= right; ++i) {
+      data[i] = temp[cur++];
+    }
+  }
+  void mergeSort(int left, int right) {
+    if (left >= right) {
+      return;
+    }
+    int mid = (left + right) >> 1;
+    mergeSort(left, mid);
+    mergeSort(mid + 1, right);
+    merge(left, mid, right);
+  }
+  vector<int> countSmaller(vector<int>& nums) {
+    int n = nums.size();
+    data.reserve(n);
+    ans.resize(n, 0);
+    for (int i = 0; i < n; ++i) {
+      data.emplace_back(nums[i], i);
+    }
+    mergeSort(0, n - 1);
+    return ans;
+  }
+};

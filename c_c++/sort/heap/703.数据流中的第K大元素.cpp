@@ -2,8 +2,10 @@
 设计一个找到数据流中第k大元素的类（class）。
 注意是排序后的第k大元素，不是第k个不同的元素。
 请实现KthLargest类：
-KthLargest(int k, int[] nums) 使用整数k和整数流nums初始化对象。
-int add(int val) 将val插入数据流nums后，返回当前数据流中第k大的元素。
+KthLargest(int k, int[] nums)
+使用整数k和整数流nums初始化对象。
+int add(int val)
+将val插入数据流nums后，返回当前数据流中第k大的元素。
 
 示例：
 输入：
@@ -57,7 +59,7 @@ void shifDown(int *array, int size, int index) {
   int left = getLeft(index);
   int right = getRight(index);
 
-  // 下浮时，将当前节点与其左右子节点中的较大值进行交换
+  // 下浮时，将当前节点与其左右子节点中的较大值进行交换：
   if (left < size && array[left] < array[smallest]) {
     smallest = left;
   }
@@ -72,11 +74,12 @@ void shifDown(int *array, int size, int index) {
 // 往堆中增加元素，并按照顺序排序
 void heapAdd(KthLargest *obj, int val) {
   if (obj->size < obj->capacity) {
-    // 堆未满, 插入到最后然后上浮
+    // 堆未满, 插入到最后然后上浮：
     obj->heap[obj->size++] = val;
     shifUp(obj->heap, obj->size - 1);
   } else if (obj->heap[0] < val) {
-    // 堆已满，判断最小堆头节点是不是比val小，如果不是不处理，如果是需要替换头，然后下浮
+    // 堆已满，判断最小堆头节点是不是比val小，
+    // 如果不是不处理，如果是需要替换头，然后下浮：
     obj->heap[0] = val;
     shifDown(obj->heap, obj->size, 0);
   }
@@ -104,3 +107,50 @@ void kthLargestFree(KthLargest *obj) {
   free(obj->heap);
   free(obj);
 }
+
+class KthLargest {
+  void sink(int p) {
+    int len = heap.size();
+    int tmp = heap[p];
+    for (int c = p * 2 + 1; c < len; c = c * 2 + 1) {
+      if (c + 1 < len && heap[c] > heap[c + 1]) {
+        ++c;
+      }
+      if (tmp < heap[c]) {
+        break;
+      }
+      heap[p] = heap[c];
+      p = c;
+    }
+    heap[p] = tmp;
+  }
+  void swim(int c) {
+    while (c > 0 && heap[c] < heap[(c - 1) / 2]) {
+      swap(heap[c], heap[(c - 1) / 2]);
+      c = (c - 1) / 2;
+    }
+  }
+  void heapAdd(int val) {
+    if (heap.size() < capacity) {
+      heap.emplace_back(val);
+      swim(heap.size() - 1);
+    } else if (val > heap[0]) {
+      heap[0] = val;
+      sink(0);
+    }
+  }
+  vector<int> heap;
+  int capacity;
+
+ public:
+  KthLargest(int k, vector<int> &nums) : capacity(k) {
+    heap.reserve(k);
+    for (const auto &num : nums) {
+      add(num);
+    }
+  }
+  int add(int val) {
+    heapAdd(val);
+    return heap[0];
+  }
+};

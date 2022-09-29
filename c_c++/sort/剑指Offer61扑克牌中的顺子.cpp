@@ -1,6 +1,8 @@
 /*
-从若干副扑克牌中随机抽5张牌，判断是不是一个顺子，即这5张牌是不是连续的。
-2～10为数字本身，A为1，J为11，Q为12，K为13，而大、小王为0，可以看成任意数字。
+从若干副扑克牌中随机抽5张牌，
+判断是不是一个顺子，即这5张牌是不是连续的。
+2～10为数字本身，A为1，J为11，Q为12，K为13，
+而大、小王为0，可以看成任意数字。
 A不能视为14。
 
 示例1:
@@ -55,3 +57,25 @@ bool isStraight(int* nums, int numsSize) {
 
   return max - min < 5;
 }
+
+class Solution {
+ public:
+  bool isStraight(vector<int>& nums) {
+    int hash[14] = {0};
+    int mx = 0;
+    int mn = 14;
+    for (int i = 0; i < nums.size(); ++i) {
+      if (nums[i] == 0) {
+        continue;
+      }
+      hash[nums[i]]++;
+      if (i > 0 && hash[nums[i]] > 1) {
+        return false;
+      }
+      mx = max(mx, nums[i]);
+      mn = min(mn, nums[i]);
+    }
+
+    return mx - mn < 5;
+  }
+};

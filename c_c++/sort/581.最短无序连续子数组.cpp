@@ -6,7 +6,8 @@
 示例1：
 输入：nums = [2,6,4,8,10,9,15]
 输出：5
-解释：你只需要对[6, 4, 8, 10, 9]进行升序排序，那么整个表都会变为升序排序。
+解释：你只需要对[6, 4, 8, 10, 9]进行升序排序，
+     那么整个表都会变为升序排序。
 
 示例2：
 输入：nums = [1,2,3,4]
@@ -53,20 +54,50 @@ int findUnsortedSubarray(int *nums, int numsSize) {
   return right - left + 1;
 }
 
-// 假设把这个数组分成三段，左段和右段是标准的升序数组，中段数组虽是无序的，
-// 但满足最小值大于左段的最大值，最大值小于右段的最小值。
+class Solution {
+ public:
+  int findUnsortedSubarray(vector<int> &nums) {
+    vector<int> arr(nums);
+    sort(arr.begin(), arr.end());
+
+    int start = -1;
+    int n = nums.size();
+    for (int i = 0; i < n; ++i) {
+      if (nums[i] != arr[i]) {
+        start = i;
+        break;
+      }
+    }
+    if (start == -1) {
+      return 0;
+    }
+    int end;
+    for (int i = n - 1; i >= start; --i) {
+      if (nums[i] != arr[i]) {
+        end = i;
+        break;
+      }
+    }
+
+    return end - start + 1;
+  }
+};
+
+// 假设把这个数组分成三段，左段和右段是标准的升序数组，
+// 中段数组虽是无序的，但满足最小值大于左段的最大值，
+// 最大值小于右段的最小值。
 int findUnsortedSubarray(int *nums, int numsSize) {
   int n = numsSize;
   int maxn = INT_MIN, right = -1;
   int minn = INT_MAX, left = -1;
   for (int i = 0; i < n; i++) {
-    // 从左到右维持最大值，寻找右边界end
+    // 从左到右维持最大值，寻找右边界end：
     if (maxn > nums[i]) {
       right = i;
     } else {
       maxn = nums[i];
     }
-    // 从右到左维持最小值，寻找左边界begin
+    // 从右到左维持最小值，寻找左边界begin：
     if (minn < nums[n - i - 1]) {
       left = n - i - 1;
     } else {

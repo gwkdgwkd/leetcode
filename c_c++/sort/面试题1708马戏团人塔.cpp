@@ -4,10 +4,12 @@
 已知马戏团每个人的身高和体重，请编写代码计算叠罗汉最多能叠几个人。
 
 示例：
-输入：height = [65,70,56,75,60,68] weight = [100,150,90,190,95,110]
+输入：height = [65,70,56,75,60,68]，
+     weight = [100,150,90,190,95,110]
 输出：6
 解释：从上往下数，叠罗汉最多能叠6层：
-     (56,90), (60,95), (65,100), (68,110), (70,150), (75,190)
+     (56,90), (60,95), (65,100),
+     (68,110), (70,150), (75,190)
 
 提示：height.length == weight.length <= 10000
 */
@@ -32,7 +34,7 @@ int cmp(const void* a, const void* b) {
 int BinarySearch(int aim, int left, int right) {  // 二分搜索
   int mid;
   while (left < right) {
-    mid = (left + right) >> 1;  // 执行速度更快，其等同于(left + right)/2;
+    mid = (left + right) >> 1;  // 执行速度更快，其等同于(left+right)/2;
     if (arr[mid] >= aim)
       right = mid;
     else
@@ -69,3 +71,26 @@ int bestSeqAtIndex(int* height, int heightSize, int* weight, int weightSize) {
 
   return index;
 }
+
+class Solution {
+ public:
+  int bestSeqAtIndex(vector<int>& height, vector<int>& weight) {
+    vector<pair<int, int>> tmp;
+    for (int i = 0; i < height.size(); i++) {
+      tmp.push_back({height[i], weight[i]});
+    }
+    sort(tmp.begin(), tmp.end(),
+         [](const pair<int, int>& a, const pair<int, int>& b) {
+           return a.first == b.first ? a.second > b.second : a.first < b.first;
+         });
+    vector<int> dp;
+    for (const auto& [h, w] : tmp) {
+      auto p = lower_bound(dp.begin(), dp.end(), w);
+      if (p == dp.end())
+        dp.push_back(w);
+      else
+        *p = w;
+    }
+    return dp.size();
+  }
+};

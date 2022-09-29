@@ -1,5 +1,6 @@
 /*
-给定一组非负整数nums，重新排列每个数的顺序（每个数不可拆分）使之组成一个最大的整数。
+给定一组非负整数nums，
+重新排列每个数的顺序（每个数不可拆分）使之组成一个最大的整数。
 注意：输出结果可能非常大，所以你需要返回一个字符串而不是整数。
 
 示例1：
@@ -15,24 +16,26 @@
 0 <= nums[i] <= 10^9
 */
 
-#include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
 
+#include <cstdio>
+#include <cstdlib>
+
 // 按每位数字的大小排序，不是按数字大小排序
-long cmp(int *x, int *y) {
+int cmp(const void *x, const void *y) {
   long sx = 10, sy = 10;
-  while (sx <= *x) {
+  while (sx <= *(int *)x) {
     sx *= 10;
   }
-  while (sy <= *y) {
+  while (sy <= *(int *)y) {
     sy *= 10;
   }
 
   // printf("sx:%ld,sy:%ld\n", sx, sy);
   // printf("(%d*%ld+%d)-(%d*%ld+%d)=%ld\n", sx, *y, *x, sy, *x, *y,
   //        sx * (*y) + (*x) - sy * (*x) - (*y));
-  return sx * (*y) + (*x) - sy * (*x) - (*y);  // 降序
+  return sx * (*(int *)y) + (*(int *)x) - sy * (*(int *)x) -
+         (*(int *)y);  // 降序
 }
 char *largestNumber(int *nums, int numsSize) {
   qsort(nums, numsSize, sizeof(int), cmp);
@@ -43,11 +46,11 @@ char *largestNumber(int *nums, int numsSize) {
   // printf("\n");
 
   if (nums[0] == 0) {
-    char *ret = malloc(sizeof(char) * 2);
+    char *ret = (char *)malloc(sizeof(char) * 2);
     ret[0] = '0', ret[1] = '\0';
     return "0";
   }
-  char *ret = malloc(sizeof(char) * 1000);
+  char *ret = (char *)malloc(sizeof(char) * 1000);
   char *p = ret;
   for (int i = 0; i < numsSize; i++) {
     sprintf(p, "%d", nums[i]);
@@ -79,6 +82,39 @@ char *minNumber(int *nums, int numsSize) {
 
   return res;
 }
+
+#include <algorithm>
+#include <string>
+#include <vector>
+using namespace std;
+class Solution {
+ public:
+  string largestNumber(vector<int> &nums) {
+    sort(nums.begin(), nums.end(), [](const int &a, const int &b) {
+      long sa = 10;
+      long sb = 10;
+      while (sa <= a) {
+        sa *= 10;
+      }
+      while (sb <= b) {
+        sb *= 10;
+      }
+
+      return a * sb + b > b * sa + a;
+    });
+
+    if (nums[0] == 0) {
+      return string("0");
+    }
+
+    string ans;
+    for (auto num : nums) {
+      ans += to_string(num);
+    }
+
+    return ans;
+  }
+};
 
 int main() {
   int nums[] = {3, 30, 34, 5, 9};

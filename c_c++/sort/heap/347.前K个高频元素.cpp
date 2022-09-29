@@ -143,11 +143,11 @@ int *topKFrequent(int *nums, int numsSize, int k, int *returnSize) {
   MyHash *next = NULL;
   HASH_ITER(hh, g_head, curr, next) {
     if (heapcnt < k) {
-      // 将数直接放到堆里
+      // 将数直接放到堆里：
       heap[heapcnt++] = curr->key;
       SiftUp(heap, heapcnt - 1, HeapCmp);
     } else {
-      // 需要比较堆顶元素和要放进去的元素的频率大小
+      // 需要比较堆顶元素和要放进去的元素的频率大小：
       if (GetNumFreq(heap[0])->freq < curr->freq) {
         heap[0] = curr->key;
         AdjustHeap(heap, 0, k, HeapCmp);

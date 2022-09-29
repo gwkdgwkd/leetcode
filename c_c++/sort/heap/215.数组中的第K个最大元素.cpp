@@ -72,6 +72,39 @@ int findKthLargest(int *nums, int numsSize, int k) {
   return nums[0];
 }
 
+class Solution {
+  void adjustHeap(vector<int> &nums, int parent, int len) {
+    int tmp = nums[parent];
+    for (int child = parent * 2 + 1; child < len; child = child * 2 + 1) {
+      if (child + 1 < len && nums[child] < nums[child + 1]) {
+        ++child;
+      }
+      if (tmp > nums[child]) {
+        break;
+      }
+      nums[parent] = nums[child];
+      parent = child;
+    }
+
+    nums[parent] = tmp;
+  }
+
+ public:
+  int findKthLargest(vector<int> &nums, int k) {
+    int n = nums.size();
+    for (int i = n / 2 - 1; i >= 0; --i) {
+      adjustHeap(nums, i, n);
+    }
+
+    for (int i = n - 1; i >= n - k + 1; --i) {
+      swap(nums[0], nums[i]);
+      adjustHeap(nums, 0, i);
+    }
+
+    return nums[0];
+  }
+};
+
 // 快速选择算法是一个非常经典的算法，和快速排序算法是亲兄弟。
 // 快速排序算法很重要的一种变形就是快速选择算法,
 // 通常用来在未排序的数组中寻找第k小/第k大的元素。
@@ -115,3 +148,36 @@ int findKthLargest(int *nums, int numsSize, int k) {
   srand(time(0));
   return QuickSelect(nums, 0, numsSize - 1, k - 1);
 }
+
+class Solution {
+  int quickSelect(vector<int> &a, int l, int r, int index) {
+    int q = randomPartition(a, l, r);
+    if (q == index) {
+      return a[q];
+    } else {
+      return q < index ? quickSelect(a, q + 1, r, index)
+                       : quickSelect(a, l, q - 1, index);
+    }
+  }
+  inline int randomPartition(vector<int> &a, int l, int r) {
+    int i = rand() % (r - l + 1) + l;
+    swap(a[i], a[r]);
+    return partition(a, l, r);
+  }
+  inline int partition(vector<int> &a, int l, int r) {
+    int x = a[r], i = l - 1;
+    for (int j = l; j < r; ++j) {
+      if (a[j] <= x) {
+        swap(a[++i], a[j]);
+      }
+    }
+    swap(a[i + 1], a[r]);
+    return i + 1;
+  }
+
+ public:
+  int findKthLargest(vector<int> &nums, int k) {
+    srand(time(0));
+    return quickSelect(nums, 0, nums.size() - 1, nums.size() - k);
+  }
+};

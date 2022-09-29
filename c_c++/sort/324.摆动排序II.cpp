@@ -1,5 +1,6 @@
 /*
-给你一个整数数组nums，将它重新排列成nums[0]<nums[1]>nums[2]<nums[3]...的顺序。
+给你一个整数数组nums，
+将它重新排列成nums[0]<nums[1]>nums[2]<nums[3]...的顺序。
 你可以假设所有输入数组都可以得到满足题目要求的结果。
 
 示例1：
@@ -14,7 +15,7 @@
 提示：
 1 <= nums.length <= 5 * 10^4
 0 <= nums[i] <= 5000
-题目数据保证，对于给定的输入nums，总能产生满足题目要求的结果
+题目数据保证，对于给定的输入nums，总能产生满足题目要求的结果。
 进阶：你能用O(n)时间复杂度和/或原地O(1)额外空间来实现吗？
 */
 
@@ -64,6 +65,54 @@ void wiggleSort(int *nums, int numsSize) {
     bucket[i]--;
   }
 }
+
+// 排序 + 双指针
+class Solution {
+ public:
+  void wiggleSort(vector<int> &nums) {
+    vector<int> arr(nums);
+    sort(arr.begin(), arr.end());
+
+    int n = nums.size();
+    int left = (n - 1) / 2;
+    int right = n - 1;
+    for (int i = 0; i < n; ++i) {
+      if (i % 2) {
+        nums[i] = arr[right--];
+      } else {
+        nums[i] = arr[left--];
+      }
+    }
+  }
+};
+
+// 桶排序
+class Solution {
+ public:
+  void wiggleSort(vector<int> &nums) {
+    vector<int> bucket(5001, 0);  // 比unordered_map要快
+    // unordered_map<int,int> bucket;
+    for (const int &num : nums) {
+      bucket[num]++;
+    }
+    int idx = 5000;
+    int n = nums.size();
+    for (int i = 1; i < n; i += 2) {
+      while (bucket[idx] == 0) {
+        --idx;
+      }
+      nums[i] = idx;
+      bucket[idx]--;
+    }
+    for (int i = 0; i < n; i += 2) {
+      while (bucket[idx] == 0) {
+        --idx;
+      }
+      nums[i] = idx;
+      bucket[idx]--;
+    }
+  }
+};
 
 // 面试题1011峰与谷
 

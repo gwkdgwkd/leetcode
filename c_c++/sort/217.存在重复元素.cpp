@@ -47,3 +47,24 @@ bool containsDuplicate(int* nums, int numsSize) {
 }
 
 // 哈希表
+class Solution {
+ public:
+  bool containsDuplicate(vector<int>& nums) {
+    unordered_set s(nums.begin(), nums.end());
+    return nums.size() > s.size();
+  }
+};
+
+class Solution {
+ public:
+  bool containsDuplicate(vector<int>& nums) {
+    unordered_set<int> s;
+    for (int x : nums) {
+      if (s.find(x) != s.end()) {
+        return true;
+      }
+      s.insert(x);
+    }
+    return false;
+  }
+};

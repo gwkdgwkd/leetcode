@@ -3,9 +3,10 @@
 一次煎饼翻转的执行过程如下：
 选择一个整数k，1 <= k <= arr.length
 反转子数组arr[0...k-1]（下标从0开始）
-例如，arr=[3,2,1,4]，选择k=3进行一次煎饼翻转，反转子数组[3,2,1]，得到arr=[1,2,3,4]。
+例如，arr=[3,2,1,4]，选择k=3进行一次煎饼翻转，
+反转子数组[3,2,1]，得到arr=[1,2,3,4]。
 以数组形式返回能使arr有序的煎饼翻转操作所对应的k值序列。
-任何将数组排序且翻转次数在10 * arr.length范围内的有效答案都将被判断为正确。
+任何将数组排序且翻转次数小于10*arr.length，都将被判断为正确。
 
 示例1：
 输入：[3,2,4,1]
@@ -60,14 +61,32 @@ int* pancakeSort(int* arr, int arrSize, int* returnSize) {
       continue;
     }
     if (maxIndex > 0) {
-      // 先把最大的翻到最上面
+      // 先把最大的翻到最上面：
       reversal(arr, 0, maxIndex);
       res[(*returnSize)++] = maxIndex + 1;
     }
-    // 再把最大的翻到最底下
+    // 再把最大的翻到最底下：
     reversal(arr, 0, i);
     res[(*returnSize)++] = i + 1;
   }
 
   return res;
 }
+
+class Solution {
+ public:
+  vector<int> pancakeSort(vector<int>& arr) {
+    vector<int> ret;
+    for (int n = arr.size(); n > 1; n--) {
+      int index = max_element(arr.begin(), arr.begin() + n) - arr.begin();
+      if (index == n - 1) {
+        continue;
+      }
+      reverse(arr.begin(), arr.begin() + index + 1);
+      reverse(arr.begin(), arr.begin() + n);
+      ret.push_back(index + 1);
+      ret.push_back(n);
+    }
+    return ret;
+  }
+};

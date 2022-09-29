@@ -7,15 +7,20 @@ lefti是第i座建筑物左边缘的x坐标。
 righti是第i座建筑物右边缘的x坐标。
 heighti是第i座建筑物的高度。
 你可以假设所有的建筑都是完美的长方形，在高度为0的绝对平坦的表面上。
-天际线应该表示为由“关键点”组成的列表，格式[[x1,y1],[x2,y2],...]，并按x坐标进行排序。
-关键点是水平线段的左端点。列表中最后一个点是最右侧建筑物的终点，y坐标始终为0，仅用于标记天际线的终点。
+天际线应该表示为由关键点组成的列表，
+格式[[x1,y1],[x2,y2],...]，并按x坐标进行排序。
+关键点是水平线段的左端点。
+列表中最后一个点是最右侧建筑物的终点，
+y坐标始终为0，仅用于标记天际线的终点。
 此外，任何两个相邻建筑物之间的地面都应被视为天际线轮廓的一部分。
 注意：输出天际线中不得有连续的相同高度的水平线。
 例如[...[2 3],[4 5],[7 5],[11 5],[12 7]...]是不正确的答案；
-三条高度为5的线应该在最终输出中合并为一个：[...[2 3], [4 5], [12 7], ...]
+三条高度为5的线应该在最终输出中合并为一个：
+[...[2 3], [4 5], [12 7], ...]
 
 示例1：
-输入：buildings = [[2,9,10],[3,7,15],[5,12,12],[15,20,10],[19,24,8]]
+输入：buildings = [[2,9,10],[3,7,15],[5,12,12],
+                  [15,20,10],[19,24,8]]
 输出：[[2,10],[3,15],[7,12],[12,0],[15,10],[20,8],[24,0]]
 解释：
 
@@ -118,3 +123,39 @@ int** getSkyline(int** buildings, int buildingsSize, int* buildingsColSize,
   }
   return ret;
 }
+
+class Solution {
+ public:
+  vector<vector<int>> getSkyline(vector<vector<int>>& buildings) {
+    auto cmp = [](const pair<int, int>& a, const pair<int, int>& b) -> bool {
+      return a.second < b.second;
+    };
+    priority_queue<pair<int, int>, vector<pair<int, int>>, decltype(cmp)> que(
+        cmp);
+
+    vector<int> boundaries;
+    for (auto& building : buildings) {
+      boundaries.emplace_back(building[0]);
+      boundaries.emplace_back(building[1]);
+    }
+    sort(boundaries.begin(), boundaries.end());
+
+    vector<vector<int>> ret;
+    int n = buildings.size(), idx = 0;
+    for (auto& boundary : boundaries) {
+      while (idx < n && buildings[idx][0] <= boundary) {
+        que.emplace(buildings[idx][1], buildings[idx][2]);
+        idx++;
+      }
+      while (!que.empty() && que.top().first <= boundary) {
+        que.pop();
+      }
+
+      int maxn = que.empty() ? 0 : que.top().second;
+      if (ret.size() == 0 || maxn != ret.back()[1]) {
+        ret.push_back({boundary, maxn});
+      }
+    }
+    return ret;
+  }
+};

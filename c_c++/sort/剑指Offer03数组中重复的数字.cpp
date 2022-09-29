@@ -1,7 +1,8 @@
 /*
 找出数组中重复的数字。
 在一个长度为n的数组nums里的所有数字都在0～n-1的范围内。
-数组中某些数字是重复的，但不知道有几个数字重复了，也不知道每个数字重复了几次。
+数组中某些数字是重复的，但不知道有几个数字重复了，
+也不知道每个数字重复了几次。
 请找出数组中任意一个重复的数字。
 
 示例1：
@@ -40,3 +41,17 @@ int findRepeatNumber(int *nums, int numsSize) {
 
   return 0;
 }
+
+class Solution {
+ public:
+  int findRepeatNumber(vector<int> &nums) {
+    unordered_set<int> s;
+    for (const auto &num : nums) {
+      if (s.count(num)) {
+        return num;
+      }
+      s.insert(num);
+    }
+    return 0;
+  }
+};
