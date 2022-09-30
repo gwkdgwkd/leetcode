@@ -3,7 +3,8 @@
 通过修剪二叉搜索树，使得所有节点的值在[low, high]中。
 修剪树不应该改变保留在树中的元素的相对结构。
 可以证明，存在唯一的答案。
-所以结果应当返回修剪好的二叉搜索树的新的根节点。注意，根节点可能会根据给定的边界发生改变。
+所以结果应当返回修剪好的二叉搜索树的新的根节点。
+注意，根节点可能会根据给定的边界发生改变。
 
 示例1：
 输入：root = [1,0,2], low = 1, high = 2
@@ -47,7 +48,7 @@ struct TreeNode* trimBST(struct TreeNode* root, int low, int high) {
 struct TreeNode* trimBST(struct TreeNode* root, int low, int high) {
   if (!root) return root;
 
-  // 处理头结点，让root移动到[low,high]范围内，注意是左闭右闭
+  // 处理头结点，让root移动到[low,high]范围内，注意是左闭右闭：
   while (root && (root->val < low || root->val > high)) {
     if (root->val < low)
       root = root->right;
@@ -55,7 +56,7 @@ struct TreeNode* trimBST(struct TreeNode* root, int low, int high) {
       root = root->left;
   }
 
-  // 此时root已经在[low,high]范围内，处理左孩⼦元素⼩于low的情况
+  // 此时root已经在[low,high]范围内，处理左孩⼦元素⼩于low的情况：
   struct TreeNode* cur = root;
   while (cur) {
     while (cur->left && cur->left->val < low) {
@@ -63,8 +64,9 @@ struct TreeNode* trimBST(struct TreeNode* root, int low, int high) {
     }
     cur = cur->left;
   }
+
+  // 此时root已经在[low,high]范围内，处理右孩⼦⼤于high的情况：
   cur = root;
-  // 此时root已经在[low,high]范围内，处理右孩⼦⼤于high的情况
   while (cur) {
     while (cur->right && cur->right->val > high) {
       cur->right = cur->right->left;

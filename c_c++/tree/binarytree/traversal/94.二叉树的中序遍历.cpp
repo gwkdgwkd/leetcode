@@ -143,7 +143,7 @@ int* inorderTraversal(struct TreeNode* root, int* returnSize) {
   return result;
 }
 
-// 遍历
+// 递归
 class Solution {
  public:
   void traversal(TreeNode* root, vector<int>& res) {
@@ -162,29 +162,27 @@ class Solution {
   }
 };
 
-// 递归
+// 迭代
+
 class Solution {
  public:
   vector<int> inorderTraversal(TreeNode* root) {
-    vector<int> res;
-    if (root == nullptr) {
-      return res;
-    }
+    vector<int> ans;
 
     stack<TreeNode*> stk;
-    TreeNode* cur = root;
-    while (cur || !stk.empty()) {
-      if (cur) {
-        stk.push(cur);
-        cur = cur->left;
+    TreeNode* curr = root;
+    while (curr || !stk.empty()) {
+      if (curr) {
+        stk.push(curr);
+        curr = curr->left;
       } else {
-        cur = stk.top();
+        curr = stk.top();
         stk.pop();
-        res.emplace_back(cur->val);
-        cur = cur->right;
+        ans.emplace_back(curr->val);
+        curr = curr->right;
       }
     }
 
-    return res;
+    return ans;
   }
 };

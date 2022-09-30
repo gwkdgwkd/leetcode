@@ -6,7 +6,8 @@ struct TreeNode {
 
 // 1.遍历
 void traverse(struct TreeNode *root) {
-  // root需要做什么？在这做。其他的不用root操心，抛给框架
+  // root需要做什么？
+  // 在这做，其他的不用root操心，抛给框架。
   traverse(root.left);
   traverse(root.right);
 }
@@ -18,20 +19,21 @@ void plusOne(TreeNode root) {
   plusOne(root.right);
 }
 bool isSameTree(struct TreeNode *root1, struct TreeNode *root2) {
-  // 都为空的话，显然相同
+  // 都为空的话，显然相同：
   if (root1 == NULL && root2 == NULL) return true;
-  // 一个为空，一个非空，显然不同
+  // 一个为空，一个非空，显然不同：
   if (root1 == NULL || root2 == NULL) return false;
-  // 两个都非空，但val不一样也不行
+  // 两个都非空，但val不一样也不行：
   if (root1->val != root2->val) return false;
 
-  // root1和root2该比的都比完了
+  // root1和root2该比的都比完了，继续比子树：
   return isSameTree(root1->left, root2->left) &&
          isSameTree(root1->right, root2->right);
 }
 
 // 2.判断BST的合法性
-// 按遍历的思路处理，不对。不光要和子树根节点比较，而是要限制整个子树节点的范围。
+// 按遍历的思路处理，不对。
+// 不光要和子树根节点比较，而是要限制整个子树节点的范围。
 // bool isValidBST(struct TreeNode *root) {
 //   if (root == NULL) return true;
 //   if (root.left != NULL && root.val <= root.left.val) return false;
@@ -49,7 +51,7 @@ bool isValid(struct TreeNode *root, struct TreeNode *min,
 bool isValidBST(struct TreeNode *root) { return isValidBST(root, NULL, NULL); }
 
 // 3.在BST中查找一个数是否存在
-// 正确，但没有把BST“左小右大”的特性用上
+// 正确，但没有把BST左小右大的特性用上
 bool isInBST(struct TreeNode *root, int target) {
   if (root == NULL) return false;
   if (root->val == target) return true;
@@ -81,7 +83,7 @@ struct TreeNode *insertIntoBST(struct TreeNode *root, int val) {
 
 // 5.在BST中删除一个数
 struct TreeNode *getMin(struct TreeNode *node) {
-  // BST最左边的就是最小的
+  // BST最左边的就是最小的：
   while (node->left != NULL) node = node->left;
   return node;
 }
@@ -96,7 +98,9 @@ struct TreeNode *deleteNode(struct TreeNode *root, int key) {
     // 情况2：只有一个非空子节点，那么它要让这个孩子接替自己的位置。
     if (root->left == NULL) return root->right;
     if (root->right == NULL) return root->left;
-    // 情况3：有两个子节点，麻烦了，为了不破坏BST的性质，必须找到左子树中最大的那个节点，或者右子树中最小的那个节点来接替自己。
+    //
+    // 情况3：有两个子节点，麻烦了，为了不破坏BST的性质，
+    // 必须找到左子树中最大的那个节点，或者右子树中最小的那个节点来接替自己。
     if (root->left != NULL && root->right != NULL) {
       // 找到右子树的最小节点
       struct TreeNode minNode = getMin(root->right);

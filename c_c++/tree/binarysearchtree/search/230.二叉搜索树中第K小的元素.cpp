@@ -1,5 +1,6 @@
 /*
-给定一个二叉搜索树的根节点root，和一个整数k，请你设计一个算法查找其中第k个最小元素（从1开始计数）
+给定一个二叉搜索树的根节点root，和一个整数k，
+请你设计一个算法查找其中第k个最小元素（从1开始计数）。
 
 示例1：
 输入：root = [3,1,4,null,2], k = 1
@@ -14,7 +15,8 @@
 1 <= k <= n <= 10^4
 0 <= Node.val <= 10^4
 
-进阶：如果二叉搜索树经常被修改（插入/删除操作）并且你需要频繁地查找第k小的值，你将如何优化算法？
+进阶：如果二叉搜索树经常被修改，插入/删除操作，
+     并且你需要频繁地查找第k小的值，你将如何优化算法？
 */
 
 struct TreeNode {
@@ -41,6 +43,28 @@ int kthSmallest(struct TreeNode* root, int k) {
   find(root, k);
   return ret;
 }
+
+class Solution {
+ public:
+  int max;
+  int i;
+  void dfs(TreeNode* root, int k) {
+    if (root == nullptr) return;
+
+    dfs(root->left, k);
+    if (i++ == k) {
+      max = root->val;
+      return;
+    }
+    dfs(root->right, k);
+  }
+  int kthSmallest(TreeNode* root, int k) {
+    max = INT_MIN;
+    i = 1;
+    dfs(root, k);
+    return max;
+  }
+};
 
 /*
 剑指Offer54二叉搜索树的第k大节点
@@ -89,25 +113,3 @@ int kthLargest(struct TreeNode* root, int k) {
   dfs(root, k);
   return max;
 }
-
-class Solution {
- public:
-  int max;
-  int i;
-  void dfs(TreeNode* root, int k) {
-    if (root == nullptr) return;
-
-    dfs(root->left, k);
-    if (i++ == k) {
-      max = root->val;
-      return;
-    }
-    dfs(root->right, k);
-  }
-  int kthSmallest(TreeNode* root, int k) {
-    max = INT_MIN;
-    i = 1;
-    dfs(root, k);
-    return max;
-  }
-};
