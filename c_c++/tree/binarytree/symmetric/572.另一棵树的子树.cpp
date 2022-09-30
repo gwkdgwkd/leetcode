@@ -10,12 +10,13 @@ tree也可以看做它自身的一棵子树。
 输出：true
 
 示例2：
-输入：root = [3,4,5,1,2,null,null,null,null,0], subRoot = [4,1,2]
+输入：root = [3,4,5,1,2,null,null,null,null,0],
+     subRoot = [4,1,2]
 输出：false
 
 提示：
-root树上的节点数量范围是[1, 2000]
-subRoot树上的节点数量范围是[1, 1000]
+root树上的节点数量范围是[1,2000]
+subRoot树上的节点数量范围是[1,1000]
 -10^4 <= root.val <= 10^4
 -10^4 <= subRoot.val <= 10^4
 */

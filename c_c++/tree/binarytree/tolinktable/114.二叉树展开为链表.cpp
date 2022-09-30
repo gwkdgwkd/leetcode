@@ -1,6 +1,7 @@
 /*
 给你二叉树的根结点root，请你将它展开为一个单链表：
-展开后的单链表应该同样使用TreeNode，其中right子指针指向链表中下一个结点，而左子指针始终为null。
+展开后的单链表应该同样使用TreeNode，
+其中right子指针指向链表中下一个结点，而左子指针始终为null。
 展开后的单链表应该与二叉树先序遍历顺序相同。
 
 示例1：
@@ -35,15 +36,15 @@ void flatten(struct TreeNode* root) {
   flatten(root->left);
   flatten(root->right);
 
-  // 后序遍历位置，左右子树已经被拉平成一条链表
+  // 后序遍历位置，左右子树已经被拉平成一条链表：
   struct TreeNode* l = root->left;
   struct TreeNode* r = root->right;
 
-  // 将左子树作为右子树
+  // 将左子树作为右子树：
   root->left = NULL;
   root->right = l;
 
-  // 将原先的右子树接到当前右子树的末端
+  // 将原先的右子树接到当前右子树的末端：
   struct TreeNode* p = root;
   while (p->right) {
     p = p->right;

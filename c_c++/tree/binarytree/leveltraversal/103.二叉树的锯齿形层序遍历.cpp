@@ -1,6 +1,7 @@
 /*
 给你二叉树的根节点root，返回其节点值的 锯齿形层序遍历。
-即先从左往右，再从右往左进行下一层遍历，以此类推，层与层之间交替进行。
+即先从左往右，再从右往左进行下一层遍历，
+以此类推，层与层之间交替进行。
 
 示例1：
 输入：root = [3,9,20,null,null,15,7]
@@ -88,7 +89,7 @@ int** zigzagLevelOrder(struct TreeNode* root, int* returnSize,
     (*returnSize)++;
   }
 
-  // 奇数层反转，第一层是0，不翻转
+  // 奇数层反转，第一层是0，不翻转：
   for (int i = 0; i < *returnSize; ++i) {
     if (i % 2) {
       reverse(result[i], 0, (*returnColumnSizes)[i] - 1);

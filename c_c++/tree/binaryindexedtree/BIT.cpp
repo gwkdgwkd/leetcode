@@ -1,4 +1,4 @@
-#inlcude < iostream>
+#include <iostream>
 
 // 树状数组，Binary Indexed Tree(B.I.T),Fenwick Tree，
 // 是一个查询和修改复杂度都为log(n)的数据结构。

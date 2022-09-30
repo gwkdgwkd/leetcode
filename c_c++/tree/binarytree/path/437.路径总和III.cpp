@@ -5,12 +5,14 @@
 但是路径方向必须是向下的（只能从父节点到子节点）。
 
 示例1：
-输入：root = [10,5,-3,3,2,null,11,3,-2,null,1], targetSum = 8
+输入：root = [10,5,-3,3,2,null,11,3,-2,null,1],
+     targetSum = 8
 输出：3
 解释：和等于8的路径有3条。
 
 示例2：
-输入：root = [5,4,8,11,null,13,4,7,2,null,null,5,1], targetSum = 22
+输入：root = [5,4,8,11,null,13,4,7,2,null,null,5,1],
+     targetSum = 22
 输出：3
 
 提示:
