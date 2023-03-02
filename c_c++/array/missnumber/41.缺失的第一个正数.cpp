@@ -58,7 +58,7 @@ int firstMissingPositive(int* nums, int numsSize) {
 // 时间复杂度：O(N)
 // 空间复杂度：O(1)
 int firstMissingPositive(int* nums, int numsSize) {
-  // 给定的数组恢复成，数组的第x−1个元素为x
+  // 给定的数组恢复成，数组的第x−1个元素为x，
   // 对数组进行一次遍历，对于遍历到的数x=nums[i]，如果x∈[1,N]，
   // 我们就知道x应当出现在数组中的x−1的位置，
   // 因此交换nums[i]和nums[x−1]，这样x就出现在了正确的位置。

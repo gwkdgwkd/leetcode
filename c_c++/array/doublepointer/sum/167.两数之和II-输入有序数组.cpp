@@ -59,8 +59,6 @@ int *twoSum(int *numbers, int numbersSize, int target, int *returnSize) {
 class Solution {
  public:
   vector<int> twoSum(vector<int> &numbers, int target) {
-    sort(numbers.begin(), numbers.end());
-
     int left = 0;
     int right = numbers.size() - 1;
     while (left < right) {
@@ -149,3 +147,22 @@ int *twoSum(int *numbers, int numbersSize, int target, int *returnSize) {
   DelUser();
   return ans;
 }
+
+class Solution {
+ public:
+  vector<int> twoSum(vector<int> &numbers, int target) {
+    int n = numbers.size();
+    unordered_map<int, int> hash;
+    vector<int> ans;
+    for (int i = 0; i < n; ++i) {
+      auto it = hash.find(target - numbers[i]);
+      if (it != hash.end()) {
+        return {it->second, i + 1};
+      } else {
+        hash.insert({numbers[i], i + 1});
+      }
+    }
+
+    return {};
+  }
+};

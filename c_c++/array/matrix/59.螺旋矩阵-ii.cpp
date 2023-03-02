@@ -123,16 +123,13 @@ class Solution {
       }
       for (int row = top + 1; row <= bottom; ++row) {
         matrix[row][right] = i++;
-        ;
       }
       if (left < right && top < bottom) {
         for (int col = right - 1; col > left; --col) {
           matrix[bottom][col] = i++;
-          ;
         }
         for (int row = bottom; row > top; --row) {
           matrix[row][left] = i++;
-          ;
         }
       }
       ++left;

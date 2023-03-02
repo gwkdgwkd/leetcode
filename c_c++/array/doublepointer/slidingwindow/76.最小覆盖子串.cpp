@@ -160,31 +160,22 @@ class Solution {
 
     int left = 0;
     int right = 0;
-    int minlen = INT_MAX;
-    int minstart = left;
+    int len = INT_MAX;
+    int start = 0;
     while (right < lens) {
-      if (hash[s[right]]-- > 0) {
+      if (hash[s[right++]]-- > 0) {
         --lent;
       }
-      ++right;
       while (lent == 0) {
-        if (right - left < minlen) {
-          minlen = right - left;
-          minstart = left;
+        if (right - left < len) {
+          len = right - left;
+          start = left;
         }
-
-        if (++hash[s[left]] > 0) {
+        if (++hash[s[left++]] > 0) {
           ++lent;
         }
-        ++left;
       }
     }
-
-    string res = "";
-    if (minlen != INT_MAX) {
-      res = string(s.begin() + minstart, s.begin() + minstart + minlen);
-    }
-
-    return res;
+    return len == INT_MAX ? "" : s.substr(start, len);
   }
 };

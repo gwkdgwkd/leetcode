@@ -6,10 +6,10 @@
 示例1：
 输入：s1 = "ab" s2 = "eidbaooo"
 输出：true
-解释：s2包含s1的排列之一 ("ba").
+解释：s2包含s1的排列之一"ba"。
 
 示例2：
-输入：s1= "ab" s2 = "eidboaoo"
+输入：s1 = "ab" s2 = "eidboaoo"
 输出：false
 
 提示：

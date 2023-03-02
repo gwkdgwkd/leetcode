@@ -120,11 +120,9 @@ class Solution {
       }
     }
 
-    vector<int> res;
-    if (minlen != INT_MAX) {
-      res.assign({minstart, minstart + minlen - 1});
+    if (minlen == INT_MAX) {
+      return {};
     }
-
-    return res;
+    return {minstart, minstart + minlen - 1};
   }
 };

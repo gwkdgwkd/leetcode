@@ -109,6 +109,10 @@ class Solution {
 class Solution {
  public:
   int subarraySum(vector<int> &nums, int k) {
+    // 事实上，不需要去计算出具体是哪两项的前缀和之差等于k，
+    // 只需要知道等于k的前缀和之差出现的次数count，所以可以在遍历数组过程中，
+    // 先去计算以nums[i]结尾的前缀和pre，然后再去判断之前有没有存储pre-k这种前缀和，
+    // 如果有，那么pre-k到pre这中间的元素和就是k了。
     unordered_map<int, int> hash;
     hash[0] = 1;
 

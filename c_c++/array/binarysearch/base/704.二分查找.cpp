@@ -27,8 +27,8 @@ int search1(int* nums, int numsSize, int target) {
   int left = 0;
   int right = numsSize - 1;  // 定义target在左闭右闭的区间里，[left,right]
 
-  // 当left==right，区间[left,right]依然有效，所以用<=
-  // 如果用<，对于只有一个元素并且与target相等的数组，那么left<right为false，返回-1，错误
+  // 当left==right，区间[left,right]依然有效，所以用<=，如果用<，
+  // 对于只有一个元素并且与target相等的数组，那么left<right为false，返回-1，错误
   while (left <= right) {
     // int mid = left + ((right - left) >> 1);
     int mid = left + (right - left) / 2;  // 防止溢出，等同于(left+right)/2

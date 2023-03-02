@@ -102,10 +102,47 @@ class Solution {
       right += i;
     }
 
-    while (left < right) {
+    while (left < right) {  // 左闭右开区间，left==right不合理
       int mid = left + (right - left) / 2;
       if (canFinish(weights, days, mid)) {
         right = mid;
+      } else {
+        left = mid + 1;
+      }
+    }
+
+    return left;
+  }
+};
+
+class Solution {
+ public:
+  int shipWithinDays(vector<int>& weights, int days) {
+    auto canFinish = [&weights, &days](int weight_max) {
+      int d = 1;
+      int tmp = 0;
+      for (auto weight : weights) {
+        if (tmp + weight <= weight_max) {
+          tmp += weight;
+        } else {
+          ++d;
+          tmp = weight;
+        }
+      }
+      return d <= days;
+    };
+
+    int left = 0;
+    int right = 0;
+    for (auto weight : weights) {
+      left = max(weight, left);
+      right += weight;
+    }
+
+    while (left <= right) {  // 左闭右闭区间，left==right合理
+      int mid = left + (right - left) / 2;
+      if (canFinish(mid)) {
+        right = mid - 1;
       } else {
         left = mid + 1;
       }
