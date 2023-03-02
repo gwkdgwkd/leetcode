@@ -6,31 +6,32 @@
 任意节点的左子树和右子树都是二叉搜索树。
 
 示例1：
-输入：root = [1,4,3,2,4,2,5,null,null,null,null,null,null,4,6]
+输入：root = [1，4，3，2，4，2，5，null，null，
+             null，null，null，null，4，6]
 输出：20
 解释：键值为3的子树是和最大的二叉搜索树。
 
 示例2：
-输入：root = [4,3,null,1,2]
+输入：root = [4，3，null，1，2]
 输出：2
 解释：键值为2的单节点子树是和最大的二叉搜索树。
 
 示例3：
-输入：root = [-4,-2,-5]
+输入：root = [-4，-2，-5]
 输出：0
 解释：所有节点键值都为负数，和最大的二叉搜索树为空。
 
 示例4：
-输入：root = [2,1,3]
+输入：root = [2，1，3]
 输出：6
 
 示例5：
-输入：root = [5,4,8,3,null,6,3]
+输入：root = [5，4，8，3，null，6，3]
 输出：7
 
 提示：
 每棵树有1到40000个节点。
-每个节点的键值在[-4 * 10^4 , 4 * 10^4]之间。
+每个节点的键值在[-4*10^4，4*10^4]之间。
 */
 
 struct TreeNode {
@@ -56,21 +57,21 @@ int* traverse(struct TreeNode* root) {
   int* left = traverse(root->left);
   int* right = traverse(root->right);
 
-  // 这个if在判断以root为根的二叉树是不是BST
+  // 这个if在判断以root为根的二叉树是不是BST：
   if (left[0] == 1 && right[0] == 1 && root->val > left[2] &&
       root->val < right[1]) {
-    // 以root为根的二叉树是BST
+    // 以root为根的二叉树是BST：
     res[0] = 1;
-    // 计算以root为根的这棵BST的最小值
+    // 计算以root为根的这棵BST的最小值：
     res[1] = fmin(left[1], root->val);
-    // 计算以root为根的这棵BST的最大值
+    // 计算以root为根的这棵BST的最大值：
     res[2] = fmax(right[2], root->val);
-    // 计算以root为根的这棵BST所有节点之和
+    // 计算以root为根的这棵BST所有节点之和：
     res[3] = left[3] + right[3] + root->val;
-    // 更新全局变量
+    // 更新全局变量：
     maxSum = fmax(maxSum, res[3]);
   } else {
-    // 以root为根的二叉树不是BST
+    // 以root为根的二叉树不是BST：
     res[0] = 0;
     // 其他的值都没必要计算了，因为用不到
   }

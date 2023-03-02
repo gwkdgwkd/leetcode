@@ -1,11 +1,13 @@
 /*
-给你一个整数数组nums，其中元素已经按升序排列，请你将其转换为一棵高度平衡二叉搜索树。
-高度平衡二叉树是一棵满足每个节点的左右两个子树的高度差的绝对值不超过1的二叉树。
+给你一个整数数组nums，其中元素已经按升序排列，
+请你将其转换为一棵高度平衡二叉搜索树。
+高度平衡二叉树是一棵满足每个节点的左右两个子树，
+高度差的绝对值不超过1的二叉树。
 
 示例1：
 输入：nums = [-10,-3,0,5,9]
 输出：[0,-3,9,-10,null,5]
-解释：[0,-10,5,null,-3,null,9]也将被视为正确答案：
+解释：[0,-10,5,null,-3,null,9]也将被视为正确答案。
 
 示例2：
 输入：nums = [1,3]
@@ -43,8 +45,6 @@ struct TreeNode* sortedArrayToBST(int* nums, int numsSize) {
   return convert(nums, 0, numsSize - 1);
 }
 
-// 迭代法可以通过三个队列来模拟，⼀个队列放遍历的节点，⼀个队列放左区间下表，⼀个队列放右区间下表。
-
 class Solution {
  public:
   TreeNode* convert(vector<int>& nums, int left, int right) {
@@ -60,3 +60,8 @@ class Solution {
     return convert(nums, 0, nums.size() - 1);
   }
 };
+
+// 迭代法可以通过三个队列来模拟：
+// ⼀个队列放遍历的节点；
+// ⼀个队列放左区间下表；
+// ⼀个队列放右区间下表。
