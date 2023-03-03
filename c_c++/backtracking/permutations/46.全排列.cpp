@@ -1,5 +1,11 @@
+#include <algorithm>
+#include <cstring>
+#include <iostream>
+#include <iterator>
+#include <vector>
+
 /*
-给定一个不含重复数字的数组nums，返回其所有可能的全排列。你可以按任意顺序返回答案。
+给定一个不含重复数字的数组nums，返回其所有可能的全排列，可以按任意顺序返回答案。
 
 示例1：
 输入：nums = [1,2,3]
@@ -68,6 +74,8 @@ int** permute(int* nums, int numsSize, int* returnSize,
   return result;
 }
 
+using namespace std;
+namespace n1 {
 class Solution {
   vector<vector<int>> res;
   vector<int> path;
@@ -97,7 +105,9 @@ class Solution {
     return res;
   }
 };
+}  // namespace n1
 
+namespace n2 {
 class Solution {
  public:
   void backtrack(vector<vector<int>>& res, vector<int>& output, int first,
@@ -121,3 +131,26 @@ class Solution {
     return res;
   }
 };
+}  // namespace n2
+
+int main() {
+  vector<int> v{1, 2, 3};
+  n1::Solution s;
+  vector<vector<int>> ret = s.permute(v);
+
+  [&ret]() {
+    for (auto v : ret) {
+      for (auto i : v) {
+        cout << i << " ";
+      }
+      cout << endl;
+    }
+  }();
+
+  // 1 2 3
+  // 1 3 2
+  // 2 1 3
+  // 2 3 1
+  // 3 1 2
+  // 3 2 1
+}

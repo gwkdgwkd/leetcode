@@ -151,25 +151,23 @@ int** combine(int n, int k, int* returnSize, int** returnColumnSizes) {
 }
 
 class Solution {
-  vector<vector<int>> ans;
+  vector<vector<int>> result;
   vector<int> path;
-  void backtracking(int n, int k, int start) {
-    if (path.size() == k) {
-      ans.emplace_back(path);
-      return;
-    }
-    // for(int i = start; i <= n; ++i) {
-    for (int i = start; i <= n - (k - path.size()) + 1; ++i) {  // 剪枝
-      path.emplace_back(i);
-      backtracking(n, k, i + 1);
-      path.pop_back();
-    }
-    return;
-  }
 
  public:
+  void dfs(int index, int n, int k) {
+    if (path.size() == k) {
+      result.emplace_back(path);
+      return;
+    }
+    for (int i = index; i <= n - (k - path.size()) + 1; ++i) {
+      path.emplace_back(i);
+      dfs(i + 1, n, k);
+      path.pop_back();
+    }
+  }
   vector<vector<int>> combine(int n, int k) {
-    backtracking(n, k, 1);
-    return ans;
+    dfs(1, n, k);
+    return result;
   }
 };

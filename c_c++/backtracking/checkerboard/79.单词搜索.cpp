@@ -99,22 +99,20 @@ class Solution {
       return true;
     }
 
-    bool ret = false;
     int directions[4][2] = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
     used[row][col] = true;
     for (int i = 0; i < 4; ++i) {
       int newi = row + directions[i][0];
       int newj = col + directions[i][1];
-      if (0 <= newi && newi < m && 0 <= newj && newj < n) {
-        if (used[newi][newj] == false &&
-            check(board, word, newi, newj, index + 1)) {
-          ret = true;
-          break;
+      if (0 <= newi && newi < m && 0 <= newj && newj < n &&
+          used[newi][newj] == false) {
+        if (check(board, word, newi, newj, index + 1)) {
+          return true;
         }
       }
     }
     used[row][col] = false;
-    return ret;
+    return false;
   }
 
  public:

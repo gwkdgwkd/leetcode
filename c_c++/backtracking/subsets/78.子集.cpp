@@ -1,7 +1,12 @@
+#include <algorithm>
+#include <cstring>
+#include <iostream>
+#include <iterator>
+#include <vector>
+
 /*
-给你一个整数数组nums，数组中的元素互不相同。
-返回该数组所有可能的子集（幂集）。
-解集不能包含重复的子集，你可以按任意顺序返回解集。
+给一个整数数组nums，数组中的元素互不相同，返回该数组所有可能的子集（幂集）。
+解集不能包含重复的子集，可以按任意顺序返回解集。
 
 示例1：
 输入：nums = [1,2,3]
@@ -53,7 +58,7 @@ int** subsets(int* nums, int numsSize, int* returnSize,
   int maxSize = 1 << numsSize;  // 不重复子集的个数？
   result = (int**)malloc(sizeof(int*) * maxSize);
   path = (int*)malloc(sizeof(int) * numsSize);
-  *returnColumnSizes = malloc(sizeof(int) * maxSize);
+  *returnColumnSizes = (int*)malloc(sizeof(int) * maxSize);
   resultSize = pathSize = 0;
   backtracking(nums, numsSize, 0, returnColumnSizes);
   *returnSize = resultSize;
@@ -61,6 +66,7 @@ int** subsets(int* nums, int numsSize, int* returnSize,
   return result;
 }
 
+using namespace std;
 class Solution {
   vector<vector<int>> ans;
   vector<int> path;
@@ -85,3 +91,28 @@ class Solution {
     return ans;
   }
 };
+
+int main() {
+  vector<int> v{1, 2, 3};
+  Solution s;
+  vector<vector<int>> ret = s.subsets(v);
+
+  [&ret]() {
+    for (auto v : ret) {
+      cout << "[ ";
+      for (auto i : v) {
+        cout << i << " ";
+      }
+      cout << "]" << endl;
+    }
+  }();
+
+  // [ ]
+  // [ 1 ]
+  // [ 1 2 ]
+  // [ 1 2 3 ]
+  // [ 1 3 ]
+  // [ 2 ]
+  // [ 2 3 ]
+  // [ 3 ]
+}

@@ -99,35 +99,36 @@ char ***partition(char *s, int *returnSize, int **returnColumnSizes) {
 }
 
 class Solution {
-  vector<vector<string>> ans;
+  vector<vector<string>> res;
   vector<string> path;
-
- public:
-  bool isPalindrome(const string &str) {
-    for (int left = 0, right = str.size() - 1; left < right; ++left, --right) {
-      if (str[left] != str[right]) {
+  bool isPalindrome(string str) {
+    int left = 0;
+    int right = str.size() - 1;
+    while (left < right) {
+      if (str[left++] != str[right--]) {
         return false;
       }
     }
-
     return true;
   }
-  void backtracking(string s, int start) {
-    if (start == s.size()) {
-      ans.emplace_back(path);
+  void dfs(const string &s, int index) {
+    int n = s.size();
+    if (index == n) {
+      res.emplace_back(path);
     }
-
-    for (int i = start; i < s.size(); ++i) {
-      string temp(s.begin() + start, s.begin() + i + 1);
-      if (isPalindrome(temp)) {
-        path.emplace_back(temp);
-        backtracking(s, i + 1);
+    for (int i = index; i < n; ++i) {
+      string tmp = s.substr(index, i - index + 1);
+      if (isPalindrome(tmp)) {
+        path.emplace_back(tmp);
+        dfs(s, i + 1);
         path.pop_back();
       }
     }
   }
+
+ public:
   vector<vector<string>> partition(string s) {
-    backtracking(s, 0);
-    return ans;
+    dfs(s, 0);
+    return res;
   }
 };

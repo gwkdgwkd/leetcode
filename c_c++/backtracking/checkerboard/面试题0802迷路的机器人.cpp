@@ -76,13 +76,13 @@ class Solution {
   vector<vector<bool>> used;
   bool arrived;
   int dir[2][2] = {{0, 1}, {1, 0}};
+  int m;
+  int n;
 
  public:
   void dfs(vector<vector<int>>& obstacleGrid, int row, int col) {
     if (arrived) return;
 
-    int m = obstacleGrid.size();
-    int n = obstacleGrid[0].size();
     if (row == m - 1 && col == n - 1) {
       arrived = true;
       return;
@@ -105,8 +105,8 @@ class Solution {
     }
   }
   vector<vector<int>> pathWithObstacles(vector<vector<int>>& obstacleGrid) {
-    int m = obstacleGrid.size();
-    int n = obstacleGrid[0].size();
+    m = obstacleGrid.size();
+    n = obstacleGrid[0].size();
     if (obstacleGrid[0][0] || obstacleGrid[m - 1][n - 1]) {
       return res;
     }

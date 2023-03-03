@@ -1,3 +1,10 @@
+#include <algorithm>
+#include <cstring>
+#include <iostream>
+#include <iterator>
+#include <string>
+#include <vector>
+
 /*
 给定一个仅包含数字2-9的字符串，返回所有它能表示的字母组合。
 答案可以按任意顺序返回。
@@ -77,6 +84,7 @@ char **letterCombinations(char *digits, int *returnSize) {
   return result;
 }
 
+using namespace std;
 class Solution {
   vector<string> m;
   vector<string> ans;
@@ -113,3 +121,38 @@ class Solution {
     return ans;
   }
 };
+
+int main() {
+  Solution s;
+  vector<string> result = s.letterCombinations("234");
+  copy(result.begin(), result.end(), ostream_iterator<string>(cout, "\n"));
+  // adg
+  // adh
+  // adi
+  // aeg
+  // aeh
+  // aei
+  // afg
+  // afh
+  // afi
+  // bdg
+  // bdh
+  // bdi
+  // beg
+  // beh
+  // bei
+  // bfg
+  // bfh
+  // bfi
+  // cdg
+  // cdh
+  // cdi
+  // ceg
+  // ceh
+  // cei
+  // cfg
+  // cfh
+  // cfi
+
+  return 0;
+}

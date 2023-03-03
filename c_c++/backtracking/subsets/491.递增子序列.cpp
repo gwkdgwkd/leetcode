@@ -1,8 +1,7 @@
 /*
-给你一个整数数组nums，找出并返回所有该数组中不同的递增子序列，
-递增子序列中至少有两个元素，你可以按任意顺序返回答案。
-数组中可能含有重复元素，如出现两个整数相等，
-也可以视作递增序列的一种特殊情况。
+给一个整数数组nums，找出并返回所有该数组中不同的递增子序列，
+递增子序列中至少有两个元素，可以按任意顺序返回答案。
+数组中可能含有重复元素，如出现两个整数相等，也可以视作递增序列的一种特殊情况。
 
 示例1：
 输入：nums = [4,6,7,7]
@@ -26,8 +25,7 @@ int** result;
 int resultSize;
 int* path;
 int pathSize;
-// 求⼦序列，很明显⼀个元素不能重复使⽤，
-// 所以需要startIndex，调整下⼀层递归的起始位置。
+// 求⼦序列，很明显⼀个元素不能重复使⽤，所以需要startIndex，调整下⼀层递归的起始位置。
 void backtracking(int* nums, int numsSize, int startIndex,
                   int** returnColumnSizes) {
   if (pathSize > 1) {

@@ -4,22 +4,22 @@
 candidates中的每个数字在每个组合中只能使用一次。
 注意：解集不能包含重复的组合。
 
-示例1:
-输入: candidates = [10,1,2,7,6,1,5], target = 8,
-输出:
+示例1：
+输入：candidates = [10,1,2,7,6,1,5], target = 8,
+输出：
 [
-[1,1,6],
-[1,2,5],
-[1,7],
-[2,6]
+  [1,1,6],
+  [1,2,5],
+  [1,7],
+  [2,6]
 ]
 
-示例2:
-输入: candidates = [2,5,2,1,2], target = 5,
-输出:
+示例2：
+输入：candidates = [2,5,2,1,2], target = 5,
+输出：
 [
-[1,2,2],
-[5]
+  [1,2,2],
+  [5]
 ]
 
 提示:
@@ -30,10 +30,9 @@ candidates中的每个数字在每个组合中只能使用一次。
 
 // 剑指OfferII082含有重复元素集合的组合
 
-// 和39.组合总和如下区别：
+// 和[39.组合总和]的区别：
 // 1.candidates中的每个数字在每个组合中只能使⽤⼀次。
 // 2.数组candidates的元素是有重复的，⽽39.组合总和是⽆重复元素的数组candidates
-// 和39.组合总和要求⼀样，解集不能包含重复的组合。
 int **result;
 int resultSize;
 int *path;
@@ -118,55 +117,52 @@ class Solution {
 
 // 不使用used数组也可以：
 class Solution {
-  vector<vector<int>> ans;
+  vector<vector<int>> res;
   vector<int> path;
+  int len;
 
- public:
-  void dfs(vector<int> &candidates, int target, int start) {
+  void dfs(vector<int> &candidates, int index, int target) {
     if (target == 0) {
-      ans.emplace_back(path);
+      res.emplace_back(path);
       return;
     }
 
-    for (int i = start; i < candidates.size() && candidates[i] <= target; ++i) {
-      if (i > start && candidates[i] == candidates[i - 1]) {
-        // 这个避免重复当思想是在是太重要了。
+    for (int i = index; i < len && candidates[i] <= target; ++i) {
+      if (i > index && candidates[i] == candidates[i - 1]) {  // 比39多了这里
         // 这个方法最重要的作用是，可以让同一层级，不出现相同的元素。
-        // 这种情况不会发生：
+        // 第一种种情况不会发生：
         //     1
         //    / \
         //   2   2
         //  /     \
         // 5       5
-        // 这种情况确是允许的：
+        // 第二种情况确是允许的：
         //     1
         //    /
         //   2
         //  /
         // 2
         // 为何会有这种神奇的效果呢？
-        // 首先candidates[i] == candidates[i - 1]，
-        // 是用于判定当前元素是否和之前元素相同的语句。
-        // 这个语句就能砍掉第一中情况，可是问题来了，
-        // 如果把所有与之前一个元素相同的都砍掉，那么第二种情况也会消失。
-        // 因为当第二个2出现的时候，他就和前一个2相同了。
-        // 那么如何保留例2呢？
-        // 那么就用i > start来避免这种情况，
-        // 第一种情况的两个2是处在同一个层级上的，当i>start时，
-        // 证明同一层中已经使用过了相同的元素。
-        // 第二种情况的两个2是处在不同层级上的，当i==start时，
-        // 证明是当前层的第一个元素，虽然candidates[i]==candidates[i-1]，
-        // 但这是一个树枝上的，不是同一层的。
+        // 首先candidates[i]==candidates[i-1]，是用于判定当前元素是否和之前元素相同的语句。
+        // 这个语句就能砍掉第一种情况，可是同时也会把第二种情况砍掉。
+        // 因为当第二个2出现的时候，他就和前一个2相同了，那么如何保留例2呢？
+        // 那么就用i>index来避免这种情况，第一种情况的两个2是处在同一个层级上的，
+        // 当i>index时，证明同一层中已经使用过了相同的元素。
+        // 第二种情况的两个2是处在不同层级上的，当i==index时，证明是当前层的第一个元素，
+        // 虽然candidates[i]==candidates[i-1]，但这是一个树枝上的，不是同一层的。
         continue;
       }
       path.emplace_back(candidates[i]);
-      dfs(candidates, target - candidates[i], i + 1);
+      dfs(candidates, i + 1, target - candidates[i]);  // 39是i，不是i+1
       path.pop_back();
     }
   }
+
+ public:
   vector<vector<int>> combinationSum2(vector<int> &candidates, int target) {
     sort(candidates.begin(), candidates.end());
-    dfs(candidates, target, 0);
-    return ans;
+    len = candidates.size();
+    dfs(candidates, 0, target);
+    return res;
   }
 };

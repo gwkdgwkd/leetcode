@@ -1,3 +1,9 @@
+#include <algorithm>
+#include <cstring>
+#include <iostream>
+#include <iterator>
+#include <vector>
+
 /*
 给定一个可包含重复数字的序列nums，按任意顺序返回所有不重复的全排列。
 
@@ -32,11 +38,9 @@ used{1,1,0}       used{1,0,1}       used{1,0,1}        used{0,1,1}
    ↓ 取元素2          ↓ 取元素1        b ↓ 取元素1
 {1,1,2}           {1,2,1}           {2,1,1}
 
-a：i为1,nums[i] == nums[i - 1]，而used[i - 1]为1，
-   说明同一树枝上有两个重复的元素，可以重复选取
+a：i为1，nums[i]==nums[i-1]，而used[i-1]为1，说明同一树枝上有两个重复的元素，可以选取
 b：同一树枝上可以重复选取
-c：i为1,nums[i] == nums[i - 1]，而used[i - 1]为1，
-   说明同一层上有两个重复元素，不可以重复选取
+c：i为1，nums[i]==nums[i-1]，而used[i-1]为0，说明同一层上有两个重复元素，不可以选取
 d：同一层前一位重复了，不能读取
 */
 
@@ -44,7 +48,7 @@ int** result;
 int resultSize;
 int* path;
 int pathSize;
-int cmp(int* a, int* b) { return *a > *b; }
+int cmp(const void* a, const void* b) { return *(int*)a > *(int*)b; }
 void backtracking(int* nums, int numsSize, int* used) {
   if (pathSize == numsSize) {
     result[resultSize] = (int*)malloc(sizeof(int) * pathSize);
@@ -98,6 +102,7 @@ int** permuteUnique(int* nums, int numsSize, int* returnSize,
   return result;
 }
 
+using namespace std;
 class Solution {
   vector<vector<int>> res;
   vector<int> path;
@@ -111,8 +116,10 @@ class Solution {
     }
 
     for (int i = 0; i < nums.size(); ++i) {
-      if ((used[i]) || (i > 0 && nums[i] == nums[i - 1] &&
-                        used[i - 1] == true)) {  // used[i - 1] == true也行
+      // 虽然used[i - 1]是true和false都可以，但是这个条件必须要有，也就是说，
+      // 要么过滤掉是true的，要么过滤掉是false的，不能不要这个条件，全部过滤掉：
+      if (used[i] || (i > 0 && nums[i] == nums[i - 1] &&
+                      used[i - 1] == false)) {  // used[i - 1] == true也行
         continue;
       }
       path.emplace_back(nums[i]);
@@ -129,3 +136,22 @@ class Solution {
     return res;
   }
 };
+
+int main() {
+  vector<int> v{1, 1, 2};
+  Solution s;
+  vector<vector<int>> ret = s.permuteUnique(v);
+
+  [&ret]() {
+    for (auto v : ret) {
+      for (auto i : v) {
+        cout << i << " ";
+      }
+      cout << endl;
+    }
+  }();
+
+  // 1 1 2
+  // 1 2 1
+  // 2 1 1
+}
