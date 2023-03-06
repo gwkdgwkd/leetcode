@@ -1,12 +1,11 @@
 /*
-整数转换。
-编写一个函数，确定需要改变几个位才能将整数A转成整数B。
+整数转换，编写一个函数，确定需要改变几个位才能将整数A转成整数B。
 
-示例1:
+示例1：
 输入：A = 29 （或者0b11101）, B = 15（或者0b01111）
 输出：2
 
-示例2:
+示例2：
 输入：A = 1，B = 2
 输出：2
 
@@ -34,6 +33,21 @@ class Solution {
       if ((diff >> i) & 1 == 1) {
         ++count;
       }
+    }
+
+    return count;
+  }
+};
+
+class Solution {
+ public:
+  int convertInteger(int A, int B) {
+    unsigned int x = A ^ B;
+    int count = 0;
+
+    while (x) {
+      ++count;
+      x &= (x - 1);
     }
 
     return count;

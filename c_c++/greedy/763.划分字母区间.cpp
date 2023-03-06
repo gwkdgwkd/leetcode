@@ -1,17 +1,13 @@
 /*
-字符串S由小写字母组成。
-要把这个字符串划分为尽可能多的片段，
-同一字母最多出现在一个片段中。
-返回一个表示每个字符串片段的长度的列表。
+字符串S由小写字母组成，要把这个字符串划分为尽可能多的片段，
+同一字母最多出现在一个片段中，返回一个表示每个字符串片段的长度的列表。
 
 示例：
 输入：S = "ababcbacadefegdehijhklij"
 输出：[9,7,8]
 解释：
-划分结果为ababcbaca，defegde，hijhklij。
-每个字母最多出现在一个片段中。
-像ababcbacadefegde，hijhklij的划分是错误的，
-因为划分的片段数较少。
+划分结果为ababcbaca，defegde，hijhklij，每个字母最多出现在一个片段中。
+像ababcbacadefegde，hijhklij的划分是错误的，因为划分的片段数较少。
 
 提示：
 S的长度在[1, 500]之间。

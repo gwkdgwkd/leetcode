@@ -5,7 +5,7 @@
 注意：
 数组大小可能非常大。使用太多额外空间的解决方案将不会通过测试。
 
-示例:
+示例：
 int[] nums = new int[] {1,2,3,3,3};
 Solution solution = new Solution(nums);
 

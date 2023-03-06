@@ -1,7 +1,6 @@
 /*
-设计一个类似堆栈的数据结构，将元素推入堆栈，
-并从堆栈中弹出出现频率最高的元素。
-实现FreqStack类:
+设计一个类似堆栈的数据结构，将元素推入堆栈，并从堆栈中弹出出现频率最高的元素。
+实现FreqStack类：
 FreqStack()
 构造一个空的堆栈。
 void push(int val)
@@ -114,8 +113,7 @@ int freqStackPop(FreqStack *obj) {
   free(pop);
   return res;
 }
-void freqStackFree(FreqStack *obj)  // 释放整个链表，释放hash表
-{
+void freqStackFree(FreqStack *obj) {  // 释放整个链表，释放hash表
   Num *del, *pre;
   del = obj->head.next;
   pre = &obj->head;
@@ -181,7 +179,7 @@ void freqStackFree(FreqStack *obj) { HASH_CLEAR(hh, obj); }
 class FreqStack {
  public:
   // frequency, timestamp, value
-  // 如果frequency，则timestamp大的优先级高
+  // 如果frequency相同，则timestamp大的优先级高
   priority_queue<tuple<int, int, int>> pq;
   // <val,freq>
   unordered_map<int, int> val2freq;

@@ -78,10 +78,10 @@ class MinStack {
   MinStack() {}
   void push(int val) {
     stack_.push(val);
-    if (min_.size()) {
-      min_.push(min(val, min_.top()));
-    } else {
+    if (min_.empty()) {
       min_.push(val);
+    } else {
+      min_.push(min(val, min_.top()));
     }
   }
   void pop() {
