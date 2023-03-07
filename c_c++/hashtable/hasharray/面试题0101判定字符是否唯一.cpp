@@ -2,12 +2,12 @@
 实现一个算法，确定一个字符串s的所有字符是否全都不同。
 
 示例1：
-输入: s = "leetcode"
-输出: false
+输入：s = "leetcode"
+输出：false
 
 示例2：
-输入: s = "abc"
-输出: true
+输入：s = "abc"
+输出：true
 
 限制：
 0 <= len(s) <= 100

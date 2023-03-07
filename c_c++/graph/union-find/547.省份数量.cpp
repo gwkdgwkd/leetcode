@@ -1,12 +1,9 @@
 /*
 有n个城市，其中一些彼此相连，另一些没有相连。
-如果城市a与城市b直接相连，且城市b与城市c直接相连，
-那么城市a与城市c间接相连。
+如果城市a与城市b直接相连，且城市b与城市c直接相连，那么城市a与城市c间接相连。
 省份是一组直接或间接相连的城市，组内不含其他没有相连的城市。
-给你一个nxn的矩阵isConnected，
-其中isConnected[i][j]=1表示第i个城市和第j个城市直接相连，
-而isConnected[i][j] = 0表示二者不直接相连。
-返回矩阵中省份的数量。
+nxn的矩阵isConnected，其中isConnected[i][j]=1表示第i个城市和第j个城市直接相连，
+而isConnected[i][j]=0表示二者不直接相连，返回矩阵中省份的数量。
 
 示例1：
 输入：isConnected = [[1,1,0],[1,1,0],[0,0,1]]
@@ -80,57 +77,59 @@ int findCircleNum(int** isConnected, int isConnectedSize,
   return count;
 }
 
-class UF {
- public:
-  UF(int n) : count(n) {
-    parent.resize(n);
-    for (int i = 0; i < n; ++i) {
-      parent[i] = i;
-    }
-    size.assign(n, 1);
-  }
-  void Union(int p, int q) {
-    int rootP = Find(p);
-    int rootQ = Find(q);
-
-    if (rootP == rootQ) return;
-
-    if (size[rootP] > size[rootQ]) {
-      parent[rootQ] = rootP;
-      size[rootP] += size[rootQ];
-    } else {
-      parent[rootP] = rootQ;
-      size[rootQ] += size[rootP];
-    }
-    --count;
-  }
-  bool Connected(int p, int q) { return Find(p) == Find(q); }
-  int Count() { return count; }
-
- private:
-  int count;
-  vector<int> parent;
-  vector<int> size;
-  int Find(int x) {
-    while (parent[x] != x) {
-      parent[x] = parent[parent[x]];
-      x = parent[x];
-    }
-    return x;
-  }
-};
 class Solution {
+ private:
+  class UF {
+   public:
+    UF(int n) {
+      count = n;
+      size.assign(n, 1);
+      parent.resize(n);
+      for (int i = 0; i < n; ++i) {
+        parent[i] = i;
+      }
+    }
+    // bool IsConnected(int p, int q) { return Find(p) == Find(q); }
+    int Count() { return count; }
+    void Union(int p, int q) {
+      int rootP = Find(p);
+      int rootQ = Find(q);
+      if (rootP == rootQ) {
+        return;
+      }
+      if (rootP > rootQ) {
+        parent[rootQ] = rootP;
+        size[rootP] += size[rootQ];
+      } else {
+        parent[rootP] = rootQ;
+        size[rootQ] += size[rootP];
+      }
+      --count;
+    }
+
+   private:
+    int Find(int x) {
+      while (parent[x] != x) {
+        parent[x] = parent[parent[x]];
+        x = parent[x];
+      }
+      return x;
+    }
+
+    vector<int> parent;
+    vector<int> size;
+    int count;
+  };
+
  public:
   int findCircleNum(vector<vector<int>>& isConnected) {
     int n = isConnected.size();
     UF uf(n);
-
     for (int i = 0; i < n; ++i) {
-      for (int j = 0; j < n; ++j) {
+      for (int j = 0; j < n; ++j)
         if (isConnected[i][j]) {
           uf.Union(i, j);
         }
-      }
     }
 
     return uf.Count();

@@ -1,17 +1,16 @@
 /*
-节点间通路。
-给定有向图，设计一个算法，找出两个节点之间是否存在一条路径。
+节点间通路，给定有向图，设计一个算法，找出两个节点之间是否存在一条路径。
 
-示例1:
+示例1：
 输入：n = 3, graph = [[0, 1], [0, 2], [1, 2], [1, 2]],
-start = 0, target = 2
+     start = 0, target = 2
 输出：true
 
-示例2:
+示例2：
 输入：n = 5, graph = [[0, 1], [0, 2], [0, 4], [0, 4], [0, 1],
-[1, 3], [1, 4], [1, 3], [2, 3], [3, 4]],
-start = 0, target = 4
-输出 true
+     [1, 3], [1, 4], [1, 3], [2, 3], [3, 4]],
+     start = 0, target = 4
+输出：true
 
 提示：
 节点数量n在[0, 1e5]范围内。
@@ -115,6 +114,40 @@ class Solution {
     dfs(start, target);
 
     return ans;
+  }
+};
+
+class Solution {
+  vector<vector<int>> graph;
+  vector<bool> isVisited;
+
+ public:
+  bool dfs(int start, int target) {  // dfs返回bool
+    if (start == target) {
+      return true;
+    }
+
+    isVisited[start] = true;
+    for (int next : graph[start]) {
+      if (!isVisited[next]) {
+        if (dfs(next, target)) {
+          return true;
+        }
+      }
+    }
+    isVisited[start] = false;
+    return false;
+  }
+
+  bool findWhetherExistsPath(int n, vector<vector<int>> &paths, int start,
+                             int target) {
+    graph.resize(n);
+    isVisited.assign(n, false);
+    for (vector<int> &path : paths) {
+      graph[path[0]].emplace_back(path[1]);
+    }
+
+    return dfs(start, target);
   }
 };
 

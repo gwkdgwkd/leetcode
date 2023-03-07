@@ -1,9 +1,6 @@
 /*
-你有一个用于表示一片土地的整数矩阵land，
-该矩阵中每个点的值代表对应地点的海拔高度。
-若值为0则表示水域。
-由垂直、水平或对角连接的水域为池塘。
-池塘的大小是指相连接的水域的个数。
+有一个用于表示一片土地的整数矩阵land，该矩阵中每个点的值代表对应地点的海拔高度。
+0则表示水域，由垂直、水平或对角连接的水域为池塘，池塘的大小是指相连的水域个数。
 编写一个方法来计算矩阵中所有池塘的大小，返回值需要从小到大排序。
 
 示例：
@@ -182,6 +179,46 @@ class Solution {
         }
       }
     }
+    sort(res.begin(), res.end());
+
+    return res;
+  }
+};
+
+class Solution {
+ public:
+  int dfs(vector<vector<int>> &land, int x, int y) {  // 大小通过返回值传递
+    int m = land.size();
+    int n = land[0].size();
+    if (x < 0 || y < 0 || x >= m || y >= n || land[x][y]) {
+      return 0;
+    }
+
+    int dir[8][2] = {{0, 1},  {0, -1},  {-1, 0}, {1, 0},
+                     {-1, 1}, {-1, -1}, {1, 1},  {1, -1}};
+    land[x][y] = 1;
+
+    int size = 1;
+    for (int i = 0; i < 8; ++i) {
+      int newx = x + dir[i][0];
+      int newy = y + dir[i][1];
+      size += dfs(land, newx, newy);
+    }
+    return size;
+  }
+  vector<int> pondSizes(vector<vector<int>> &land) {
+    int m = land.size();
+    int n = land[0].size();
+
+    vector<int> res;
+    for (int i = 0; i < m; ++i) {
+      for (int j = 0; j < n; ++j) {
+        if (land[i][j] == 0) {
+          res.emplace_back(dfs(land, i, j));
+        }
+      }
+    }
+    sort(res.begin(), res.end());
 
     return res;
   }
