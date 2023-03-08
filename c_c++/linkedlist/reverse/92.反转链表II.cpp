@@ -1,6 +1,6 @@
 /*
-给你单链表的头指针head和两个整数left和right，其中left<=right。
-请你反转从位置left到位置right的链表节点，返回反转后的链表。
+给单链表的头指针head和两个整数left和right，其中left<=right。
+请反转从位置left到位置right的链表节点，返回反转后的链表。
 
 示例1：
 输入：head = [1,2,3,4,5], left = 2, right = 4
@@ -92,7 +92,7 @@ class Solution {
     ListNode* leftNode = pre;
     ListNode* currNode = pre->next;
     ListNode* rightNode;
-    for (i = left; i <= right; ++i) {
+    while (right-- >= left) {
       rightNode = currNode->next;
       currNode->next = leftNode;
       leftNode = currNode;

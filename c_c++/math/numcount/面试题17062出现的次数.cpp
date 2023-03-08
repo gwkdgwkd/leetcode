@@ -1,10 +1,10 @@
 /*
 编写一个方法，计算从0到n(含n)中数字2出现的次数。
 
-示例:
-输入: 25
-输出: 9
-解释: (2, 12, 20, 21, 22, 23, 24, 25)(注意22应该算作两次)
+示例：
+输入：25
+输出：9
+解释：(2, 12, 20, 21, 22, 23, 24, 25)(注意22应该算作两次)
 
 提示：n <= 10^9
 */
@@ -25,7 +25,7 @@ int numberOf2sInRange(int n) {
 
 class Solution {
  public:
-  int numberOf2sInRange(int n) {
+  int numberOf2sInRange(int n) {  // 与[233.数字1的个数]写法基本相同
     long mulk = 1;
     int ans = 0;
 

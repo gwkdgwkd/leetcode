@@ -45,3 +45,28 @@ class Solution {
     return ans;
   }
 };
+
+class Solution {
+  ListNode* reverseList(ListNode* head) {
+    if (head == nullptr || head->next == nullptr) {
+      return head;
+    }
+
+    ListNode* last = reverseList(head->next);
+    head->next->next = head;
+    head->next = nullptr;
+    return last;
+  }
+
+ public:
+  vector<int> reversePrint(ListNode* head) {
+    head = reverseList(head);
+    vector<int> ans;
+    while (head) {
+      ans.emplace_back(head->val);
+      head = head->next;
+    }
+
+    return ans;
+  }
+};

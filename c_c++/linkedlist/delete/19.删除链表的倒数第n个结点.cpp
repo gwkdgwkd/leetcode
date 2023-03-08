@@ -116,34 +116,34 @@ class Solution {
   ListNode* removeNthFromEnd(ListNode* head, int n) {
     ListNode dummy;
     dummy.next = head;
-    ListNode* fast = &dummy;
     ListNode* slow = &dummy;
+    ListNode* fast = &dummy;
 
-    while (fast) {
-      while (n-- >= 0) {
-        fast = fast->next;
-        continue;
-      }
-      if (fast) {
-        fast = fast->next;
-        slow = slow->next;
-      }
+    while (fast && n-- >= 0) {  // 先走n+1步，让slow停在倒数第n个节点前面的节点
+      fast = fast->next;
     }
+    while (fast) {
+      fast = fast->next;
+      slow = slow->next;
+    }
+
     ListNode* del = slow->next;
     slow->next = slow->next->next;
-    delete (del);
+    delete del;
     del = nullptr;
 
     return dummy.next;
   }
 };
 
+// 面试题0202返回倒数第k个节点，输出节点的值
+// int kthToLast(struct ListNode* head, int k) {
 // 剑指Offer22链表中倒数第k个节点，输出该链表中倒数第k个节点
 struct ListNode* getKthFromEnd(struct ListNode* head, int k) {
   struct ListNode* fast = head;
   struct ListNode* slow = head;
 
-  while (k-- && fast) {
+  while (k-- && fast) {  // 不删除，所以不用多走一步
     fast = fast->next;
   }
 
@@ -153,21 +153,4 @@ struct ListNode* getKthFromEnd(struct ListNode* head, int k) {
   }
 
   return slow;
-}
-
-// 面试题0202返回倒数第k个节点，输出节点的值
-int kthToLast(struct ListNode* head, int k) {
-  struct ListNode* fast = head;
-  struct ListNode* slow = head;
-
-  while (k-- && fast) {
-    fast = fast->next;
-  }
-
-  while (fast) {
-    fast = fast->next;
-    slow = slow->next;
-  }
-
-  return slow->val;
 }

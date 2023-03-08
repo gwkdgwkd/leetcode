@@ -1,7 +1,6 @@
 /*
-给你一个单链表的头节点head，请你判断该链表是否为回文链表。
-如果是，返回true；
-否则，返回false。
+给你一个单链表的头节点head，请判断该链表是否为回文链表。
+如果是，返回true；否则，返回false。
 
 示例1：
 输入：head = [1,2,2,1]
@@ -89,13 +88,13 @@ class Solution {
       slow = slow->next;
     }
 
-    if (fast) {
+    if (fast) {  // 链表长度为奇数时，slow再往前走一步
       slow = slow->next;
     }
 
     ListNode* r = reverse(slow);
     while (r) {
-      if (head->val != r->val) {
+      if (head->val != r->val) {  // 不比较中间节点
         return false;
       }
       head = head->next;

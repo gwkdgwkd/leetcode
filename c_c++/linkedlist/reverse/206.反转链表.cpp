@@ -1,5 +1,5 @@
 /*
-给你单链表的头节点head，请你反转链表，并返回反转后的链表。
+给你单链表的头节点head，请反转链表，并返回反转后的链表。
 
 示例1：
 输入：head = [1,2,3,4,5]
@@ -17,8 +17,7 @@
 链表中节点的数目范围是[0, 5000]
 -5000 <= Node.val <= 5000
 
-进阶：链表可以选用迭代或递归方式完成反转。
-     你能否用两种方法解决这道题？
+进阶：链表可以选用迭代或递归方式完成反转，你能否用两种方法解决这道题？
 */
 
 // 剑指Offer24反转链表
@@ -30,8 +29,7 @@ struct ListNode {
 };
 
 // 迭代
-// 该算法的实现思想非常直接，就是从当前链表的首元节点开始，
-// 一直遍历至链表的最后一个节点，
+// 该算法的实现思想非常直接，就是从当前链表的首元节点开始，一直遍历至链表的最后一个节点，
 // 这期间会逐个改变所遍历到的节点的指针域，另其指向前一个节点：
 struct ListNode* reverseList(struct ListNode* head) {
   // if (head == NULL || head->next == NULL) {
@@ -107,8 +105,7 @@ class Solution {
 };
 
 // 就地逆置法反转链表
-// 就地逆置法和头插法的实现思想类似，唯一的区别在于，
-// 头插法是通过建立一个新链表实现的，
+// 就地逆置法和头插法的类似，唯一的区别在于，头插法是通过建立一个新链表实现的，
 // 而就地逆置法则是直接对原链表做修改，从而实现将原链表反转。
 struct ListNode* reverseList(struct ListNode* head) {
   // if (head == NULL || head->next == NULL) {
@@ -171,7 +168,7 @@ struct ListNode* reverseList(struct ListNode* head) {
 class Solution {
  public:
   ListNode* reverseList(ListNode* head) {
-    if (!(head && head->next)) {
+    if (head == nullptr || head->next == nullptr) {
       return head;
     }
 

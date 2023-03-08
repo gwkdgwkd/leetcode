@@ -1,6 +1,5 @@
 /*
-给你一个链表的头节点head和一个整数val，
-请你删除链表中所有满足Node.val==val的节点，并返回新的头节点。
+给一个链表head和一个整数val，删除所有满足Node.val==val的节点，并返回新的头节点。
 
 示例1：
 输入：head = [1,2,6,3,4,5,6], val = 6
@@ -113,10 +112,8 @@ class Solution {
 };
 
 // 剑指Offer18删除链表的节点
-// 给定单向链表的头指针和一个要删除的节点的值，定义一个函数删除该节点。
-// 返回删除后的链表的头节点。
-// 题目保证链表中节点的值互不相同
-// 若使用C或C++语言，你不需要free或delete被删除的节
+// 给定链表头指针和一个要删除的节点的值，定义函数删除该节点，返回删除后的链表的头节点。
+// 题目保证链表中节点的值互不相同，若使用C或C++语言，不需要free或delete被删除的节
 struct ListNode* deleteNode(struct ListNode* head, int val) {
   struct ListNode dummy;
   dummy.next = head;

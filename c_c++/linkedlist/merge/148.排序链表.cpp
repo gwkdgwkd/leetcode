@@ -17,8 +17,7 @@
 链表中节点的数目在范围[0, 5 * 10^4]内
 -10^5 <= Node.val <= 10^5
 
-进阶：你可以在O(nlogn)时间复杂度和常数级空间复杂度下，
-     对链表进行排序吗？
+进阶：可以在O(nlogn)时间复杂度和常数级空间复杂度下，对链表进行排序吗？
 */
 
 struct ListNode {
@@ -78,25 +77,20 @@ class Solution {
   // 21.合并两个有序链表：
   ListNode* merge(ListNode* list1, ListNode* list2) {
     ListNode dummy;
-    ListNode* curr = &dummy;
+    ListNode* cur = &dummy;
     ListNode* l1 = list1;
     ListNode* l2 = list2;
     while (l1 && l2) {
       if (l1->val < l2->val) {
-        curr->next = l1;
+        cur->next = l1;
         l1 = l1->next;
       } else {
-        curr->next = l2;
+        cur->next = l2;
         l2 = l2->next;
       }
-      curr = curr->next;
+      cur = cur->next;
     }
-    if (l1) {
-      curr->next = l1;
-    }
-    if (l2) {
-      curr->next = l2;
-    }
+    cur->next = l1 ? l1 : l2;
     return dummy.next;
   }
   ListNode* twoList(ListNode* start, ListNode* end) {
@@ -192,25 +186,20 @@ class Solution {
   // 21.合并两个有序链表：
   ListNode* merge(ListNode* list1, ListNode* list2) {
     ListNode dummy;
-    ListNode* curr = &dummy;
+    ListNode* cur = &dummy;
     ListNode* l1 = list1;
     ListNode* l2 = list2;
     while (l1 && l2) {
       if (l1->val < l2->val) {
-        curr->next = l1;
+        cur->next = l1;
         l1 = l1->next;
       } else {
-        curr->next = l2;
+        cur->next = l2;
         l2 = l2->next;
       }
-      curr = curr->next;
+      cur = cur->next;
     }
-    if (l1) {
-      curr->next = l1;
-    }
-    if (l2) {
-      curr->next = l2;
-    }
+    cur->next = l1 ? l1 : l2;
     return dummy.next;
   }
 

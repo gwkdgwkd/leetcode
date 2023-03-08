@@ -1,6 +1,5 @@
 /*
 将两个升序链表合并为一个新的升序链表并返回。
-新链表是通过拼接给定的两个链表的所有节点组成的。
 
 示例1：
 输入：l1 = [1,2,4], l2 = [1,3,4]
@@ -20,7 +19,7 @@
 l1和l2均按非递减顺序排列
 */
 
-// 剑指Offer25合并两个排序的链表.c
+// 剑指Offer25合并两个排序的链表
 
 struct ListNode {
   int val;
@@ -79,27 +78,28 @@ class Solution {
  public:
   ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
     ListNode dummy;
-    ListNode* curr = &dummy;
+    ListNode* cur = &dummy;
+
     ListNode* l1 = list1;
     ListNode* l2 = list2;
-
     while (l1 && l2) {
       if (l1->val < l2->val) {
-        curr->next = l1;
+        cur->next = l1;
         l1 = l1->next;
       } else {
-        curr->next = l2;
+        cur->next = l2;
         l2 = l2->next;
       }
-      curr = curr->next;
+      cur = cur->next;
     }
 
-    if (l1) {
-      curr->next = l1;
-    }
-    if (l2) {
-      curr->next = l2;
-    }
+    // if (l1) {
+    //   curr->next = l1;
+    // }
+    // if (l2) {
+    //   curr->next = l2;
+    // }
+    cur->next = l1 ? l1 : l2;
 
     return dummy.next;
   }

@@ -1,6 +1,5 @@
 /*
-给你一个链表数组，每个链表都已经按升序排列。
-请你将所有链表合并到一个升序链表中，返回合并后的链表。
+每个链表都已经按升序排列的链表数组，全部合并到一个升序链表中，返回合并后的链表。
 
 示例1：
 输入：lists = [[1,4,5],[1,3,4],[2,6]]
@@ -242,25 +241,21 @@ class Solution {
   // 21.合并两个有序链表：
   ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
     ListNode dummy;
-    ListNode* curr = &dummy;
+    ListNode* cur = &dummy;
     ListNode* l1 = list1;
     ListNode* l2 = list2;
     while (l1 && l2) {
       if (l1->val < l2->val) {
-        curr->next = l1;
+        cur->next = l1;
         l1 = l1->next;
       } else {
-        curr->next = l2;
+        cur->next = l2;
         l2 = l2->next;
       }
-      curr = curr->next;
+      cur = cur->next;
     }
-    if (l1) {
-      curr->next = l1;
-    }
-    if (l2) {
-      curr->next = l2;
-    }
+    cur->next = l1 ? l1 : l2;
+
     return dummy.next;
   }
   ListNode* TwoLists(vector<ListNode*>& lists, int left, int right) {
