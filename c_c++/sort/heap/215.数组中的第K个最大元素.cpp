@@ -1,14 +1,14 @@
 /*
 给定整数数组nums和整数k，请返回数组中第k个最大的元素。
-请注意，你需要找的是数组排序后的第k个最大的元素，而不是第k个不同的元素。
+请注意，需要找的是数组排序后的第k个最大的元素，而不是第k个不同的元素。
 
-示例1:
-输入: [3,2,1,5,6,4] 和 k = 2
-输出: 5
+示例1：
+输入：[3,2,1,5,6,4] 和 k = 2
+输出：5
 
-示例2:
-输入: [3,2,3,1,2,4,5,5,6] 和 k = 4
-输出: 4
+示例2：
+输入：[3,2,3,1,2,4,5,5,6] 和 k = 4
+输出：4
 
 提示：
 1 <= k <= nums.length <= 10^4
@@ -31,7 +31,7 @@ int findKthLargest(int *nums, int numsSize, int k) {
   return nums[k - 1];
 }
 
-// 想要第k大的元素，却给整个数组排序，有点杀鸡用牛刀的感觉
+// 想要第k大的元素，却给整个数组排序，有点杀鸡用牛刀的感觉，
 // 使用些技巧，可以把时间复杂度降低到O(NlogK)甚至是O(N)。
 // 基于堆排序的选择方法
 // 时间复杂度：O(nlog⁡n)，建堆的时间代价是O(n)，删除的总代价是O(klog⁡n)，
@@ -105,9 +105,8 @@ class Solution {
   }
 };
 
-// 快速选择算法是一个非常经典的算法，和快速排序算法是亲兄弟。
-// 快速排序算法很重要的一种变形就是快速选择算法,
-// 通常用来在未排序的数组中寻找第k小/第k大的元素。
+// 快速选择算法是一个非常经典的算法，和快速排序算法是亲兄弟，
+// 是很重要的一种变形，通常用来在未排序的数组中寻找第k小/第k大的元素。
 // 快速选择及其变种是实际应用中最常使用的高效选择算法。
 // 快速选择的总体思路与快速排序一致，选择一个元素作为基准来对元素进行分区，
 // 将小于和大于基准的元素分在基准左边和右边的两个区域。
@@ -150,34 +149,38 @@ int findKthLargest(int *nums, int numsSize, int k) {
 }
 
 class Solution {
-  int quickSelect(vector<int> &a, int l, int r, int index) {
-    int q = randomPartition(a, l, r);
-    if (q == index) {
-      return a[q];
-    } else {
-      return q < index ? quickSelect(a, q + 1, r, index)
-                       : quickSelect(a, l, q - 1, index);
-    }
-  }
-  inline int randomPartition(vector<int> &a, int l, int r) {
-    int i = rand() % (r - l + 1) + l;
-    swap(a[i], a[r]);
-    return partition(a, l, r);
-  }
-  inline int partition(vector<int> &a, int l, int r) {
-    int x = a[r], i = l - 1;
-    for (int j = l; j < r; ++j) {
-      if (a[j] <= x) {
-        swap(a[++i], a[j]);
+  int Partition(vector<int> &nums, int left, int right) {
+    int random = left + rand() % (right - left + 1);
+    swap(nums[left], nums[random]);
+    int pivotkey = nums[left];
+
+    while (left < right) {
+      while (left < right && nums[right] <= pivotkey) {
+        --right;
       }
+      nums[left] = nums[right];
+      while (left < right && nums[left] >= pivotkey) {
+        ++left;
+      }
+      nums[right] = nums[left];
     }
-    swap(a[i + 1], a[r]);
-    return i + 1;
+    nums[left] = pivotkey;
+    return left;
+  }
+  int QuickSelect(vector<int> &nums, int left, int right, int k) {
+    int mid = Partition(nums, left, right);
+    if (mid < k) {
+      return QuickSelect(nums, mid + 1, right, k);
+    } else if (mid > k) {
+      return QuickSelect(nums, left, mid - 1, k);
+    } else {
+      return nums[k];
+    }
   }
 
  public:
   int findKthLargest(vector<int> &nums, int k) {
     srand(time(0));
-    return quickSelect(nums, 0, nums.size() - 1, nums.size() - k);
+    return QuickSelect(nums, 0, nums.size() - 1, k - 1);
   }
 };

@@ -1,7 +1,6 @@
 /*
-给你一个整数数组nums，按要求返回一个新数组counts。
-数组counts有该性质：
-counts[i]的值是nums[i]右侧小于nums[i]的元素的数量。
+给一个整数数组nums，按要求返回一个新数组counts。
+数组counts有该性质：counts[i]的值是nums[i]右侧小于nums[i]的元素的数量。
 
 示例1：
 输入：nums = [5,2,6,1]

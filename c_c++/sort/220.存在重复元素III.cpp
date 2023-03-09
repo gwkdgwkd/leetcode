@@ -1,6 +1,5 @@
 /*
-给你一个整数数组nums和两个整数k和t。
-请你判断是否存在两个不同下标i和j，
+给一个整数数组nums和两个整数k和t，请判断是否存在两个不同下标i和j，
 使得abs(nums[i]-nums[j])<=t，同时又满足abs(i-j)<=k。
 如果存在则返回true，不存在返回false。
 
@@ -60,8 +59,7 @@ bool containsNearbyAlmostDuplicate(int *nums, int numsSize, int k, int t) {
 class Solution {
   // 分桶原则：
   // 1.同一个桶中的任两个元素之差的绝对值小于等于t；
-  // 2.相邻桶中的某两个元素之差的绝对值可能小于等于t，
-  //   通过计算判断是否真的小于等于t；
+  // 2.相邻桶中的某两个元素之差的绝对值可能小于等于t，通过计算判断是否真的小于等于t；
   // 3.不同相邻的桶中的元素之差的绝对值不可能满足小于等于t。
  public:
   long getID(long x, long t) {

@@ -1,5 +1,11 @@
+#include <algorithm>
+#include <cstring>
+#include <iostream>
+#include <iterator>
+#include <vector>
+
 /*
-给你一个整数数组nums，请你将该数组升序排列。
+给你一个整数数组nums，请将该数组升序排列。
 
 示例1：
 输入：nums = [5,2,3,1]
@@ -14,6 +20,9 @@
 -5 * 10^4 <= nums[i] <= 5 * 10^4
 */
 
+using namespace std;
+
+namespace n1 {
 // 堆排序
 void HeapAdjust(int* heap, int parent, int size) {
   int temp = heap[parent];  // 保存父节点的值
@@ -29,10 +38,10 @@ void HeapAdjust(int* heap, int parent, int size) {
     heap[parent] = heap[child];  // 父节点等于左右孩子中最大的那个
     parent = child;              // parent标识目前需要更新的孩子
 
-    // 此时的i位置所表示的孩子（左右孩子中最大并且比父亲节点大）需要被更新，
-    // 下次循环，目前的节点i更新到的它的左孩子处，即i=2*i+1
+    // 此时的child位置所表示的孩子（左右孩子中最大并且比父亲节点大）需要被更新，
+    // 下次循环，目前的节点child更新到的它的左孩子处，即i=2*i+1
   }
-  // 此时top表示，父亲节点值（temp）应该存放的位置：
+  // 此时parent表示，父亲节点值（temp）应该存放的位置：
   heap[parent] = temp;
 }
 void BuildHeap(int* heap, int size) {
@@ -57,6 +66,11 @@ void HeapSort(int* heap, int size) {
     // 堆定已经不是最大的元素来，调整堆：
     HeapAdjust(heap, 0, i);
   }
+}
+int* sortArray(int* nums, int numsSize, int* returnSize) {
+  HeapSort(nums, numsSize);
+  *returnSize = numsSize;
+  return nums;
 }
 
 class Solution {
@@ -91,8 +105,11 @@ class Solution {
     return nums;
   }
 };
+}  // namespace n1
 
+namespace n2 {
 // 快速排序
+namespace two {
 int Partition(int* nums, int left, int right) {
   // 随机选取，不超时
   int rad = rand() % (right - left + 1);
@@ -121,6 +138,13 @@ void QuickSort(int* nums, int left, int right) {
     QuickSort(nums, partition + 1, right);
   }
 }
+int* sortArray(int* nums, int numsSize, int* returnSize) {
+  srand(time(0));
+  QuickSort(nums, 0, numsSize - 1);
+  *returnSize = numsSize;
+  return nums;
+}
+
 class Solution {
   int Partition(vector<int>& nums, int left, int right) {
     int rad = rand() % (right - left + 1);
@@ -156,7 +180,49 @@ class Solution {
     return nums;
   }
 };
+}  // namespace two
 
+namespace three {
+// 如果重复的元素太多，普通的快速排序会倒退，导致超时
+class Solution {
+ public:
+  void QuickSort(vector<int>& nums, int left, int right) {
+    if (left >= right) {
+      return;
+    }
+
+    int random = left + rand() % (right - left + 1);
+    swap(nums[left], nums[random]);
+    int pivotkey = nums[left];
+
+    // 三路快排：分为小于，等于，大于三部分
+    int li = left;  // 表示小于pivotkey的最右边的位置，初始为第一个位置之前
+    int ri = right + 1;  // 表示大于pivotkey的最左边的位置，初始为最后一个之后
+    int i = left + 1;  // 表示等于pivotkey的做右边的位置，初始为第一元素
+    while (i < ri) {
+      if (nums[i] < pivotkey) {
+        swap(nums[++li], nums[i++]);
+      } else if (nums[i] > pivotkey) {
+        swap(nums[--ri], nums[i]);
+      } else {
+        ++i;
+      }
+    }
+    swap(nums[left], nums[li]);
+
+    // 减1是因为nums[li]与nums[left]交换了，此时是等于pivotkey的：
+    QuickSort(nums, left, li - 1);
+    QuickSort(nums, ri, right);
+  }
+  vector<int> sortArray(vector<int>& nums) {
+    QuickSort(nums, 0, nums.size() - 1);
+    return nums;
+  }
+};
+}  // namespace three
+}  // namespace n2
+
+namespace n3 {
 // 冒泡排序
 void BubbleSort(int* nums, int numsSize) {
   for (int i = 0; i < numsSize - 1; ++i) {
@@ -168,6 +234,11 @@ void BubbleSort(int* nums, int numsSize) {
       }
     }
   }
+}
+int* sortArray(int* nums, int numsSize, int* returnSize) {
+  BubbleSort(nums, numsSize);
+  *returnSize = numsSize;
+  return nums;
 }
 
 class Solution {
@@ -185,7 +256,9 @@ class Solution {
     return nums;
   }
 };
+}  // namespace n3
 
+namespace n4 {
 // 简单选择排序
 void SelectionSort(int* nums, int numsSize) {
   for (int i = 0; i < numsSize - 1; ++i) {
@@ -197,6 +270,11 @@ void SelectionSort(int* nums, int numsSize) {
       }
     }
   }
+}
+int* sortArray(int* nums, int numsSize, int* returnSize) {
+  SelectionSort(nums, numsSize);
+  *returnSize = numsSize;
+  return nums;
 }
 
 class Solution {
@@ -214,7 +292,9 @@ class Solution {
     return nums;
   }
 };
+}  // namespace n4
 
+namespace n5 {
 // 直接插入排序
 void InsertSort(int* nums, int size) {
   for (int i = 1; i < size; i++) {
@@ -228,6 +308,11 @@ void InsertSort(int* nums, int size) {
       nums[j + 1] = temp;
     }
   }
+}
+int* sortArray(int* nums, int numsSize, int* returnSize) {
+  InsertSort(nums, numsSize);
+  *returnSize = numsSize;
+  return nums;
 }
 
 class Solution {
@@ -249,7 +334,9 @@ class Solution {
     return nums;
   }
 };
+}  // namespace n5
 
+namespace n6 {
 // 希尔排序
 void ShellSort(int* nums, int size) {
   int interval = 1;
@@ -272,7 +359,41 @@ void ShellSort(int* nums, int size) {
     interval = (interval - 1) / 3;
   }
 }
+int* sortArray(int* nums, int numsSize, int* returnSize) {
+  ShellSort(nums, numsSize);
+  *returnSize = numsSize;
+  return nums;
+}
 
+class Solution {
+ public:
+  vector<int> sortArray(vector<int>& nums) {
+    int n = nums.size();
+    int interval = 1;
+    while (interval < n / 3) {
+      interval = interval * 3 + 1;
+    }
+
+    while (interval) {
+      for (int i = interval; i < n; ++i) {
+        if (nums[i - interval] > nums[i]) {
+          int tmp = nums[i];
+          int j = i - interval;
+          while (j >= 0 && nums[j] > tmp) {
+            nums[j + interval] = nums[j];
+            j -= interval;
+          }
+          nums[j + interval] = tmp;
+        }
+      }
+      interval = (interval - 1) / 3;
+    }
+    return nums;
+  }
+};
+}  // namespace n6
+
+namespace n7 {
 // 归并排序
 void Merge(int* nums, int start, int mid, int end) {
   int llen = mid - start + 1;
@@ -296,6 +417,11 @@ void MergeSort(int* nums, int start, int end) {
     MergeSort(nums, mid + 1, end);
     Merge(nums, start, mid, end);
   }
+}
+int* sortArray(int* nums, int numsSize, int* returnSize) {
+  MergeSort(nums, 0, numsSize - 1);
+  *returnSize = numsSize;
+  return nums;
 }
 
 class Solution {
@@ -330,23 +456,93 @@ class Solution {
     return nums;
   }
 };
+}  // namespace n7
 
-int* sortArray(int* nums, int numsSize, int* returnSize) {
-  srand(time(0));
-  QuickSort(nums, 0, numsSize - 1);
+int main(int argc, char* argv[]) {
+  if (argc < 2) {
+    std::cout << argv[0] << " i [0 - 15]" << std::endl;
+    return 0;
+  }
 
-  HeapSort(nums, numsSize);
+  vector<int> v = {1, 3, 3, 2, 4, 5, 7, 4, 6, 5, 9, 8};
 
-  BubbleSort(nums, numsSize);
+  int type = atoi(argv[1]);
+  switch (type) {
+    case 0: {
+      int len;
+      n1::sortArray(v.data(), v.size(), &len);
+      break;
+    }
+    case 1: {
+      n1::Solution s;
+      s.sortArray(v);
+      break;
+    }
+    case 2: {
+      int len;
+      n2::two::sortArray(v.data(), v.size(), &len);
+      break;
+    }
+    case 3: {
+      n2::three::Solution s;
+      s.sortArray(v);
+      break;
+    }
+    case 4: {
+      int len;
+      n3::sortArray(v.data(), v.size(), &len);
+      break;
+    }
+    case 5: {
+      n3::Solution s;
+      s.sortArray(v);
+      break;
+    }
+    case 6: {
+      int len;
+      n4::sortArray(v.data(), v.size(), &len);
+      break;
+    }
+    case 7: {
+      n4::Solution s;
+      s.sortArray(v);
+      break;
+    }
+    case 8: {
+      int len;
+      n5::sortArray(v.data(), v.size(), &len);
+      break;
+    }
+    case 9: {
+      n5::Solution s;
+      s.sortArray(v);
+      break;
+    }
+    case 10: {
+      int len;
+      n6::sortArray(v.data(), v.size(), &len);
+      break;
+    }
+    case 11: {
+      n6::Solution s;
+      s.sortArray(v);
+      break;
+    }
+    case 12: {
+      int len;
+      n7::sortArray(v.data(), v.size(), &len);
+      break;
+    }
+    case 13: {
+      n7::Solution s;
+      s.sortArray(v);
+      break;
+    }
+    default:
+      std::cout << "invalid type" << std::endl;
+      break;
+  }
 
-  SelectionSort(nums, numsSize);
-
-  InsertSort(nums, numsSize);
-
-  ShellSort(nums, numsSize);
-
-  MergeSort(nums, 0, numsSize - 1);
-
-  *returnSize = numsSize;
-  return nums;
+  copy(v.begin(), v.end(), ostream_iterator<int>(cout, " "));
+  cout << endl;
 }

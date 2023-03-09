@@ -1,6 +1,5 @@
 /*
-设计一个找到数据流中第k大元素的类（class）。
-注意是排序后的第k大元素，不是第k个不同的元素。
+设计一个找到数据流中第k大元素的类（class），注意是排序后的第k大元素，不是第k个不同的元素。
 请实现KthLargest类：
 KthLargest(int k, int[] nums)
 使用整数k和整数流nums初始化对象。
@@ -109,48 +108,50 @@ void kthLargestFree(KthLargest *obj) {
 }
 
 class KthLargest {
-  void sink(int p) {
+  vector<int> heap;
+  int capacity;
+  inline int Parent(int child) { return (child - 1) / 2; }
+  void swim(int child) {
+    while (child > 0 && heap[child] < heap[Parent(child)]) {
+      swap(heap[child], heap[Parent(child)]);
+      child = Parent(child);
+    }
+  }
+  void sink(int parent) {
+    int tmp = heap[parent];
     int len = heap.size();
-    int tmp = heap[p];
-    for (int c = p * 2 + 1; c < len; c = c * 2 + 1) {
-      if (c + 1 < len && heap[c] > heap[c + 1]) {
-        ++c;
+    for (int child = parent * 2 + 1; child < len; child = child * 2 + 1) {
+      if (child + 1 < len && heap[child] >= heap[child + 1]) {
+        ++child;
       }
-      if (tmp < heap[c]) {
+      if (tmp < heap[child]) {
         break;
       }
-      heap[p] = heap[c];
-      p = c;
+      heap[parent] = heap[child];
+      parent = child;
     }
-    heap[p] = tmp;
+    heap[parent] = tmp;
   }
-  void swim(int c) {
-    while (c > 0 && heap[c] < heap[(c - 1) / 2]) {
-      swap(heap[c], heap[(c - 1) / 2]);
-      c = (c - 1) / 2;
-    }
-  }
-  void heapAdd(int val) {
+  void Add2Heap(int val) {
     if (heap.size() < capacity) {
       heap.emplace_back(val);
       swim(heap.size() - 1);
-    } else if (val > heap[0]) {
+    } else if (heap[0] < val) {
       heap[0] = val;
       sink(0);
     }
   }
-  vector<int> heap;
-  int capacity;
 
  public:
   KthLargest(int k, vector<int> &nums) : capacity(k) {
     heap.reserve(k);
-    for (const auto &num : nums) {
+    for (auto num : nums) {
       add(num);
     }
   }
+
   int add(int val) {
-    heapAdd(val);
+    Add2Heap(val);
     return heap[0];
   }
 };

@@ -70,15 +70,15 @@ class Solution {
 class Solution {
   void adjustHeap(vector<int>& arr, int parent, int len) {
     int tmp = arr[parent];
-    for (int c = parent * 2 + 1; c < len; c = c * 2 + 1) {
-      if (c + 1 < len && arr[c] > arr[c + 1]) {
-        ++c;
+    for (int child = parent * 2 + 1; child < len; child = child * 2 + 1) {
+      if (child + 1 < len && arr[child] > arr[child + 1]) {
+        ++child;
       }
-      if (tmp < arr[c]) {
+      if (tmp < arr[child]) {
         break;
       }
-      arr[parent] = arr[c];
-      parent = c;
+      arr[parent] = arr[child];
+      parent = child;
     }
     arr[parent] = tmp;
   }
