@@ -3,8 +3,7 @@
 它是一个空字符串，或者它可以被写成AB（A与B连接），
 其中A和B都是有效字符串，或者它可以被写作(A)，其中A是有效字符串。
 给定一个括号字符串s，移动N次，你就可以在字符串的任何位置插入一个括号。
-例如，如果s = "()))"，
-你可以插入一个开始括号为"(()))"或结束括号为"())))"。
+例如，如果s = "()))"，可以插入一个开始括号为"(()))"或结束括号为"())))"。
 返回为使结果字符串s有效而必须添加的最少括号数。
 
 示例1：
@@ -79,21 +78,22 @@ int minAddToMakeValid(char* s) {
 class Solution {
  public:
   int minAddToMakeValid(string s) {
-    int ans = 0;
-    int leftCount = 0;
-    for (auto& c : s) {
+    int left = 0;
+    int right = 0;
+
+    for (char c : s) {
       if (c == '(') {
-        leftCount++;
+        ++left;
       } else {
-        if (leftCount > 0) {
-          leftCount--;
+        if (left > 0) {
+          --left;
         } else {
-          ans++;
+          ++right;
         }
       }
     }
-    ans += leftCount;
-    return ans;
+
+    return left + right;
   }
 };
 

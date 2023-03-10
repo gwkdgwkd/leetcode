@@ -3,17 +3,17 @@
 其中answer[i]是指在第i天之后，才会有更高的温度。
 如果气温在这之后都不会升高，请在该位置用0来代替。
 
-示例1:
-输入: temperatures = [73,74,75,71,69,72,76,73]
-输出: [1,1,4,2,1,1,0,0]
+示例1：
+输入：temperatures = [73,74,75,71,69,72,76,73]
+输出：[1,1,4,2,1,1,0,0]
 
-示例2:
-输入: temperatures = [30,40,50,60]
-输出: [1,1,1,0]
+示例2：
+输入：temperatures = [30,40,50,60]
+输出：[1,1,1,0]
 
-示例3:
-输入: temperatures = [30,60,90]
-输出: [1,1,0]
+示例3：
+输入：temperatures = [30,60,90]
+输出：[1,1,0]
 
 提示：
 1 <= temperatures.length <= 10^5
@@ -85,13 +85,9 @@ class Solution {
 };
 
 // 单调栈？就是栈里的元素保持升序或者降序。
-// 通常是一维数组，
-// 要寻找任一个元素的右边或者左边第一个比自己大或者小的元素的位置，
-// 此时就要想到可以用单调栈了。
-// 时间复杂度为O(n)。
-// 单调栈的本质是空间换时间，
-// 因为在遍历的过程中需要用一个栈来记录右边第一个比当前元素大的元素，
-// 优点是只需要遍历一次。
+// 通常是一维数组，要寻找任一个元素的右边或者左边第一个比自己大或者小的元素的位置，
+// 此时就要想到可以用单调栈了，时间复杂度为O(n)，单调栈的本质是空间换时间，
+// 遍历时需要用一个栈来记录右边第一个比当前元素大的元素，优点是只需要遍历一次。
 #define STACKSIZE 30000
 int stackIndex;
 int stack[STACKSIZE];
@@ -101,15 +97,12 @@ void push(int c) { stack[stackIndex++] = c; }
 bool empty() { return stackIndex == 0; }
 int* dailyTemperatures(int* temperatures, int temperaturesSize,
                        int* returnSize) {
-  // 维护一个存储下标的单调栈，
-  // 从栈底到栈顶的下标对应的温度列表中的温度依次递减。
+  // 维护一个存储下标的单调栈，从栈底到栈顶的下标对应的温度列表中的温度依次递减。
   // 如果一个下标在单调栈里，则表示尚未找到下一次温度更高的下标。
-  // 正向遍历温度列表，对于温度列表中的每个元素temperatures[i]，
-  // 如果栈为空，则直接将i进栈，如果栈不为空，
-  // 则比较栈顶元素prevIndex对应的温度temperatures[prevIndex]，
-  // 和当前温度temperatures[i]，
-  // 如果temperatures[i]>temperatures[prevIndex]，则将prevIndex移除，
-  // 并将prevIndex对应的等待天数赋为i-prevIndex，
+  // 正向遍历温度列表，对于温度列表中的每个元素temperatures[i]，如果栈为空，则直接将i进栈，
+  // 如果栈不为空，则比较栈顶元素prevIndex对应的温度temperatures[prevIndex]，
+  // 和当前温度temperatures[i]，如果temperatures[i]>temperatures[prevIndex]，
+  // 则将prevIndex移除，并将prevIndex对应的等待天数赋为i-prevIndex，
   // 重复上述操作直到栈为空或者栈顶元素对应的温度小于等于当前温度，然后将i进栈。
   // 为什么可以在弹栈的时候更新ans[prevIndex]呢？
   // 因为在这种情况下，即将进栈的i对应的temperatures[i]，

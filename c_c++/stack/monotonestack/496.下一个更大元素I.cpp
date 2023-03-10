@@ -1,13 +1,10 @@
 /*
-nums1中数字x的下一个更大元素是指：
-x在nums2中对应位置右侧的第一个比x大的元素。
-给你两个没有重复元素的数组nums1和nums2，
-下标从0开始计数，其中nums1是nums2的子集。
+nums1中数字x的下一个更大元素是指：x在nums2中对应位置右侧的第一个比x大的元素。
+给两个没有重复元素的数组nums1和nums2，下标从0开始计数，其中nums1是nums2的子集。
 对于每个0<=i<nums1.length，找出满足nums1[i]==nums2[j]的下标j，
 并且在nums2确定nums2[j]的下一个更大元素。
 如果不存在下一个更大元素，那么本次查询的答案是-1。
-返回一个长度为nums1.length的数组ans作为答案，
-满足ans[i]是如上所述的下一个更大元素。
+返回一个长度为nums1.length的数组作为答案，满足ans[i]是如上所述的下一个更大元素。
 
 示例1：
 输入：nums1 = [4,1,2], nums2 = [1,3,4,2].
@@ -75,7 +72,7 @@ int* nextGreaterElement(int* nums1, int nums1Size, int* nums2, int nums2Size,
   NumHash* s = NULL;
   g_head = NULL;
 
-  // 用单调栈求出nums2元素的下一个更大值, 并记录在hash表中
+  // 用单调栈求出nums2元素的下一个更大值，并记录在hash表中
   for (i = nums2Size - 1; i >= 0; i--) {
     while (top != 0 && nums2[i] >= stack[top - 1]) {
       top--;
@@ -87,7 +84,7 @@ int* nextGreaterElement(int* nums1, int nums1Size, int* nums2, int nums2Size,
     stack[top++] = nums2[i];
   }
 
-  // 遍历nums1元素, 在hash表中找到更大元素输出即可
+  // 遍历nums1元素，在hash表中找到更大元素输出即可
   for (i = 0; i < nums1Size; i++) {
     HASH_FIND_INT(g_head, &nums1[i], s);
     res[i] = s->greater;
