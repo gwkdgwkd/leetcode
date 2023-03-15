@@ -1,5 +1,5 @@
 /*
-给你一棵二叉树的根节点root，返回其节点值的后序遍历。
+给一棵二叉树的根节点root，返回其节点值的后序遍历。
 
 示例1：
 输入：root = [1,null,2,3]
@@ -202,10 +202,15 @@ class Solution {
       }
     }
 
-    for (int left = 0, right = res.size() - 1; left < right; ++left, --right) {
-      int temp = res[left];
-      res[left] = res[right];
-      res[right] = temp;
+    // for (int left = 0,right = res.size() - 1; left < right; ++left,--right) {
+    //   int temp = res[left];
+    //   res[left] = res[right];
+    //   res[right] = temp;
+    // }
+    int left = 0;
+    int right = res.size() - 1;
+    while (left < right) {
+      swap(res[left++], res[right--]);
     }
 
     return res;

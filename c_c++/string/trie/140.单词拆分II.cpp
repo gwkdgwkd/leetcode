@@ -1,8 +1,6 @@
 /*
-给定一个字符串s和一个字符串字典wordDict，
-在字符串s中增加空格来构建一个句子，
-使得句子中所有的单词都在词典中。
-以任意顺序返回所有这些可能的句子。
+给定一个字符串s和一个字符串字典wordDict，在字符串s中增加空格来构建一个句子，
+使得句子中所有的单词都在词典中，以任意顺序返回所有这些可能的句子。
 注意：词典中的同一个单词可能在分段中被重复使用多次。
 
 示例1：
@@ -13,8 +11,7 @@
 示例2：
 输入：s = "pineapplepenapple",
      wordDict = ["apple","pen","applepen","pine","pineapple"]
-输出：["pine apple pen apple","pineapple pen apple",
-      "pine applepen apple"]
+输出：["pine apple pen apple","pineapple pen apple","pine applepen apple"]
 解释：注意你可以重复使用字典中的单词。
 
 示例3：
@@ -153,8 +150,9 @@ class Trie {
           dfs(s, i + 1, visited, res);
           visited[i] = false;
         }
-      } else
+      } else {
         return;
+      }
     }
   }
 };

@@ -1,13 +1,9 @@
 /*
-单词数组words的有效编码由任意助记字符串s和下标数组indices组成，
-且满足：
+单词数组words的有效编码由任意助记字符串s和下标数组indices组成，且满足：
 words.length == indices.length
-助记字符串s以'#'字符结尾
-对于每个下标indices[i]，
-s的一个从indices[i]开始、
+助记字符串s以'#'字符结尾，对于每个下标indices[i]，s的一个从indices[i]开始，
 到下一个'#'字符结束（但不包括'#'）的子字符串恰好与words[i]相等。
-给你一个单词数组words，
-返回成功对words进行编码的最小助记字符串s的长度。
+给你一个单词数组words，返回成功对words进行编码的最小助记字符串s的长度。
 
 示例1：
 输入：words = ["time", "me", "bell"]

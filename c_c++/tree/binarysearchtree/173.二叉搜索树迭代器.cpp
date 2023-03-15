@@ -1,6 +1,5 @@
 /*
-实现一个二叉搜索树迭代器类BSTIterator，
-表示一个按中序遍历二叉搜索树（BST）的迭代器：
+实现一个二叉搜索树迭代器类BSTIterator，表示一个按中序遍历二叉搜索树（BST）的迭代器：
 BSTIterator(TreeNode root)
 初始化BSTIterator类的一个对象。
 BST的根节点root会作为构造函数的一部分给出。
@@ -11,10 +10,8 @@ boolean hasNext()
 int next()
 将指针向右移动，然后返回指针处的数字。
 
-注意，指针初始化为一个不存在于BST中的数字，
-所以对next()的首次调用将返回BST中的最小元素。
-你可以假设next()调用总是有效的，也就是说，
-当调用next()时，BST的中序遍历中至少存在一个下一个数字。
+注意，指针初始化为一个不存在于BST中的数字，所以对next()的首次调用将返回BST中的最小元素。
+可以假设next()调用总是有效的，也就是说，当调用next()时，BST的中序遍历中至少存下一个数字。
 
 示例：
 输入：["BSTIterator", "next", "next", "hasNext", "next",
@@ -116,8 +113,7 @@ class BSTIterator {
     if (!hasNext()) return 0;
     auto cur = stk.top();
     stk.pop();
-    // 0：左子树未处理，自身再次入栈，并标记为1，
-    //    然后左子树入栈，递归处理左子树
+    // 0：左子树未处理，自身再次入栈，并标记为1，然后左子树入栈，递归处理左子树
     if (cur.second == 0) {
       stk.push({cur.first, 1});
       if (cur.first->left) stk.push({cur.first->left, 0});

@@ -35,21 +35,11 @@ char* replaceSpace(char* s) {
     }
   }
 
-  // int index = 0;
-  // for (int i = 0; i < len; ++i) {
-  //   if (s[i] == ' ') {
-  //     memcpy(res + index, "%20", sizeof(char) * 3);
-  //     index += 3;
-  //   } else {
-  //     res[index++] = s[i];
-  //   }
-  // }
-
   return res;
 }
 
 // 面试题0103URL化
-// URL化。编写一种方法，将字符串中的空格全部替换为%20。
+// URL化，编写一种方法，将字符串中的空格全部替换为%20。
 // 假定该字符串尾部有足够的空间存放新增字符，并且知道字符串的真实长度。
 char* replaceSpaces(char* S, int length) {
   int count = 0;

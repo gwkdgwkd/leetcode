@@ -63,45 +63,40 @@ int wordsFrequencyGet(WordsFrequency* obj, char* word) {
 }
 void wordsFrequencyFree(WordsFrequency* obj) { free(obj); }
 
-struct trie {
-  int n;
-  trie* son[26];
-  trie() : n(0) {
-    for (int i = 0; i < 26; ++i) {
-      son[i] = nullptr;
-    }
-  }
-};
 class WordsFrequency {
- private:
-  trie* root;
+  struct Trie {
+    int count;
+    Trie* children[26];
+    Trie() : count(0) { fill(begin(children), end(children), nullptr); }
+  };
+  Trie* root;
 
  public:
   WordsFrequency(vector<string>& book) {
-    root = new trie();
-    trie* tmp = root;
-    for (auto& i : book) {
-      tmp = root;
-      for (auto& ch : i) {
-        int next = ch - 'a';
-        if (!tmp->son[next]) {
-          tmp->son[next] = new trie();
+    root = new Trie();
+    Trie* cur;
+    for (const string& s : book) {
+      cur = root;
+      for (char c : s) {
+        char tmp = c - 'a';
+        if (cur->children[tmp] == nullptr) {
+          cur->children[tmp] = new Trie();
         }
-        tmp = tmp->son[next];
+        cur = cur->children[tmp];
       }
-      // 到达底部后，将叶子结点++
-      ++tmp->n;
+      cur->count++;
     }
   }
+
   int get(string word) {
-    trie* find = root;
-    for (auto& i : word) {
-      int next = i - 'a';
-      if (find->son[next])
-        find = find->son[next];
-      else
+    Trie* cur = root;
+    for (char c : word) {
+      char tmp = c - 'a';
+      if (cur->children[tmp] == nullptr) {
         return 0;
+      }
+      cur = cur->children[tmp];
     }
-    return find->n;
+    return cur->count;
   }
 };

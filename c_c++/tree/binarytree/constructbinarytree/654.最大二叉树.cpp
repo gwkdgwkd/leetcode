@@ -1,10 +1,7 @@
 /*
-给定一个不重复的整数数组nums。
-最大二叉树可以用下面的算法从nums递归地构建:
-创建一个根节点，其值为nums中的最大值。
-递归地在最大值左边的子数组前缀上构建左子树。
-递归地在最大值右边的子数组后缀上构建右子树。
-返回nums构建的最大二叉树。
+给定一个不重复的整数数组nums，最大二叉树可以用下面的算法从nums递归地构建：
+创建一个根节点，其值为nums中的最大值，递归地在最大值左边的子数组前缀上构建左子树，
+递归地在最大值右边的子数组后缀上构建右子树，返回nums构建的最大二叉树。
 
 示例1：
 输入：nums = [3,2,1,6,0,5]
@@ -96,8 +93,8 @@ class Solution {
     if (left > right) {
       return nullptr;
     }
-    if (left == right) {
-      new TreeNode(left);
+    if (left == right) {  // 这个判断不要也正确
+      new TreeNode(nums[left]);
     }
 
     int index = left;

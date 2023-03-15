@@ -1,17 +1,16 @@
 /*
-给定两个整数数组inorder和postorder，
-其中inorder是二叉树的中序遍历，
+给定两个整数数组inorder和postorder，其中inorder是二叉树的中序遍历，
 postorder是同一棵树的后序遍历，请你构造并返回这颗二叉树。
 
-示例1:
+示例1：
 输入：inorder = [9,3,15,20,7], postorder = [9,15,7,20,3]
 输出：[3,9,20,null,null,15,7]
 
-示例2:
+示例2：
 输入：inorder = [-1], postorder = [-1]
 输出：[-1]
 
-提示:
+提示：
 1 <= inorder.length <= 3000
 postorder.length == inorder.length
 -3000 <= inorder[i], postorder[i] <= 3000

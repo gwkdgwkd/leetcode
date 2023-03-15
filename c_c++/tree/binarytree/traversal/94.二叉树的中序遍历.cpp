@@ -17,7 +17,7 @@
 树中节点数目在范围[0, 100]内
 -100 <= Node.val <= 100
 
-进阶: 递归算法很简单，你可以通过迭代算法完成吗？
+进阶： 递归算法很简单，你可以通过迭代算法完成吗？
 */
 
 struct TreeNode {
@@ -163,7 +163,6 @@ class Solution {
 };
 
 // 迭代
-
 class Solution {
  public:
   vector<int> inorderTraversal(TreeNode* root) {

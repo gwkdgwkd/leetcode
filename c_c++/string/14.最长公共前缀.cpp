@@ -1,6 +1,5 @@
 /*
-编写一个函数来查找字符串数组中的最长公共前缀。
-如果不存在公共前缀，返回空字符串""。
+编写函数来查找字符串数组中的最长公共前缀，如果不存在公共前缀，返回空字符串""。
 
 示例1：
 输入：strs = ["flower","flow","flight"]
@@ -35,19 +34,20 @@ char* longestCommonPrefix(char** strs, int strsSize) {
 class Solution {
  public:
   string longestCommonPrefix(vector<string>& strs) {
-    if (!strs.size()) {
+    if (strs.empty()) {
       return "";
     }
-    int length = strs[0].size();
-    int count = strs.size();
-    for (int i = 0; i < length; ++i) {
-      char c = strs[0][i];
-      for (int j = 1; j < count; ++j) {
-        if (i == strs[j].size() || strs[j][i] != c) {
-          return strs[0].substr(0, i);
+
+    int n = strs.size();
+    int len = strs[0].size();
+    for (int j = 0; j < len; ++j) {
+      for (int i = 1; i < n; ++i) {
+        if (j == len || strs[i][j] != strs[0][j]) {
+          return strs[0].substr(0, j);
         }
       }
     }
+
     return strs[0];
   }
 };

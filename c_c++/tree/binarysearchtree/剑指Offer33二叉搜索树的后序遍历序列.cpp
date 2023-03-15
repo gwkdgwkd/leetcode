@@ -1,7 +1,6 @@
 /*
 输入一个整数数组，判断该数组是不是某二叉搜索树的后序遍历结果。
-如果是则返回true，否则返回false。
-假设输入的数组的任意两个数字都互不相同。
+如果是则返回true，否则返回false，假设输入的数组的任意两个数字都互不相同。
 
 参考以下这颗二叉搜索树：
      5
@@ -11,19 +10,19 @@
  1   3
 
 示例1：
-输入: [1，6，3，2，5]
-输出: false
+输入：[1，6，3，2，5]
+输出：false
 
 示例2：
-输入: [1，3，2，6，5]
-输出: true
+输入：[1，3，2，6，5]
+输出：true
 
 提示：数组长度 <= 1000
 */
 
 // 递归
-// 时间复杂度:O(N^2)
-// 空间复杂度:O(N)
+// 时间复杂度：O(N^2)
+// 空间复杂度：O(N)
 bool dfs(int* nums, int left, int right) {
   if (left >= right) {
     return true;
@@ -66,8 +65,8 @@ bool verifyPostorder(int* postorder, int postorderSize) {
 // 逆序：[10，12，13，11，8，9，5，6，3]
 
 // 单调栈
-// 时间复杂度:O(N)
-// 空间复杂度:O(N)
+// 时间复杂度：O(N)
+// 空间复杂度：O(N)
 bool verifyPostorder(int* postorder, int postorderSize) {
   if (postorderSize == 0) return true;
   int stack[postorderSize];

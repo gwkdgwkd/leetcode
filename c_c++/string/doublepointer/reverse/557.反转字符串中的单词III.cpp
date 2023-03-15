@@ -1,12 +1,11 @@
 /*
-给定一个字符串s，你需要反转字符串中每个单词的字符顺序，
-同时仍保留空格和单词的初始顺序。
+给定一个字符串s，需要反转字符串中每个单词的字符顺序，同时仍保留空格和单词的初始顺序。
 
 示例1：
 输入：s = "Let's take LeetCode contest"
 输出："s'teL ekat edoCteeL tsetnoc"
 
-示例2:
+示例2：
 输入： s = "God Ding"
 输出："doG gniD"
 
@@ -83,7 +82,7 @@ class Solution {
     while (right < n) {
       if (s[right] == ' ') {
         reverse(s, left, right - 1);
-        if (right + 1 < n) {
+        if (right + 1 < n) {  // 不用这个判断也正确
           left = right + 1;
         }
       }

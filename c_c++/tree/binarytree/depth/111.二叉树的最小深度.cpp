@@ -24,10 +24,8 @@ struct TreeNode {
 
 // BFS找到的路径一定是最短的，但代价就是空间复杂度比DFS大很多。
 // DFS不能找最短路径吗？
-// 其实也是可以的，但是时间复杂度相对高很多。
-// 要把所有路径找到，然后再找出最小的。
-// 一般来说在找最短路径的时候使用BFS，
-// 其他时候还是DFS使用得多一些（主要是递归代码好写）。
+// 其实也是可以的，但是时间复杂度相对高很多，要把所有路径找到，然后再找出最小的。
+// 一般来说在找最短路径的时候使用BFS，其他时候还是DFS使用得多一些（递归代码好写）。
 
 // 递归，DFS
 int minDepth(struct TreeNode* root) {
@@ -61,8 +59,7 @@ int minDepth(struct TreeNode* root) {
   return fmin(l, r) + 1;
 }
 
-// 迭代，BFS
-// BFS都用队列这种数据结构，每次将一个节点周围的所有节点加入队列：
+// 迭代，BFS都用队列这种数据结构，每次将一个节点周围的所有节点加入队列：
 #define MAXQUEUE 400
 struct TreeNode* queue[MAXQUEUE];
 int front, tail, size;

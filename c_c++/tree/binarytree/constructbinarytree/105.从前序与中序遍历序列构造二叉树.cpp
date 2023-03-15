@@ -1,6 +1,5 @@
 /*
-给定两个整数数组preorder和inorder，
-其中preorder是二叉树的先序遍历，
+给定两个整数数组preorder和inorder，其中preorder是二叉树的先序遍历，
 inorder是同一棵树的中序遍历，请构造二叉树并返回其根节点。
 
 示例1：
@@ -11,7 +10,7 @@ inorder是同一棵树的中序遍历，请构造二叉树并返回其根节点�
 输入：preorder = [-1], inorder = [-1]
 输出：[-1]
 
-提示:
+提示：
 1 <= preorder.length <= 3000
 inorder.length == preorder.length
 -3000 <= preorder[i], inorder[i] <= 3000
