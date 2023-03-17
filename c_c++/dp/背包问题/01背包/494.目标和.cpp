@@ -1,9 +1,7 @@
 /*
-给你一个整数数组nums和一个整数target。
-向数组中的每个整数前添加'+'或'-'，
+给一个整数数组nums和一个整数target，向数组中的每个整数前添加'+'或'-'，
 然后串联起所有整数，可以构造一个表达式：
-例如，nums=[2,1]，可以在2之前添加'+'，
-在1之前添加'-'，然后串联起来得到表达式"+2-1"。
+例如，nums=[2,1]，可以在2之前添加'+'，在1之前添加'-'，得到表达式"+2-1"。
 返回可以通过上述方法构造的、运算结果等于target的不同表达式的数目。
 
 示例1：
@@ -63,8 +61,7 @@ int findTargetSumWays(int* nums, int numsSize, int target) {
   dp[0] = 1;  // 装满容量为0的背包，有一种方法，就是装0件物品
   for (int i = 0; i < numsSize; ++i) {
     for (int j = dpsize; j >= nums[i]; --j) {
-      // 不考虑nums[i]的情况下，填满容量为j-nums[i]的背包，
-      // 有dp[j-nums[i]]种方法；
+      // 不考虑nums[i]的情况下，填满容量为j-nums[i]的背包，有dp[j-nums[i]]种方法；
       // 那么只要搞到nums[i]的话，凑成dp[j]就有dp[j-nums[i]]种方法。
       dp[j] += dp[j - nums[i]];
       // 求组合类问题的公式，都与上面的递推公式类似。
@@ -86,7 +83,6 @@ class Solution {
     }
 
     target /= 2;
-    cout << target << endl;
     int m = nums.size();
     vector<vector<int>> dp(m, vector<int>(target + 1, 0));
 
@@ -119,7 +115,7 @@ class Solution {
     }
 
     target += accumulate(nums.begin(), nums.end(), 0);
-    if (target % 2) {
+    if (target < 0 || target % 2) {
       return 0;
     }
     target /= 2;

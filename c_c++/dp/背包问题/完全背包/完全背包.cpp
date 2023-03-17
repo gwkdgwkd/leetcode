@@ -9,8 +9,7 @@ int test1(int *weight, int *value, int size, int bagweight) {
   int dp[size][bagweight + 1];
   memset(dp, 0, sizeof(dp));
   for (int i = weight[0]; i <= bagweight; ++i) {
-    // 初始化与01背包不同，对于第一个物品，
-    // 要尽量装，直到装不下时，才是dp中需要的值：
+    // 初始化与01背包不同，对于第一个物品，要尽量装，直到装不下时，才是dp中需要的值：
     dp[0][i] = value[0] * (i / weight[0]);
   }
 
@@ -50,8 +49,9 @@ int test2(int *weight, int *value, int size, int bagweight) {
   memset(dp, 0, sizeof(dp));
 
   for (int i = 0; i < size; ++i) {
-    // 01背包内嵌的循环是从⼤到⼩遍历，为了保证每个物品仅被添加⼀次。
+    // 01背包内嵌的循环是从⼤到⼩遍历，为了保证每个物品仅被添加⼀次：
     // for (int j = bagweight; j >= weight[i]; --j) {
+    // dp[j] = MAX(dp[j], dp[j - weight[i]] + value[i]);
     // ⽽完全背包的物品是可以添加多次的，所以要从⼩到⼤去遍历，即：
     for (int j = weight[i]; j <= bagweight; ++j) {
       dp[j] = MAX(dp[j], dp[j - weight[i]] + value[i]);

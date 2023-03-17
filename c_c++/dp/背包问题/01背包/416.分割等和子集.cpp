@@ -1,6 +1,5 @@
 /*
-给你一个只包含正整数的非空数组nums。
-请你判断是否可以将这个数组分割成两个子集，使得两个子集的元素和相等。
+给一个只包含正整数的非空数组nums，请判断是否可以将这个数组分割成和相等的两个子集。
 
 示例1：
 输入：nums = [1,5,11,5]
@@ -324,9 +323,8 @@ class Solution {
 
     int m = nums.size();
     vector<bool> dp(target + 1, false);
-    dp[0] = true;
-
-    for (int i = 0; i < m; ++i) {
+    dp[0] = true;  // dp[nums[0]] = true;  下面i的初始值可以设成1
+    for (int i = 0; i < m; ++i) {  // i开始等于1也行
       for (int j = target; j >= nums[i]; --j) {
         dp[j] = dp[j] || dp[j - nums[i]];
         // dp[j] = dp[j] | dp[j - nums[i]];  // 位运算，也行
