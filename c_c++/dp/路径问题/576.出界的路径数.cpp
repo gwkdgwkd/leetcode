@@ -1,11 +1,8 @@
 /*
-给你一个大小为mxn的网格和一个球。
-球的起始坐标为[startRow,startColumn]。
-你可以将球移到在四个方向上相邻的单元格内，可以穿过网格边界到达网格之外。
-你最多可以移动maxMove次球。
-给你五个整数m、n、maxMove、startRow以及startColumn，
-找出并返回可以将球移出边界的路径数量。
-因为答案可能非常大，返回对10^9+7取余后的结果。
+给一个大小为mxn的网格和一个球，球的起始坐标为[startRow,startColumn]。
+可以将球移到在四个方向上相邻的单元格内，可以穿过网格边界到达网格之外。
+最多可以移动maxMove次球，给五个整数m、n、maxMove、startRow以及startColumn，
+找出并返回可以将球移出边界的路径数量，因为答案可能非常大，返回对10^9+7取余后的结果。
 
 示例1：
 输入：m = 2, n = 2, maxMove = 2, startRow = 0, startColumn = 0

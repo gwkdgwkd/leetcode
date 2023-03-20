@@ -7,7 +7,7 @@ int sumRegion(int row1, int col1, int row2, int col2)
 返回左上角(row1,col1)到右下角(row2,col2)所描述的子矩阵的元素总和。
 
 示例1：
-输入:
+输入：
 ["NumMatrix","sumRegion","sumRegion","sumRegion"]
 [
 [[[3,0,1,4,2],
@@ -19,9 +19,9 @@ int sumRegion(int row1, int col1, int row2, int col2)
   [1,1,2,2],
   [1,2,2,4]
 ]
-输出:
+输出：
 [null, 8, 11, 12]
-解释:
+解释：
 NumMatrix numMatrix = new NumMatrix([[3,0,1,4,2],
                                      [5,6,3,2,1],
                                      [1,2,0,1,5],

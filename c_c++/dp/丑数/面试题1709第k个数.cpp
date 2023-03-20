@@ -3,15 +3,15 @@
 注意，不是必须有这些素因子，而是必须不包含其他的素因子。
 例如，前几个数按顺序应该是1，3，5，7，9，15，21。
 
-示例1:
-输入: k = 5
-输出: 9
+示例1：
+输入：k = 5
+输出：9
 */
 
 // 类似丑数
 int getKthMagicNumber(int k) {
   int* nums = (int*)calloc(k, sizeof(int));
-  nums[0] = 1;  // 这就有点动态规划的意思了
+  nums[0] = 1;
   int i;
   int i3 = 0;
   int i5 = 0;
@@ -35,30 +35,22 @@ int getKthMagicNumber(int k) {
 class Solution {
  public:
   int getKthMagicNumber(int k) {
-    vector<int> dp(k + 1);
-    dp[1] = 1;
+    vector<int> dp(k);
+    dp[0] = 1;
 
-    int p3 = 1;
-    int p5 = 1;
-    int p7 = 1;
-
-    for (int i = 2; i <= k; ++i) {
-      int nums3 = dp[p3] * 3;
-      int nums5 = dp[p5] * 5;
-      int nums7 = dp[p7] * 7;
-      dp[i] = min(nums3, min(nums5, nums7));
-
-      if (dp[i] == nums3) {
-        ++p3;
-      }
-      if (dp[i] == nums5) {
-        ++p5;
-      }
-      if (dp[i] == nums7) {
-        ++p7;
-      }
+    int i3 = 0;
+    int i5 = 0;
+    int i7 = 0;
+    for (int i = 1; i < k; ++i) {
+      int n3 = dp[i3] * 3;
+      int n5 = dp[i5] * 5;
+      int n7 = dp[i7] * 7;
+      dp[i] = min(n3, min(n5, n7));
+      if (dp[i] == n3) ++i3;
+      if (dp[i] == n5) ++i5;
+      if (dp[i] == n7) ++i7;
     }
 
-    return dp[k];
+    return dp[k - 1];
   }
 };

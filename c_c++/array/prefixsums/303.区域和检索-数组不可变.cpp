@@ -1,5 +1,5 @@
 /*
-给定一个整数数组nums，处理以下类型的多个查询:
+给定一个整数数组nums，处理以下类型的多个查询：
 计算索引left和right（包含left和right）之间的nums元素的和，其中left<=right
 
 实现NumArray类：
