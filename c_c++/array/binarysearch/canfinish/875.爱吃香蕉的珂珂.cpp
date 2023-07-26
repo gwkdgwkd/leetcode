@@ -8,16 +8,16 @@
 返回她可以在H小时内吃掉所有香蕉的最小速度K（K为整数）。
 
 示例1：
-输入: piles = [3,6,7,11], H = 8
-输出: 4
+输入：piles = [3,6,7,11], H = 8
+输出：4
 
 示例2：
-输入: piles = [30,11,23,4,20], H = 5
-输出: 30
+输入：piles = [30,11,23,4,20], H = 5
+输出：30
 
 示例3：
-输入: piles = [30,11,23,4,20], H = 6
-输出: 23
+输入：piles = [30,11,23,4,20], H = 6
+输出：23
 
 提示：
 1 <= piles.length <= 10^4
@@ -70,6 +70,8 @@ class Solution {
     for (const auto& i : piles) {
       right = max(right, i);
     }
+    // right = *max_element(piles.begin(),piles.end());
+
 
     while (left < right) {
       int mid = left + (right - left) / 2;

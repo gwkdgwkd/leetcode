@@ -159,7 +159,8 @@ class Solution {
         }
       }
 
-      return (left >= size || nums[left] != target) ? -1 : left;
+      // return (left >= size || nums[left] != target) ? -1 : left;
+      return (left < size && nums[left] == target) ? left : -1;
     }();
 
     if (begin == -1) {
@@ -180,7 +181,8 @@ class Solution {
         }
       }
 
-      return (right < 0 || nums[right] != target) ? -1 : right;
+      // return (right < 0 || nums[right] != target) ? -1 : right;
+      return (right >= 0 && nums[right] == target) ? right : -1;
     }();
 
     return {begin, end};

@@ -7,8 +7,8 @@
 将最终结果插入nums的前k个位置后返回k。
 不要使用额外的空间，你必须在原地修改输入数组并在使用O(1)额外空间的条件下完成。
 
-判题标准:
-系统会用下面的代码来测试你的题解:
+判题标准：
+系统会用下面的代码来测试你的题解：
 int[] nums = [...]; // 输入数组
 int[] expectedNums = [...]; // 长度正确的期望答案
 int k = removeDuplicates(nums); // 调用
@@ -66,5 +66,23 @@ class Solution {
     }
 
     return slow;
+  }
+};
+
+class Solution {
+ public:
+  int removeDuplicates(vector<int>& nums) {
+    int slow = 0;
+    int fast = 0;
+    int len = nums.size();
+
+    while (fast < len) {
+      if (nums[slow] != nums[fast]) {
+        nums[++slow] = nums[fast];
+      }
+      ++fast;
+    }
+
+    return slow + 1;
   }
 };
