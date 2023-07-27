@@ -9,14 +9,14 @@ SetOfStacks应该由多个栈组成，并且在前一个栈填满时新建一个
 当某个栈为空时，应当删除该栈。
 当栈中没有元素或不存在该栈时，pop，popAt应返回-1。
 
-示例1:
+示例1：
 输入：
 ["StackOfPlates", "push", "push", "popAt", "pop", "pop"]
 [[1], [1], [2], [1], [], []]
 输出：
 [null, null, null, 2, 1, -1]
 
-示例2:
+示例2：
 输入：
 ["StackOfPlates", "push", "push", "push", "popAt", "popAt", "popAt"]
 [[2], [1], [2], [3], [0], [0], [0]]

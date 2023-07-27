@@ -20,12 +20,12 @@ candidates中的同一个数字可以无限制重复被选取。
 7也是一个候选，7 = 7，仅有这两种组合。
 
 示例2：
-输入: candidates = [2,3,5], target = 8
-输出: [[2,2,2,2],[2,3,3],[3,5]]
+输入：candidates = [2,3,5], target = 8
+输出：[[2,2,2,2],[2,3,3],[3,5]]
 
 示例3：
-输入: candidates = [2], target = 1
-输出: []
+输入：candidates = [2], target = 1
+输出：[]
 
 提示：
 1 <= candidates.length <= 30

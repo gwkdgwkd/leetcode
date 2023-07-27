@@ -22,13 +22,13 @@ return res
 输入：nestedList = [[1,1],2,[1,1]]
 输出：[1,1,2,1,1]
 解释：通过重复调用next直到hasNext返回false，
-     next返回的元素的顺序应该是:[1,1,2,1,1]。
+     next返回的元素的顺序应该是：[1,1,2,1,1]。
 
 示例2：
 输入：nestedList = [1,[4,[6]]]
 输出：[1,4,6]
 解释：通过重复调用next直到hasNext返回false，
-     next返回的元素的顺序应该是:[1,4,6]。
+     next返回的元素的顺序应该是：[1,4,6]。
 
 提示：
 1 <= nestedList.length <= 500

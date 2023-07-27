@@ -3,7 +3,7 @@
 设计一种算法，从[0,n-1]范围内的任意整数中，选取一个未加入黑名单blacklist的整数。
 任何在上述范围内且不在黑名单blacklist中的整数都应该有同等的可能性被返回。
 优化你的算法，使它最小化调用语言内置随机函数的次数。
-实现Solution类:
+实现Solution类：
 Solution(int n, int[] blacklist)
 初始化整数n和被加入黑名单blacklist的整数。
 int pick()
@@ -28,7 +28,7 @@ solution.pick(); // 返回 1
 solution.pick(); // 返回 0
 solution.pick(); // 返回 4
 
-提示:
+提示：
 1 <= n <= 10^9
 0 <= blacklist.length <- min(10^5, n - 1)
 0 <= blacklist[i] < n

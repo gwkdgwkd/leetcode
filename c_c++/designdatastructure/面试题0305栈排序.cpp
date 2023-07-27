@@ -5,21 +5,21 @@
 该栈支持如下操作：push、pop、peek和isEmpty。
 当栈为空时，peek返回-1。
 
-示例1:
+示例1：
 输入：
 ["SortedStack", "push", "push", "peek", "pop", "peek"]
 [[], [1], [2], [], [], []]
 输出：
 [null,null,null,1,null,2]
 
-示例2:
+示例2：
 输入：
 ["SortedStack", "pop", "pop", "push", "pop", "isEmpty"]
 [[], [], [], [1], [], []]
 输出：
 [null,null,null,null,null,true]
 
-说明:栈中的元素数目在[0, 5000]范围内。
+说明：栈中的元素数目在[0, 5000]范围内。
 */
 
 typedef struct {

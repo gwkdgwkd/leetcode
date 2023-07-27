@@ -1,7 +1,7 @@
 /*
 给你一个整数数组nums，设计算法来打乱一个没有重复元素的数组。
 打乱后，数组的所有排列应该是等可能的。
-实现Solution class:
+实现Solution class：
 Solution(int[] nums)
 使用整数数组nums初始化对象
 int[] reset()
