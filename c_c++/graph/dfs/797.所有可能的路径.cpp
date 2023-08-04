@@ -94,6 +94,7 @@ int** allPathsSourceTarget(int** graph, int graphSize, int* graphColSize,
   return ans;
 }
 
+// 很像回溯算法，DFS和回溯有啥区别？
 class Solution {
   vector<vector<int>> ans;
   vector<int> path;
