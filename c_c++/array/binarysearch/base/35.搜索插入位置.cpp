@@ -39,8 +39,52 @@ int searchInsert(int* nums, int numsSize, int target) {
       right = mid - 1;
     }
   }
+  // 用二分法查找如果找到了那还好说，但若是找不到呢？该怎么找到要顺序插入的下标呢？
+  // 这个其实很简单，直接返回left就行，思路如下：
 
-  return left;  // while退出时，left>right，所以返回right不行
+  // 第N-1轮：
+  // target : 8
+  // id     : 0     1     2     3     4     5
+  // nums   : 1     3     5     7     9     11
+  //                            ↑     ↑     ↑
+  //                           left  mid  right
+
+  // 第N轮：
+  // target : 8
+  // id     : 0     1     2     3     4     5
+  // nums   : 1     3     5     7     9     11
+  //                            ↑
+  //                           left
+  //                          right
+  //                           mid
+
+  // 第N+1轮：
+  // target : 8
+  // id     : 0     1     2     3     4     5
+  // nums   : 1     3     5     7     9     11
+  //                            ↑     ↑
+  //                          right  left
+  //                           mid
+
+  // 跳出循环时，一定是第N+1轮left>right的时候，这也一定是第N轮left向后移动的结果，
+  // 而且只有当nums[mid]<target的时候才执行的left=mid+1，
+  // 这里的mid是第N轮的mid，也即left==right时的mid，所以可以肯定的是，
+  // 第N轮mid指向的元素小于target，那么怎么确定当left>right时，
+  // left指向的元素就一定大于target呢？
+
+  // 需要思考，为什么第N轮left和right会重合呢？
+  // 是不是当mid指向的元素大于target的时候，执行的right=mid-1才能让left和right重合呢？
+  // 所以可以确定当left和right将要重合时，第N-1轮的left、mid和right一定是排成一排的。
+  // 所以如果第N轮left和right重合时，left还要左移的话，就只能移动到第N-1轮mid指向的位置，
+  // 所以也就能确定，当第N+1轮left>ritht时，有nums[right]<target<nums[left]了，
+  // 故最后直接返回left即可。
+
+  // 就是说无论开始时如何，最终left和right会分别定位在要插入元素的左右，
+  // 分别是比要插入元素target小和大的元素，因此是right+1或left，而不是right，
+  // 因为如果插入到right处，那么nums[right]会右移且nums[right]比target小，
+  // 插入位置错误，如果插入到left处，nums[left]右移且nums[left]比target大，
+  // 于是插入的位置正确。
+  return left;  // right + 1也行
 }
 
 class Solution {

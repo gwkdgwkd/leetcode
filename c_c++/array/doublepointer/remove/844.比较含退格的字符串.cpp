@@ -7,7 +7,7 @@
 示例1：
 输入：s = "ab#c", t = "ad#c"
 输出：true
-解释：s和t都会变成 "ac"。
+解释：s和t都会变成"ac"。
 
 示例2：
 输入：s = "ab##", t = "c#d#"
@@ -58,29 +58,29 @@ bool backspaceCompare(char* s, char* t) {
 
 class Solution {
  public:
-  int removeBack(string& str) {
-    int len = str.size();
-    int slow = len - 1;
-    int fast = len - 1;
-
-    int count = 0;
-    while (fast >= 0) {
-      if (str[fast] == '#') {
-        ++count;
-      } else {
-        if (count > 0) {
-          --count;
-        } else {
-          str[slow--] = str[fast];
-        }
-      }
-      fast--;
-    }
-    return slow;
-  }
   bool backspaceCompare(string s, string t) {
-    int i = removeBack(s);
-    int j = removeBack(t);
+    auto remove = [](string& str) {
+      int slow = str.size() - 1;
+      int fast = slow;
+
+      int c = 0;
+      while (fast >= 0) {
+        if (str[fast] == '#') {
+          ++c;
+        } else {
+          if (c > 0) {
+            --c;
+          } else {
+            str[slow--] = str[fast];
+          }
+        }
+        --fast;
+      }
+      return slow;
+    };
+
+    int i = remove(s);
+    int j = remove(t);
 
     return string(s.begin() + i + 1, s.end()) ==
            string(t.begin() + j + 1, t.end());
