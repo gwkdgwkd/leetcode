@@ -29,6 +29,9 @@ nums中的每个值都独一无二
 进阶：你可以设计一个时间复杂度为O(logn)的解决方案吗？
 */
 
+// 始终去有序的那个范围内去找target，不在就去另一半无序的找，
+// 但是要将无序再次划分成有序然后再找。
+
 int binarySearch(int* nums, int left, int right, int target) {
   while (left <= right) {
     int mid = left + (right - left) / 2;
@@ -88,6 +91,11 @@ int search(int* nums, int numsSize, int target) {
   return -1;
 }
 
+// 三条定理：
+// 1.只有在顺序区间内才可以通过区间两端的数值判断target是否在其中；
+// 2.判断顺序区间还是乱序区间，只需要对比left和right是否是顺序对即可，
+//   left <= right，顺序区间，否则乱序区间；
+// 3.每次二分都会至少存在一个顺序区间。
 class Solution {
  public:
   int search(vector<int>& nums, int target) {
@@ -106,7 +114,7 @@ class Solution {
         } else {
           left = mid + 1;
         }
-      } else {
+      } else {  // nums[mid] < nums[right]
         if (nums[mid] < target && target <= nums[right]) {
           left = mid + 1;
         } else {

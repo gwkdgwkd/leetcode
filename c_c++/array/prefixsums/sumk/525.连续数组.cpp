@@ -55,24 +55,22 @@ class Solution {
   int findMaxLength(vector<int>& nums) {
     // key保存[0...i-1]的元素和，value保存下标i
     unordered_map<int, int> hash;
-    int n = nums.size();
+    hash[0] = -1;  // 保证找到第一个解时，i-hash[sum]表示正确
 
-    int sum = 0;
-    hash[sum] = -1;  // 保证找到第一个解时，i-hash[sum]表示正确
-    int ans = 0;
-    for (int i = 0; i < n; ++i) {
-      // 把0当成-1，求和为0最长连续子数组：
-      sum += (nums[i] == 1 ? 1 : -1);
-      if (hash.find(sum) != hash.end()) {
+    int pre = 0;
+    int len = 0;
+    for (int i = 0; i < nums.size(); ++i) {
+      pre += (nums[i] == 1 ? 1 : -1);  // 把0当成-1，求和为0最长连续子数组
+      if (hash.count(pre)) {
         // 有和当前sum一样的index，也就是说，
         // 0到hash[sum]的元素和，与0到当前索引i的元素和一样，
         // 意味着，hash[sum]到i之间的元素和为0，找到一个解：
-        ans = max(ans, i - hash[sum]);
+        len = max(len, i - hash[pre]);
       } else {
-        hash[sum] = i;
+        hash[pre] = i;
       }
     }
 
-    return ans;
+    return len;
   }
 };

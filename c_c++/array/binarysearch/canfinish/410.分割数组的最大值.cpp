@@ -89,22 +89,22 @@ int splitArray(int* nums, int numsSize, int m) {
 }
 
 class Solution {
- public:
-  bool canSplit(vector<int>& nums, int m, int sum) {
+  bool canSplit(vector<int>& nums, int k, int max) {
+    int sum = 0;
     int n = 1;
-    int tmp = 0;
-    for (const auto& i : nums) {
-      if (tmp + i > sum) {
-        ++n;
-        tmp = i;
+    for (int num : nums) {
+      if (sum + num <= max) {
+        sum += num;
       } else {
-        tmp += i;
+        ++n;
+        sum = num;
       }
     }
-
-    return n <= m;
+    return n <= k;
   }
-  int splitArray(vector<int>& nums, int m) {
+
+ public:
+  int splitArray(vector<int>& nums, int k) {
     int left = 0;
     int right = 0;
     for (const auto& i : nums) {
@@ -112,10 +112,18 @@ class Solution {
       right += i;
     }
 
-    while (left < right) {
+    // while (left < right) {
+    //   int mid = left + (right - left) / 2;
+    //   if (canSplit(nums, k, mid)) {
+    //     right = mid;
+    //   } else {
+    //     left = mid + 1;
+    //   }
+    // }
+    while (left <= right) {
       int mid = left + (right - left) / 2;
-      if (canSplit(nums, m, mid)) {
-        right = mid;
+      if (canSplit(nums, k, mid)) {
+        right = mid - 1;
       } else {
         left = mid + 1;
       }

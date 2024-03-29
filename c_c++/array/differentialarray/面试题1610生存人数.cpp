@@ -64,15 +64,15 @@ class Solution {
     }
 
     int m = nums[0];
-    int year = kBaseYear;
+    int year;
     for (int i = 1; i < kLen; ++i) {
       nums[i] += nums[i - 1];
       if (nums[i] > m) {
         m = nums[i];
-        year = kBaseYear + i;
+        year = i;
       }
     }
 
-    return year;
+    return kBaseYear + year;
   }
 };

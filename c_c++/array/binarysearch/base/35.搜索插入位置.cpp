@@ -84,6 +84,7 @@ int searchInsert(int* nums, int numsSize, int target) {
   // 因为如果插入到right处，那么nums[right]会右移且nums[right]比target小，
   // 插入位置错误，如果插入到left处，nums[left]右移且nums[left]比target大，
   // 于是插入的位置正确。
+
   return left;  // right + 1也行
 }
 

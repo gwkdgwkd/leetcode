@@ -55,15 +55,17 @@ class Solution {
  public:
   vector<int> productExceptSelf(vector<int>& nums) {
     int n = nums.size();
-    int left[n];
-    int right[n];
-    left[0] = 1;
-    right[n - 1] = 1;
-    for (int i = 1; i < n; ++i) {
-      left[i] = left[i - 1] * nums[i - 1];
+
+    int left[n];  // left[i]为元素i左侧所有元素的乘积
+    left[0] = 1;  // 对于索引为0的元素，因为左侧没有元素，所以left[0]=1
+    for (int i = 0; i < n - 1; ++i) {
+      left[i + 1] = left[i] * nums[i];
     }
-    for (int i = n - 2; i >= 0; --i) {
-      right[i] = right[i + 1] * nums[i + 1];
+
+    int right[n];  // right[i]为元素i右侧所有元素的乘积
+    right[n - 1] = 0;  // 对于索引为n-1的元素，右侧没有元素，所以right[n-1]=1
+    for (int i = n - 1; i > 0; --i) {
+      right[i - 1] = right[i] * nums[i];
     }
 
     vector<int> res(n);

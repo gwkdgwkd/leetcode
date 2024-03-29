@@ -136,16 +136,18 @@ class Solution {
     int m = matrix.size();
     int n = matrix[0].size();
 
+    // 判断matrix中小于item的元素个数是否大于等于k个
     auto check = [&m, &n, &matrix, &k](int item) -> bool {
+      // 挑选左下角的元素为第一个与item比较
       int i = n - 1;
       int j = 0;
-      int num = 0;
+      int num = 0;  // 表示矩阵中小于等于mid的元素个数
       while (i >= 0 && j < n) {
-        if (matrix[i][j] <= item) {
-          num += i + 1;
-          j++;
+        if (matrix[i][j] <= item) {  // 如果左下角的元素小于等于item
+          num += i + 1;  // 证明左边这列的元素都小于item，num加上i+1个
+          j++;           // j右移，下次判断右边一列最下面的元素
         } else {
-          i--;
+          i--;  // 左下角的元素大于item，行标向上移动
         }
       }
       return num >= k;
@@ -154,10 +156,18 @@ class Solution {
     int left = matrix[0][0];
     int right = matrix[m - 1][n - 1];
 
-    while (left < right) {
+    // while (left < right) {
+    //   int mid = left + (right - left) / 2;
+    //   if (check(mid)) {
+    //     right = mid;
+    //   } else {
+    //     left = mid + 1;
+    //   }
+    // }
+    while (left <= right) {
       int mid = left + (right - left) / 2;
       if (check(mid)) {
-        right = mid;
+        right = mid - 1;
       } else {
         left = mid + 1;
       }

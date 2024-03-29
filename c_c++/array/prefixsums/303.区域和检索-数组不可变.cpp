@@ -62,13 +62,19 @@ class NumArray1 {
  public:
   NumArray1(vector<int>& nums) {
     int n = nums.size();
-    pre.resize(n + 1);
-    pre[0] = 0;
+    pre.resize(n + 1);  // pre[i]表示元素i前面所有元素的和
+    pre[0] = 0;         // pre[0]前面没有元素，所有为0
     for (int i = 0; i < n; ++i) {
       pre[i + 1] = nums[i] + pre[i];
     }
   }
-  int sumRange(int left, int right) { return pre[right + 1] - pre[left]; }
+  int sumRange(int left, int right) {
+    // pre[left]表示nums[0]到nums[left-1]所有元素的和，不包括nums[left]，
+    // pre[right+1]表示nums[0]到nums[right]所有元素的和，包括nums[right]，
+    // (nums[0]...nums[left]...nums[right]) - (nums[0]...nums[left-1])，
+    // 所以pre[right + 1] - pre[left] = nums[left]...nums[right]
+    return pre[right + 1] - pre[left];
+  }
 };
 
 int main() {

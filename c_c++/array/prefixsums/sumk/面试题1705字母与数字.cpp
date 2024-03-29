@@ -54,7 +54,7 @@ class Solution {
 
     for (int i = 0; i < n; ++i) {
       isdigit(array[i][0]) ? sum++ : sum--;
-      if (hash.find(sum) != hash.end()) {
+      if (hash.count(sum)) {
         if (i - hash[sum] > maxLen) {
           maxLen = i - hash[sum];
           start = hash[sum] + 1;

@@ -18,8 +18,8 @@
 
 提示：
 你可以假设nums中的所有元素是不重复的。
-n将在[1, 10000]之间。
-nums的每个元素都将在[-9999, 9999]之间。
+n将在[1,10000]之间。
+nums的每个元素都将在[-9999,9999]之间。
 */
 
 // 第一种写法：
@@ -32,12 +32,12 @@ int search1(int* nums, int numsSize, int target) {
   while (left <= right) {
     // int mid = left + ((right - left) >> 1);
     int mid = left + (right - left) / 2;  // 防止溢出，等同于(left+right)/2
-    if (nums[mid] == target) {
-      return mid;  // 数组中找到目标值，直接返回下标
-    } else if (nums[mid] < target) {
+    if (nums[mid] < target) {
       left = mid + 1;  // target在右区间，所以[middle+1,right]
     } else if (nums[mid] > target) {
       right = mid - 1;  // target在左区间，所以[left,middle-1]
+    } else {            // nums[mid] == target
+      return mid;       // 数组中找到目标值，直接返回下标
     }
   }
 
@@ -74,12 +74,12 @@ int search2(int* nums, int numsSize, int target) {
   // 当left==right时，[left,right)是无效空间，所以使用<
   while (left < right) {
     int mid = left + ((right - left) >> 1);
-    if (nums[mid] == target) {  // 数组中找到目标值，直接返回下标
-      return mid;
-    } else if (nums[mid] < target) {  // target在右区间，在[middle+1,right)中
+    if (nums[mid] < target) {  // target在右区间，在[middle+1,right)中
       left = mid + 1;
     } else if (nums[mid] > target) {  // target在左区间，在[left,middle)中
       right = mid;
+    } else {  // nums[mid] == target
+      return mid;  // 数组中找到目标值，直接返回下标
     }
   }
 

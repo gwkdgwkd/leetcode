@@ -56,27 +56,33 @@ int minEatingSpeed(int* piles, int pilesSize, int h) {
 }
 
 class Solution {
- public:
-  bool canFinish(vector<int>& piles, int h, int speed) {
-    int sum = 0;
-    for (const auto& i : piles) {
-      sum += (i + speed - 1) / speed;
+  bool canFinish(vector<int>& piles, int speed, int h) {
+    long sum = 0;
+    for (int p : piles) {
+      sum += (p + speed - 1) / speed;
     }
+
     return sum <= h;
   }
+
+ public:
+  // 类似34题，二分查找时，找到最左（小）的满足条件的值
   int minEatingSpeed(vector<int>& piles, int h) {
     int left = 1;
-    int right = 1;
-    for (const auto& i : piles) {
-      right = max(right, i);
-    }
-    // right = *max_element(piles.begin(),piles.end());
+    int right = *max_element(piles.begin(), piles.end());
 
-
-    while (left < right) {
+    // while (left < right) {
+    //   int mid = left + (right - left) / 2;
+    //   if (canFinish(piles, mid, h)) {
+    //     right = mid;
+    //   } else {
+    //     left = mid + 1;
+    //   }
+    // }
+    while (left <= right) {
       int mid = left + (right - left) / 2;
-      if (canFinish(piles, h, mid)) {
-        right = mid;
+      if (canFinish(piles, mid, h)) {
+        right = mid - 1;
       } else {
         left = mid + 1;
       }

@@ -1,6 +1,6 @@
 /*
 给你一个下标从0开始的正整数数组w，其中w[i]代表第i个下标的权重。
-请你实现一个函数pickIndex，它可以随机地从范围[0,w.length-1]内选出并返回一个下标。
+请实现函数pickIndex，它可以随机地从范围[0,w.length-1]内选出并返回一个下标。
 选取下标i的概率为w[i]/sum(w)。
 例如，对于w=[1,3]，挑选下标0的概率为1/(1+3)= 0.25（即，25%），
 而选取下标1的概率为3/(1+3)=0.75（即，75%）。
@@ -107,12 +107,12 @@ class Solution {
     int x = rand() % total + 1;
     int left = 0;
     int right = pre.size() - 1;
-    while (left < right) {
+    while (left <= right) {
       int mid = left + (right - left) / 2;
       if (pre[mid] < x) {
         left = mid + 1;
       } else {
-        right = mid;
+        right = mid - 1;
       }
     }
     return left;

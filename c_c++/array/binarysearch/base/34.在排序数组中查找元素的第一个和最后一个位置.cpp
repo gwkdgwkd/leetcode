@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+
 #include <vector>
 
 /*
@@ -99,7 +100,9 @@ int left_bound(int* nums, int numsSize, int target) {
   }
 
   // 检查出界情况
-  if (left >= numsSize || nums[left] != target) return -1;
+  if (left >= numsSize || nums[left] != target) {
+    return -1;
+  }
   return left;
 }
 int right_bound(int* nums, int numsSize, int target) {
@@ -118,7 +121,9 @@ int right_bound(int* nums, int numsSize, int target) {
   }
 
   // 检查出界情况
-  if (right < 0 || nums[right] != target) return -1;
+  if (right < 0 || nums[right] != target) {
+    return -1;
+  }
   return right;
 }
 #endif
@@ -145,15 +150,20 @@ class Solution {
       return {-1, -1};
     }
 
-    int begin = [&nums, &target, size]() {
+    int begin = [&nums, &target, &size]() {
       int left = 0;
       int right = size - 1;
       while (left <= right) {
         int mid = left + (right - left) / 2;
+        // if (nums[mid] < target) {
+        //   left = mid + 1;
+        // } else if (nums[mid] > target) {
+        //   right = mid - 1;
+        // } else {
+        //   right = mid - 1;
+        // }
         if (nums[mid] < target) {
           left = mid + 1;
-        } else if (nums[mid] > target) {
-          right = mid - 1;
         } else {
           right = mid - 1;
         }
@@ -172,9 +182,14 @@ class Solution {
       int right = size - 1;
       while (left <= right) {
         int mid = left + (right - left) / 2;
-        if (nums[mid] < target) {
-          left = mid + 1;
-        } else if (nums[mid] > target) {
+        // if (nums[mid] < target) {
+        //   left = mid + 1;
+        // } else if (nums[mid] > target) {
+        //   right = mid - 1;
+        // } else {
+        //   left = mid + 1;
+        // }
+        if (nums[mid] > target) {
           right = mid - 1;
         } else {
           left = mid + 1;

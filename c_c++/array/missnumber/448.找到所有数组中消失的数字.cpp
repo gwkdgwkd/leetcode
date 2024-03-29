@@ -60,3 +60,28 @@ class Solution {
     return res;
   }
 };
+
+// 原地修改
+class Solution {
+ public:
+  vector<int> findDisappearedNumbers(vector<int>& nums) {
+    int n = nums.size();
+
+    // 遍历nums，每遇到一个数x，就让nums[x−1]增加n。
+    // 由于nums中所有数均在[1,n]中，增加以后，这些数必然大于n。
+    for (auto& num : nums) {
+      // 遍历到某个位置时，可能已经被增加过，因此需要对n取模来还原出它本来的值：
+      int x = (num - 1) % n;
+      nums[x] += n;
+    }
+
+    vector<int> ret;
+    // 最后遍历nums，若nums[i]未大于n，就说明没有遇到过数i+1：
+    for (int i = 0; i < n; i++) {
+      if (nums[i] <= n) {
+        ret.push_back(i + 1);
+      }
+    }
+    return ret;
+  }
+};

@@ -114,7 +114,7 @@ class Solution {
     // 先去计算以nums[i]结尾的前缀和pre，然后再去判断之前有没有存储pre-k这种前缀和，
     // 如果有，那么pre-k到pre这中间的元素和就是k了。
     unordered_map<int, int> hash;
-    hash[0] = 1;
+    hash[0] = 1;  // 当pre和k一样时，hash[pre - k]应该为1
 
     int pre = 0;
     int count = 0;
