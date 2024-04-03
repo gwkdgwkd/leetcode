@@ -143,8 +143,7 @@ class Solution {
       while (left < right) {
         int sum = nums[i] + nums[left] + nums[right];
         if (0 == sum) {
-          vector<int> v{nums[i], nums[left], nums[right]};
-          res.emplace_back(v);
+          res.emplace_back(vector<int>{nums[i], nums[left], nums[right]});
           while (left < right && nums[left] == nums[left + 1]) {
             ++left;
           }

@@ -1,7 +1,7 @@
 /*
 给你一个由n个整数组成的数组nums，和一个目标值target。
-请你找出并返回满足下述全部条件且不重复的四元组[nums[a],nums[b],nums[c],nums[d]]：
-0 <= a, b, c, d < n
+请你找出并返回满足下述全部条件且不重复的四元组
+[nums[a],nums[b],nums[c],nums[d]]：0 <= a, b, c, d < n
 a、b、c和d互不相同
 nums[a] + nums[b] + nums[c] + nums[d] == target
 你可以按任意顺序返回答案。
@@ -20,7 +20,8 @@ nums[a] + nums[b] + nums[c] + nums[d] == target
 -10^9 <= target <= 10^9
 */
 
-// 四数之和的双指针解法是两层for循环nums[k]+nums[i]为确定值，依然是循环内有left和right下表作为双指针，
+// 四数之和的双指针解法是两层for循环nums[k]+nums[i]为确定值，
+// 依然是循环内有left和right下表作为双指针，
 // 找出nums[k]+nums[i]+nums[left]+nums[right]==target的情况。
 // 对于15.三数之和双指针法就是将原本暴力O(n^3)的解法，降为O(n^2)的解法，
 // 四数之和的双指针解法就是将原本暴力O(n^4)的解法，降为O(n^3)的解法。

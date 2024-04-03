@@ -55,7 +55,7 @@ class Solution {
       }
       // 右移左端点，那么最右边这个新元素就可以使用了。
       // 实际上就是res加上含新元素子集的个数,那是多啥呢？
-      // 答：新元素（right-1），新元素+前一个...新元素+到最左边元素，即right-left个
+      // 新元素（right-1），新元素+前一个...新元素+到最左边元素，即right-left个
       res += right - left;  // right - 1 - left + 1
     }
 
