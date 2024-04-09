@@ -92,7 +92,7 @@ class Solution {
   void dfs(vector<int>& nums, int start) {
     ans.emplace_back(path);
 
-    if (start == nums.size()) {
+    if (start == nums.size()) {  // 不用这个判断也行
       return;
     }
 

@@ -118,8 +118,8 @@ class Solution {
     for (int i = 0; i < nums.size(); ++i) {
       // 虽然used[i - 1]是true和false都可以，但是这个条件必须要有，也就是说，
       // 要么过滤掉是true的，要么过滤掉是false的，不能不要这个条件，全部过滤掉：
-      if (used[i] || (i > 0 && nums[i] == nums[i - 1] &&
-                      used[i - 1] == false)) {  // used[i - 1] == true也行
+      if (used[i] ||
+          (i > 0 && nums[i] == nums[i - 1] && used[i - 1] == false)) {
         continue;
       }
       path.emplace_back(nums[i]);

@@ -27,6 +27,7 @@ nums中的所有整数互不相同
 */
 
 // 剑指OfferII083没有重复元素集合的全排列
+// 面试题0807无重复字符串的排列组合
 
 int** result;
 int resultSize;
