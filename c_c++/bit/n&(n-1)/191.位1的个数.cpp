@@ -67,7 +67,7 @@ class Solution {
   int hammingWeight(uint32_t n) {
     int cnt = 0;
     while (n != -1) {
-      n |= (n + 1);
+      n |= (n + 1);  // 报错，溢出
       ++cnt;
     }
 

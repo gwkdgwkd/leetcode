@@ -1,6 +1,8 @@
 /*
-给定两个整数，被除数dividend和除数divisor，将两数相除，要求不使用乘法、除法和mod运算符。
-返回被除数dividend除以除数divisor得到的商，整数除法的结果应当截去（truncate）其小数部分，
+给定两个整数，被除数dividend和除数divisor，
+将两数相除，要求不使用乘法、除法和mod运算符。
+返回被除数dividend除以除数divisor得到的商，
+整数除法的结果应当截去（truncate）其小数部分，
 例如：truncate(8.345) = 8以及truncate(-2.7335) = -2
 
 示例1：
