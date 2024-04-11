@@ -3,11 +3,9 @@
 RandomizedSet()
 初始化RandomizedSet对象。
 bool insert(intval)
-当元素val不存在时，向集合中插入该项，并返回true；
-否则，返回false。
+当元素val不存在时，向集合中插入该项，并返回true，否则，返回false。
 bool remove(intval)
-当元素val存在时，从集合中移除该项，并返回true；
-否则，返回false。
+当元素val存在时，从集合中移除该项，并返回true，否则，返回false。
 int getRandom()
 随机返回现有集合中的一项，测试用例保证调用此方法时集合中至少存在一个元素。
 每个元素应该有相同的概率被返回。
