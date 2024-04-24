@@ -23,8 +23,8 @@ int sumSubarrayMins(int* arr, int arrSize) {
   if (arrSize == 1) {
     return arr[0];
   }
-  // dp[i][j]表示从i到j的子数组中的最小值
-  int dp[arrSize][arrSize];
+
+  int dp[arrSize][arrSize];  // dp[i][j]表示从i到j的子数组中的最小值
   memset(dp, 0, sizeof(dp));
   long sum = 0;
   for (int i = 0; i < arrSize; ++i) {

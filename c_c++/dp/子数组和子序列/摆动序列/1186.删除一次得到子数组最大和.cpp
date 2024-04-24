@@ -80,3 +80,21 @@ class Solution {
     return ans;
   }
 };
+
+class Solution {
+ public:
+  int maximumSum(vector<int>& arr) {
+    int n = arr.size();
+    int notdel = arr[0];
+    int del = 0;
+    int m = arr[0];
+
+    for (int i = 1; i < n; ++i) {
+      del = max(del + arr[i], notdel);
+      notdel = max(notdel + arr[i], arr[i]);
+      m = max(m, max(del, notdel));
+    }
+
+    return m;
+  }
+};

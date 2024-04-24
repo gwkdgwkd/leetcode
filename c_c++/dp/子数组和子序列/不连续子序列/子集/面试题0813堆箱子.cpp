@@ -102,3 +102,28 @@ class Solution {
     return *max_element(dp.begin(), dp.end());
   }
 };
+
+class Solution {
+ public:
+  int pileBox(vector<vector<int>> &box) {
+    sort(box.begin(), box.end());
+    int n = box.size();
+    vector<int> dp(n, 0);
+    int ans = 1;
+    for (int i = 0; i < n; ++i) {
+      dp[i] = box[i][2];
+      ans = max(ans, dp[i]);
+    }
+
+    for (int i = 1; i < n; ++i) {
+      for (int j = 0; j < i; ++j) {
+        if (box[i][0] > box[j][0] && box[i][1] > box[j][1] &&
+            box[i][2] > box[j][2]) {
+          dp[i] = max(dp[i], dp[j] + box[i][2]);
+          ans = max(ans, dp[i]);
+        }
+      }
+    }
+    return ans;
+  }
+};

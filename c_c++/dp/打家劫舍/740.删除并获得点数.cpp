@@ -49,10 +49,11 @@ int deleteAndEarn(int* nums, int numsSize) {
 class Solution {
  public:
   int deleteAndEarn(vector<int>& nums) {
-    int m = 0;
-    for (auto& i : nums) {
-      m = max(m, i);
-    }
+    // int m = 0;
+    // for (auto& i : nums) {
+    //   m = max(m, i);
+    // }
+    int m = *max_element(nums.begin(), nums.end());
 
     vector<int> sum(m + 1, 0);
     int n = nums.size();

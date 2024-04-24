@@ -134,7 +134,8 @@ class Solution {
         if (iim.count(diff)) {
           int index = iim[diff];
           if (index < i) {
-            dp[i][j] = max(dp[i][j], dp[index][i] + 1);
+            dp[i][j] = dp[index][i] + 1;
+            // dp[i][j] = max(dp[i][j], dp[index][i] + 1);
             ans = max(ans, dp[i][j]);
           }
         }
