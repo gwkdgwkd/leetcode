@@ -72,20 +72,20 @@ class Solution {
     int n = nums.size();
     int longest = 0;
     for (int i = 0; i < n; ++i) {
+      if (longest < i) {  // i之前没有任何一个位置，可以走到i
+        return false;
+      }
+
       // 对于当前遍历到的位置i，如果它在最远可以到达的位置的范围内，
       // 那么就可以从起点通过若干次跳跃到达该位置，
       // 因此可以用x+nums[x]更新最远可以到达的位置：
-      longest = max(longest, nums[i] + i);
+      longest = max(longest, i + nums[i]);
+
       // 如果最远可以到达的位置大于等于数组中的最后一个位置，那就说明最后一个位置可达：
       if (longest >= n - 1) {
         return true;
       }
-      // i之前没有任何一个位置，可以走到i：
-      if (i >= longest) {
-        return false;
-      }
     }
-
     return longest >= n - 1;
   }
 };

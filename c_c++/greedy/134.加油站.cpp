@@ -71,7 +71,8 @@ int canCompleteCircuit(int* gas, int gasSize, int* cost, int costSize) {
     }
   }
   if (curSum < 0) return -1;  // 情况1
-  if (min >= 0) return 0;     // 情况2 || 情况3
+  if (min >= 0) return 0;     // 情况2
+  // 情况3
   for (int i = gasSize - 1; i >= 0; i--) {
     int rest = gas[i] - cost[i];
     min += rest;
