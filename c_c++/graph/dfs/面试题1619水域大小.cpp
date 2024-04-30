@@ -146,58 +146,17 @@ int *pondSizes(int **land, int landSize, int *landColSize, int *returnSize) {
 }
 
 class Solution {
- public:
-  void dfs(vector<vector<int>> &land, int x, int y, int &size) {
-    int m = land.size();
-    int n = land[0].size();
-    if (x < 0 || y < 0 || x >= m || y >= n || land[x][y]) {
-      return;
-    }
+  int dir[8][2] = {{0, 1},  {0, -1},  {-1, 0}, {1, 0},
+                   {-1, 1}, {-1, -1}, {1, 1},  {1, -1}};
+  int m;
+  int n;
+  vector<int> ans;
 
-    int dir[8][2] = {{0, 1},  {0, -1},  {-1, 0}, {1, 0},
-                     {-1, 1}, {-1, -1}, {1, 1},  {1, -1}};
-    land[x][y] = 1;
-    ++size;
-
-    for (int i = 0; i < 8; ++i) {
-      int newx = x + dir[i][0];
-      int newy = y + dir[i][1];
-      dfs(land, newx, newy, size);
-    }
-  }
-  vector<int> pondSizes(vector<vector<int>> &land) {
-    int m = land.size();
-    int n = land[0].size();
-
-    vector<int> res;
-    for (int i = 0; i < m; ++i) {
-      for (int j = 0; j < n; ++j) {
-        if (land[i][j] == 0) {
-          int size = 0;
-          dfs(land, i, j, size);
-          res.emplace_back(size);
-        }
-      }
-    }
-    sort(res.begin(), res.end());
-
-    return res;
-  }
-};
-
-class Solution {
- public:
-  int dfs(vector<vector<int>> &land, int x, int y) {  // 大小通过返回值传递
-    int m = land.size();
-    int n = land[0].size();
-    if (x < 0 || y < 0 || x >= m || y >= n || land[x][y]) {
+  int dfs(vector<vector<int>> &land, int x, int y) {
+    if (x < 0 || x >= m || y < 0 || y >= n || land[x][y]) {
       return 0;
     }
-
-    int dir[8][2] = {{0, 1},  {0, -1},  {-1, 0}, {1, 0},
-                     {-1, 1}, {-1, -1}, {1, 1},  {1, -1}};
     land[x][y] = 1;
-
     int size = 1;
     for (int i = 0; i < 8; ++i) {
       int newx = x + dir[i][0];
@@ -206,20 +165,21 @@ class Solution {
     }
     return size;
   }
-  vector<int> pondSizes(vector<vector<int>> &land) {
-    int m = land.size();
-    int n = land[0].size();
 
-    vector<int> res;
+ public:
+  vector<int> pondSizes(vector<vector<int>> &land) {
+    m = land.size();
+    n = land[0].size();
+
     for (int i = 0; i < m; ++i) {
       for (int j = 0; j < n; ++j) {
         if (land[i][j] == 0) {
-          res.emplace_back(dfs(land, i, j));
+          ans.emplace_back(dfs(land, i, j));
         }
       }
     }
-    sort(res.begin(), res.end());
 
-    return res;
+    sort(ans.begin(), ans.end());
+    return ans;
   }
 };

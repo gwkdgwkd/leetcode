@@ -211,7 +211,7 @@ class Solution {
  public:
   bool canFinish(int numCourses, vector<vector<int>> &prerequisites) {
     vector<vector<int>> graph(numCourses);
-    vector<int> indeg(numCourses);
+    vector<int> indeg(numCourses, 0);
     for (const auto &v : prerequisites) {
       graph[v[1]].emplace_back(v[0]);
       indeg[v[0]]++;
