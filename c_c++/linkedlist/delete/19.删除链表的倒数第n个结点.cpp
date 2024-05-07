@@ -128,7 +128,7 @@ class Solution {
     }
 
     ListNode* del = slow->next;
-    slow->next = slow->next->next;
+    slow->next = del->next;
     delete del;
     del = nullptr;
 

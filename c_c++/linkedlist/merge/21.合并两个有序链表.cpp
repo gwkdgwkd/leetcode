@@ -79,28 +79,18 @@ class Solution {
   ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
     ListNode dummy;
     ListNode* cur = &dummy;
-
-    ListNode* l1 = list1;
-    ListNode* l2 = list2;
-    while (l1 && l2) {
-      if (l1->val < l2->val) {
-        cur->next = l1;
-        l1 = l1->next;
+    while (list1 && list2) {
+      if (list1->val < list2->val) {
+        cur->next = list1;
+        list1 = list1->next;
       } else {
-        cur->next = l2;
-        l2 = l2->next;
+        cur->next = list2;
+        list2 = list2->next;
       }
       cur = cur->next;
     }
 
-    // if (l1) {
-    //   curr->next = l1;
-    // }
-    // if (l2) {
-    //   curr->next = l2;
-    // }
-    cur->next = l1 ? l1 : l2;
-
+    cur->next = list1 ? list1 : list2;
     return dummy.next;
   }
 };
