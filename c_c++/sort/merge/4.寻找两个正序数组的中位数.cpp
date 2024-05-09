@@ -98,6 +98,35 @@ double findMedianSortedArrays(int* nums1, int nums1Size, int* nums2,
   return middleValue;
 }
 
+class Solution {
+  // 1.申请2个指针，分别指向2个数组的头
+  // 2.每次比较大小来移动2个指针
+  // 3.当指针移动的次数与(m + n)/2相同时，得到中位数
+ public:
+  double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
+    int m = nums1.size();
+    int n = nums2.size();
+    int i = 0, j = 0;  // 定义i和j，2个指针分别指针2个数组
+
+    // 定义l，r分别用来保存中位数；
+    // 奇数个，只会用到l变量，偶数，会用到l和r变量：
+    int l = 0, r = 0;
+
+    for (int x = 0; x <= (m + n) / 2; x++) {
+      l = r;
+      // r = (i<m &&(j>=n || nums1[i] < nums2[j]))? nums1[i++] : nums2[j++];
+      if (i >= m) {
+        r = nums2[j++];
+      } else if (j >= n) {
+        r = nums1[i++];
+      } else {
+        r = nums1[i] < nums2[j] ? nums1[i++] : nums2[j++];
+      }
+    }
+    return (m + n) & 1 ? r : (l + r) / 2.0;
+  }
+};
+
 // 二分查找
 // 时间复杂度：O(log⁡min⁡(m,n)))
 // 空间复杂度：O(1)

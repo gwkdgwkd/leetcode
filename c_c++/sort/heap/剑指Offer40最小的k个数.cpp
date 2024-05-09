@@ -91,11 +91,17 @@ class Solution {
     }
 
     vector<int> ans;
-    for (int i = n - 1; i >= n - k; --i) {
+    for (int i = 1; i <= k; ++i) {
       ans.emplace_back(arr[0]);
-      arr[0] = arr[i];
-      adjustHeap(arr, 0, i);
+      swap(arr[0], arr[n - i]);
+      Adjust(arr, 0, n - i);
     }
+
+    // for (int i = n - 1; i >= n - k; --i) {
+    //   ans.emplace_back(arr[0]);
+    //   arr[0] = arr[i];
+    //   adjustHeap(arr, 0, i);
+    // }
 
     return ans;
   }

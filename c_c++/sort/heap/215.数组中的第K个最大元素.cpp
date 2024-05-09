@@ -96,9 +96,13 @@ class Solution {
       adjustHeap(nums, i, n);
     }
 
-    for (int i = n - 1; i >= n - k + 1; --i) {
-      swap(nums[0], nums[i]);
-      adjustHeap(nums, 0, i);
+    // for (int i = n - 1; i >= n - k + 1; --i) {
+    //   swap(nums[0], nums[i]);
+    //   adjustHeap(nums, 0, i);
+    // }
+    for (int i = 1; i < k; ++i) {  // 更好理解
+      swap(nums[0], nums[n - i]);
+      adjustHeap(nums, 0, n - i);
     }
 
     return nums[0];

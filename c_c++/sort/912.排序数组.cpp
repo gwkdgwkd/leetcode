@@ -150,7 +150,6 @@ class Solution {
     int rad = rand() % (right - left + 1);
     int pivotkey = nums[rad + left];
     nums[rad + left] = nums[left];
-    nums[left] = pivotkey;
     while (left < right) {
       while (left < right && nums[right] >= pivotkey) {
         --right;
