@@ -30,6 +30,7 @@
 // 6.重复2-5，直到扫描完毕；
 // 7.将s2栈弹出压入到s1，然后s1弹出全部，弹出的顺序即为后缀表达式。
 
+#if 0
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -130,6 +131,7 @@ int toRPN(char* s, char RPN[][NUMLEN]) {
 
   return index;
 }
+
 int calculate(char* s) {
   int len = strlen(s);
   if (len == 0) {
@@ -200,3 +202,253 @@ int main() {
   // 2 6 3 * + 5 + 3 14 * 7 / 2 + 5 * - 3 +
   // (2+6* 3+5- (3*14/7+2)*5)+3 = -12
 }
+
+#else
+
+#include <iostream>
+#include <stack>
+#include <string>
+#include <unordered_map>
+using namespace std;
+
+namespace n1 {
+class Solution {
+ public:
+  int calculate(string s) {
+    unordered_map<char, int> mp{
+        {'(', 1}, {'+', 2}, {'-', 2}, {'*', 3}, {'/', 3}};
+    stack<char> ops;
+    stack<long> stk;
+    auto calc = [&](stack<long>& stk, stack<char>& ops) {
+      long b = stk.top();
+      stk.pop();
+      long a = stk.top();
+      stk.pop();
+      switch (ops.top()) {
+        case '+':
+          stk.push(a + b);
+          break;
+        case '-':
+          stk.push(a - b);
+          break;
+        case '*':
+          stk.push(a * b);
+          break;
+        case '/':
+          stk.push(a / b);
+          break;
+      }
+      ops.pop();
+    };
+    for (int i = 0; i < s.size(); i++) {
+      char ch = s[i];
+      if (ch == '(') {
+        ops.push('(');
+      } else if (isdigit(ch)) {
+        int j = i;
+        while (j < s.size() && isdigit(s[j])) j++;
+        stk.push(stol(s.substr(i, j - i)));
+        i = j - 1;
+      } else if (ch == ')') {
+        while (ops.top() != '(') {
+          calc(stk, ops);
+        }
+        ops.pop();
+      } else if (ch != ' ') {
+        while (ops.size() && mp[ops.top()] >= mp[ch]) {
+          calc(stk, ops);
+        }
+        ops.push(ch);
+      }
+    }
+
+    while (stk.size() > 1) {
+      calc(stk, ops);
+    }
+
+    return (int)stk.top();
+  }
+};
+}  // namespace n1
+
+namespace n2 {
+class Solution {
+  template <typename T>
+  void printStk(stack<T> copy) {
+    while (!copy.empty()) {
+      cout << copy.top() << ' ';
+      copy.pop();
+    }
+    cout << endl;
+  }
+  int priority(char o) {
+    if ('+' == o || '-' == o) {
+      return 0;
+    } else if ('*' == o || '/' == o) {
+      return 1;
+    } else {
+      return -1;
+    }
+  }
+  stack<string> toRPN(const string& s) {
+    // 1.初始化两个栈：运算符栈ops和存储中间结果的栈nums；
+    stack<string> ops;
+    stack<string> nums;
+
+    int n = s.size();
+    for (int i = 0; i < n; ++i) {  // 2.从左到右扫描中缀表达式；
+      switch (s[i]) {
+        case '+':
+        case '-':
+        case '*':
+        case '/':
+          // 4.遇到运算符时：
+          //   a.如果ops为空或ops栈顶为左括号"("，则压入到s1；
+          if (ops.empty() || ops.top()[0] == '(') {
+            ops.push(s.substr(i, 1));
+            break;
+          }
+          //   b.不满足a，则和ops栈顶运算符比较优先级，高于，则压入ops；
+          //   c.不满足a和b，弹出ops栈顶运算符并压入到nums，再次回到b。
+          while (!ops.empty() && priority(s[i]) <= priority(ops.top()[0])) {
+            nums.push(ops.top());
+            ops.pop();
+          }
+          ops.push(s.substr(i, 1));
+          break;
+        case '(':
+          ops.push(s.substr(i, 1));  // (直接入操作符栈ops
+          break;
+        case ')':
+          // 5.遇到右括号)时，依此弹出ops并压入nums，
+          //   直到遇到左括号(为止，此时丢掉一对括号；
+          while (ops.top()[0] != '(') {  // (被丢弃
+            nums.push(ops.top());
+            ops.pop();
+          }
+          ops.pop();  // (出栈
+          break;
+        case ' ':
+          break;
+        default: {  // 3.遇到操作数时，压入到栈nums；
+          int j = i;
+          while (j < n && s[j] >= '0' && s[j] <= '9') {
+            ++j;
+          }
+          nums.push(s.substr(i, j - i));
+          i = j - 1;
+          break;
+        }
+      }
+    }
+
+    // 7.将nums栈弹出压入到ops，然后ops弹出全部，弹出的顺序即为后缀表达式。
+    while (!nums.empty()) {
+      ops.push(nums.top());
+      nums.pop();
+    }
+
+    printStk(ops);
+
+    return ops;
+  }
+
+ public:
+  int calculate(const string& s) {
+    stack<string> stk = toRPN(s);
+
+    int n = stk.size();
+    stack<int> nums;
+    int left = 0;
+    int right = 0;
+    while (!stk.empty()) {
+      if (stk.top()[0] == '+' || stk.top()[0] == '-' || stk.top()[0] == '*' ||
+          stk.top()[0] == '/') {
+        right = nums.top();
+        nums.pop();
+        left = nums.top();
+        nums.pop();
+        switch (stk.top()[0]) {
+          case '+':
+            nums.push(left + right);
+            break;
+          case '-':
+            nums.push(left - right);
+            break;
+          case '*':
+            nums.push(left * right);
+            break;
+          case '/':
+            nums.push(left / right);
+            break;
+        }
+        stk.pop();
+      } else {
+        nums.push(atoi(stk.top().c_str()));
+        stk.pop();
+      }
+    }
+
+    return nums.top();
+  }
+};
+}  // namespace n2
+
+int main(int argc, char* argv[]) {
+  if (argc < 2) {
+    std::cout << argv[0] << " i [0 - 3]" << std::endl;
+    return 0;
+  }
+  int type = argv[1][0] - '0';
+  switch (type) {
+    case 0: {
+      n1::Solution s;
+      string in = "1 + 1";
+      cout << in << " = " << s.calculate(in) << std::endl;
+      // 1 + 1 = 2
+
+      in = " 6-4 / 2 ";
+      cout << in << " = " << s.calculate(in) << std::endl;
+      //  6-4 / 2  = 4
+
+      in = "2*(5+5*2)/3+(6/2+8)";
+      cout << in << " = " << s.calculate(in) << std::endl;
+      // 2*(5+5*2)/3+(6/2+8) = 21
+
+      in = "(2+6* 3+5- (3*14/7+2)*5)+3";
+      cout << in << " = " << s.calculate(in) << std::endl;
+      // (2+6* 3+5- (3*14/7+2)*5)+3 = -12
+      break;
+    }
+    case 1: {
+      n2::Solution s;
+      string in = "1 + 1";
+      cout << s.calculate(in) << endl;
+      // 1 1 +
+      // 2
+
+      in = " 6-4 / 2 ";
+      cout << s.calculate(in) << endl;
+      // 6 4 2 / -
+      // 4
+
+      in = "2*(5+5*2)/3+(6/2+8)";
+      cout << s.calculate(in) << endl;
+      // 2 5 5 2 * + * 3 / 6 2 / 8 + +
+      // 21
+
+      in = "(2+6* 3+5- (3*14/7+2)*5)+3";
+      cout << s.calculate(in) << endl;
+      // 2 6 3 * + 5 + 3 14 * 7 / 2 + 5 * - 3 +
+      // -12
+      break;
+    }
+    default:
+      std::cout << "invalid type" << std::endl;
+      break;
+  }
+
+  return 0;
+}
+
+#endif

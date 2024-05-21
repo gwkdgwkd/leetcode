@@ -67,29 +67,29 @@ class Solution {
   int minInsertions(string s) {
     int n = s.size();
 
-    int ans = 0;
-    int need = 0;
+    int left = 0;
+    int right = 0;
 
     for (int i = 0; i < n; ++i) {
       if (s[i] == '(') {
-        need += 2;
-        if (need % 2) {
-          ++ans;
-          --need;
+        right += 2;
+        if (right % 2) {
+          ++left;
+          --right;
         }
       }
 
       if (s[i] == ')') {
-        if (need == 0) {
-          ++ans;
-          ++need;
+        if (right == 0) {
+          ++left;
+          ++right;
         } else {
-          --need;
+          --right;
         }
       }
     }
 
-    return ans + need;
+    return left + right;
   }
 };
 
