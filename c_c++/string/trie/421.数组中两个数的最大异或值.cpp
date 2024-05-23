@@ -132,9 +132,9 @@ int findMaximumXOR(int *nums, int numsSize) {
 }
 
 struct Trie {
-  // 左子树指向表示 0 的子节点
+  // 左子树指向表示0的子节点
   Trie *left = nullptr;
-  // 右子树指向表示 1 的子节点
+  // 右子树指向表示1的子节点
   Trie *right = nullptr;
 
   Trie() {}
@@ -198,7 +198,7 @@ class Solution {
     int n = nums.size();
     int x = 0;
     for (int i = 1; i < n; ++i) {
-      // 将nums[i-1]放入字典树，此时nums[0 .. i-1]都在字典树中
+      // 将nums[i-1]放入字典树，此时nums[0..i-1]都在字典树中
       add(nums[i - 1]);
       // 将nums[i]看作ai，找出最大的x更新答案
       x = max(x, check(nums[i]));
