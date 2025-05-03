@@ -33,10 +33,19 @@ class Solution {
     int ans = 0;
     while (right < n) {
       sum *= nums[right++];
+      /*
+      一般要写ans += right - left + 1。
+      内层循环结束后，[left,right]这个子数组是满足题目要求的。
+      由于子数组越短，越能满足题目要求，所以除了[left,right]，
+      还有[left+1,right],[left+2,right],…,[right,right]都是满足要求的。
+      也就是说，当右端点固定在right时，
+      左端点在left,left+1,left+2,…,right的所有子数组都是满足要求的，
+      这一共有right−left+1个。
+      */
       while (sum >= k) {
         sum /= nums[left++];
       }
-      ans += right - left;
+      ans += right - left;  // right先++了，所以不用再+1
     }
     return ans;
   }

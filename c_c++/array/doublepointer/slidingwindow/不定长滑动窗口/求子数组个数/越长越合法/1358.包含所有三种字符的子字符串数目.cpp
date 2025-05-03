@@ -33,6 +33,15 @@ class Solution {
     int ans = 0;
     while (right < n) {
       cnt[s[right++] - 'a']++;
+      /*
+      一般要写ans += left。
+      内层循环结束后，[left,right]这个子数组是不满足题目要求的，
+      但在退出循环之前的最后一轮循环，[left−1,right]是满足题目要求的。
+      由于子数组越长，越能满足题目要求，所以除了[left−1,right]，
+      还有[left−2,right],[left−3,right],…,[0,right]都是满足要求的。
+      也就是说，当右端点固定在right时，
+      左端点在0,1,2,…,left−1的所有子数组都是满足要求的，这一共有left个。
+      */
       while (cnt[0] && cnt[1] && cnt[2]) {
         cnt[s[left++] - 'a']--;
       }
