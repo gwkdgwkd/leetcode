@@ -40,6 +40,17 @@ bool carPooling(int** trips, int tripsSize, int* tripsColSize, int capacity) {
   return true;
 }
 
+/* 差分数组
+考虑数组a=[1,3,3,5,8]，对其中的相邻元素两两作差（右边减左边），
+得到数组[2,0,2,3]，然后在开头补上a[0]，得到差分数组d=[1,2,0,2,3]。
+这有什么用呢？
+如果从左到右累加d中的元素，就还原回了a数组[1,3,3,5,8]，这类似求导与积分的概念。
+这又有什么用呢？
+现在把连续子数组a[1],a[2],a[3]都加上10，得到a′=[1,13,13,15,8]。
+再次两两作差，并在开头补上 a′[0]，得到差分数组d′=[1,12,0,2,−7]。
+对比d和d′，可以发现只有d[1]和d[4]变化了，这意味着对a中连续子数组的操作，
+可以转变成对差分数组d中两个数的操作。
+*/
 class Solution {
  public:
   bool carPooling(vector<vector<int>>& trips, int capacity) {

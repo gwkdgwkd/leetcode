@@ -39,6 +39,7 @@ nums的定界子数组是满足下述条件的一个子数组：
 即min(min_i,max_i)-not_i。​
 */
 
+// 一次遍历
 class Solution {
   // 时间复杂度：O(n)，其中n为nums的长度。
   // 空间复杂度：O(1)。
