@@ -94,3 +94,36 @@ class Solution {
     return ans;
   }
 };
+
+// 贪心
+class Solution {
+ public:
+  int findLengthOfLCIS(vector<int>& nums) {
+    int ans = 0;
+    int n = nums.size();
+    int start = 0;
+    for (int i = 0; i < n; i++) {
+      if (i > 0 && nums[i] <= nums[i - 1]) {
+        start = i;
+      }
+      ans = max(ans, i - start + 1);
+    }
+    return ans;
+  }
+};
+
+// 分组循环
+class Solution {
+ public:
+  int findLengthOfLCIS(vector<int>& nums) {
+    int n = nums.size();
+    int i = 0, ans = 0;
+    while (i < n) {
+      int start = i;
+      i++;
+      while (i < n && nums[i] > nums[i - 1]) i++;
+      ans = max(ans, i - start);
+    }
+    return ans;
+  }
+};

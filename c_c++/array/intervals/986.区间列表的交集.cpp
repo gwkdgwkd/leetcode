@@ -78,16 +78,16 @@ int** intervalIntersection(int** firstList, int firstListSize,
   return res;
 }
 
+// 双指针
 class Solution {
  public:
   vector<vector<int>> intervalIntersection(vector<vector<int>>& firstList,
                                            vector<vector<int>>& secondList) {
     vector<vector<int>> res;
-    int i1 = 0;
     int n1 = firstList.size();
-    int i2 = 0;
     int n2 = secondList.size();
-
+    int i1 = 0;
+    int i2 = 0;
     while (i1 < n1 && i2 < n2) {
       int left = max(firstList[i1][0], secondList[i2][0]);
       int right = min(firstList[i1][1], secondList[i2][1]);

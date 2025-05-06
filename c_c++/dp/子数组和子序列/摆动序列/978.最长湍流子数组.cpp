@@ -71,3 +71,26 @@ class Solution {
     return m;
   }
 };
+
+// 分组循环
+class Solution {
+ public:
+  int maxTurbulenceSize(vector<int>& arr) {
+    int n = arr.size();
+    int ans = 1, i = 0;  // ans要初始化为1
+    while (i < n - 1) {
+      if (arr[i + 1] == arr[i]) {  //处理连续相同的元素
+        i++;
+        continue;
+      }
+      int start = i;
+      i++;
+      while (i < n - 1 &&
+             (long long)(arr[i + 1] - arr[i]) * (arr[i] - arr[i - 1]) < 0) {
+        i++;
+      }
+      ans = max(ans, i - start + 1);
+    }
+    return ans;
+  }
+};
