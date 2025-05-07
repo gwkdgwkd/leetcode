@@ -31,3 +31,92 @@
 0 <= moveTime[i][j] <= 10^9
 */
 
+// dfs
+class Solution {
+ public:
+  const int dx[4] = {1, 0, -1, 0};
+  const int dy[4] = {0, 1, 0, -1};
+  int m, n;
+  int mintime = INT_MAX;
+  int dfs(vector<vector<int>>& moveTime, int x, int y, int currenttime,
+          vector<vector<int>>& memo) {
+    if (x == m - 1 && y == n - 1) {
+      return currenttime;
+    }
+    if (memo[x][y] != -1 && memo[x][y] <= currenttime) {
+      return INT_MAX;
+    }
+    memo[x][y] = currenttime;
+    for (int k = 0; k < 4; ++k) {
+      int r = x + dx[k];
+      int c = y + dy[k];
+      if (r >= 0 && r < m && c >= 0 && c < n) {
+        int newtime = max(currenttime, moveTime[r][c]) + 1;
+        mintime = min(mintime, dfs(moveTime, r, c, newtime, memo));
+      }
+    }
+    return mintime;
+  }
+
+  int minTimeToReach(vector<vector<int>>& moveTime) {
+    m = moveTime.size();
+    n = moveTime[0].size();
+    vector<vector<int>> memo(m, vector<int>(n, -1));
+
+    int ans = dfs(moveTime, 0, 0, 0, memo);
+    return ans;
+  }
+};
+
+// BFS
+class Solution {
+  struct Node {
+    int x, y, t;
+    Node() { x = y = t = 0; }
+    Node(int _x, int _y, int _t) : x(_x), y(_y), t(_t) {}
+    Node(const Node& node) {
+      x = node.x;
+      y = node.y;
+      t = node.t;
+    }
+
+    bool operator>(const Node& node) const { return t > node.t; }
+
+    bool operator<(const Node& node) const { return t < node.t; }
+  };
+
+ public:
+  int dx[4] = {0, 0, 1, -1};
+  int dy[4] = {1, -1, 0, 0};
+
+  int minTimeToReach(vector<vector<int>>& moveTime) {
+    int m = moveTime.size(), n = moveTime[0].size();
+    priority_queue<Node, vector<Node>, greater<Node>> q;
+    q.push(Node(0, 0, 0));
+
+    int ret = 0;
+    vector<vector<int>> memo(m, vector<int>(n, 0x3f3f3f3f));
+    memo[0][0] = 0;
+    while (!q.empty()) {
+      Node node = q.top();
+      q.pop();
+      // 最快情况下，也到不了， 剪枝
+      if (node.t + m - node.x + n - node.y - 2 >= memo[m - 1][n - 1]) continue;
+
+      for (int k = 0; k < 4; k++) {
+        int x = node.x + dx[k], y = node.y + dy[k];
+        if (x >= 0 && y >= 0 && x < m && y < n && memo[x][y] > node.t + 1) {
+          if (node.t + 1 <= moveTime[x][y])
+            memo[x][y] = moveTime[x][y] + 1;
+          else
+            memo[x][y] = node.t + 1;
+          q.push(Node(x, y, memo[x][y]));
+        }
+      }
+    }
+
+    return memo[m - 1][n - 1];
+  }
+};
+
+// Dijkstra最短路径
