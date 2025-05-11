@@ -44,7 +44,29 @@ int search1(int* nums, int numsSize, int target) {
   return -1;  // 未找到目标值
 }
 
+// 第二种写法：
+int search2(int* nums, int numsSize, int target) {
+  int left = 0;
+  int right = numsSize;  // 定义target在左闭右开的区间里，[left,right)
+
+  // 当left==right时，[left,right)是无效空间，所以使用<
+  while (left < right) {
+    int mid = left + ((right - left) >> 1);
+    if (nums[mid] < target) {  // target在右区间，在[middle+1,right)中
+      left = mid + 1;
+    } else if (nums[mid] > target) {  // target在左区间，在[left,middle)中
+      right = mid;
+    } else {       // nums[mid] == target
+      return mid;  // 数组中找到目标值，直接返回下标
+    }
+  }
+
+  return -1;  // 未找到目标值
+}
+
 using namespace std;
+
+// 闭区间写法
 class Solution {
  public:
   int search(vector<int>& nums, int target) {
@@ -66,26 +88,7 @@ class Solution {
   }
 };
 
-// 第二种写法：
-int search2(int* nums, int numsSize, int target) {
-  int left = 0;
-  int right = numsSize;  // 定义target在左闭右开的区间里，[left,right)
-
-  // 当left==right时，[left,right)是无效空间，所以使用<
-  while (left < right) {
-    int mid = left + ((right - left) >> 1);
-    if (nums[mid] < target) {  // target在右区间，在[middle+1,right)中
-      left = mid + 1;
-    } else if (nums[mid] > target) {  // target在左区间，在[left,middle)中
-      right = mid;
-    } else {  // nums[mid] == target
-      return mid;  // 数组中找到目标值，直接返回下标
-    }
-  }
-
-  return -1;  // 未找到目标值
-}
-
+// 左闭右开区间写法
 class Solution {
  public:
   int search(vector<int>& nums, int target) {
@@ -96,6 +99,28 @@ class Solution {
       int mid = left + (right - left) / 2;
       if (nums[mid] < target) {
         left = mid + 1;
+      } else if (nums[mid] > target) {
+        right = mid;
+      } else {
+        return mid;
+      }
+    }
+
+    return -1;
+  }
+};
+
+// 开区间写法
+class Solution {
+ public:
+  int search(vector<int>& nums, int target) {
+    int left = -1;
+    int right = nums.size();
+
+    while (left + 1 < right) {
+      int mid = left + (right - left) / 2;
+      if (nums[mid] < target) {
+        left = mid;
       } else if (nums[mid] > target) {
         right = mid;
       } else {

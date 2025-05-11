@@ -128,12 +128,17 @@ int searchInsert(int* nums, int numsSize, int target) {
   return left;  // right也行
 }
 
+// 闭区间写法
 class Solution {
  public:
   int searchInsert(vector<int>& nums, int target) {
     int left = 0;
     int right = nums.size();
 
+    // 考虑这个插入的位置pos，它成立的条件为：nums[pos−1]<target≤nums[pos]。
+    // 由于如果存在这个目标值，返回的索引也是pos，
+    // 因此可以将两个条件合并得出最后的目标：
+    // 在一个有序数组中找第一个大于等于target的下标。
     while (left < right) {
       int mid = left + (right - left) / 2;
       if (nums[mid] < target) {
@@ -146,5 +151,41 @@ class Solution {
     }
 
     return right;
+  }
+};
+
+// 左闭右开区间
+class Solution {
+ public:
+  int searchInsert(vector<int>& nums, int target) {
+    int left = 0;
+    int right = nums.size();
+    while (left < right) {
+      int mid = left + (right - left) / 2;
+      if (nums[mid] < target) {
+        left = mid + 1;
+      } else {
+        right = mid;
+      }
+    }
+    return left;  // right
+  }
+};
+
+// 开区间
+class Solution {
+ public:
+  int searchInsert(vector<int>& nums, int target) {
+    int left = -1;
+    int right = nums.size();
+    while (left + 1 < right) {
+      int mid = left + (right - left) / 2;
+      if (nums[mid] < target) {
+        left = mid;
+      } else {
+        right = mid;
+      }
+    }
+    return right;  // left + 1
   }
 };

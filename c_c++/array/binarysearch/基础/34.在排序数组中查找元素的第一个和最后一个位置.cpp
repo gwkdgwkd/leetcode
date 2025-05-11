@@ -8,7 +8,7 @@
 找出给定目标值在数组中的开始位置和结束位置。
 如果数组中不存在目标值target，返回[-1,-1]。
 
-进阶：你可以设计并实现时间复杂度为O(logn)的算法解决此问题吗？
+进阶：可以设计并实现时间复杂度为O(logn)的算法解决此问题吗？
 
 示例1：
 输入：nums = [5,7,7,8,8,10], target = 8
@@ -240,3 +240,128 @@ int main() {
 
   return 0;
 }
+
+// 闭区间写法
+class Solution {
+  // lower_bound返回最小的满足nums[i] >= target的下标i，
+  // 如果数组为空，或者所有数都<target，则返回nums.size()，
+  // 要求nums是非递减的，即nums[i] <= nums[i + 1]
+  int lower_bound(vector<int>& nums, int target) {
+    // 闭区间[left, right]
+    int left = 0;
+    int right = nums.size() - 1;
+    while (left <= right) {  // 区间不为空
+      // 循环不变量：
+      // nums[left-1] < target
+      // nums[right+1] >= target
+      int mid = left + (right - left) / 2;  // 防止溢出
+      if (nums[mid] >= target) {
+        right = mid - 1;  // 范围缩小到[left, mid-1]
+      } else {
+        left = mid + 1;  // 范围缩小到[mid+1, right]
+      }
+    }
+
+    // 循环结束后left = right+1，
+    // 此时nums[left-1] < target而nums[left] = nums[right+1] >= target，
+    // 所以left就是第一个>=target的元素下标：
+    return left;  // right + 1
+  }
+
+ public:
+  vector<int> searchRange(vector<int>& nums, int target) {
+    int start = lower_bound(nums, target);
+    if (start == nums.size() || nums[start] != target) {
+      return {-1, -1};
+    }
+
+    // 如何理解end = lower_bound(nums, target + 1) - 1这段代码？
+    // 要想找到≤target的最后一个数，无需单独再写一个二分。
+    // 可以先找到这个数的右边相邻数字，也就是>target的第一个数。
+    // 在所有数都是整数的前提下，>target等价于≥target+1，
+    // 这样就可以复用已经写好的二分函数了，即lowerBound(nums, target + 1)，
+    // 算出这个数的下标后，将其减一，就得到≤target的最后一个数的下标。
+    int end = lower_bound(nums, target + 1) - 1;
+    return {start, end};
+  }
+};
+
+// 左闭右开区间写法
+class Solution {
+  int lower_bound(vector<int>& nums, int target) {
+    // 左闭右开区间[left, right)
+    int left = 0;
+    int right = nums.size();
+    while (left < right) {  // 区间不为空
+      // 循环不变量：
+      // nums[left-1] < target
+      // nums[right] >= target
+      int mid = left + (right - left) / 2;
+      if (nums[mid] >= target) {
+        right = mid;  // 范围缩小到[left, mid)
+      } else {
+        left = mid + 1;  // 范围缩小到[mid+1, right)
+      }
+    }
+
+    // 循环结束后left = right，
+    // 此时nums[left-1] < target而nums[left] = nums[right] >= target，
+    // 所以left就是第一个>= target的元素下标：
+    return left;  // right
+  }
+
+ public:
+  vector<int> searchRange(vector<int>& nums, int target) {
+    int start = lower_bound(nums, target);
+    if (start == nums.size() || nums[start] != target) {
+      return {-1, -1};
+    }
+
+    // 如果≥target+1的第一个数不存在怎么办？
+    // 在数组中有target的前提下，这意味着数组的最后一个数（下标n−1）就是target。
+    // 同时，lowerBound(nums, target + 1)在这种情况下会返回n，
+    // 减一得到n−1，这正是要计算的下标。
+    int end = lower_bound(nums, target + 1) - 1;
+    return {start, end};
+  }
+};
+
+// 开区间写法
+class Solution {
+  int lower_bound(vector<int>& nums, int target) {
+    // 开区间(left, right)
+    int left = -1;
+    int right = nums.size();
+    while (left + 1 < right) {  // 区间不为空
+      // 循环不变量：
+      // nums[left] < target
+      // nums[right] >= target
+      int mid = left + (right - left) / 2;
+      if (nums[mid] >= target) {
+        right = mid;  // 范围缩小到(left, mid)
+      } else {
+        left = mid;  // 范围缩小到 (mid, right)
+      }
+    }
+
+    // 循环结束后left+1 = right，
+    // 此时nums[left] < target而nums[right] >= target，
+    // 所以right就是第一个>= target的元素下标：
+    return right;  // left + 1
+  }
+
+ public:
+  vector<int> searchRange(vector<int>& nums, int target) {
+    int start = lower_bound(nums, target);
+    if (start == nums.size() || nums[start] != target) {
+      return {-1, -1};
+    }
+    int end = lower_bound(nums, target + 1) - 1;
+    return {start, end};
+  }
+};
+
+// 怎么判断写的是哪一种二分？
+// 看while循环的条件，如果是left <= right，就是闭区间；
+// 如果是left < right，就是半闭半开区间；
+// 如果是left + 1 < right，就是开区间。
