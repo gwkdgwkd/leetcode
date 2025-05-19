@@ -88,6 +88,7 @@ int splitArray(int* nums, int numsSize, int m) {
   return left;
 }
 
+// 最小化最大值本质是二分答案求最小。
 class Solution {
   bool canSplit(vector<int>& nums, int k, int max) {
     int sum = 0;
