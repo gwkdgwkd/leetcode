@@ -1,7 +1,7 @@
 /*
-给你一个nxn矩阵matrix，其中每行和每列元素均按升序排序，找到矩阵中第k小的元素。
+给一个nxn矩阵matrix，其中每行和每列元素均按升序排序，找到矩阵中第k小的元素。
 请注意，它是排序后的第k小元素，而不是第k个不同的元素。
-你必须找到一个内存复杂度优于O(n^2)的解决方案。
+必须找到一个内存复杂度优于O(n^2)的解决方案。
 
 示例1：
 输入：matrix = [[1, 5, 9],
@@ -137,7 +137,7 @@ class Solution {
     int n = matrix[0].size();
 
     // 判断matrix中小于item的元素个数是否大于等于k个
-    auto check = [&m, &n, &matrix, &k](int item) -> bool {
+    auto check = [&](int item) -> bool {
       // 挑选左下角的元素为第一个与item比较
       int i = n - 1;
       int j = 0;
