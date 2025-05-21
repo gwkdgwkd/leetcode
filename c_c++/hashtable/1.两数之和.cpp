@@ -16,13 +16,14 @@
 输入：nums = [3,3], target = 6
 输出：[0,1]
 
+
 提示：
 2 <= nums.length <= 10^4
 -10^9 <= nums[i] <= 10^9
 -10^9 <= target <= 10^9
 只会存在一个有效答案
 
-进阶：你可以想出一个时间复杂度小于O(n^2)的算法吗？
+进阶：可以想出一个时间复杂度小于O(n^2)的算法吗？
 */
 
 // 哈希表
@@ -87,6 +88,11 @@ int* twoSum(int* nums, int numsSize, int target, int* returnSize) {
   return NULL;
 }
 
+/*
+对于双变量问题，例如两数之和i​+j​=t，可以枚举右边的j​，转换成单变量问题，
+也就是在j​左边查找是否有i​=t−j​，这可以用哈希表维护。
+把这个技巧叫做枚举右，维护左。
+*/
 class Solution {
  public:
   vector<int> twoSum(vector<int>& nums, int target) {
