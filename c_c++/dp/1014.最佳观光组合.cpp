@@ -60,3 +60,17 @@ class Solution {
     return ans;
   }
 };
+
+class Solution {
+ public:
+  int maxScoreSightseeingPair(vector<int>& values) {
+    int ans = 0;
+    int pre = 0;
+    for (int j = 0; j < values.size(); ++j) {
+      ans = max(ans, pre + values[j] - j);
+      pre = max(pre, values[j] + j);
+    }
+
+    return ans;
+  }
+};

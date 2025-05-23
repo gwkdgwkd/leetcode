@@ -81,3 +81,39 @@ class Solution {
     return sum;
   }
 };
+
+class Solution {
+ public:
+  int maxSumTwoNoOverlap(vector<int>& nums, int firstLen, int secondLen) {
+    int ans = 0, n = nums.size(), s[n + 1];
+    s[0] = 0;
+    partial_sum(nums.begin(), nums.end(), s + 1);  // 计算nums的前缀和
+    auto f = [&](int firstLen, int secondLen) {
+      int maxSumA = 0;
+      for (int i = firstLen + secondLen; i <= n; ++i) {
+        maxSumA = max(maxSumA, s[i - secondLen] - s[i - secondLen - firstLen]);
+        ans = max(ans, maxSumA + s[i] - s[i - secondLen]);
+      }
+    };
+    f(firstLen, secondLen);  // 左a右b
+    f(secondLen, firstLen);  // 左b右a
+    return ans;
+  }
+};
+
+class Solution {
+ public:
+  int maxSumTwoNoOverlap(vector<int>& nums, int firstLen, int secondLen) {
+    int n = nums.size(), s[n + 1];
+    s[0] = 0;
+    partial_sum(nums.begin(), nums.end(), s + 1);  // 计算nums的前缀和
+    int ans = 0, maxSumA = 0, maxSumB = 0;
+    for (int i = firstLen + secondLen; i <= n; ++i) {
+      maxSumA = max(maxSumA, s[i - secondLen] - s[i - secondLen - firstLen]);
+      maxSumB = max(maxSumB, s[i - firstLen] - s[i - firstLen - secondLen]);
+      ans = max(ans, max(maxSumA + s[i] - s[i - secondLen],   // 左a右b
+                         maxSumB + s[i] - s[i - firstLen]));  // 左b右a
+    }
+    return ans;
+  }
+};

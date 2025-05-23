@@ -67,3 +67,26 @@ class Solution {
     return res;
   }
 };
+
+class Solution {
+ public:
+  vector<vector<int>> pairSums(vector<int>& nums, int target) {
+    int n = nums.size();
+    unordered_map<int, vector<int>> cnt;
+    vector<vector<int>> ans;
+    for (int i = 0; i < n; ++i) {
+      auto it = cnt.find(target - nums[i]);
+      if (it != cnt.end()) {
+        vector<int> v{nums[it->second.back()], nums[i]};
+        ans.emplace_back(v);
+        it->second.pop_back();
+        if (it->second.size() == 0) {
+          cnt.erase(target - nums[i]);
+        }
+      } else {
+        cnt[nums[i]].emplace_back(i);
+      }
+    }
+    return ans;
+  }
+};
