@@ -56,18 +56,49 @@ void numArrayFree(NumArray* obj) {
 
 #include <vector>
 using namespace std;
-class NumArray1 {
+
+/*
+比如nums=[1,2,3,4,5,6]，要想计算子数组[3,4,5]的元素和，
+可以用前缀[1,2,3,4,5]的元素和，减去另一个前缀[1,2]的元素和，
+就得到了子数组[3,4,5]的元素和，即3+4+5=(1+2+3+4+5)−(1+2)
+换句话说，把前缀[1,2,3,4,5]的前缀[1,2]去掉，就得到了子数组[3,4,5]。
+一般地，任意子数组都是一个前缀去掉前缀后的结果。
+所以任意子数组的和，都可以表示为两个前缀和的差。
+nums的子数组有O(n^2)个，但只有O(n)个前缀。
+那么，预处理nums的所有前缀和，就可以O(1)计算任意子数组的元素和。
+
+为方便描述，把nums记作a，设其长度为n。
+对于数组a，计算它的长为n+1的前缀和数组s，即a的前0个数的和，前1个数的和，
+前2个数的和……前n个数的和。
+s[0]​=0
+s[1]=a[0]
+s[2]=a[0]+a[1]
+⋮
+s[i]=a[0]+a[1]+⋯+a[i−1]
+s[i+1]=a[0]+a[1]+⋯+a[i−1]+a[i]
+⋮
+s[n]=a[0]+a[1]+⋯+a[n−1]​
+根据这个定义，前i个数的和，加上a[i]，就是前i+1个数的和，即s[i+1]=s[i]+a[i]
+
+为什么要定义s[0]=0，这样做有什么好处？
+如果left=0，要计算的子数组是一个前缀（从a[0]到a[right]）。
+按照公式，我们要用s[right+1]减去s[0]。如果不定义s[0]=0，就必须特判left=0的情况了。
+通过定义s[0]=0，任意子数组（包括前缀）都可以表示为两个前缀和的差。
+此外，如果a是空数组，定义s[0]=0的写法是可以兼容这种情况的。
+*/
+class NumArray {
   vector<int> pre;
 
  public:
-  NumArray1(vector<int>& nums) {
+  NumArray(vector<int>& nums) {
     int n = nums.size();
     pre.resize(n + 1);  // pre[i]表示元素i前面所有元素的和
     pre[0] = 0;         // pre[0]前面没有元素，所有为0
     for (int i = 0; i < n; ++i) {
-      pre[i + 1] = nums[i] + pre[i];
+      pre[i + 1] = pre[i] + nums[i];
     }
   }
+
   int sumRange(int left, int right) {
     // pre[left]表示nums[0]到nums[left-1]所有元素的和，不包括nums[left]，
     // pre[right+1]表示nums[0]到nums[right]所有元素的和，包括nums[right]，
