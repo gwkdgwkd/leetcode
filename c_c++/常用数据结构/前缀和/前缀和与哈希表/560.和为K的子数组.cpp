@@ -1,5 +1,5 @@
 /*
-给你一个整数数组nums和一个整数k，请你统计并返回该数组中和为k的子数组的个数。
+给一个整数数组nums和一个整数k，请统计并返回该数组中和为k的子数组的个数。
 
 示例1：
 输入：nums = [1,1,1], k = 2
@@ -8,6 +8,7 @@
 示例2：
 输入：nums = [1,2,3], k = 3
 输出：2
+
 
 提示：
 1 <= nums.length <= 2 * 10^4
@@ -127,5 +128,21 @@ class Solution {
     }
 
     return count;
+  }
+};
+
+class Solution {
+ public:
+  int subarraySum(vector<int> &nums, int k) {
+    int ans = 0, s = 0;
+    unordered_map<int, int> cnt{{0, 1}};  // s[0]=0单独统计
+    for (int x : nums) {
+      s += x;
+      // 注意不要直接+=cnt[s-k]，如果s-k不存在，会插入s-k
+      ans += cnt.contains(s - k) ? cnt[s - k] : 0;
+      cnt[s]++;
+    }
+
+    return ans;
   }
 };

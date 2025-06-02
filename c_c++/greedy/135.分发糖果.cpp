@@ -1,5 +1,5 @@
 /*
-n个孩子站成一排。给你一个整数数组ratings表示每个孩子的评分。
+n个孩子站成一排。给一个整数数组ratings表示每个孩子的评分。
 你需要按照以下要求，给这些孩子分发糖果：
 每个孩子至少分配到1个糖果，相邻两个孩子评分更高的孩子会获得更多的糖果。
 请你给每个孩子分发糖果，计算并返回需要准备的最少糖果数目。
@@ -66,5 +66,33 @@ class Solution {
     }
 
     return accumulate(candy.begin(), candy.end(), 0);
+  }
+};
+
+class Solution {
+ public:
+  int candy(vector<int>& ratings) {
+    int n = ratings.size();
+
+    int ans = n;  // 先给每人分一个
+    for (int i = 0; i < n; i++) {
+      int start = i > 0 && ratings[i - 1] < ratings[i] ? i - 1 : i;
+      // 找严格递增段
+      while (i + 1 < n && ratings[i] < ratings[i + 1]) {
+        i++;
+      }
+
+      int top = i;  // 峰顶
+      // 找严格递减段
+      while (i + 1 < n && ratings[i] > ratings[i + 1]) {
+        i++;
+      }
+
+      int inc = top - start;  // start到top严格递增
+      int dec = i - top;      // top到i严格递减
+      ans += (inc * (inc - 1) + dec * (dec - 1)) / 2 + max(inc, dec);
+    }
+
+    return ans;
   }
 };

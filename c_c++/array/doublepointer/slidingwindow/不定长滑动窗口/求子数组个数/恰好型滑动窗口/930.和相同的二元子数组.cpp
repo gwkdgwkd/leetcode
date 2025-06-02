@@ -59,6 +59,7 @@ class Solution {
     return count(goal) - count(goal + 1);
   }
 };
+
 // 越短越合法写法
 class Solution {
  public:
@@ -108,6 +109,26 @@ class Solution {
       ++right;
     }
 
+    return ans;
+  }
+};
+
+// 前缀和与哈希表
+class Solution {
+ public:
+  int numSubarraysWithSum(vector<int>& nums, int goal) {
+    int sum = 0;
+    int n = nums.size();
+    unordered_map<int, int> cnt;
+    cnt[0] = 1;
+    int ans = 0;
+    for (int i = 0; i < n; ++i) {
+      sum += nums[i];
+      if (sum >= goal) {
+        ans += cnt[sum - goal];
+      }
+      cnt[sum]++;
+    }
     return ans;
   }
 };
